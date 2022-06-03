@@ -25,6 +25,7 @@ class WarehouseDetailsActivity : AppCompatActivity() {
     private lateinit var binding: ActivityWarehouseDetailsBinding
     private lateinit var viewModel: MainViewModel
     private lateinit var dialog: CustomProgressDialog
+    private val adapter = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
