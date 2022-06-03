@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.activity.WarehouseDetailsActivity"
+    android:background="@color/royal_blue">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:background="@color/royal_blue"
+        app:menu="@menu/drawer_menu" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/userNameTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/toolbar"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="@dimen/_20sdp"
+        android:fontFamily="@font/amiko"
+        android:text="User name"
+        android:textColor="@color/white"
+        android:textSize="@dimen/_15ssp"  />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/userDesignTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/userNameTV"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="@dimen/_20sdp"
+        android:fontFamily="@font/amiko"
+        android:text="Dept name"
+        android:textColor="@color/white"
+        android:textSize="@dimen/_10ssp" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/loginText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/toolbar"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="19dp"
+        android:fontFamily="@font/amiko"
+        android:text="Login time"
+        android:textColor="@color/white"
+        android:textSize="@dimen/_15ssp" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/loginTimeTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="@dimen/_20sdp"
+        android:fontFamily="@font/amiko"
+        android:layout_below="@+id/loginText"
+        android:text="Time value"
+        android:textColor="@color/white"
+        android:textSize="@dimen/_12ssp" />
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/loginTimeTV"
+        android:layout_marginTop="14dp"
+        android:background="@drawable/white_rounded_bg"
+        android:orientation="vertical">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/editDetailTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_20sdp"
+            android:layout_marginTop="@dimen/_40sdp"
+            android:fontFamily="@font/amiko"
+            android:text="Edit warehouse details"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_18ssp" />
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/expiryDateET"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_50sdp"
+                android:layout_marginStart="@dimen/_20sdp"
+                android:layout_marginTop="@dimen/_30sdp"
+                android:layout_weight="1.5"
+                android:background="@drawable/grey_stroke_rounded_bg"
+                android:editable="false"
+                android:fontFamily="@font/amiko"
+                android:paddingStart="@dimen/_30sdp"
+                android:textSize="@dimen/_15ssp"
+                android:textStyle="bold" />
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/warehouseName"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_50sdp"
+                android:layout_marginStart="@dimen/_20sdp"
+                android:layout_marginTop="@dimen/_30sdp"
+                android:layout_marginEnd="@dimen/_20sdp"
+                android:layout_weight="0.5"
+                android:background="@drawable/grey_stroke_rounded_bg"
+                android:fontFamily="@font/amiko"
+                android:hint="Enter warehouse "
+                android:paddingStart="@dimen/_20sdp"
+                android:textSize="@dimen/_15ssp"
+                android:textStyle="bold" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_20sdp"
+            android:layout_marginTop="@dimen/_50sdp"
+            android:layout_marginEnd="@dimen/_20sdp"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/saveBtn"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_50sdp"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:layout_weight="1"
+                android:background="@drawable/ripple_green_bg_button"
+                android:fontFamily="@font/amiko"
+                android:text="Save"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_15ssp" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_50sdp"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_weight="1"
+                android:background="@drawable/ripple_yellow_bg_button"
+                android:fontFamily="@font/amiko"
+                android:text="Cancel"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_15ssp" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+</RelativeLayout>

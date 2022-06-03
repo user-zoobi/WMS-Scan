@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.activity.CreateCartonActivity"
+    android:background="@color/royal_blue">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/userNameTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="@dimen/_20sdp"
+        android:layout_marginTop="@dimen/_50sdp"
+        android:fontFamily="@font/amiko"
+        android:text="Muhammad Zohaib Hassan"
+        android:textColor="@color/white"
+        android:textSize="@dimen/_20ssp" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/userDesignTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/userNameTV"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="@dimen/_20sdp"
+        android:fontFamily="@font/amiko"
+        android:text="IT Department"
+        android:textColor="@color/white"
+        android:textSize="@dimen/_15ssp" />
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/userNameTV"
+        android:layout_centerVertical="true"
+        android:layout_marginTop="50dp"
+        android:background="@drawable/white_rounded_bg"
+        android:orientation="vertical">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/generateQRTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="@dimen/_20sdp"
+            android:layout_marginTop="@dimen/_50sdp"
+            android:fontFamily="@font/amiko"
+            android:text="Generate QR code"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_20ssp" />
+
+        <androidx.appcompat.widget.AppCompatSpinner
+            android:id="@+id/businessLocationSpinner"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_50sdp"
+            android:layout_marginStart="@dimen/_20sdp"
+            android:layout_marginTop="@dimen/_40sdp"
+            android:layout_marginEnd="@dimen/_20sdp"
+            android:background="@drawable/grey_stroke_rounded_bg"
+            android:maxLines="1"
+            android:paddingStart="@dimen/_20sdp"
+            android:spinnerMode="dropdown" />
+
+        <androidx.appcompat.widget.AppCompatSpinner
+            android:id="@+id/warehouseSpinner"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_50sdp"
+            android:layout_marginStart="@dimen/_20sdp"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:layout_marginEnd="@dimen/_20sdp"
+            android:background="@drawable/grey_stroke_rounded_bg"
+            android:maxLines="1"
+            android:paddingStart="@dimen/_20sdp"
+            android:spinnerMode="dropdown"
+            android:visibility="gone" />
+
+        <androidx.appcompat.widget.AppCompatSpinner
+            android:id="@+id/rackSpinner"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_50sdp"
+            android:layout_marginStart="@dimen/_20sdp"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:layout_marginEnd="@dimen/_20sdp"
+            android:background="@drawable/grey_stroke_rounded_bg"
+            android:maxLines="1"
+            android:paddingStart="@dimen/_20sdp"
+            android:spinnerMode="dropdown"
+            android:visibility="gone" />
+
+        <androidx.appcompat.widget.AppCompatSpinner
+            android:id="@+id/shelfSpinner"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_50sdp"
+            android:layout_marginStart="@dimen/_20sdp"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:layout_marginEnd="@dimen/_20sdp"
+            android:background="@drawable/grey_stroke_rounded_bg"
+            android:maxLines="1"
+            android:paddingStart="@dimen/_20sdp"
+            android:spinnerMode="dropdown"
+            android:visibility="gone" />
+
+        <androidx.appcompat.widget.AppCompatSpinner
+            android:id="@+id/palletSpinner"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_50sdp"
+            android:layout_marginStart="@dimen/_20sdp"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:layout_marginEnd="@dimen/_20sdp"
+            android:background="@drawable/grey_stroke_rounded_bg"
+            android:maxLines="1"
+            android:paddingStart="@dimen/_20sdp"
+            android:spinnerMode="dropdown"
+            android:visibility="gone" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/createCartonBtn"
+            android:layout_width="@dimen/_200sdp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/_60sdp"
+            android:background="@drawable/ripple_blue_bg_button"
+            android:text="Save"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_15ssp" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+</RelativeLayout>

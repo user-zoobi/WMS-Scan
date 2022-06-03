@@ -1,0 +1,295 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/royal_blue">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/royal_blue"
+        android:layout_marginTop="@dimen/_10sdp"
+        app:menu="@menu/drawer_menu" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/userNameTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/toolbar"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="@dimen/_20sdp"
+        android:fontFamily="@font/amiko"
+        android:text="User name"
+        android:textColor="@color/white"
+        android:textSize="@dimen/_15ssp" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/userDesignTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/userNameTV"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="@dimen/_20sdp"
+        android:fontFamily="@font/amiko"
+        android:text="Dept name"
+        android:textColor="@color/white"
+        android:textSize="@dimen/_10ssp" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/loginText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/toolbar"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="@dimen/_20sdp"
+        android:fontFamily="@font/amiko"
+        android:text="Login time"
+        android:textColor="@color/white"
+        android:textSize="@dimen/_15ssp" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/loginTimeTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="@dimen/_20sdp"
+        android:fontFamily="@font/amiko"
+        android:layout_below="@+id/loginText"
+        android:text="Time value"
+        android:textColor="@color/white"
+        android:textSize="@dimen/_12ssp" />
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/loginTimeTV"
+        android:layout_marginTop="@dimen/_20sdp"
+        android:background="@drawable/top_rounded_white_bg">
+
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_20sdp"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:layout_marginEnd="@dimen/_20sdp"
+            android:orientation="vertical">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvHeader"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:fontFamily="@font/amiko"
+                android:text="Business Locations"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_20ssp"
+                android:visibility="visible" />
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginEnd="@dimen/_5sdp"
+                android:layout_marginBottom="@dimen/_5sdp"
+                app:cardElevation="@dimen/_5sdp">
+
+                <androidx.appcompat.widget.AppCompatSpinner
+                    android:id="@+id/businessLocationSpinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:maxLines="1"
+                    android:paddingStart="@dimen/_10sdp"
+                    android:spinnerMode="dropdown"
+                    android:visibility="visible" />
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/warehouseSpinnerCont"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginEnd="@dimen/_5sdp"
+                android:layout_marginBottom="@dimen/_20sdp"
+                android:visibility="gone"
+                app:cardElevation="@dimen/_5sdp">
+
+                <androidx.appcompat.widget.AppCompatSpinner
+                    android:id="@+id/warehouseSpinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:maxLines="1"
+                    android:paddingStart="@dimen/_10sdp"
+                    android:spinnerMode="dropdown" />
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/rackSpinnerCont"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginEnd="@dimen/_5sdp"
+                android:layout_marginBottom="@dimen/_10sdp"
+                android:visibility="gone"
+                app:cardElevation="@dimen/_5sdp">
+
+                <androidx.appcompat.widget.AppCompatSpinner
+                    android:id="@+id/rackSpinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:maxLines="1"
+                    android:paddingStart="@dimen/_10sdp"
+                    android:spinnerMode="dropdown" />
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/shelfSpinnerCont"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:layout_marginEnd="@dimen/_5sdp"
+                android:layout_marginBottom="@dimen/_10sdp"
+                android:visibility="gone"
+                app:cardElevation="@dimen/_5sdp">
+
+                <androidx.appcompat.widget.AppCompatSpinner
+                    android:id="@+id/shelfSpinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:maxLines="1"
+                    android:paddingStart="@dimen/_20sdp"
+                    android:spinnerMode="dropdown"
+                    android:visibility="visible" />
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/palletSpinnerCont"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginEnd="@dimen/_5sdp"
+                android:layout_marginBottom="@dimen/_5sdp"
+                android:visibility="gone"
+                app:cardElevation="@dimen/_5sdp">
+
+                <androidx.appcompat.widget.AppCompatSpinner
+                    android:id="@+id/palletSpinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:maxLines="1"
+                    android:paddingStart="@dimen/_20sdp"
+                    android:spinnerMode="dropdown" />
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/warehouseRV"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:layout_marginBottom="@dimen/_20sdp"
+                android:visibility="gone"
+                tools:itemCount="4"
+                tools:listitem="@layout/warehouse_list_view" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/racksRV"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:visibility="gone"
+                tools:itemCount="4"
+                tools:listitem="@layout/warehouse_list_view" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/shelfRV"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:visibility="gone"
+                tools:itemCount="4"
+                tools:listitem="@layout/warehouse_list_view" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/palletsRV"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:layout_marginBottom="@dimen/_90sdp"
+                android:visibility="gone"
+                tools:itemCount="4"
+                tools:listitem="@layout/warehouse_list_view" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+    </androidx.core.widget.NestedScrollView>
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/whAddBTN"
+        android:layout_width="@dimen/_50sdp"
+        android:layout_height="@dimen/_50sdp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="end"
+        android:layout_marginEnd="@dimen/_25sdp"
+        android:layout_marginBottom="@dimen/_100sdp"
+        android:background="@drawable/blue_circle_bg"
+        android:src="@drawable/white_add_icon"
+        android:padding="@dimen/_10sdp" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/rackAddBTN"
+        android:layout_width="@dimen/_50sdp"
+        android:layout_height="@dimen/_50sdp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="end"
+        android:layout_marginEnd="@dimen/_25sdp"
+        android:layout_marginBottom="@dimen/_100sdp"
+        android:background="@drawable/blue_circle_bg"
+        android:src="@drawable/white_add_icon"
+        android:padding="@dimen/_10sdp"
+        android:visibility="gone"/>
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/shelfAddBTN"
+        android:layout_width="@dimen/_50sdp"
+        android:layout_height="@dimen/_50sdp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="end"
+        android:layout_marginEnd="@dimen/_25sdp"
+        android:layout_marginBottom="@dimen/_100sdp"
+        android:background="@drawable/blue_circle_bg"
+        android:src="@drawable/white_add_icon"
+        android:padding="@dimen/_10sdp"
+        android:visibility="gone"/>
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/palletAddBTN"
+        android:layout_width="@dimen/_50sdp"
+        android:layout_height="@dimen/_50sdp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="end"
+        android:layout_marginEnd="@dimen/_25sdp"
+        android:layout_marginBottom="@dimen/_100sdp"
+        android:background="@drawable/blue_circle_bg"
+        android:src="@drawable/white_add_icon"
+        android:padding="@dimen/_10sdp"
+        android:visibility="gone"/>
+
+</RelativeLayout>

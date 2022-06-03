@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/royal_blue"
+    tools:context=".ui.activity.LoginActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:menu="@menu/drawer_menu"/>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="@dimen/_20sdp"
+        android:layout_marginTop="@dimen/_80sdp"
+        android:layout_marginEnd="@dimen/_20sdp"
+        android:layout_toStartOf="@+id/splash_logo"
+        android:fontFamily="@font/amiko"
+        android:text="Warehouse\nScanner App"
+        android:textColor="@color/white"
+        android:textSize="@dimen/_20ssp" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/splash_logo"
+        android:layout_width="@dimen/_220sdp"
+        android:layout_height="@dimen/_300sdp"
+        android:layout_above="@+id/loginCont"
+        android:layout_alignParentEnd="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="@dimen/_20sdp"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:scaleType="fitEnd"
+        android:src="@drawable/qr_mobile" />
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/progressDialog"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        app:lottie_rawRes="@raw/loading_anim"
+        android:layout_centerInParent="true"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        android:visibility="gone"/>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/loginCont"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="-10dp"
+        android:background="@drawable/top_rounded_white_bg"
+        android:orientation="vertical">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_20sdp"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:fontFamily="@font/amiko"
+            android:text="@string/login"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_20ssp"
+            android:textStyle="bold" />
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/userIdET"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_50sdp"
+            android:layout_marginStart="@dimen/_20sdp"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:layout_marginEnd="@dimen/_20sdp"
+            android:background="@drawable/grey_stroke_rounded_bg"
+            android:drawableStart="@drawable/person"
+            android:drawablePadding="@dimen/_10sdp"
+            android:fontFamily="@font/amiko"
+            android:hint="@string/enter_username"
+            android:paddingStart="@dimen/_20sdp"
+            android:textSize="@dimen/_15ssp"
+            android:textStyle="bold" />
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/passwordET"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_50sdp"
+            android:layout_marginStart="@dimen/_20sdp"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:layout_marginEnd="@dimen/_20sdp"
+            android:background="@drawable/grey_stroke_rounded_bg"
+            android:drawableStart="@drawable/password_icon"
+            android:drawablePadding="@dimen/_10sdp"
+            android:fontFamily="@font/amiko"
+            android:hint="@string/enter_password"
+            android:inputType="textPassword"
+            android:paddingStart="@dimen/_20sdp"
+            android:textSize="@dimen/_15ssp"
+            android:textStyle="bold" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/forgetPasswordTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginEnd="@dimen/_20sdp"
+            android:layout_marginBottom="@dimen/_20sdp"
+            android:fontFamily="@font/amiko"
+            android:text="@string/forgot_password"
+            android:textColor="@color/royal_blue"
+            android:textSize="@dimen/_12ssp" />
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_20sdp"
+            android:layout_marginEnd="@dimen/_20sdp"
+            android:layout_marginBottom="@dimen/_30sdp"
+            app:cardCornerRadius="30dp"
+            app:cardElevation="@dimen/_10sdp">
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/loginBtn"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_50sdp"
+                android:background="@drawable/ripple_blue_bg_button"
+                android:fontFamily="@font/amiko"
+                android:text="@string/login"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_15ssp" />
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/fingerPrintIV"
+            android:layout_width="@dimen/_100sdp"
+            android:layout_height="@dimen/_100sdp"
+            android:layout_gravity="center"
+            android:background="?android:attr/selectableItemBackground"
+            android:padding="@dimen/_5sdp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/fingerprint"
+            android:tint="@color/royal_blue" />
+
+        <TextView
+            android:id="@+id/tv_fingerprint_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:layout_marginBottom="@dimen/_70sdp"
+            android:fontFamily="@font/amiko"
+            android:text="@string/unlockWithBiometricsTitleKey"
+            android:textColor="@color/royal_blue"
+            android:textSize="@dimen/_15ssp"
+            android:textStyle="bold" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/ipNetworkDetails"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerInParent="true"
+        android:layout_marginBottom="@dimen/_50sdp"
+        android:textSize="@dimen/_5ssp" />
+
+</RelativeLayout>

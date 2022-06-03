@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.activity.AddWarehouseActivity"
+    android:background="@color/royal_blue">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/userNameTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_20sdp"
+        android:layout_marginTop="@dimen/_50sdp"
+        android:fontFamily="@font/amiko"
+        android:text="Muhammad Zohaib Hassan"
+        android:textColor="@color/white"
+        android:textSize="@dimen/_20ssp"
+        android:textStyle="bold" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/userDeptTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/userNameTV"
+        android:layout_marginStart="@dimen/_20sdp"
+        android:layout_marginTop="@dimen/_2sdp"
+        android:fontFamily="@font/amiko"
+        android:text="IT Department"
+        android:textColor="@color/white"
+        android:textSize="@dimen/_18ssp" />
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/userNameTV"
+        android:layout_centerVertical="true"
+        android:layout_marginTop="50dp"
+        android:background="@drawable/top_rounded_white_bg"
+        android:orientation="vertical">
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+</RelativeLayout>
