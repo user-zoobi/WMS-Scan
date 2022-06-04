@@ -21,12 +21,13 @@ class ShelfAdapter(private val list:ArrayList<GetShelfResponse>)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        val data = list[position]
         with(holder){
-
+            binding.shelfTV.text = data.shelfName
         }
     }
 
-    override fun getItemCount(): Int = 8
+    override fun getItemCount(): Int = list.size
 
     fun addItems(listItems:ArrayList<GetShelfResponse>){
         list.addAll(listItems)

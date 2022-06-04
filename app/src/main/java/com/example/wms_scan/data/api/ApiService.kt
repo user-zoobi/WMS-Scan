@@ -1,15 +1,19 @@
 package com.example.scanmate.data.api
 
 import com.example.scanmate.data.response.*
-import com.example.scanmate.data.routes.Routes.EndPoint.addRack
-import com.example.scanmate.data.routes.Routes.EndPoint.addShelf
-import com.example.scanmate.data.routes.Routes.EndPoint.addUpdateWarehouse
-import com.example.scanmate.data.routes.Routes.EndPoint.getRack
-import com.example.scanmate.data.routes.Routes.EndPoint.getShelf
-import com.example.scanmate.data.routes.Routes.EndPoint.getWarehouse
-import com.example.scanmate.data.routes.Routes.EndPoint.userAuth
-import com.example.scanmate.data.routes.Routes.EndPoint.userLoc
-import com.example.scanmate.data.routes.Routes.EndPoint.userMenu
+import com.example.wms_scan.data.routes.Routes.EndPoint.addRack
+import com.example.wms_scan.data.routes.Routes.EndPoint.addShelf
+import com.example.wms_scan.data.routes.Routes.EndPoint.addUpdateWarehouse
+import com.example.wms_scan.data.routes.Routes.EndPoint.getPallet
+import com.example.wms_scan.data.routes.Routes.EndPoint.getRack
+import com.example.wms_scan.data.routes.Routes.EndPoint.getShelf
+import com.example.wms_scan.data.routes.Routes.EndPoint.getWarehouse
+import com.example.wms_scan.data.routes.Routes.EndPoint.userAuth
+import com.example.wms_scan.data.routes.Routes.EndPoint.userLoc
+import com.example.wms_scan.data.routes.Routes.EndPoint.userMenu
+import com.example.wms_scan.data.response.AddPalletResponse
+import com.example.wms_scan.data.response.GetPalletResponse
+import com.example.wms_scan.data.routes.Routes.EndPoint.addPallet
 import okhttp3.RequestBody
 import retrofit2.http.*
 
@@ -100,5 +104,26 @@ interface ApiService {
         @Part("RackNo") RackNo:RequestBody,
         @Part("LocationNo") LocationNo:RequestBody
     ):List<GetShelfResponse>
+
+
+    @POST(getPallet)
+    suspend fun getPallet(
+        @Field("PilotName") PilotName:String,
+        @Field("ShelfNo") ShelfNo:String,
+        @Field("LocationNo") LocationNo:String
+    ):List<GetPalletResponse>
+
+    @Multipart
+    @POST(addPallet)
+    suspend fun addPallet(
+        @Part("PilotNo") PilotNo:RequestBody,
+        @Part("PilotName") PilotName:RequestBody,
+        @Part("PilotCode") PilotCode:RequestBody,
+        @Part("ShelfNo") ShelfNo:RequestBody,
+        @Part("Capacity") Capacity:RequestBody,
+        @Part("LocationNo") LocationNo:RequestBody,
+        @Part("DMLUserNo") DMLUserNo:RequestBody,
+        @Part("DMLPCName") DMLPCName:RequestBody,
+    ): AddPalletResponse
 
 }

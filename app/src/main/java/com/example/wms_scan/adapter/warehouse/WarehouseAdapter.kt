@@ -26,6 +26,10 @@ class WarehouseAdapter(
         with(holder){
            binding.wrhTV.text = data.wHName
            binding.wrhNo.text = data.wHNo.toString()
+
+            binding.editIV.setOnClickListener {
+                itemclick?.invoke(position)
+            }
         }
     }
 
@@ -35,5 +39,10 @@ class WarehouseAdapter(
         list.addAll(listItems)
         notifyDataSetChanged()
     }*/
+
+    var itemclick: ((Int) -> Unit)? = null
+    fun onClick(listener: ((Int) -> Unit)) {
+        itemclick = listener
+    }
 
 }

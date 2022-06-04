@@ -3,6 +3,12 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/BI.IT-021/StudioProjects/WMS-Scan/app/src/main/res/drawable-v24/dark_green_rounded_bg.xml" value="0.181" />
+        <entry key="..\:/Users/BI.IT-021/StudioProjects/WMS-Scan/app/src/main/res/drawable-v24/red_rounded_bg.xml" value="0.181" />
+        <entry key="..\:/Users/BI.IT-021/StudioProjects/WMS-Scan/app/src/main/res/layout/activity_business_location.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/BI.IT-021/StudioProjects/WMS-Scan/app/src/main/res/layout/activity_menu.xml" value="0.22" />
+        <entry key="..\:/Users/BI.IT-021/StudioProjects/WMS-Scan/app/src/main/res/layout/activity_warehouse_details.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/BI.IT-021/StudioProjects/WMS-Scan/app/src/main/res/layout/shelf_list_view.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/smc/AndroidStudioProjects/WMSScan/app/src/main/res/drawable-v24/yellow_rounded_bg.xml" value="0.1355" />
         <entry key="..\:/Users/smc/AndroidStudioProjects/WMSScan/app/src/main/res/drawable/yellow_rounded_bg.xml" value="0.1355" />
         <entry key="..\:/Users/smc/AndroidStudioProjects/WMSScan/app/src/main/res/layout/warehouse_list_view.xml" value="0.20416666666666666" />

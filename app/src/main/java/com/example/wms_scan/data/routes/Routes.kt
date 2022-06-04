@@ -1,4 +1,4 @@
-package com.example.scanmate.data.routes
+package com.example.wms_scan.data.routes
 
 object Routes {
 
@@ -15,6 +15,8 @@ object Routes {
         const val addShelf = "ShelfAPI/DMl_Shelf"
         const val getRack = "RackAPI/Get_Rack"
         const val getShelf = "ShelfAPI/Get_Shelf"
+        const val getPallet = "PilotAPI/Get_Pilot"
+        const val addPallet = "PilotAPI/DML_Pilot"
     }
 
 }

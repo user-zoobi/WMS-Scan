@@ -20,8 +20,9 @@ class RacksAdapter(val list:ArrayList<GetRackResponse>)  : RecyclerView.Adapter<
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        val data = list[position]
         with(holder){
-
+            binding.rackTV.text = data.rackName
         }
     }
 

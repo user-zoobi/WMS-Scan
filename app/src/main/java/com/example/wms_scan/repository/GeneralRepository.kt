@@ -1,7 +1,10 @@
-package com.example.scanmate.repository.remote
+package com.example.wms_scan.repository
 
 import com.example.scanmate.data.api.RetrofitClient
 import com.example.scanmate.data.response.*
+import com.example.scanmate.repository.remote.ApiHelper
+import com.example.wms_scan.data.response.AddPalletResponse
+import com.example.wms_scan.data.response.GetPalletResponse
 import okhttp3.RequestBody
 
 class GeneralRepository : ApiHelper {
@@ -79,4 +82,22 @@ class GeneralRepository : ApiHelper {
             RackNo, RackName, RackCode, WH_No, Capacity, LocationNo, DMLUserNo, DMLPCName
         )
     }
+
+    override suspend fun getPallets(
+        PilotName: String, ShelfNo: String, LocationNo: String
+    ): List<GetPalletResponse> {
+        return RetrofitClient.apiservice.getPallet(
+            PilotName, ShelfNo, LocationNo
+        )
+    }
+
+    override suspend fun addPallet(
+        PilotNo: RequestBody, PilotName: RequestBody, PilotCode: RequestBody, ShelfNo: RequestBody,
+        Capacity: RequestBody, LocationNo: RequestBody, DMLUserNo: RequestBody, DMLPCName: RequestBody
+    ): AddPalletResponse =
+        RetrofitClient.apiservice.addPallet(
+            PilotNo, PilotName, PilotCode, ShelfNo,
+            Capacity, LocationNo, DMLUserNo, DMLPCName
+        )
+
 }

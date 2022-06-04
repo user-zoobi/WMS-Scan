@@ -3,8 +3,8 @@ package com.example.scanmate.util
 import android.app.Dialog
 import android.content.Context
 import android.view.LayoutInflater
-import com.example.scanmate.R
-import com.example.scanmate.databinding.LoadingLayoutBinding
+import com.example.wms_scan.R
+import com.example.wms_scan.databinding.LoadingLayoutBinding
 
 class CustomProgressDialog(context: Context) : Dialog(context, R.style.customDialog) {
     init {

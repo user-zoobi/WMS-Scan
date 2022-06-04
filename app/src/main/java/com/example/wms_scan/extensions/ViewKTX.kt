@@ -1,11 +1,10 @@
 package com.example.scanmate.extensions
 
-import android.annotation.SuppressLint
 import android.text.method.PasswordTransformationMethod
 import android.view.View
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
-import com.example.scanmate.R
+import com.example.wms_scan.R
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 

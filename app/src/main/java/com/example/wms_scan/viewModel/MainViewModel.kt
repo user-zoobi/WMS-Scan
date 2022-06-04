@@ -7,10 +7,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.scanmate.data.callback.ApiResponseCallback
 import com.example.scanmate.data.response.*
-import com.example.scanmate.repository.remote.GeneralRepository
+import com.example.wms_scan.repository.GeneralRepository
 import com.example.scanmate.util.Constants.LogMessages.responseFound
 import com.example.scanmate.util.Constants.Logs.vmError
 import com.example.scanmate.util.Constants.Logs.vmSuccess
+import com.example.wms_scan.data.response.AddPalletResponse
+import com.example.wms_scan.data.response.GetPalletResponse
 import kotlinx.coroutines.launch
 import okhttp3.RequestBody
 import java.lang.Exception
@@ -201,6 +203,52 @@ class MainViewModel : ViewModel() {
                     ))
             }catch (e:Exception){
                 _addShelf.value = ApiResponseCallback.error("${e.message}",null)
+            }
+        }
+    }
+
+    private val _getPallet = MutableLiveData<ApiResponseCallback<List<GetPalletResponse>>>()
+    val getPallet : LiveData<ApiResponseCallback<List<GetPalletResponse>>>
+    get() = _getPallet
+
+    fun getPallet(
+        PilotName: String, ShelfNo: String, LocationNo: String
+    ){
+        viewModelScope.launch {
+            _getPallet.value = ApiResponseCallback.loading()
+            try
+            {
+                ApiResponseCallback.success(repository.getPallets(PilotName, ShelfNo, LocationNo))
+                Log.i("getPalletResponse","Response success")
+            }
+            catch(e:Exception)
+            {
+                ApiResponseCallback.error("${e.message}",null)
+                Log.i("getPalletException","${e.message}")
+            }
+        }
+    }
+
+
+    private val _addPallet = MutableLiveData<ApiResponseCallback<AddPalletResponse>>()
+    val addPallet: LiveData<ApiResponseCallback<AddPalletResponse>>
+    get() = _addPallet
+
+    fun addPallet(
+        PilotNo: RequestBody, PilotName: RequestBody, PilotCode: RequestBody, ShelfNo: RequestBody,
+        Capacity: RequestBody, LocationNo: RequestBody, DMLUserNo: RequestBody, DMLPCName: RequestBody
+    ){
+        viewModelScope.launch {
+            _addPallet.value = ApiResponseCallback.loading()
+            try
+            {
+                _addPallet.value = ApiResponseCallback.success(repository.addPallet(
+                    PilotNo, PilotName, PilotCode, ShelfNo, Capacity, LocationNo, DMLUserNo, DMLPCName
+                ))
+            }
+            catch(e:Exception)
+            {
+                _addPallet.value = ApiResponseCallback.error("${e.message}",null)
             }
         }
     }

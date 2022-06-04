@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.activity.MenuActivity"
+    tools:context=".ui.MenuActivity"
     android:background="@color/royal_blue">
 
     <androidx.appcompat.widget.Toolbar
@@ -85,12 +85,9 @@
             <androidx.appcompat.widget.AppCompatSpinner
                 android:id="@+id/businessSpinner"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:entries="@array/places"/>
+                android:layout_height="wrap_content" />
 
         </androidx.cardview.widget.CardView>
-
-
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="wrap_content"

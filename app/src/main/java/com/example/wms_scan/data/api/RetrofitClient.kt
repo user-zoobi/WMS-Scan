@@ -1,6 +1,6 @@
 package com.example.scanmate.data.api
 
-import com.example.scanmate.data.routes.Routes.BASE_URL
+import com.example.wms_scan.data.routes.Routes.BASE_URL
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
