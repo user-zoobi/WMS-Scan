@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/royal_blue"
-        android:layout_marginTop="@dimen/_10sdp"
+        android:layout_marginTop="@dimen/_20sdp"
         app:menu="@menu/drawer_menu" />
 
     <androidx.appcompat.widget.AppCompatTextView

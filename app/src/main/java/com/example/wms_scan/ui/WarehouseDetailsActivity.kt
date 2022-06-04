@@ -72,14 +72,14 @@ class WarehouseDetailsActivity : AppCompatActivity() {
         when {
             intent.extras?.getBoolean(warehouse) == true ->
             {
-                binding.shelfSpinnerCont.gone()
-                binding.rackSpinnerCont.gone()
+                binding.shelfSpinner.gone()
+                binding.rackSpinner.gone()
 
             }
             intent.extras?.getBoolean(racks) == true ->
             {
                 binding.editDetailTV.text = "Edit racks details"
-                binding.shelfSpinnerCont.gone()
+                binding.shelfSpinner.gone()
             }
             intent.extras?.getBoolean(shelf) == true ->
             {

@@ -35,6 +35,11 @@ import com.example.wms_scan.data.response.GetPalletResponse
 import com.example.wms_scan.databinding.ActivityBusinessLocationBinding
 
 class BusinessLocationActivity : AppCompatActivity() {
+
+    /**
+     *      INITIALIZERS
+     */
+
     private lateinit var binding: ActivityBusinessLocationBinding
     private lateinit var warehouseAdapter: WarehouseAdapter
     private lateinit var racksAdapter: RacksAdapter
@@ -46,26 +51,23 @@ class BusinessLocationActivity : AppCompatActivity() {
     private lateinit var rackList: ArrayList<GetRackResponse>
     private lateinit var shelfList: ArrayList<GetShelfResponse>
     private lateinit var palletList: ArrayList<GetPalletResponse>
-
     private var selectedBusLocNo = ""
     private var selectedWareHouseNo = ""
     private var selectedRackNo = ""
     private var selectedShelveNo = ""
     private var selectedPalleteNo = ""
-
-
     private var screen = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityBusinessLocationBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        dialog = CustomProgressDialog(this)
-        viewModel = obtainViewModel(MainViewModel::class.java)
-        initObserver()
         setupUi()
         Log.i("getBusLocNo", LocalPreferences.getInt(this, busLocNo).toString())
+
+        /**
+         *      USER LOCATION OBSERVER
+         */
 
         viewModel.userLocation(
             Utils.getSimpleTextBody(
@@ -85,6 +87,10 @@ class BusinessLocationActivity : AppCompatActivity() {
                 }
             }
         })
+
+        /**
+         *      GET WAREHOUSE OBSERVER
+         */
 
         viewModel.getWarehouse.observe(this,Observer{
             when(it.status){
@@ -117,6 +123,10 @@ class BusinessLocationActivity : AppCompatActivity() {
                 }
             }
         })
+
+        /**
+         *      GET RACK OBSERVER
+         */
 
         viewModel.getRack.observe(this, Observer{
             when(it.status){
@@ -153,6 +163,10 @@ class BusinessLocationActivity : AppCompatActivity() {
             }
         })
 
+        /**
+         *      GET SHELF OBSERVER
+         */
+
         viewModel.getShelf.observe(this,Observer{
             when(it.status){
                 Status.LOADING ->{
@@ -180,6 +194,13 @@ class BusinessLocationActivity : AppCompatActivity() {
             }
         })
 
+        /**
+         *      GET PALLET OBSERVER
+         */
+
+        viewModel.getPallet(
+            "","11","1"
+        )
         viewModel.getPallet.observe(this, Observer {
             when(it.status){
                 Status.LOADING->{
@@ -187,14 +208,14 @@ class BusinessLocationActivity : AppCompatActivity() {
                 }
                 Status.SUCCESS ->{
                     dialog.dismiss()
-//                    palletList = ArrayList()
-//                    palletAdapter = PalletsAdapter(palletList)
+                    palletList = ArrayList()
+                    palletAdapter = PalletsAdapter(palletList)
 
-//                    palletList = it.data as ArrayList<GetPalletResponse>
-//                    binding.palletsRV.apply {
-//                        layoutManager = LinearLayoutManager(this@BusinessLocationActivity)
-//                        adapter = palletAdapter
-//                    }
+                    palletList = it.data as ArrayList<GetPalletResponse>
+                    binding.palletsRV.apply {
+                        layoutManager = LinearLayoutManager(this@BusinessLocationActivity)
+                        adapter = palletAdapter
+                    }
 
                     Log.i("palletResponse","${it.data?.get(0)?.pilotName}")
                 }
@@ -206,33 +227,18 @@ class BusinessLocationActivity : AppCompatActivity() {
         })
     }
 
-    private fun initObserver(){
-
-        /**
-         *  user location
-         */
-
-
-
-        /**
-         *  get rack
-         */
-
-
-
-        /**
-         *  get shelf
-         */
-
-
-
-        /**
-         * get pallet
-         */
-
-    }
 
     private fun setupUi(){
+
+        /**
+         *      VIEWS FOR ACTIVITY
+         */
+
+        dialog = CustomProgressDialog(this)
+        viewModel = obtainViewModel(MainViewModel::class.java)
+        supportActionBar?.hide()
+        setTransparentStatusBarColor(R.color.transparent)
+
         binding.userNameTV.text = LocalPreferences.getString(this,
             LocalPreferences.AppLoginPreferences.userName
         )
@@ -242,10 +248,11 @@ class BusinessLocationActivity : AppCompatActivity() {
         binding.loginTimeTV.text = LocalPreferences.getString(this,
             LocalPreferences.AppLoginPreferences.loginTime
         )
-        supportActionBar?.hide()
-        setTransparentStatusBarColor(R.color.transparent)
 
-        //visibility intent values
+        /**
+         *      VISIBILITY INTENTS VALUES
+         */
+
         when {
             intent.extras?.getBoolean("warehouseKey") == true -> {
                 binding.tvHeader.text = "Warehouse"
@@ -256,6 +263,7 @@ class BusinessLocationActivity : AppCompatActivity() {
                 binding.warehouseRV.visible()
                 screen = "W"
             }
+
             intent.extras?.getBoolean("rackKey") == true -> {
                 binding.tvHeader.text = "Racks"
                 binding.businessLocationSpinner.visible()
@@ -267,6 +275,7 @@ class BusinessLocationActivity : AppCompatActivity() {
 
                 screen = "R"
             }
+
             intent.extras?.getBoolean("shelfKey") == true -> {
                 binding.tvHeader.text = "Shelves"
                 binding.businessLocationSpinner.visible()
@@ -280,6 +289,7 @@ class BusinessLocationActivity : AppCompatActivity() {
                 binding.racksRV.gone()
                 screen = "S"
             }
+
             intent.extras?.getBoolean("palletKey") == true -> {
                 binding.tvHeader.text = "Pallets"
                 binding.businessLocationSpinner.visible()
@@ -293,8 +303,11 @@ class BusinessLocationActivity : AppCompatActivity() {
         }
 
         initListeners()
-        //setAdapter()
     }
+
+    /**
+     *      LISTENERS FOR VIEWS
+     */
 
     private fun initListeners(){
         binding.toolbar.menu.findItem(R.id.logout).setOnMenuItemClickListener {
@@ -320,6 +333,10 @@ class BusinessLocationActivity : AppCompatActivity() {
 
 
     }
+
+    /**
+     *      SPINNERS SECTIONS
+     */
 
     private fun showBusLocSpinner(data:List<UserLocationResponse>) {
         //String array to store all the book names
@@ -429,9 +446,7 @@ class BusinessLocationActivity : AppCompatActivity() {
 
                 override fun onItemSelected(adapter: AdapterView<*>?, view: View?, position: Int, long: Long) {
                     Log.i("LocBus","This is shelf pos ${adapter?.getItemAtPosition(position)}")
-                    viewModel.getPallet(
-                        "","11","1"
-                    )
+
                     binding.shelfRV.visible()
                 }
                 override fun onNothingSelected(p0: AdapterView<*>?) {}
@@ -439,6 +454,9 @@ class BusinessLocationActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     *  CLEAR ALL PREFERENCES
+     */
 
     private fun clearPreferences(context: Context){
         val settings: SharedPreferences =

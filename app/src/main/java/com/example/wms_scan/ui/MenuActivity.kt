@@ -87,7 +87,6 @@ class MenuActivity : AppCompatActivity() {
                     it.data?.get(0)?.busLocationName?.let { it1 ->
                         LocalPreferences.put(this,orgBusLocNo, it1)
                     }
-                    it.data?.let { it1 -> showListInSpinner(it1) }
                 }
                 Status.ERROR ->{
                     dialog.dismiss()
@@ -135,33 +134,6 @@ class MenuActivity : AppCompatActivity() {
         intent.putExtra(action, true)
         intent.putExtra("val", value)
         startActivity(intent)
-    }
-
-    private fun showListInSpinner(data:List<UserLocationResponse>) {
-        //String array to store all the book names
-        val items = arrayOfNulls<String>(data.size)
-        val businessLocSpinner = binding.businessSpinner
-
-        //Traversing through the whole list to get all the names
-        for (i in data.indices) {
-            //Storing names to string array
-            items[i] = data[i].busLocationName
-            binding.businessSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
-
-                override fun onItemSelected(adapter: AdapterView<*>?, view: View?, position: Int, long: Long) {
-                    Log.i("LocBus","${data[position].orgBusLocNo}")
-                    data[position].orgBusLocNo?.let {
-                        LocalPreferences.put(this@MenuActivity, busLocNo , it)
-                    }
-                }
-                override fun onNothingSelected(p0: AdapterView<*>?) {}
-            }
-        }
-
-        val adapter: ArrayAdapter<String?> =
-            ArrayAdapter(this, android.R.layout.simple_list_item_1, items)
-        //setting adapter to spinner
-        binding.businessSpinner.adapter = adapter
     }
 
     private fun clearPreferences(context: Context){
