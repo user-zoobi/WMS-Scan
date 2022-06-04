@@ -28,7 +28,7 @@ import com.example.scanmate.util.Utils
 import com.example.scanmate.viewModel.MainViewModel
 import com.example.wms_scan.R
 import com.example.wms_scan.adapter.pallets.PalletsAdapter
-import com.example.wms_scan.adapter.racks.RacksAdapter
+import com.example.wms_scan.adapter.racks.RackAdapter
 import com.example.wms_scan.adapter.shelf.ShelfAdapter
 import com.example.wms_scan.adapter.warehouse.WarehouseAdapter
 import com.example.wms_scan.data.response.GetPalletResponse
@@ -42,7 +42,7 @@ class BusinessLocationActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityBusinessLocationBinding
     private lateinit var warehouseAdapter: WarehouseAdapter
-    private lateinit var racksAdapter: RacksAdapter
+    private lateinit var racksAdapter: RackAdapter
     private lateinit var shelfAdapter: ShelfAdapter
     private lateinit var palletAdapter: PalletsAdapter
     private lateinit var viewModel: MainViewModel
@@ -141,7 +141,7 @@ class BusinessLocationActivity : AppCompatActivity() {
                         showRackSpinner(it.data!!)
                         rackList = ArrayList()
                         rackList = it.data as ArrayList<GetRackResponse>
-                        racksAdapter = RacksAdapter(rackList)
+                        racksAdapter = RackAdapter(rackList)
 
                         binding.racksRV.apply {
 
@@ -174,11 +174,12 @@ class BusinessLocationActivity : AppCompatActivity() {
                 }
                 Status.SUCCESS ->{
                     try {
+                        showShelfSpinner(it.data!!)
                         dialog.dismiss()
                         shelfList = ArrayList()
-                        shelfAdapter = ShelfAdapter(shelfList)
-                        showShelfSpinner(it.data!!)
                         shelfList = it.data as ArrayList<GetShelfResponse>
+                        shelfAdapter = ShelfAdapter(shelfList)
+
                         binding.shelfRV.apply {
                             adapter = shelfAdapter
                             layoutManager = LinearLayoutManager(this@BusinessLocationActivity)
@@ -286,13 +287,14 @@ class BusinessLocationActivity : AppCompatActivity() {
                 binding.whAddBTN.gone()
                 binding.shelfAddBTN.visible()
                 binding.shelfRV.visible()
-                binding.racksRV.gone()
+
                 screen = "S"
             }
 
             intent.extras?.getBoolean("palletKey") == true -> {
                 binding.tvHeader.text = "Pallets"
                 binding.businessLocationSpinner.visible()
+                binding.shelfSpinnerCont.visible()
                 binding.palletAddBTN.visible()
                 binding.rackAddBTN.gone()
                 binding.whAddBTN.gone()
@@ -330,8 +332,6 @@ class BusinessLocationActivity : AppCompatActivity() {
         binding.palletAddBTN.click {
             gotoActivity(WarehouseDetailsActivity::class.java, pallets ,true)
         }
-
-
     }
 
     /**

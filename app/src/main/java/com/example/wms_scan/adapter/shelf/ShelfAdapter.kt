@@ -23,7 +23,8 @@ class ShelfAdapter(private val list:ArrayList<GetShelfResponse>)
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val data = list[position]
         with(holder){
-            binding.shelfTV.text = data.shelfName
+          //  binding.shelfTV.text = data.shelfName
+            binding.shelfTV.text = "data.shelfName"
         }
     }
 

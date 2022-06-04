@@ -8,7 +8,7 @@ import com.example.scanmate.data.response.GetRackResponse
 import com.example.wms_scan.R
 import com.example.wms_scan.databinding.RacksListViewBinding
 
-class RacksAdapter(val list:ArrayList<GetRackResponse>)  : RecyclerView.Adapter<RacksAdapter.ViewHolder>() {
+class RackAdapter(val list:ArrayList<GetRackResponse>)  : RecyclerView.Adapter<RackAdapter.ViewHolder>() {
 
     inner class ViewHolder(view: View): RecyclerView.ViewHolder(view){
         val binding = RacksListViewBinding.bind(view)
