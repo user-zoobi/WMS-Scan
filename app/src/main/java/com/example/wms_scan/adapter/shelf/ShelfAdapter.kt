@@ -24,7 +24,7 @@ class ShelfAdapter(private val list:ArrayList<GetShelfResponse>)
         val data = list[position]
         with(holder){
           //  binding.shelfTV.text = data.shelfName
-            binding.shelfTV.text = "data.shelfName"
+            binding.shelfTV.text = data.shelfName
         }
     }
 

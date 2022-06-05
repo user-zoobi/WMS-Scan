@@ -75,11 +75,11 @@ class GeneralRepository : ApiHelper {
     }
 
     override suspend fun addShelf(
-        RackNo: RequestBody, RackName: RequestBody, RackCode: RequestBody, WH_No: RequestBody,
-        Capacity: RequestBody, LocationNo: RequestBody, DMLUserNo: RequestBody, DMLPCName: RequestBody
+        ShelfNo:RequestBody, RackNo:RequestBody, ShelfName:RequestBody, ShelfCode:RequestBody,
+        Capacity:RequestBody, LocationNo:RequestBody, DMLUserNo:RequestBody, DMLPCName:RequestBody
     ): AddShelfResponse {
         return RetrofitClient.apiservice.addShelf(
-            RackNo, RackName, RackCode, WH_No, Capacity, LocationNo, DMLUserNo, DMLPCName
+            ShelfNo, RackNo, ShelfName, ShelfCode, Capacity, LocationNo, DMLUserNo, DMLPCName
         )
     }
 

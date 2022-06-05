@@ -2,9 +2,7 @@ package com.example.wms_scan.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.example.scanmate.extensions.click
-import com.example.scanmate.extensions.gotoActivity
-import com.example.scanmate.extensions.setTransparentStatusBarColor
+import com.example.scanmate.extensions.*
 import com.example.wms_scan.R
 import com.example.wms_scan.databinding.ActivityScannerBinding
 
@@ -18,6 +16,7 @@ class ScannerActivity : AppCompatActivity() {
         initListeners()
         supportActionBar?.hide()
         setTransparentStatusBarColor(R.color.transparent)
+        setupUi()
     }
 
     private fun initListeners(){
@@ -30,5 +29,13 @@ class ScannerActivity : AppCompatActivity() {
             gotoActivity(LoginActivity::class.java)
         }
 
+    }
+
+    private fun setupUi(){
+        when {
+            intent.extras?.getBoolean("scannerKey") == true -> {
+                binding.loginBtn.hide()
+            }
+        }
     }
 }

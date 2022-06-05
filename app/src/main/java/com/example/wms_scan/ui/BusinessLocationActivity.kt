@@ -39,7 +39,6 @@ class BusinessLocationActivity : AppCompatActivity() {
     /**
      *      INITIALIZERS
      */
-
     private lateinit var binding: ActivityBusinessLocationBinding
     private lateinit var warehouseAdapter: WarehouseAdapter
     private lateinit var racksAdapter: RackAdapter
@@ -95,12 +94,10 @@ class BusinessLocationActivity : AppCompatActivity() {
         viewModel.getWarehouse.observe(this,Observer{
             when(it.status){
                 Status.LOADING->{
-                    dialog.show()
                 }
                 Status.SUCCESS ->{
 
                     try {
-                        dialog.dismiss()
                         it.data?.get(0)?.wHName?.let { it1 -> Log.i("warehouseResponse", it1) }
                         showWarehouseSpinner(it.data!!)
 
@@ -131,10 +128,8 @@ class BusinessLocationActivity : AppCompatActivity() {
         viewModel.getRack.observe(this, Observer{
             when(it.status){
                 Status.LOADING ->{
-                    dialog.show()
                 }
                 Status.SUCCESS ->{
-                    dialog.dismiss()
                     // Log.i("getRack",it.data?.get(0)?.rackNo.toString())
                     try
                     {
@@ -154,8 +149,6 @@ class BusinessLocationActivity : AppCompatActivity() {
                         Log.i("RACK_OBSERVER","${e.message}")
                         Log.i("RACK_OBSERVER","${e.stackTrace}")
                     }
-
-
                 }
                 Status.ERROR ->{
                     dialog.dismiss()
@@ -170,12 +163,10 @@ class BusinessLocationActivity : AppCompatActivity() {
         viewModel.getShelf.observe(this,Observer{
             when(it.status){
                 Status.LOADING ->{
-                    dialog.show()
                 }
                 Status.SUCCESS ->{
                     try {
                         showShelfSpinner(it.data!!)
-                        dialog.dismiss()
                         shelfList = ArrayList()
                         shelfList = it.data as ArrayList<GetShelfResponse>
                         shelfAdapter = ShelfAdapter(shelfList)
@@ -190,7 +181,7 @@ class BusinessLocationActivity : AppCompatActivity() {
                     }
                 }
                 Status.ERROR ->{
-                    dialog.dismiss()
+
                 }
             }
         })
@@ -198,9 +189,8 @@ class BusinessLocationActivity : AppCompatActivity() {
         /**
          *      GET PALLET OBSERVER
          */
-
         viewModel.getPallet(
-            "","11","1"
+            "",selectedShelveNo,selectedBusLocNo
         )
         viewModel.getPallet.observe(this, Observer {
             when(it.status){
@@ -208,20 +198,26 @@ class BusinessLocationActivity : AppCompatActivity() {
                     // dialog.show()
                 }
                 Status.SUCCESS ->{
-                    dialog.dismiss()
-                    palletList = ArrayList()
-                    palletAdapter = PalletsAdapter(palletList)
+                    try
+                    {
+                        palletList = ArrayList()
+                        palletList = it.data as ArrayList<GetPalletResponse>
+                        palletAdapter = PalletsAdapter(palletList)
 
-                    palletList = it.data as ArrayList<GetPalletResponse>
-                    binding.palletsRV.apply {
-                        layoutManager = LinearLayoutManager(this@BusinessLocationActivity)
-                        adapter = palletAdapter
+                        binding.palletsRV.apply {
+                            adapter = palletAdapter
+                            layoutManager = LinearLayoutManager(this@BusinessLocationActivity)
+                        }
+
+                        Log.i("palletResponse","${it.data[0].pilotName}")
+                    }
+                    catch (e:Exception){
+                        Log.i("palletException","${e.message}")
+                        Log.i("palletException","${e.stackTrace}")
                     }
 
-                    Log.i("palletResponse","${it.data?.get(0)?.pilotName}")
                 }
                 Status.ERROR ->{
-                    dialog.dismiss()
                     toast("Pallet error")
                 }
             }
@@ -273,7 +269,7 @@ class BusinessLocationActivity : AppCompatActivity() {
                 binding.whAddBTN.gone()
                 binding.shelfAddBTN.gone()
                 binding.rackAddBTN.visible()
-
+                binding.racksRV.visible()
                 screen = "R"
             }
 
@@ -294,6 +290,8 @@ class BusinessLocationActivity : AppCompatActivity() {
             intent.extras?.getBoolean("palletKey") == true -> {
                 binding.tvHeader.text = "Pallets"
                 binding.businessLocationSpinner.visible()
+                binding.warehouseSpinnerCont.visible()
+                binding.rackSpinnerCont.visible()
                 binding.shelfSpinnerCont.visible()
                 binding.palletAddBTN.visible()
                 binding.rackAddBTN.gone()
@@ -318,19 +316,19 @@ class BusinessLocationActivity : AppCompatActivity() {
         }
 
         binding.whAddBTN.click{
-            gotoActivity(WarehouseDetailsActivity::class.java, warehouse, true)
+            gotoActivity(WarehouseDetailsActivity::class.java)
         }
 
         binding.rackAddBTN.click {
-            gotoActivity(WarehouseDetailsActivity::class.java, racks ,true)
+            gotoActivity(AddUpdateRackDetails::class.java)
         }
 
         binding.shelfAddBTN.click {
-            gotoActivity(WarehouseDetailsActivity::class.java, shelf ,true)
+            gotoActivity(AddUpdateShelfDetails::class.java)
         }
 
         binding.palletAddBTN.click {
-            gotoActivity(WarehouseDetailsActivity::class.java, pallets ,true)
+            gotoActivity(AddUpdatePalletDetails::class.java)
         }
     }
 
@@ -389,7 +387,6 @@ class BusinessLocationActivity : AppCompatActivity() {
                     Utils.getSimpleTextBody(selectedWareHouseNo),
                     Utils.getSimpleTextBody(selectedBusLocNo)
                 )
-                binding.racksRV.visible()
                 Log.i("LocBus","This is warehouse name is ${adapter?.getItemAtPosition(position)}")
                 Log.i("LocBus","This is warehouse pos is ${data[position].wHNo}")
             }
@@ -446,8 +443,7 @@ class BusinessLocationActivity : AppCompatActivity() {
 
                 override fun onItemSelected(adapter: AdapterView<*>?, view: View?, position: Int, long: Long) {
                     Log.i("LocBus","This is shelf pos ${adapter?.getItemAtPosition(position)}")
-
-                    binding.shelfRV.visible()
+                    selectedShelveNo = data[position].shelfNo.toString()
                 }
                 override fun onNothingSelected(p0: AdapterView<*>?) {}
             }

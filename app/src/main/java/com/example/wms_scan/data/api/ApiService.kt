@@ -77,10 +77,10 @@ interface ApiService {
     @Multipart
     @POST(addShelf)
     suspend fun addShelf(
-        @Part("ShelfNo") RackNo:RequestBody,
-        @Part("RackNo") RackName:RequestBody,
-        @Part("ShelfName") RackCode:RequestBody,
-        @Part("ShelfCode") WH_No:RequestBody,
+        @Part("ShelfNo") ShelfNo:RequestBody,
+        @Part("RackNo") RackNo:RequestBody,
+        @Part("ShelfName") ShelfName:RequestBody,
+        @Part("ShelfCode") ShelfCode:RequestBody,
         @Part("Capacity") Capacity:RequestBody,
         @Part("LocationNo") LocationNo:RequestBody,
         @Part("DMLUserNo") DMLUserNo:RequestBody,
@@ -105,7 +105,7 @@ interface ApiService {
         @Part("LocationNo") LocationNo:RequestBody
     ):List<GetShelfResponse>
 
-
+    @FormUrlEncoded
     @POST(getPallet)
     suspend fun getPallet(
         @Field("PilotName") PilotName:String,

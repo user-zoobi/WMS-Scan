@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.WarehouseDetailsActivity"
+    tools:context=".ui.AddUpdateShelfDetails"
     android:background="@color/royal_blue">
 
     <androidx.appcompat.widget.Toolbar
@@ -79,7 +79,7 @@
             android:layout_marginStart="@dimen/_20sdp"
             android:layout_marginTop="@dimen/_40sdp"
             android:fontFamily="@font/amiko"
-            android:text="Edit warehouse details"
+            android:text="Add shelf details"
             android:textColor="@color/black"
             android:textSize="@dimen/_18ssp" />
 
@@ -104,7 +104,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_50sdp"
                     android:layout_weight="1.5"
-                    android:editable="false"
                     android:fontFamily="@font/amiko"
                     android:paddingStart="@dimen/_10sdp"
                     android:textSize="@dimen/_15ssp"
@@ -134,6 +133,50 @@
             </com.google.android.material.card.MaterialCardView>
 
             <com.google.android.material.card.MaterialCardView
+                android:id="@+id/rackSpinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_20sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginEnd="@dimen/_20sdp"
+                android:layout_marginBottom="@dimen/_10sdp"
+                app:cardElevation="@dimen/_10sdp">
+
+                <androidx.appcompat.widget.AppCompatSpinner
+                    android:id="@+id/rackSpinnerCont"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_50sdp"
+                    android:layout_weight="1.5"
+                    android:fontFamily="@font/amiko"
+                    android:paddingStart="@dimen/_10sdp"
+                    android:textSize="@dimen/_15ssp"
+                    android:textStyle="bold" />
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/shelfSpinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_20sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginEnd="@dimen/_20sdp"
+                android:layout_marginBottom="@dimen/_10sdp"
+                app:cardElevation="@dimen/_10sdp">
+
+                <androidx.appcompat.widget.AppCompatSpinner
+                    android:id="@+id/shelfSpinnerCont"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_50sdp"
+                    android:layout_weight="1.5"
+                    android:fontFamily="@font/amiko"
+                    android:paddingStart="@dimen/_10sdp"
+                    android:textSize="@dimen/_15ssp"
+                    android:textStyle="bold" />
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_20sdp"
@@ -143,11 +186,11 @@
                 app:cardElevation="@dimen/_10sdp">
 
                 <androidx.appcompat.widget.AppCompatEditText
-                    android:id="@+id/updateWarehouseET"
+                    android:id="@+id/shelfNameET"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_50sdp"
                     android:background="@color/white"
-                    android:hint="Add warehouse"
+                    android:hint="@string/add_shelf"
                     android:paddingStart="@dimen/_20sdp" />
 
             </com.google.android.material.card.MaterialCardView>
@@ -158,13 +201,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_20sdp"
-            android:layout_marginTop="@dimen/_50sdp"
+            android:layout_marginTop="@dimen/_30sdp"
             android:layout_marginEnd="@dimen/_20sdp"
             android:orientation="horizontal"
             android:weightSum="2">
 
             <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/addWarehouseBTN"
+                android:id="@+id/addShelfBtn"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_50sdp"
                 android:layout_marginEnd="@dimen/_10sdp"
@@ -177,7 +220,7 @@
                 android:textSize="@dimen/_15ssp" />
 
             <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/updateWarehouseBtn"
+                android:id="@+id/updateShelfBtn"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_50sdp"
                 android:layout_marginStart="@dimen/_10sdp"

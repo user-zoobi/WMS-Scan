@@ -46,5 +46,12 @@
     <string name="addWarehouse">Add Warehouse</string>
     <string name="tap">Add Warehouse</string>
     <string name="done">Done</string>
+    <string name="update_warehouse">Update warehouse details</string>
+    <string name="update_rack">Update racks details</string>
+    <string name="update_shelf">Update shelf details</string>
+    <string name="update_pallet">Update pallet details</string>
+    <string name="add_shelf">Add shelf</string>
+    <string name="add_rack">Add rack</string>
+    <string name="add_pallet">Add pallet</string>
 
 </resources>
