@@ -39,6 +39,7 @@ class BusinessLocationActivity : AppCompatActivity() {
     /**
      *      INITIALIZERS
      */
+
     private lateinit var binding: ActivityBusinessLocationBinding
     private lateinit var warehouseAdapter: WarehouseAdapter
     private lateinit var racksAdapter: RackAdapter
@@ -61,6 +62,7 @@ class BusinessLocationActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityBusinessLocationBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        viewModel = obtainViewModel(MainViewModel::class.java)
         setupUi()
         Log.i("getBusLocNo", LocalPreferences.getInt(this, busLocNo).toString())
 
@@ -189,17 +191,16 @@ class BusinessLocationActivity : AppCompatActivity() {
         /**
          *      GET PALLET OBSERVER
          */
-        viewModel.getPallet(
-            "",selectedShelveNo,selectedBusLocNo
-        )
+
         viewModel.getPallet.observe(this, Observer {
             when(it.status){
                 Status.LOADING->{
-                    // dialog.show()
+                    Log.i("palletResponse","Data Loading")
                 }
                 Status.SUCCESS ->{
                     try
                     {
+                        Log.i("palletResponse","Pallet Respond Found")
                         palletList = ArrayList()
                         palletList = it.data as ArrayList<GetPalletResponse>
                         palletAdapter = PalletsAdapter(palletList)
@@ -222,6 +223,7 @@ class BusinessLocationActivity : AppCompatActivity() {
                 }
             }
         })
+
     }
 
 
@@ -232,7 +234,6 @@ class BusinessLocationActivity : AppCompatActivity() {
          */
 
         dialog = CustomProgressDialog(this)
-        viewModel = obtainViewModel(MainViewModel::class.java)
         supportActionBar?.hide()
         setTransparentStatusBarColor(R.color.transparent)
 
@@ -283,7 +284,6 @@ class BusinessLocationActivity : AppCompatActivity() {
                 binding.whAddBTN.gone()
                 binding.shelfAddBTN.visible()
                 binding.shelfRV.visible()
-
                 screen = "S"
             }
 
@@ -444,6 +444,7 @@ class BusinessLocationActivity : AppCompatActivity() {
                 override fun onItemSelected(adapter: AdapterView<*>?, view: View?, position: Int, long: Long) {
                     Log.i("LocBus","This is shelf pos ${adapter?.getItemAtPosition(position)}")
                     selectedShelveNo = data[position].shelfNo.toString()
+                    viewModel.getPallet("",selectedShelveNo,selectedBusLocNo)
                 }
                 override fun onNothingSelected(p0: AdapterView<*>?) {}
             }
