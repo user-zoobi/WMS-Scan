@@ -155,36 +155,36 @@
         </androidx.appcompat.widget.LinearLayoutCompat>
 
 
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/addWarehouseBTN"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_40sdp"
-                android:layout_marginEnd="@dimen/_20sdp"
-                android:layout_marginStart="@dimen/_20sdp"
-                android:background="@drawable/dark_green_rounded_bg"
-                android:fontFamily="@font/amiko"
-                android:text="Add"
-                android:textAllCaps="false"
-                android:textColor="@color/white"
-                android:textSize="@dimen/_15ssp" />
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/addWarehouseBTN"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_20sdp"
+            android:layout_marginTop="@dimen/_40sdp"
+            android:layout_marginEnd="@dimen/_20sdp"
+            android:background="@drawable/dark_green_rounded_bg"
+            android:fontFamily="@font/amiko"
+            android:text="Add"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_15ssp" />
 
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/updateWarehouseBtn"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_40sdp"
-                android:layout_marginEnd="@dimen/_20sdp"
-                android:layout_marginStart="@dimen/_20sdp"
-                android:background="@drawable/dark_red_rounded_bg"
-                android:fontFamily="@font/amiko"
-                android:text="Update"
-                android:textAllCaps="false"
-                android:textColor="@color/white"
-                android:textSize="@dimen/_15ssp"
-                android:visibility="gone"/>
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/updateWarehouseBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_20sdp"
+            android:layout_marginTop="@dimen/_40sdp"
+            android:layout_marginEnd="@dimen/_20sdp"
+            android:background="@drawable/dark_red_rounded_bg"
+            android:fontFamily="@font/amiko"
+            android:text="Update"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_15ssp"
+            android:visibility="gone" />
 
-        </androidx.appcompat.widget.LinearLayoutCompat>
+    </androidx.appcompat.widget.LinearLayoutCompat>
 
 
 </RelativeLayout>

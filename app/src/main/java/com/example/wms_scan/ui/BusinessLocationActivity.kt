@@ -309,8 +309,6 @@ class BusinessLocationActivity : AppCompatActivity() {
                 screen = "P"
             }
         }
-
-
     }
 
     /**

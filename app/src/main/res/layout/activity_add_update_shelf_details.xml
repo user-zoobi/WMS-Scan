@@ -209,28 +209,26 @@
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/addShelfBtn"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/_50sdp"
-                android:layout_marginEnd="@dimen/_10sdp"
-                android:layout_weight="1"
+                android:layout_height="wrap_content"
                 android:background="@drawable/dark_green_rounded_bg"
                 android:fontFamily="@font/amiko"
                 android:text="Add"
                 android:textAllCaps="false"
                 android:textColor="@color/white"
-                android:textSize="@dimen/_15ssp" />
+                android:textSize="@dimen/_15ssp"
+                android:visibility="gone" />
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/updateShelfBtn"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/_50sdp"
-                android:layout_marginStart="@dimen/_10sdp"
-                android:layout_weight="1"
+                android:layout_height="wrap_content"
                 android:background="@drawable/dark_red_rounded_bg"
                 android:fontFamily="@font/amiko"
                 android:text="Update"
                 android:textAllCaps="false"
                 android:textColor="@color/white"
-                android:textSize="@dimen/_15ssp" />
+                android:textSize="@dimen/_15ssp"
+                android:visibility="visible" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 

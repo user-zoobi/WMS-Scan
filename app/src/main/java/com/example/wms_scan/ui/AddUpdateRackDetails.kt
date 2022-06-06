@@ -11,10 +11,7 @@ import com.example.scanmate.data.callback.Status
 import com.example.scanmate.data.response.GetRackResponse
 import com.example.scanmate.data.response.GetWarehouseResponse
 import com.example.scanmate.data.response.UserLocationResponse
-import com.example.scanmate.extensions.click
-import com.example.scanmate.extensions.obtainViewModel
-import com.example.scanmate.extensions.setTransparentStatusBarColor
-import com.example.scanmate.extensions.toast
+import com.example.scanmate.extensions.*
 import com.example.scanmate.util.CustomProgressDialog
 import com.example.scanmate.util.LocalPreferences
 import com.example.scanmate.util.Utils
@@ -190,6 +187,7 @@ class AddUpdateRackDetails : AppCompatActivity() {
         binding.loginTimeTV.text = LocalPreferences.getString(this,
             LocalPreferences.AppLoginPreferences.loginTime
         )
+
     }
 
     private fun showBusLocSpinner(data:List<UserLocationResponse>) {
