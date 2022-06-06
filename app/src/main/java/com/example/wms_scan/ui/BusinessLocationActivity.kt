@@ -1,6 +1,7 @@
 package com.example.wms_scan.ui
 
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -55,7 +56,7 @@ class BusinessLocationActivity : AppCompatActivity() {
     private var selectedWareHouseNo = ""
     private var selectedRackNo = ""
     private var selectedShelveNo = ""
-    private var selectedPalleteNo = ""
+    private var selectedPalletNo = ""
     private var screen = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -64,6 +65,7 @@ class BusinessLocationActivity : AppCompatActivity() {
         setContentView(binding.root)
         viewModel = obtainViewModel(MainViewModel::class.java)
         setupUi()
+        initListeners()
         Log.i("getBusLocNo", LocalPreferences.getInt(this, busLocNo).toString())
 
         /**
@@ -105,7 +107,7 @@ class BusinessLocationActivity : AppCompatActivity() {
 
                         list = ArrayList()
                         list = it.data as ArrayList<GetWarehouseResponse>
-                        warehouseAdapter = WarehouseAdapter(list)
+                        warehouseAdapter = WarehouseAdapter(this,list)
                         binding.warehouseRV.apply {
                             layoutManager = LinearLayoutManager(this@BusinessLocationActivity)
                             adapter = warehouseAdapter
@@ -271,6 +273,8 @@ class BusinessLocationActivity : AppCompatActivity() {
                 binding.shelfAddBTN.gone()
                 binding.rackAddBTN.visible()
                 binding.racksRV.visible()
+                binding.whEditTV.gone()
+                binding.rackEditTV.visible()
                 screen = "R"
             }
 
@@ -284,6 +288,8 @@ class BusinessLocationActivity : AppCompatActivity() {
                 binding.whAddBTN.gone()
                 binding.shelfAddBTN.visible()
                 binding.shelfRV.visible()
+                binding.whEditTV.gone()
+                binding.shelfEditTV.visible()
                 screen = "S"
             }
 
@@ -298,11 +304,13 @@ class BusinessLocationActivity : AppCompatActivity() {
                 binding.whAddBTN.gone()
                 binding.shelfAddBTN.gone()
                 binding.palletsRV.visible()
+                binding.whEditTV.gone()
+                binding.palletEditTV.visible()
                 screen = "P"
             }
         }
 
-        initListeners()
+
     }
 
     /**
@@ -310,25 +318,51 @@ class BusinessLocationActivity : AppCompatActivity() {
      */
 
     private fun initListeners(){
+
+        list = ArrayList()
+        warehouseAdapter = WarehouseAdapter(this, list)
+
         binding.toolbar.menu.findItem(R.id.logout).setOnMenuItemClickListener {
             clearPreferences(this)
             true
         }
 
+        // -------------------------------------------------------------------------------------//
+        // ADD DETAILS LISTENERS
+
         binding.whAddBTN.click{
-            gotoActivity(WarehouseDetailsActivity::class.java)
+            gotoActivity(WarehouseDetailsActivity::class.java,"warehouseAdd", true)
         }
 
         binding.rackAddBTN.click {
-            gotoActivity(AddUpdateRackDetails::class.java)
+            gotoActivity(AddUpdateRackDetails::class.java,"rackAdd", true)
         }
 
         binding.shelfAddBTN.click {
-            gotoActivity(AddUpdateShelfDetails::class.java)
+            gotoActivity(AddUpdateShelfDetails::class.java,"shelfAdd", true)
         }
 
         binding.palletAddBTN.click {
-            gotoActivity(AddUpdatePalletDetails::class.java)
+            gotoActivity(AddUpdatePalletDetails::class.java,"palletAdd", true)
+        }
+
+        // ------------------------------------------------------------------------------//
+        // EDIT OR UPDATE LISTENERS
+
+        binding.whEditTV.click {
+            gotoActivity(WarehouseDetailsActivity::class.java, "warehouseUpdate", true)
+        }
+
+        binding.rackEditTV.click {
+            gotoActivity(AddUpdateRackDetails::class.java, "racksUpdate", true)
+        }
+
+        binding.shelfEditTV.click {
+            gotoActivity(AddUpdateShelfDetails::class.java, "shelfUpdate", true)
+        }
+
+        binding.palletEditTV.click {
+            gotoActivity(AddUpdatePalletDetails::class.java, "palletsUpdate", true)
         }
     }
 

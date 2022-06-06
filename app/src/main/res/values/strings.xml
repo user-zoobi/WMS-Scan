@@ -53,5 +53,6 @@
     <string name="add_shelf">Add shelf</string>
     <string name="add_rack">Add rack</string>
     <string name="add_pallet">Add pallet</string>
+    <string name="master">Master</string>
 
 </resources>

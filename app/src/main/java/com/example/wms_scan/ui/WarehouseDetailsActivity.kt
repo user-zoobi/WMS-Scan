@@ -26,6 +26,7 @@ import com.example.scanmate.util.Utils
 import com.example.scanmate.viewModel.MainViewModel
 import com.example.wms_scan.R
 import com.example.wms_scan.adapter.shelf.ShelfAdapter
+import com.example.wms_scan.adapter.warehouse.WarehouseAdapter
 import com.example.wms_scan.databinding.ActivityWarehouseDetailsBinding
 
 class WarehouseDetailsActivity : AppCompatActivity() {
@@ -36,6 +37,8 @@ class WarehouseDetailsActivity : AppCompatActivity() {
     private var selectedWareHouseNo = ""
     private var updatedWarehouseName = ""
     private var spinnerWarehouseName = ""
+    private lateinit var warehouseAdapter: WarehouseAdapter
+    private lateinit var warehouseList: ArrayList<GetWarehouseResponse>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -69,38 +72,53 @@ class WarehouseDetailsActivity : AppCompatActivity() {
             LocalPreferences.AppLoginPreferences.loginTime
         )
 
+        when {
+            intent.extras?.getBoolean("warehouseUpdate") == true -> {
+                binding.addWarehouseBTN.gone()
+                binding.updateWarehouseBtn.visible()
+            }
+            intent.extras?.getBoolean("warehouseAdd") == true -> {
+                binding.warehouseSpinner.gone()
+            }
+        }
+
     }
 
     private fun initListener(){
 
-        updatedWarehouseName = binding.updateWarehouseET.text.toString()
-
         binding.addWarehouseBTN.click {
-
-            viewModel.addUpdateWarehouse(
-                "0",
-                updatedWarehouseName,
-                "WH-1",
-                selectedBusLocNo,
-                LocalPreferences.getInt(this, LocalPreferences.AppLoginPreferences.userNo).toString(),
-                "Test-PC"
-            )
-
-            toast("item added")
+            updatedWarehouseName = binding.updateWarehouseET.text.toString()
+            if (updatedWarehouseName.isNullOrEmpty()){
+                toast("Field must not be empty")
+            }else{
+                viewModel.addUpdateWarehouse(
+                    "0",
+                    updatedWarehouseName,
+                    "WH-1",
+                    selectedBusLocNo,
+                    LocalPreferences.getInt(this, LocalPreferences.AppLoginPreferences.userNo).toString(),
+                    "Test-PC"
+                )
+                toast("Warehouse Added")
+            }
         }
 
         binding.updateWarehouseBtn.click {
-
-            viewModel.addUpdateWarehouse(
-                selectedWareHouseNo,
-                updatedWarehouseName,
-                "WH-1",
-                selectedBusLocNo,
-                LocalPreferences.getInt(this, LocalPreferences.AppLoginPreferences.userNo).toString(),
-                "Test-PC"
-            )
-
-            toast("item updated")
+            if (updatedWarehouseName.isNullOrEmpty()){
+                toast("Field must not be empty")
+            }
+            else{
+                updatedWarehouseName = binding.updateWarehouseET.text.toString()
+                viewModel.addUpdateWarehouse(
+                    selectedWareHouseNo,
+                    updatedWarehouseName,
+                    "WH-1",
+                    selectedBusLocNo,
+                    LocalPreferences.getInt(this, LocalPreferences.AppLoginPreferences.userNo).toString(),
+                    "Test-PC"
+                )
+                toast("Warehouse updated")
+            }
         }
     }
 
@@ -245,6 +263,10 @@ class WarehouseDetailsActivity : AppCompatActivity() {
             context.getSharedPreferences(LocalPreferences.AppLoginPreferences.PREF, Context.MODE_PRIVATE)
         settings.edit().clear().apply()
         onBackPressed()
+    }
+
+    private fun validate(){
+
     }
 
 

@@ -1,5 +1,7 @@
 package com.example.wms_scan.adapter.warehouse
 
+import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -7,8 +9,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.scanmate.data.response.GetWarehouseResponse
 import com.example.wms_scan.R
 import com.example.wms_scan.databinding.WarehouseListViewBinding
+import com.example.wms_scan.ui.WarehouseDetailsActivity
 
 class WarehouseAdapter(
+    private val context: Context,
     private val list:ArrayList<GetWarehouseResponse>
     )  : RecyclerView.Adapter<WarehouseAdapter.ViewHolder>() {
 
@@ -26,10 +30,6 @@ class WarehouseAdapter(
         with(holder){
            binding.wrhTV.text = data.wHName
            binding.wrhNo.text = data.wHNo.toString()
-
-            binding.editIV.setOnClickListener {
-                itemclick?.invoke(position)
-            }
         }
     }
 
@@ -39,10 +39,5 @@ class WarehouseAdapter(
         list.addAll(listItems)
         notifyDataSetChanged()
     }*/
-
-    var itemclick: ((Int) -> Unit)? = null
-    fun onClick(listener: ((Int) -> Unit)) {
-        itemclick = listener
-    }
 
 }

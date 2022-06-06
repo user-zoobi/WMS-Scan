@@ -13,9 +13,7 @@ import com.example.scanmate.data.response.GetRackResponse
 import com.example.scanmate.data.response.GetShelfResponse
 import com.example.scanmate.data.response.GetWarehouseResponse
 import com.example.scanmate.data.response.UserLocationResponse
-import com.example.scanmate.extensions.click
-import com.example.scanmate.extensions.obtainViewModel
-import com.example.scanmate.extensions.setTransparentStatusBarColor
+import com.example.scanmate.extensions.*
 import com.example.scanmate.util.CustomProgressDialog
 import com.example.scanmate.util.LocalPreferences
 import com.example.scanmate.util.Utils
@@ -60,39 +58,64 @@ class AddUpdateShelfDetails : AppCompatActivity() {
         binding.loginTimeTV.text = LocalPreferences.getString(this,
             LocalPreferences.AppLoginPreferences.loginTime
         )
+
+        when
+        {
+            intent.extras?.getBoolean("shelfAdd") == true -> {
+                binding.warehouseSpinner.gone()
+            }
+        }
     }
     private fun initListeners(){
 
-        shelfNameInput = binding.shelfNameET.text.toString()
-
         binding.addShelfBtn.click {
-            viewModel.addShelf(
-                Utils.getSimpleTextBody("0"),
-                Utils.getSimpleTextBody(selectedRackNo),
-                Utils.getSimpleTextBody(shelfNameInput),
-                Utils.getSimpleTextBody("S-1"),
-                Utils.getSimpleTextBody("10"),
-                Utils.getSimpleTextBody(selectedBusLocNo),
-                Utils.getSimpleTextBody(
-                    LocalPreferences.getInt(this,LocalPreferences.AppLoginPreferences.userNo).toString()
-                ),
-                Utils.getSimpleTextBody("TEST")
-            )
+            shelfNameInput = binding.shelfNameET.text.toString()
+            if (shelfNameInput.isNullOrEmpty())
+            {
+                toast("Field must not be empty")
+            }
+            else
+            {
+                viewModel.addShelf(
+                    Utils.getSimpleTextBody("0"),
+                    Utils.getSimpleTextBody(selectedRackNo),
+                    Utils.getSimpleTextBody(shelfNameInput),
+                    Utils.getSimpleTextBody("S-1"),
+                    Utils.getSimpleTextBody("10"),
+                    Utils.getSimpleTextBody(selectedBusLocNo),
+                    Utils.getSimpleTextBody(
+                        LocalPreferences.getInt(this,LocalPreferences.AppLoginPreferences.userNo).toString()
+                    ),
+                    Utils.getSimpleTextBody("TEST")
+                )
+                toast("Shelf Added")
+            }
+
         }
 
         binding.updateShelfBtn.click {
-            viewModel.addShelf(
-                Utils.getSimpleTextBody(selectedRackNo),
-                Utils.getSimpleTextBody(selectedRackNo),
-                Utils.getSimpleTextBody(shelfNameInput),
-                Utils.getSimpleTextBody("S-1"),
-                Utils.getSimpleTextBody("10"),
-                Utils.getSimpleTextBody(selectedBusLocNo),
-                Utils.getSimpleTextBody(
-                    LocalPreferences.getInt(this,LocalPreferences.AppLoginPreferences.userNo).toString()
-                ),
-                Utils.getSimpleTextBody("TEST")
-            )
+            shelfNameInput = binding.shelfNameET.text.toString()
+            if (shelfNameInput.isNullOrEmpty())
+            {
+                toast("Field must not be empty")
+            }
+            else
+            {
+                viewModel.addShelf(
+                    Utils.getSimpleTextBody(selectedShelveNo),
+                    Utils.getSimpleTextBody(selectedRackNo),
+                    Utils.getSimpleTextBody(shelfNameInput),
+                    Utils.getSimpleTextBody("S-1"),
+                    Utils.getSimpleTextBody("10"),
+                    Utils.getSimpleTextBody(selectedBusLocNo),
+                    Utils.getSimpleTextBody(
+                        LocalPreferences.getInt(this,LocalPreferences.AppLoginPreferences.userNo).toString()
+                    ),
+                    Utils.getSimpleTextBody("TEST")
+                )
+                toast("Shelf Updated")
+            }
+
         }
     }
 
@@ -200,11 +223,12 @@ class AddUpdateShelfDetails : AppCompatActivity() {
 
                 }
                 Status.SUCCESS ->{
-                    try {
-
+                    try
+                    {
                         showShelfSpinner(it.data!!)
-
-                    }catch (e:Exception){
+                    }
+                    catch (e:Exception)
+                    {
                         Log.i("","${e.message}")
                         Log.i("rackAdapter","${e.stackTrace}")
                     }
@@ -214,10 +238,6 @@ class AddUpdateShelfDetails : AppCompatActivity() {
                 }
             }
         })
-    }
-
-    private fun setAdapters(){
-
     }
 
     private fun showBusLocSpinner(data:List<UserLocationResponse>) {

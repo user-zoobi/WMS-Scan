@@ -15,6 +15,7 @@ import com.example.scanmate.data.response.UserLocationResponse
 import com.example.scanmate.extensions.click
 import com.example.scanmate.extensions.obtainViewModel
 import com.example.scanmate.extensions.setTransparentStatusBarColor
+import com.example.scanmate.extensions.toast
 import com.example.scanmate.util.CustomProgressDialog
 import com.example.scanmate.util.LocalPreferences
 import com.example.scanmate.util.Utils
@@ -64,39 +65,57 @@ class AddUpdatePalletDetails : AppCompatActivity() {
 
     private fun initListener(){
 
-        palletName = binding.palletNameET.text.toString()
-
         // ADD YOUR PALLET
 
         binding.addPalletBtn.click {
-            viewModel.addPallet(
-                Utils.getSimpleTextBody("0"),
-                Utils.getSimpleTextBody(palletName),
-                Utils.getSimpleTextBody("P-1"),
-                Utils.getSimpleTextBody(selectedShelveNo),
-                Utils.getSimpleTextBody("20"),
-                Utils.getSimpleTextBody(selectedBusLocNo),
-                Utils.getSimpleTextBody(
-                    LocalPreferences.getInt(this,LocalPreferences.AppLoginPreferences.userNo).toString()
-                ),
-                Utils.getSimpleTextBody("TEST"),
-            )
+
+            palletName = binding.palletNameET.text.toString()
+            if (palletName.isNullOrEmpty())
+            {
+                toast("Field must not be empty")
+            }
+            else
+            {
+                viewModel.addPallet(
+                    Utils.getSimpleTextBody("0"),
+                    Utils.getSimpleTextBody(palletName),
+                    Utils.getSimpleTextBody("P-1"),
+                    Utils.getSimpleTextBody(selectedShelveNo),
+                    Utils.getSimpleTextBody("20"),
+                    Utils.getSimpleTextBody(selectedBusLocNo),
+                    Utils.getSimpleTextBody(
+                        LocalPreferences.getInt(this,LocalPreferences.AppLoginPreferences.userNo).toString()
+                    ),
+                    Utils.getSimpleTextBody("TEST"),
+                )
+                toast("Pallet added")
+            }
+
         }
 
         // UPDATE YOUR PALLET
         binding.updatePalletBtn.click {
-            viewModel.addPallet(
-                Utils.getSimpleTextBody(selectedPalletNo),
-                Utils.getSimpleTextBody(palletName),
-                Utils.getSimpleTextBody("P-1"),
-                Utils.getSimpleTextBody(selectedShelveNo),
-                Utils.getSimpleTextBody("20"),
-                Utils.getSimpleTextBody(selectedBusLocNo),
-                Utils.getSimpleTextBody(
-                    LocalPreferences.getInt(this,LocalPreferences.AppLoginPreferences.userNo).toString()
-                ),
-                Utils.getSimpleTextBody("TEST"),
-            )
+            palletName = binding.palletNameET.text.toString()
+            if (palletName.isNullOrEmpty())
+            {
+                toast("Pallet updated")
+            }
+            else
+            {
+                viewModel.addPallet(
+                    Utils.getSimpleTextBody(selectedPalletNo),
+                    Utils.getSimpleTextBody(palletName),
+                    Utils.getSimpleTextBody("P-1"),
+                    Utils.getSimpleTextBody(selectedShelveNo),
+                    Utils.getSimpleTextBody("20"),
+                    Utils.getSimpleTextBody(selectedBusLocNo),
+                    Utils.getSimpleTextBody(
+                        LocalPreferences.getInt(this,LocalPreferences.AppLoginPreferences.userNo).toString()
+                    ),
+                    Utils.getSimpleTextBody("TEST"),
+                )
+            }
+
         }
 
     }
@@ -363,6 +382,7 @@ class AddUpdatePalletDetails : AppCompatActivity() {
 
                 override fun onItemSelected(adapter: AdapterView<*>?, view: View?, position: Int, long: Long) {
                     Log.i("LocBus","This is shelf pos ${adapter?.getItemAtPosition(position)}")
+                    selectedShelveNo = data[position].shelfNo.toString()
                     viewModel.getPallet(
                         "",selectedShelveNo,selectedBusLocNo
                     )
@@ -395,4 +415,5 @@ class AddUpdatePalletDetails : AppCompatActivity() {
             }
         }
     }
+
 }

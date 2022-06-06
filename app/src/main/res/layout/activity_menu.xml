@@ -73,19 +73,31 @@
         android:background="@drawable/top_rounded_white_bg"
         android:orientation="vertical">
 
+        <TextView
+            android:id="@+id/masterTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="@string/master"
+            android:layout_marginTop="@dimen/_15sdp"
+            android:textSize="@dimen/_20ssp"
+            android:fontFamily="@font/amiko"
+            android:textStyle="bold"
+            />
+
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
+            android:layout_below="@id/masterTV"
             android:layout_marginStart="@dimen/_20sdp"
-            android:layout_marginTop="@dimen/_30sdp"
             android:layout_marginEnd="@dimen/_20sdp"
             android:orientation="vertical">
 
             <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_20sdp">
+                android:paddingBottom="@dimen/_40sdp">
 
                 <com.google.android.material.card.MaterialCardView
                     android:id="@+id/warehouseIV"
@@ -234,6 +246,7 @@
 
                 </com.google.android.material.card.MaterialCardView>
 
+
                 <com.google.android.material.card.MaterialCardView
                     android:id="@+id/placeCartonIV"
                     android:layout_width="@dimen/_150sdp"
@@ -242,7 +255,7 @@
                     android:layout_alignParentStart="true"
                     android:layout_margin="@dimen/_10sdp"
                     app:cardCornerRadius="@dimen/_20sdp"
-                    app:cardElevation="@dimen/_10sdp">
+                    app:cardElevation="@dimen/_5sdp">
 
                     <androidx.appcompat.widget.LinearLayoutCompat
                         android:layout_width="match_parent"
@@ -275,11 +288,11 @@
                     android:id="@+id/scanCartonIV"
                     android:layout_width="@dimen/_150sdp"
                     android:layout_height="@dimen/_150sdp"
-                    android:layout_below="@+id/shelfIV"
+                    android:layout_below="@+id/palletsIV"
                     android:layout_alignParentEnd="true"
                     android:layout_margin="@dimen/_10sdp"
                     app:cardCornerRadius="@dimen/_20sdp"
-                    app:cardElevation="@dimen/_10sdp">
+                    app:cardElevation="@dimen/_5sdp">
 
                     <androidx.appcompat.widget.LinearLayoutCompat
                         android:layout_width="match_parent"

@@ -45,36 +45,53 @@ class AddUpdateRackDetails : AppCompatActivity() {
 
     private fun initListeners(){
 
-        rackName = binding.rackNameET.text.toString()
         binding.addRackBtn.click {
-            viewModel.addRack(
-                Utils.getSimpleTextBody("0"),
-                Utils.getSimpleTextBody(rackName),
-                Utils.getSimpleTextBody("R-1"),
-                Utils.getSimpleTextBody(selectedWareHouseNo),
-                Utils.getSimpleTextBody("20"),
-                Utils.getSimpleTextBody(selectedBusLocNo),
-                Utils.getSimpleTextBody(
-                    LocalPreferences.getInt(this, LocalPreferences.AppLoginPreferences.userNo).toString()
-                ),
-                Utils.getSimpleTextBody("TEST"),
-            )
-        }
-        binding.updateRackBtn.click {
-            viewModel.addRack(
-                Utils.getSimpleTextBody(selectedRackNo),
-                Utils.getSimpleTextBody(rackName),
-                Utils.getSimpleTextBody("R-1"),
-                Utils.getSimpleTextBody(selectedWareHouseNo),
-                Utils.getSimpleTextBody("20"),
-                Utils.getSimpleTextBody(selectedBusLocNo),
-                Utils.getSimpleTextBody(
-                    LocalPreferences.getInt(this, LocalPreferences.AppLoginPreferences.userNo).toString()
-                ),
-                Utils.getSimpleTextBody("TEST"),
-            )
+            rackName = binding.rackNameET.text.toString()
+            if (rackName.isNullOrEmpty())
+            {
+                toast("Field must not be empty")
+            }
+            else
+            {
+                viewModel.addRack(
+                    Utils.getSimpleTextBody("0"),
+                    Utils.getSimpleTextBody(rackName),
+                    Utils.getSimpleTextBody("R-1"),
+                    Utils.getSimpleTextBody(selectedWareHouseNo),
+                    Utils.getSimpleTextBody("20"),
+                    Utils.getSimpleTextBody(selectedBusLocNo),
+                    Utils.getSimpleTextBody(
+                        LocalPreferences.getInt(this, LocalPreferences.AppLoginPreferences.userNo).toString()
+                    ),
+                    Utils.getSimpleTextBody("TEST"),
+                )
+                toast("Rack Added")
+            }
         }
 
+        binding.updateRackBtn.click {
+            rackName = binding.rackNameET.text.toString()
+            if (rackName.isNullOrEmpty())
+            {
+                toast("Field must not be empty")
+            }
+            else
+            {
+                viewModel.addRack(
+                    Utils.getSimpleTextBody(selectedRackNo),
+                    Utils.getSimpleTextBody(rackName),
+                    Utils.getSimpleTextBody("R-1"),
+                    Utils.getSimpleTextBody(selectedWareHouseNo),
+                    Utils.getSimpleTextBody("20"),
+                    Utils.getSimpleTextBody(selectedBusLocNo),
+                    Utils.getSimpleTextBody(
+                        LocalPreferences.getInt(this, LocalPreferences.AppLoginPreferences.userNo).toString()
+                    ),
+                    Utils.getSimpleTextBody("TEST"),
+                )
+                toast("Rack Updated")
+            }
+        }
     }
 
     private fun initObserver(){
@@ -147,6 +164,7 @@ class AddUpdateRackDetails : AppCompatActivity() {
                     dialog.show()
                 }
                 Status.SUCCESS ->{
+                    Log.i("addRack","${it.data?.error}")
                     dialog.dismiss()
                 }
                 Status.ERROR ->{
@@ -155,10 +173,6 @@ class AddUpdateRackDetails : AppCompatActivity() {
                 }
             }
         })
-    }
-
-    private fun setupAdapter(){
-
     }
 
     private fun setupUi(){
