@@ -73,12 +73,19 @@ class WarehouseDetailsActivity : AppCompatActivity() {
         )
 
         when {
-            intent.extras?.getBoolean("warehouseUpdate") == true -> {
+            intent.extras?.getBoolean("WHKey") == true -> {
                 binding.addWarehouseBTN.gone()
                 binding.updateWarehouseBtn.visible()
+                val busName = intent.extras?.getString("busName")
+                val wrhName = intent.extras?.getString("whName")
+                binding.busLocTV.text = busName
+                binding.warehouseTV.text = wrhName
+
             }
-            intent.extras?.getBoolean("warehouseAdd") == true -> {
-                binding.warehouseSpinner.gone()
+            intent.extras?.getBoolean("AddWHKey") == true -> {
+                val busName = intent.extras?.getString("addBusName")
+                binding.busLocTV.text = busName
+                binding.warehouseCont.gone()
             }
         }
 

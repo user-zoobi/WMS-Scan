@@ -1,5 +1,6 @@
 package com.example.wms_scan.adapter.racks
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -7,8 +8,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.scanmate.data.response.GetRackResponse
 import com.example.wms_scan.R
 import com.example.wms_scan.databinding.RacksListViewBinding
+import com.example.wms_scan.ui.RacksActivity
 
-class RackAdapter(val list:ArrayList<GetRackResponse>)  : RecyclerView.Adapter<RackAdapter.ViewHolder>() {
+class RackAdapter(
+    val context:Context,
+    val list:ArrayList<GetRackResponse>
+    )  : RecyclerView.Adapter<RackAdapter.ViewHolder>() {
 
     inner class ViewHolder(view: View): RecyclerView.ViewHolder(view){
         val binding = RacksListViewBinding.bind(view)
@@ -23,14 +28,12 @@ class RackAdapter(val list:ArrayList<GetRackResponse>)  : RecyclerView.Adapter<R
         val data = list[position]
         with(holder){
             binding.rackTV.text = data.rackName
+            binding.editIV.setOnClickListener {
+                (context as RacksActivity).openActivity(data.rackName,data.rackNo.toString())
+            }
         }
     }
 
     override fun getItemCount(): Int = list.size
-
-    fun addItems(listItems:ArrayList<GetRackResponse>){
-        list.addAll(listItems)
-        notifyDataSetChanged()
-    }
 
 }

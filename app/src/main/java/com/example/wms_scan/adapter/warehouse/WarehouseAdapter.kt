@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.scanmate.data.response.GetWarehouseResponse
 import com.example.wms_scan.R
 import com.example.wms_scan.databinding.WarehouseListViewBinding
+import com.example.wms_scan.ui.WarehouseActivity
 import com.example.wms_scan.ui.WarehouseDetailsActivity
 
 class WarehouseAdapter(
@@ -28,16 +29,20 @@ class WarehouseAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val data = list[position]
         with(holder){
-           binding.wrhTV.text = data.wHName
-           binding.wrhNo.text = data.wHNo.toString()
+            binding.wrhTV.text = data.wHName
+            binding.wrhNo.text = data.wHNo.toString()
+
+            binding.editIV.setOnClickListener {
+               (context as WarehouseActivity).performAction(data.wHName, data.wHNo.toString())
+            }
         }
     }
 
     override fun getItemCount(): Int = list.size
 
-    /*fun addItems(listItems:ArrayList<GetWarehouseResponse>){
-        list.addAll(listItems)
-        notifyDataSetChanged()
-    }*/
+//    var itemclick: ((Int) -> Unit)? = null
+//    fun onClick(listener: ((Int) -> Unit)) {
+//        itemclick = listener
+//    }
 
 }

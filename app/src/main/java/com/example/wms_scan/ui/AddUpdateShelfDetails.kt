@@ -13,10 +13,7 @@ import com.example.scanmate.data.response.GetRackResponse
 import com.example.scanmate.data.response.GetShelfResponse
 import com.example.scanmate.data.response.GetWarehouseResponse
 import com.example.scanmate.data.response.UserLocationResponse
-import com.example.scanmate.extensions.click
-import com.example.scanmate.extensions.obtainViewModel
-import com.example.scanmate.extensions.setTransparentStatusBarColor
-import com.example.scanmate.extensions.toast
+import com.example.scanmate.extensions.*
 import com.example.scanmate.util.CustomProgressDialog
 import com.example.scanmate.util.LocalPreferences
 import com.example.scanmate.util.Utils
@@ -28,7 +25,7 @@ import com.example.wms_scan.databinding.ActivityAddUpdateShelfDetailsBinding
 class AddUpdateShelfDetails : AppCompatActivity() {
     private lateinit var viewModel: MainViewModel
     private lateinit var dialog: CustomProgressDialog
-    private lateinit var binding:ActivityAddUpdateShelfDetailsBinding
+    private lateinit var binding: ActivityAddUpdateShelfDetailsBinding
     private var selectedBusLocNo = ""
     private var selectedWareHouseNo = ""
     private var selectedRackNo = ""
@@ -62,8 +59,38 @@ class AddUpdateShelfDetails : AppCompatActivity() {
             LocalPreferences.AppLoginPreferences.loginTime
         )
 
+        when {
+            intent.extras?.getBoolean("SHELFKey") == true -> {
+                binding.addShelfBtn.gone()
+                binding.updateShelfBtn.visible()
+
+                //edit button data
+                val busLocName = intent.extras?.getString("sBusinessLocName")
+                binding.busLocTV.text = busLocName
+
+                val warehouseName = intent.extras?.getString("sWarehouse")
+                binding.warehouseTV.text = warehouseName
+
+                val rackName = intent.extras?.getString("sRackName")
+                binding.rackTV.text = rackName
+            }
+
+            intent.extras?.getBoolean("shelfAddKey") == true -> {
+                //add button data
+
+                val addBusLocName = intent.extras?.getString("addBusinessLocName")
+                binding.busLocTV.text = addBusLocName
+
+                val addWHName = intent.extras?.getString("addWarehouse")
+                binding.warehouseTV.text = addWHName
+
+                val addRackName = intent.extras?.getString("addRackName")
+                binding.rackTV.text = addRackName
+            }
+        }
 
     }
+
     private fun initListeners(){
 
         binding.addShelfBtn.click {
@@ -134,7 +161,6 @@ class AddUpdateShelfDetails : AppCompatActivity() {
                 Status.SUCCESS ->{
                     dialog.dismiss()
                     Log.i("addShelf","${it.data?.get(0)?.busLocationName}")
-                    showBusLocSpinner(it.data!!)
                 }
                 Status.ERROR ->{
                     dialog.dismiss()
@@ -153,7 +179,7 @@ class AddUpdateShelfDetails : AppCompatActivity() {
                 Status.SUCCESS ->{
 
                     Log.i("getWarehouse","${it.data?.get(0)?.wHName}")
-                    showWarehouseSpinner(it.data!!)
+
                 }
                 Status.ERROR ->{
 
@@ -175,7 +201,6 @@ class AddUpdateShelfDetails : AppCompatActivity() {
                     // Log.i("getRack",it.data?.get(0)?.rackNo.toString())
                     try
                     {
-                        showRackSpinner(it.data!!)
 
                     }
                     catch (e: Exception)
@@ -183,8 +208,6 @@ class AddUpdateShelfDetails : AppCompatActivity() {
                         Log.i("RACK_OBSERVER","${e.message}")
                         Log.i("RACK_OBSERVER","${e.stackTrace}")
                     }
-
-
                 }
                 Status.ERROR ->{
                     dialog.dismiss()
@@ -223,7 +246,7 @@ class AddUpdateShelfDetails : AppCompatActivity() {
                 Status.SUCCESS ->{
                     try
                     {
-                        showShelfSpinner(it.data!!)
+
                     }
                     catch (e:Exception)
                     {
@@ -238,113 +261,4 @@ class AddUpdateShelfDetails : AppCompatActivity() {
         })
     }
 
-    private fun showBusLocSpinner(data:List<UserLocationResponse>) {
-        //String array to store all the book names
-        val items = arrayOfNulls<String>(data.size)
-        val businessLocSpinner = binding.businessSpinnerCont
-
-        //Traversing through the whole list to get all the names
-        for (i in data.indices) {
-            //Storing names to string array
-            items[i] = data[i].busLocationName.toString()
-        }
-        val adapter: ArrayAdapter<String?> =
-            ArrayAdapter(this, android.R.layout.simple_list_item_1, items)
-        //setting adapter to spinner
-        businessLocSpinner.adapter = adapter
-
-        businessLocSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
-
-            override fun onItemSelected(adapter: AdapterView<*>?, view: View?, position: Int, long: Long) {
-                Log.i("LocBus","business Location no ${data[position].orgBusLocNo}")
-                // binding.rackSpinnerCont.visible()
-                selectedBusLocNo = data[position].orgBusLocNo.toString()
-                viewModel.getWarehouse("", selectedBusLocNo)
-            }
-            override fun onNothingSelected(p0: AdapterView<*>?) {}
-        }
-    }
-
-    private fun showWarehouseSpinner(data:List<GetWarehouseResponse>) {
-        //String array to store all the book names
-        val items = arrayOfNulls<String>(data.size)
-        val warehouseSpinner = binding.warehouseSpinnerCont
-
-        //Traversing through the whole list to get all the names
-        for (i in data.indices) {
-            //Storing names to string array
-            items[i] = data[i].wHName
-        }
-        val adapter: ArrayAdapter<String?> =
-            ArrayAdapter(this, android.R.layout.simple_list_item_1, items)
-        //setting adapter to spinner
-        warehouseSpinner.adapter = adapter
-        warehouseSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
-
-            override fun onItemSelected(adapter: AdapterView<*>?, view: View?, position: Int, long: Long) {
-                selectedWareHouseNo = data[position].wHNo.toString()
-                viewModel.getRack(
-                    Utils.getSimpleTextBody(""),
-                    Utils.getSimpleTextBody(selectedWareHouseNo),
-                    Utils.getSimpleTextBody(selectedBusLocNo)
-                )
-                Log.i("LocBus","This is warehouse name is ${adapter?.getItemAtPosition(position)}")
-                Log.i("LocBus","This is warehouse pos is ${data[position].wHNo}")
-            }
-            override fun onNothingSelected(p0: AdapterView<*>?) {}
-        }
-    }
-
-    private fun showRackSpinner(data:List<GetRackResponse>) {
-        //String array to store all the book names
-        val items = arrayOfNulls<String>(data.size)
-        val rackSpinner = binding.rackSpinnerCont
-
-        //Traversing through the whole list to get all the names
-        for (i in data.indices) {
-            //Storing names to string array
-            items[i] = data[i].rackName
-        }
-        val adapter: ArrayAdapter<String?> =
-            ArrayAdapter(this, android.R.layout.simple_list_item_1, items)
-        //setting adapter to spinner
-        rackSpinner.adapter = adapter
-
-        rackSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
-            override fun onItemSelected(adapter: AdapterView<*>?, view: View?, position: Int, long: Long) {
-                selectedRackNo = data[position].rackNo.toString()
-                viewModel.getShelf(
-                    Utils.getSimpleTextBody(""),
-                    Utils.getSimpleTextBody(selectedRackNo),
-                    Utils.getSimpleTextBody(selectedBusLocNo),
-                )
-                Log.i("LocBus","This is rack pos ${adapter?.getItemAtPosition(position)}")
-            }
-            override fun onNothingSelected(p0: AdapterView<*>?) {}
-        }
-    }
-
-    private fun showShelfSpinner(data:List<GetShelfResponse>) {
-        //String array to store all the book names
-        val items = arrayOfNulls<String>(data.size)
-        val shelfResponse = binding.shelfSpinnerCont
-
-        //Traversing through the whole list to get all the names
-        for (i in data.indices) {
-            //Storing names to string array
-            items[i] = data[i].shelfName
-            val adapter: ArrayAdapter<String?> =
-                ArrayAdapter(this, android.R.layout.simple_list_item_1, items)
-            //setting adapter to spinner
-            shelfResponse.adapter = adapter
-            shelfResponse.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
-
-                override fun onItemSelected(adapter: AdapterView<*>?, view: View?, position: Int, long: Long) {
-                    Log.i("LocBus","This is shelf pos ${adapter?.getItemAtPosition(position)}")
-                    selectedShelveNo = data[position].shelfNo.toString()
-                }
-                override fun onNothingSelected(p0: AdapterView<*>?) {}
-            }
-        }
-    }
 }

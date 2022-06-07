@@ -1,5 +1,7 @@
 package com.example.wms_scan.ui
 
+import android.R
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -18,53 +20,61 @@ import com.example.scanmate.util.CustomProgressDialog
 import com.example.scanmate.util.LocalPreferences
 import com.example.scanmate.util.Utils
 import com.example.scanmate.viewModel.MainViewModel
-import com.example.wms_scan.R
+import com.example.wms_scan.adapter.pallets.PalletsAdapter
+import com.example.wms_scan.adapter.racks.RackAdapter
 import com.example.wms_scan.adapter.shelf.ShelfAdapter
-import com.example.wms_scan.databinding.ActivityCreateCartonBinding
+import com.example.wms_scan.adapter.warehouse.WarehouseAdapter
+import com.example.wms_scan.data.response.GetPalletResponse
+import com.example.wms_scan.databinding.ActivityRacksBinding
+import com.example.wms_scan.databinding.ActivityWarehouseBinding
 
-class CreateCartonActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityCreateCartonBinding
+class WarehouseActivity : AppCompatActivity() {
+    private lateinit var binding: ActivityWarehouseBinding
+    private lateinit var warehouseAdapter: WarehouseAdapter
     private lateinit var viewModel: MainViewModel
     private lateinit var dialog: CustomProgressDialog
-    private lateinit var shelfAdapter: ShelfAdapter
     private lateinit var list: ArrayList<GetWarehouseResponse>
-    private lateinit var shelfList: ArrayList<GetShelfResponse>
     private var selectedBusLocNo = ""
     private var selectedWareHouseNo = ""
-    private var selectedRackNo = ""
-    private var busLocName = ""
-    private var warehouseName = ""
-    private var rackName = ""
-    private var selectedShelveNo = ""
+    private var businessLocName = ""
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityCreateCartonBinding.inflate(layoutInflater)
+        binding = ActivityWarehouseBinding.inflate(layoutInflater)
         setContentView(binding.root)
         viewModel = obtainViewModel(MainViewModel::class.java)
         setupUi()
-
+        initObserver()
+        initListeners()
     }
 
     private fun setupUi(){
+
         dialog = CustomProgressDialog(this)
+        supportActionBar?.hide()
+        setTransparentStatusBarColor(com.example.wms_scan.R.color.transparent)
+        list = ArrayList()
+        warehouseAdapter = WarehouseAdapter(this, list)
+
+
         binding.userNameTV.text = LocalPreferences.getString(this,
             LocalPreferences.AppLoginPreferences.userName
         )
         binding.userDesignTV.text = LocalPreferences.getString(this,
             LocalPreferences.AppLoginPreferences.userDesignation
         )
-        supportActionBar?.hide()
-        setTransparentStatusBarColor(R.color.transparent)
-        initListener()
-        initObserver()
-    }
-
-    private fun initListener(){
+        binding.loginTimeTV.text = LocalPreferences.getString(this,
+            LocalPreferences.AppLoginPreferences.loginTime
+        )
 
     }
 
     private fun initObserver(){
+
+        /**
+         *      USER LOCATION OBSERVER
+         */
 
         viewModel.userLocation(
             Utils.getSimpleTextBody(
@@ -87,7 +97,6 @@ class CreateCartonActivity : AppCompatActivity() {
             }
         })
 
-
         /**
          *      GET WAREHOUSE OBSERVER
          */
@@ -101,6 +110,14 @@ class CreateCartonActivity : AppCompatActivity() {
                     try {
                         it.data?.get(0)?.wHName?.let { it1 -> Log.i("warehouseResponse", it1) }
                         showWarehouseSpinner(it.data!!)
+
+                        list = ArrayList()
+                        list = it.data as ArrayList<GetWarehouseResponse>
+                        warehouseAdapter = WarehouseAdapter(this,list)
+                        binding.warehouseRV.apply {
+                            layoutManager = LinearLayoutManager(this@WarehouseActivity)
+                            adapter = warehouseAdapter
+                        }
                     }
                     catch(e:Exception){
                         Log.i("rackAdapter","${e.message}")
@@ -113,59 +130,30 @@ class CreateCartonActivity : AppCompatActivity() {
                 }
             }
         })
-
-        /**
-         *      GET RACK OBSERVER
-         */
-
-        viewModel.getRack.observe(this, Observer{
-            when(it.status){
-                Status.LOADING ->{
-                }
-                Status.SUCCESS ->{
-                    // Log.i("getRack",it.data?.get(0)?.rackNo.toString())
-                    try
-                    {
-                        showRackSpinner(it.data!!)
-
-                    }
-                    catch (e: Exception)
-                    {
-                        Log.i("RACK_OBSERVER","${e.message}")
-                        Log.i("RACK_OBSERVER","${e.stackTrace}")
-                    }
-                }
-                Status.ERROR ->{
-                    dialog.dismiss()
-                }
-            }
-        })
-
-
-        /**
-         *      GET SHELF OBSERVER
-         */
-
-        viewModel.getShelf.observe(this, Observer{
-            when(it.status){
-                Status.LOADING ->{
-                }
-                Status.SUCCESS ->{
-                    try {
-                        showShelfSpinner(it.data!!)
-
-                    }catch (e:Exception){
-                        Log.i("","${e.message}")
-                        Log.i("rackAdapter","${e.stackTrace}")
-                    }
-                }
-                Status.ERROR ->{
-
-                }
-            }
-        })
-
     }
+
+    private fun initListeners(){
+
+
+        binding.whAddBTN.click{
+            val intent = Intent(this, WarehouseDetailsActivity::class.java)
+            intent.putExtra("addBusName",businessLocName)
+            intent.putExtra("addWhName",selectedWareHouseNo)
+            intent.putExtra("AddWHKey",true)
+            startActivity(intent)
+        }
+    }
+
+    fun performAction(value1: String?, value2: String)
+    {
+        toast("Values from adapter: v1: $value1, v2: $value2")
+        val intent = Intent(this, WarehouseDetailsActivity::class.java)
+        intent.putExtra("busName",businessLocName)
+        intent.putExtra("whName",value1)
+        intent.putExtra("WHKey",true)
+        startActivity(intent)
+    }
+
 
     private fun showBusLocSpinner(data:List<UserLocationResponse>) {
         //String array to store all the book names
@@ -189,7 +177,7 @@ class CreateCartonActivity : AppCompatActivity() {
                 // binding.rackSpinnerCont.visible()
                 selectedBusLocNo = data[position].orgBusLocNo.toString()
                 viewModel.getWarehouse("", selectedBusLocNo)
-                busLocName = data[position].busLocationName.toString()
+                businessLocName = data[position].busLocationName.toString()
             }
             override fun onNothingSelected(p0: AdapterView<*>?) {}
         }
@@ -206,14 +194,13 @@ class CreateCartonActivity : AppCompatActivity() {
             items[i] = data[i].wHName
         }
         val adapter: ArrayAdapter<String?> =
-            ArrayAdapter(this, android.R.layout.simple_list_item_1, items)
+            ArrayAdapter(this, R.layout.simple_list_item_1, items)
         //setting adapter to spinner
         warehouseSpinner.adapter = adapter
         warehouseSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
 
             override fun onItemSelected(adapter: AdapterView<*>?, view: View?, position: Int, long: Long) {
                 selectedWareHouseNo = data[position].wHNo.toString()
-                warehouseName = data[position].wHName.toString()
                 viewModel.getRack(
                     Utils.getSimpleTextBody(""),
                     Utils.getSimpleTextBody(selectedWareHouseNo),
@@ -223,62 +210,6 @@ class CreateCartonActivity : AppCompatActivity() {
                 Log.i("LocBus","This is warehouse pos is ${data[position].wHNo}")
             }
             override fun onNothingSelected(p0: AdapterView<*>?) {}
-        }
-    }
-
-    private fun showRackSpinner(data:List<GetRackResponse>) {
-        //String array to store all the book names
-        val items = arrayOfNulls<String>(data.size)
-        val rackSpinner = binding.rackSpinner
-
-        //Traversing through the whole list to get all the names
-        for (i in data.indices) {
-            //Storing names to string array
-            items[i] = data[i].rackName
-        }
-        val adapter: ArrayAdapter<String?> =
-            ArrayAdapter(this, android.R.layout.simple_list_item_1, items)
-        //setting adapter to spinner
-        rackSpinner.adapter = adapter
-
-        rackSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
-            override fun onItemSelected(adapter: AdapterView<*>?, view: View?, position: Int, long: Long) {
-                selectedRackNo = data[position].rackNo.toString()
-                rackName = data[position].rackName.toString()
-                viewModel.getShelf(
-                    Utils.getSimpleTextBody(""),
-                    Utils.getSimpleTextBody(selectedRackNo),
-                    Utils.getSimpleTextBody(selectedBusLocNo)
-                )
-
-                Log.i("LocBus","This is rack pos ${adapter?.getItemAtPosition(position)}")
-            }
-            override fun onNothingSelected(p0: AdapterView<*>?) {}
-        }
-    }
-
-    private fun showShelfSpinner(data:List<GetShelfResponse>) {
-        //String array to store all the book names
-        val items = arrayOfNulls<String>(data.size)
-        val shelfResponse = binding.shelfSpinner
-
-        //Traversing through the whole list to get all the names
-        for (i in data.indices) {
-            //Storing names to string array
-            items[i] = data[i].shelfName
-            val adapter: ArrayAdapter<String?> =
-                ArrayAdapter(this, android.R.layout.simple_list_item_1, items)
-            //setting adapter to spinner
-            shelfResponse.adapter = adapter
-            shelfResponse.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
-
-                override fun onItemSelected(adapter: AdapterView<*>?, view: View?, position: Int, long: Long) {
-                    Log.i("LocBus","This is shelf pos ${adapter?.getItemAtPosition(position)}")
-                    selectedShelveNo = data[position].shelfNo.toString()
-                    viewModel.getPallet("",selectedShelveNo,selectedBusLocNo)
-                }
-                override fun onNothingSelected(p0: AdapterView<*>?) {}
-            }
         }
     }
 

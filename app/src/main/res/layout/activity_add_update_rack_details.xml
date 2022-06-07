@@ -97,6 +97,7 @@
                 android:layout_marginTop="@dimen/_30sdp"
                 android:layout_marginEnd="@dimen/_20sdp"
                 android:layout_marginBottom="@dimen/_10sdp"
+                android:visibility="gone"
                 app:cardElevation="@dimen/_10sdp">
 
                 <Spinner
@@ -119,6 +120,7 @@
                 android:layout_marginTop="@dimen/_10sdp"
                 android:layout_marginEnd="@dimen/_20sdp"
                 android:layout_marginBottom="@dimen/_10sdp"
+                android:visibility="gone"
                 app:cardElevation="@dimen/_10sdp">
 
                 <androidx.appcompat.widget.AppCompatSpinner
@@ -141,6 +143,7 @@
                 android:layout_marginTop="@dimen/_10sdp"
                 android:layout_marginEnd="@dimen/_20sdp"
                 android:layout_marginBottom="@dimen/_10sdp"
+                android:visibility="gone"
                 app:cardElevation="@dimen/_10sdp">
 
                 <androidx.appcompat.widget.AppCompatSpinner
@@ -152,6 +155,74 @@
                     android:paddingStart="@dimen/_10sdp"
                     android:textSize="@dimen/_15ssp"
                     android:textStyle="bold" />
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/businessLocCont"
+
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_50sdp"
+                android:layout_marginStart="@dimen/_20sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginEnd="@dimen/_20sdp"
+                android:layout_marginBottom="@dimen/_10sdp"
+                app:cardElevation="@dimen/_10sdp">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/businessLocTV"
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:fontFamily="@font/amiko"
+                    android:paddingStart="@dimen/_10sdp"
+                    android:text="business location name"
+                    android:textSize="@dimen/_18ssp" />
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/warehousecCont"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_50sdp"
+                android:layout_marginStart="@dimen/_20sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginEnd="@dimen/_20sdp"
+                android:layout_marginBottom="@dimen/_10sdp"
+                app:cardElevation="@dimen/_10sdp">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/warehouseTV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:fontFamily="@font/amiko"
+                    android:paddingStart="@dimen/_10sdp"
+                    android:text="warehouse name"
+                    android:textSize="@dimen/_18ssp" />
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/rackCont"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_50sdp"
+                android:layout_marginStart="@dimen/_20sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginEnd="@dimen/_20sdp"
+                android:layout_marginBottom="@dimen/_10sdp"
+                app:cardElevation="@dimen/_10sdp">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/rackTV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:fontFamily="@font/amiko"
+                    android:paddingStart="@dimen/_10sdp"
+                    android:text="rack name"
+                    android:textSize="@dimen/_18ssp" />
 
             </com.google.android.material.card.MaterialCardView>
 
@@ -176,43 +247,36 @@
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
-        <androidx.appcompat.widget.LinearLayoutCompat
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/addRackBtn"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/_50sdp"
             android:layout_marginStart="@dimen/_20sdp"
             android:layout_marginTop="@dimen/_30sdp"
             android:layout_marginEnd="@dimen/_20sdp"
-            android:orientation="horizontal"
-            android:weightSum="2">
+            android:background="@drawable/dark_green_rounded_bg"
+            android:fontFamily="@font/amiko"
+            android:text="Add"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_15ssp" />
 
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/addRackBtn"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/_50sdp"
-                android:layout_marginEnd="@dimen/_10sdp"
-                android:layout_weight="1"
-                android:background="@drawable/dark_green_rounded_bg"
-                android:fontFamily="@font/amiko"
-                android:text="Add"
-                android:textAllCaps="false"
-                android:textColor="@color/white"
-                android:textSize="@dimen/_15ssp" />
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/updateRackBtn"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/_50sdp"
-                android:layout_marginStart="@dimen/_10sdp"
-                android:layout_weight="1"
-                android:background="@drawable/dark_red_rounded_bg"
-                android:fontFamily="@font/amiko"
-                android:text="Update"
-                android:textAllCaps="false"
-                android:textColor="@color/white"
-                android:textSize="@dimen/_15ssp" />
-
-        </androidx.appcompat.widget.LinearLayoutCompat>
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/updateRackBtn"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_50sdp"
+            android:layout_marginStart="@dimen/_20sdp"
+            android:layout_marginTop="@dimen/_30sdp"
+            android:layout_marginEnd="@dimen/_20sdp"
+            android:background="@drawable/dark_red_rounded_bg"
+            android:fontFamily="@font/amiko"
+            android:text="Update"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_15ssp"
+            android:visibility="gone" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
+
 
 </RelativeLayout>

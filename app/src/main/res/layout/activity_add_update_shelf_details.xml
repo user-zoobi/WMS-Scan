@@ -89,90 +89,156 @@
             android:orientation="vertical"
             android:weightSum="2">
 
+            <!--            <com.google.android.material.card.MaterialCardView-->
+            <!--                android:id="@+id/businessSpinner"-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_marginStart="@dimen/_20sdp"-->
+            <!--                android:layout_marginTop="@dimen/_30sdp"-->
+            <!--                android:layout_marginEnd="@dimen/_20sdp"-->
+            <!--                android:layout_marginBottom="@dimen/_10sdp"-->
+            <!--                app:cardElevation="@dimen/_10sdp">-->
+
+            <!--                <Spinner-->
+            <!--                    android:id="@+id/businessSpinnerCont"-->
+            <!--                    android:layout_width="match_parent"-->
+            <!--                    android:layout_height="@dimen/_50sdp"-->
+            <!--                    android:layout_weight="1.5"-->
+            <!--                    android:fontFamily="@font/amiko"-->
+            <!--                    android:paddingStart="@dimen/_10sdp"-->
+            <!--                    android:textSize="@dimen/_15ssp"-->
+            <!--                    android:textStyle="bold" />-->
+
+            <!--            </com.google.android.material.card.MaterialCardView>-->
+
+            <!--            <com.google.android.material.card.MaterialCardView-->
+            <!--                android:id="@+id/warehouseSpinner"-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_marginStart="@dimen/_20sdp"-->
+            <!--                android:layout_marginTop="@dimen/_10sdp"-->
+            <!--                android:layout_marginEnd="@dimen/_20sdp"-->
+            <!--                android:layout_marginBottom="@dimen/_10sdp"-->
+            <!--                app:cardElevation="@dimen/_10sdp">-->
+
+            <!--                <androidx.appcompat.widget.AppCompatSpinner-->
+            <!--                    android:id="@+id/warehouseSpinnerCont"-->
+            <!--                    android:layout_width="match_parent"-->
+            <!--                    android:layout_height="@dimen/_50sdp"-->
+            <!--                    android:layout_weight="1.5"-->
+            <!--                    android:fontFamily="@font/amiko"-->
+            <!--                    android:paddingStart="@dimen/_10sdp"-->
+            <!--                    android:textSize="@dimen/_15ssp"-->
+            <!--                    android:textStyle="bold" />-->
+            <!--            </com.google.android.material.card.MaterialCardView>-->
+
+            <!--            <com.google.android.material.card.MaterialCardView-->
+            <!--                android:id="@+id/rackSpinner"-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_marginStart="@dimen/_20sdp"-->
+            <!--                android:layout_marginTop="@dimen/_10sdp"-->
+            <!--                android:layout_marginEnd="@dimen/_20sdp"-->
+            <!--                android:layout_marginBottom="@dimen/_10sdp"-->
+            <!--                app:cardElevation="@dimen/_10sdp">-->
+
+            <!--                <androidx.appcompat.widget.AppCompatSpinner-->
+            <!--                    android:id="@+id/rackSpinnerCont"-->
+            <!--                    android:layout_width="match_parent"-->
+            <!--                    android:layout_height="@dimen/_50sdp"-->
+            <!--                    android:layout_weight="1.5"-->
+            <!--                    android:fontFamily="@font/amiko"-->
+            <!--                    android:paddingStart="@dimen/_10sdp"-->
+            <!--                    android:textSize="@dimen/_15ssp"-->
+            <!--                    android:textStyle="bold" />-->
+
+            <!--            </com.google.android.material.card.MaterialCardView>-->
+
+            <!--            <com.google.android.material.card.MaterialCardView-->
+            <!--                android:id="@+id/shelfSpinner"-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_marginStart="@dimen/_20sdp"-->
+            <!--                android:layout_marginTop="@dimen/_10sdp"-->
+            <!--                android:layout_marginEnd="@dimen/_20sdp"-->
+            <!--                android:layout_marginBottom="@dimen/_10sdp"-->
+            <!--                app:cardElevation="@dimen/_10sdp">-->
+
+            <!--                <androidx.appcompat.widget.AppCompatSpinner-->
+            <!--                    android:id="@+id/shelfSpinnerCont"-->
+            <!--                    android:layout_width="match_parent"-->
+            <!--                    android:layout_height="@dimen/_50sdp"-->
+            <!--                    android:layout_weight="1.5"-->
+            <!--                    android:fontFamily="@font/amiko"-->
+            <!--                    android:paddingStart="@dimen/_10sdp"-->
+            <!--                    android:textSize="@dimen/_15ssp"-->
+            <!--                    android:textStyle="bold" />-->
+
+            <!--            </com.google.android.material.card.MaterialCardView>-->
+
             <com.google.android.material.card.MaterialCardView
-                android:id="@+id/businessSpinner"
+                android:id="@+id/busLocCont"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/_20sdp"
-                android:layout_marginTop="@dimen/_30sdp"
-                android:layout_marginEnd="@dimen/_20sdp"
-                android:layout_marginBottom="@dimen/_10sdp"
-                app:cardElevation="@dimen/_10sdp">
-
-                <Spinner
-                    android:id="@+id/businessSpinnerCont"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/_50sdp"
-                    android:layout_weight="1.5"
-                    android:fontFamily="@font/amiko"
-                    android:paddingStart="@dimen/_10sdp"
-                    android:textSize="@dimen/_15ssp"
-                    android:textStyle="bold" />
-
-            </com.google.android.material.card.MaterialCardView>
-
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/warehouseSpinner"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/_50sdp"
                 android:layout_marginStart="@dimen/_20sdp"
                 android:layout_marginTop="@dimen/_10sdp"
                 android:layout_marginEnd="@dimen/_20sdp"
                 android:layout_marginBottom="@dimen/_10sdp"
                 app:cardElevation="@dimen/_10sdp">
 
-                <androidx.appcompat.widget.AppCompatSpinner
-                    android:id="@+id/warehouseSpinnerCont"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/_50sdp"
-                    android:layout_weight="1.5"
-                    android:fontFamily="@font/amiko"
-                    android:paddingStart="@dimen/_10sdp"
-                    android:textSize="@dimen/_15ssp"
-                    android:textStyle="bold" />
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/busLocTV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:background="@color/white"
+                    android:paddingStart="@dimen/_20sdp"
+                    android:text="business location name"
+                    android:textSize="@dimen/_18ssp" />
+
             </com.google.android.material.card.MaterialCardView>
 
             <com.google.android.material.card.MaterialCardView
-                android:id="@+id/rackSpinner"
+                android:id="@+id/warehouseCont"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/_50sdp"
                 android:layout_marginStart="@dimen/_20sdp"
                 android:layout_marginTop="@dimen/_10sdp"
                 android:layout_marginEnd="@dimen/_20sdp"
                 android:layout_marginBottom="@dimen/_10sdp"
                 app:cardElevation="@dimen/_10sdp">
 
-                <androidx.appcompat.widget.AppCompatSpinner
-                    android:id="@+id/rackSpinnerCont"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/_50sdp"
-                    android:layout_weight="1.5"
-                    android:fontFamily="@font/amiko"
-                    android:paddingStart="@dimen/_10sdp"
-                    android:textSize="@dimen/_15ssp"
-                    android:textStyle="bold" />
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/warehouseTV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:background="@color/white"
+                    android:paddingStart="@dimen/_20sdp"
+                    android:text="warehouse name"
+                    android:textSize="@dimen/_18ssp" />
 
             </com.google.android.material.card.MaterialCardView>
 
             <com.google.android.material.card.MaterialCardView
-                android:id="@+id/shelfSpinner"
+                android:id="@+id/rackCont"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/_50sdp"
                 android:layout_marginStart="@dimen/_20sdp"
                 android:layout_marginTop="@dimen/_10sdp"
                 android:layout_marginEnd="@dimen/_20sdp"
                 android:layout_marginBottom="@dimen/_10sdp"
                 app:cardElevation="@dimen/_10sdp">
 
-                <androidx.appcompat.widget.AppCompatSpinner
-                    android:id="@+id/shelfSpinnerCont"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/_50sdp"
-                    android:layout_weight="1.5"
-                    android:fontFamily="@font/amiko"
-                    android:paddingStart="@dimen/_10sdp"
-                    android:textSize="@dimen/_15ssp"
-                    android:textStyle="bold" />
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/rackTV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:background="@color/white"
+                    android:paddingStart="@dimen/_20sdp"
+                    android:text="rack name"
+                    android:textSize="@dimen/_18ssp" />
 
             </com.google.android.material.card.MaterialCardView>
 
@@ -216,7 +282,7 @@
                 android:textAllCaps="false"
                 android:textColor="@color/white"
                 android:textSize="@dimen/_15ssp"
-                android:visibility="gone" />
+                android:visibility="visible" />
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/updateShelfBtn"
@@ -228,7 +294,7 @@
                 android:textAllCaps="false"
                 android:textColor="@color/white"
                 android:textSize="@dimen/_15ssp"
-                android:visibility="visible" />
+                android:visibility="gone" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 

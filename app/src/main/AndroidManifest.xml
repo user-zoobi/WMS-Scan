@@ -17,6 +17,21 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.WMSScan">
         <activity
+            android:name=".ui.AddUpdateCarton"
+            android:exported="false" />
+        <activity
+            android:name=".ui.WarehouseActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.PalletsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.ShelfActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.RacksActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.AddUpdatePalletDetails"
             android:exported="false" />
         <activity

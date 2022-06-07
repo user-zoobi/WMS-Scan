@@ -1,5 +1,7 @@
 package com.example.wms_scan.ui
 
+import android.content.Context
+import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -19,52 +21,76 @@ import com.example.scanmate.util.LocalPreferences
 import com.example.scanmate.util.Utils
 import com.example.scanmate.viewModel.MainViewModel
 import com.example.wms_scan.R
+import com.example.wms_scan.adapter.pallets.PalletsAdapter
+import com.example.wms_scan.adapter.racks.RackAdapter
 import com.example.wms_scan.adapter.shelf.ShelfAdapter
-import com.example.wms_scan.databinding.ActivityCreateCartonBinding
+import com.example.wms_scan.adapter.warehouse.WarehouseAdapter
+import com.example.wms_scan.data.response.GetPalletResponse
+import com.example.wms_scan.databinding.ActivityPalletsBinding
 
-class CreateCartonActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityCreateCartonBinding
+class PalletsActivity : AppCompatActivity() {
+    private lateinit var binding:ActivityPalletsBinding
+    private lateinit var warehouseAdapter: WarehouseAdapter
+    private lateinit var racksAdapter: RackAdapter
+    private lateinit var shelfAdapter: ShelfAdapter
+    private lateinit var palletAdapter: PalletsAdapter
     private lateinit var viewModel: MainViewModel
     private lateinit var dialog: CustomProgressDialog
-    private lateinit var shelfAdapter: ShelfAdapter
     private lateinit var list: ArrayList<GetWarehouseResponse>
+    private lateinit var rackList: ArrayList<GetRackResponse>
     private lateinit var shelfList: ArrayList<GetShelfResponse>
+    private lateinit var palletList: ArrayList<GetPalletResponse>
     private var selectedBusLocNo = ""
     private var selectedWareHouseNo = ""
     private var selectedRackNo = ""
-    private var busLocName = ""
-    private var warehouseName = ""
-    private var rackName = ""
     private var selectedShelveNo = ""
+    private var selectedPalletNo = ""
+    private var screen = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityCreateCartonBinding.inflate(layoutInflater)
+        binding = ActivityPalletsBinding.inflate(layoutInflater)
         setContentView(binding.root)
         viewModel = obtainViewModel(MainViewModel::class.java)
         setupUi()
+        initListeners()
+        initObservers()
+
+    }
+
+    private fun initListeners(){
+        binding.palletAddBTN.click {
+            gotoActivity(AddUpdatePalletDetails::class.java,"palletAdd", true)
+        }
 
     }
 
     private fun setupUi(){
         dialog = CustomProgressDialog(this)
+        supportActionBar?.hide()
+        setTransparentStatusBarColor(R.color.transparent)
+
         binding.userNameTV.text = LocalPreferences.getString(this,
             LocalPreferences.AppLoginPreferences.userName
         )
         binding.userDesignTV.text = LocalPreferences.getString(this,
             LocalPreferences.AppLoginPreferences.userDesignation
         )
-        supportActionBar?.hide()
-        setTransparentStatusBarColor(R.color.transparent)
-        initListener()
-        initObserver()
+        binding.loginTimeTV.text = LocalPreferences.getString(this,
+            LocalPreferences.AppLoginPreferences.loginTime
+        )
+
+        binding.toolbar.menu.findItem(R.id.logout).setOnMenuItemClickListener {
+            clearPreferences(this)
+            true
+        }
     }
 
-    private fun initListener(){
+    private fun initObservers(){
 
-    }
-
-    private fun initObserver(){
+        /**
+         *      USER LOCATION OBSERVER
+         */
 
         viewModel.userLocation(
             Utils.getSimpleTextBody(
@@ -87,7 +113,6 @@ class CreateCartonActivity : AppCompatActivity() {
             }
         })
 
-
         /**
          *      GET WAREHOUSE OBSERVER
          */
@@ -101,6 +126,7 @@ class CreateCartonActivity : AppCompatActivity() {
                     try {
                         it.data?.get(0)?.wHName?.let { it1 -> Log.i("warehouseResponse", it1) }
                         showWarehouseSpinner(it.data!!)
+
                     }
                     catch(e:Exception){
                         Log.i("rackAdapter","${e.message}")
@@ -165,7 +191,44 @@ class CreateCartonActivity : AppCompatActivity() {
             }
         })
 
+        /**
+         *      GET PALLET OBSERVER
+         */
+
+        viewModel.getPallet.observe(this, Observer {
+            when(it.status){
+                Status.LOADING->{
+                    Log.i("palletResponse","Data Loading")
+                }
+                Status.SUCCESS ->{
+                    try
+                    {
+                        Log.i("palletResponse","Pallet Respond Found")
+                        palletList = ArrayList()
+                        palletList = it.data as ArrayList<GetPalletResponse>
+                        palletAdapter = PalletsAdapter(palletList)
+
+                        binding.palletsRV.apply {
+                            adapter = palletAdapter
+                            layoutManager = LinearLayoutManager(this@PalletsActivity)
+                        }
+
+                        Log.i("palletResponse","${it.data[0].pilotName}")
+                    }
+                    catch (e:Exception){
+                        Log.i("palletException","${e.message}")
+                        Log.i("palletException","${e.stackTrace}")
+                    }
+
+                }
+                Status.ERROR ->{
+                    toast("Pallet error")
+                }
+            }
+        })
+
     }
+
 
     private fun showBusLocSpinner(data:List<UserLocationResponse>) {
         //String array to store all the book names
@@ -189,11 +252,11 @@ class CreateCartonActivity : AppCompatActivity() {
                 // binding.rackSpinnerCont.visible()
                 selectedBusLocNo = data[position].orgBusLocNo.toString()
                 viewModel.getWarehouse("", selectedBusLocNo)
-                busLocName = data[position].busLocationName.toString()
             }
             override fun onNothingSelected(p0: AdapterView<*>?) {}
         }
     }
+
 
     private fun showWarehouseSpinner(data:List<GetWarehouseResponse>) {
         //String array to store all the book names
@@ -213,7 +276,6 @@ class CreateCartonActivity : AppCompatActivity() {
 
             override fun onItemSelected(adapter: AdapterView<*>?, view: View?, position: Int, long: Long) {
                 selectedWareHouseNo = data[position].wHNo.toString()
-                warehouseName = data[position].wHName.toString()
                 viewModel.getRack(
                     Utils.getSimpleTextBody(""),
                     Utils.getSimpleTextBody(selectedWareHouseNo),
@@ -244,7 +306,6 @@ class CreateCartonActivity : AppCompatActivity() {
         rackSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
             override fun onItemSelected(adapter: AdapterView<*>?, view: View?, position: Int, long: Long) {
                 selectedRackNo = data[position].rackNo.toString()
-                rackName = data[position].rackName.toString()
                 viewModel.getShelf(
                     Utils.getSimpleTextBody(""),
                     Utils.getSimpleTextBody(selectedRackNo),
@@ -282,4 +343,14 @@ class CreateCartonActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     *  CLEAR ALL PREFERENCES
+     */
+
+    private fun clearPreferences(context: Context){
+        val settings: SharedPreferences =
+            context.getSharedPreferences(LocalPreferences.AppLoginPreferences.PREF, Context.MODE_PRIVATE)
+        settings.edit().clear().apply()
+        onBackPressed()
+    }
 }

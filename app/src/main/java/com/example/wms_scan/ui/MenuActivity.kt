@@ -110,16 +110,16 @@ class MenuActivity : AppCompatActivity() {
 
     private fun initListeners() {
         binding.warehouseIV.setOnClickListener {
-            openActivity("warehouseKey","1")
+            gotoActivity(WarehouseActivity::class.java)
         }
         binding.racksIV.setOnClickListener {
-            openActivity("rackKey","2")
+            gotoActivity(RacksActivity::class.java)
         }
         binding.shelfIV.setOnClickListener {
-            openActivity("shelfKey","3")
+            gotoActivity(ShelfActivity::class.java)
         }
         binding.palletsIV.setOnClickListener {
-            openActivity("palletKey","4")
+            gotoActivity(PalletsActivity::class.java)
         }
         binding.placeCartonIV.setOnClickListener {
             gotoActivity(CreateCartonActivity::class.java)
@@ -129,12 +129,6 @@ class MenuActivity : AppCompatActivity() {
         }
     }
 
-    private fun openActivity(action: String, value:String,) {
-        val intent = Intent(this, BusinessLocationActivity::class.java)
-        intent.putExtra(action, true)
-        intent.putExtra("val", value)
-        startActivity(intent)
-    }
 
     private fun clearPreferences(context: Context){
         val settings: SharedPreferences =
