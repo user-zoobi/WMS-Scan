@@ -61,7 +61,9 @@ class CreateCartonActivity : AppCompatActivity() {
     }
 
     private fun initListener(){
+        binding.cartonAddBTN.click {
 
+        }
     }
 
     private fun initObserver(){

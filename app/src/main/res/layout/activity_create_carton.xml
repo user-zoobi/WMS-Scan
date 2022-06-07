@@ -223,7 +223,7 @@
 
 
     <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/shelfAddBTN"
+        android:id="@+id/cartonAddBTN"
         android:layout_width="@dimen/_50sdp"
         android:layout_height="@dimen/_50sdp"
         android:layout_alignParentEnd="true"
@@ -232,9 +232,9 @@
         android:layout_marginEnd="@dimen/_25sdp"
         android:layout_marginBottom="@dimen/_100sdp"
         android:background="@drawable/blue_circle_bg"
-        android:src="@drawable/white_add_icon"
         android:padding="@dimen/_10sdp"
-        android:visibility="visible"/>
+        android:src="@drawable/white_add_icon"
+        android:visibility="visible" />
 
 
 </RelativeLayout>
