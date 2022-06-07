@@ -1,6 +1,7 @@
 package com.example.wms_scan.ui
 
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -16,6 +17,9 @@ import com.example.scanmate.data.response.GetShelfResponse
 import com.example.scanmate.data.response.GetWarehouseResponse
 import com.example.scanmate.data.response.UserLocationResponse
 import com.example.scanmate.extensions.*
+import com.example.scanmate.util.Constants.LogMessages.error
+import com.example.scanmate.util.Constants.LogMessages.loading
+import com.example.scanmate.util.Constants.LogMessages.success
 import com.example.scanmate.util.CustomProgressDialog
 import com.example.scanmate.util.LocalPreferences
 import com.example.scanmate.util.Utils
@@ -45,6 +49,10 @@ class PalletsActivity : AppCompatActivity() {
     private var selectedRackNo = ""
     private var selectedShelveNo = ""
     private var selectedPalletNo = ""
+    private var busLocName = ""
+    private var warehouseName = ""
+    private var rackName = ""
+    private var shelfName = ""
     private var screen = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -60,8 +68,16 @@ class PalletsActivity : AppCompatActivity() {
 
     private fun initListeners(){
         binding.palletAddBTN.click {
-            gotoActivity(AddUpdatePalletDetails::class.java,"palletAdd", true)
+            val intent = Intent(this, AddUpdatePalletDetails::class.java)
+            intent.putExtra("addBusLoc",busLocName)
+            intent.putExtra("addWarehouse",warehouseName)
+            intent.putExtra("addRack",rackName)
+            intent.putExtra("addShelf",shelfName)
+            intent.putExtra("AddPalletKey",true)
+            startActivity(intent)
+
         }
+
 
     }
 
@@ -197,38 +213,49 @@ class PalletsActivity : AppCompatActivity() {
 
         viewModel.getPallet.observe(this, Observer {
             when(it.status){
-                Status.LOADING->{
-                    Log.i("palletResponse","Data Loading")
+                Status.LOADING ->{
+                    Log.i(loading,"Success")
                 }
                 Status.SUCCESS ->{
                     try
                     {
-                        Log.i("palletResponse","Pallet Respond Found")
+                        Log.i(success,"Success")
                         palletList = ArrayList()
                         palletList = it.data as ArrayList<GetPalletResponse>
-                        palletAdapter = PalletsAdapter(palletList)
+                        palletAdapter = PalletsAdapter(this,palletList)
 
                         binding.palletsRV.apply {
                             adapter = palletAdapter
                             layoutManager = LinearLayoutManager(this@PalletsActivity)
                         }
-
-                        Log.i("palletResponse","${it.data[0].pilotName}")
                     }
-                    catch (e:Exception){
-                        Log.i("palletException","${e.message}")
-                        Log.i("palletException","${e.stackTrace}")
+                    catch (e:Exception)
+                    {
+                        Log.i("","${e.message}")
+                        Log.i("rackAdapter","${e.stackTrace}")
                     }
 
                 }
                 Status.ERROR ->{
-                    toast("Pallet error")
+                    Log.i(error,"Success")
                 }
             }
         })
 
     }
 
+    fun showAction(palletName:String){
+
+        val intent = Intent(this, AddUpdatePalletDetails::class.java)
+        intent.putExtra("updatePallet",palletName)
+        intent.putExtra("updateBusLoc",busLocName)
+        intent.putExtra("updateWarehouse",warehouseName)
+        intent.putExtra("updateRacks",rackName)
+        intent.putExtra("updateShelf",shelfName)
+        intent.putExtra("UpdatePalletKey",true)
+        startActivity(intent)
+
+    }
 
     private fun showBusLocSpinner(data:List<UserLocationResponse>) {
         //String array to store all the book names
@@ -251,12 +278,12 @@ class PalletsActivity : AppCompatActivity() {
                 Log.i("LocBus","business Location no ${data[position].orgBusLocNo}")
                 // binding.rackSpinnerCont.visible()
                 selectedBusLocNo = data[position].orgBusLocNo.toString()
+                busLocName = data[position].busLocationName.toString()
                 viewModel.getWarehouse("", selectedBusLocNo)
             }
             override fun onNothingSelected(p0: AdapterView<*>?) {}
         }
     }
-
 
     private fun showWarehouseSpinner(data:List<GetWarehouseResponse>) {
         //String array to store all the book names
@@ -276,6 +303,7 @@ class PalletsActivity : AppCompatActivity() {
 
             override fun onItemSelected(adapter: AdapterView<*>?, view: View?, position: Int, long: Long) {
                 selectedWareHouseNo = data[position].wHNo.toString()
+                warehouseName = data[position].wHName.toString()
                 viewModel.getRack(
                     Utils.getSimpleTextBody(""),
                     Utils.getSimpleTextBody(selectedWareHouseNo),
@@ -306,6 +334,7 @@ class PalletsActivity : AppCompatActivity() {
         rackSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
             override fun onItemSelected(adapter: AdapterView<*>?, view: View?, position: Int, long: Long) {
                 selectedRackNo = data[position].rackNo.toString()
+                rackName = data[position].rackName.toString()
                 viewModel.getShelf(
                     Utils.getSimpleTextBody(""),
                     Utils.getSimpleTextBody(selectedRackNo),
@@ -336,7 +365,12 @@ class PalletsActivity : AppCompatActivity() {
                 override fun onItemSelected(adapter: AdapterView<*>?, view: View?, position: Int, long: Long) {
                     Log.i("LocBus","This is shelf pos ${adapter?.getItemAtPosition(position)}")
                     selectedShelveNo = data[position].shelfNo.toString()
-                    viewModel.getPallet("",selectedShelveNo,selectedBusLocNo)
+                    shelfName = data[position].shelfName.toString()
+                    viewModel.getPallet(
+                        Utils.getSimpleTextBody(""),
+                        Utils.getSimpleTextBody(selectedShelveNo),
+                        Utils.getSimpleTextBody(selectedBusLocNo)
+                    )
                 }
                 override fun onNothingSelected(p0: AdapterView<*>?) {}
             }

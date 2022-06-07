@@ -83,8 +83,8 @@ class GeneralRepository : ApiHelper {
         )
     }
 
-    override suspend fun getPallets(
-        PilotName: String, ShelfNo: String, LocationNo: String
+    override suspend fun getPallet(
+        PilotName: RequestBody, ShelfNo: RequestBody, LocationNo: RequestBody
     ): List<GetPalletResponse> {
         return RetrofitClient.apiservice.getPallet(
             PilotName, ShelfNo, LocationNo

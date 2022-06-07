@@ -277,7 +277,7 @@ class CreateCartonActivity : AppCompatActivity() {
                 override fun onItemSelected(adapter: AdapterView<*>?, view: View?, position: Int, long: Long) {
                     Log.i("LocBus","This is shelf pos ${adapter?.getItemAtPosition(position)}")
                     selectedShelveNo = data[position].shelfNo.toString()
-                    viewModel.getPallet("",selectedShelveNo,selectedBusLocNo)
+//                    viewModel.getPallet("",selectedShelveNo,selectedBusLocNo)
                 }
                 override fun onNothingSelected(p0: AdapterView<*>?) {}
             }

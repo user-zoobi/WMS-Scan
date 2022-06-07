@@ -105,13 +105,13 @@ interface ApiService {
         @Part("LocationNo") LocationNo:RequestBody
     ):List<GetShelfResponse>
 
-    @FormUrlEncoded
+    @Multipart
     @POST(getPallet)
     suspend fun getPallet(
-        @Field("PilotName") PilotName:String,
-        @Field("ShelfNo") ShelfNo:String,
-        @Field("LocationNo") LocationNo:String
-    ):List<GetPalletResponse>
+        @Part("PilotName") PilotName:RequestBody,
+        @Part("ShelfNo") ShelfNo:RequestBody,
+        @Part("LocationNo") LocationNo:RequestBody,
+    ): List<GetPalletResponse>
 
     @Multipart
     @POST(addPallet)

@@ -62,9 +62,9 @@ interface ApiHelper {
         RackNo, RackName, RackCode, WH_No, Capacity, LocationNo, DMLUserNo, DMLPCName
     )
 
-    suspend fun getPallets(
-        PilotName:String, ShelfNo:String, LocationNo:String
-    ): List<GetPalletResponse> = RetrofitClient.apiservice.getPallet(
+    suspend fun getPallet(
+        PilotName:RequestBody, ShelfNo:RequestBody, LocationNo:RequestBody
+    ) = RetrofitClient.apiservice.getPallet(
         PilotName, ShelfNo, LocationNo
     )
 

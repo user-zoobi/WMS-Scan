@@ -1,5 +1,6 @@
 package com.example.wms_scan.adapter.pallets
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,8 +9,10 @@ import com.example.scanmate.extensions.click
 import com.example.wms_scan.R
 import com.example.wms_scan.data.response.GetPalletResponse
 import com.example.wms_scan.databinding.PalletListViewBinding
+import com.example.wms_scan.ui.PalletsActivity
 
 class PalletsAdapter(
+    private val context:Context,
     private val list:List<GetPalletResponse>
     ) : RecyclerView.Adapter<PalletsAdapter.ViewHolder>() {
 
@@ -26,6 +29,9 @@ class PalletsAdapter(
         val data= list[position]
         with(holder){
             binding.palletTV.text = data.pilotName
+            binding.editIV.setOnClickListener {
+                (context as PalletsActivity).showAction(data.pilotName.toString())
+            }
         }
     }
 

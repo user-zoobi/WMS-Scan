@@ -210,25 +210,21 @@ class MainViewModel : ViewModel() {
     private val _getPallet = MutableLiveData<ApiResponseCallback<List<GetPalletResponse>>>()
     val getPallet : LiveData<ApiResponseCallback<List<GetPalletResponse>>>
     get() = _getPallet
-
     fun getPallet(
-        PilotName: String, ShelfNo: String, LocationNo: String
+        PilotName: RequestBody, ShelfNo: RequestBody, LocationNo: RequestBody
     ){
+        _getPallet.value = ApiResponseCallback.loading()
         viewModelScope.launch {
-            _getPallet.value = ApiResponseCallback.loading()
-            try
-            {
-                ApiResponseCallback.success(repository.getPallets(PilotName, ShelfNo, LocationNo))
-                Log.i("getPalletResponse","Response success")
-            }
-            catch(e:Exception)
-            {
-                ApiResponseCallback.error("${e.message}",null)
-                Log.i("getPalletException","${e.message}")
+        try {
+            _getPallet.value = ApiResponseCallback.success(repository.getPallet(
+                PilotName, ShelfNo, LocationNo
+            ))
+        }
+        catch (e:Exception){
+            _getPallet.value = ApiResponseCallback.error("${e.message}",null)
             }
         }
     }
-
 
     private val _addPallet = MutableLiveData<ApiResponseCallback<AddPalletResponse>>()
     val addPallet: LiveData<ApiResponseCallback<AddPalletResponse>>
