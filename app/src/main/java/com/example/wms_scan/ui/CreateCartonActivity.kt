@@ -1,5 +1,8 @@
 package com.example.wms_scan.ui
 
+import android.content.Context
+import android.content.Intent
+import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -14,28 +17,34 @@ import com.example.scanmate.data.response.GetShelfResponse
 import com.example.scanmate.data.response.GetWarehouseResponse
 import com.example.scanmate.data.response.UserLocationResponse
 import com.example.scanmate.extensions.*
+import com.example.scanmate.util.Constants.LogMessages.success
 import com.example.scanmate.util.CustomProgressDialog
 import com.example.scanmate.util.LocalPreferences
 import com.example.scanmate.util.Utils
 import com.example.scanmate.viewModel.MainViewModel
 import com.example.wms_scan.R
+import com.example.wms_scan.adapter.carton.CartonAdapter
 import com.example.wms_scan.adapter.shelf.ShelfAdapter
+import com.example.wms_scan.data.response.GetCartonResponse
+import com.example.wms_scan.data.response.GetPalletResponse
 import com.example.wms_scan.databinding.ActivityCreateCartonBinding
 
 class CreateCartonActivity : AppCompatActivity() {
     private lateinit var binding: ActivityCreateCartonBinding
     private lateinit var viewModel: MainViewModel
     private lateinit var dialog: CustomProgressDialog
-    private lateinit var shelfAdapter: ShelfAdapter
-    private lateinit var list: ArrayList<GetWarehouseResponse>
-    private lateinit var shelfList: ArrayList<GetShelfResponse>
+    private lateinit var cartonAdapter: CartonAdapter
+    private lateinit var cartonList: ArrayList<GetCartonResponse>
     private var selectedBusLocNo = ""
     private var selectedWareHouseNo = ""
     private var selectedRackNo = ""
     private var busLocName = ""
     private var warehouseName = ""
     private var rackName = ""
+    private var shelfName = ""
+    private var palletName = ""
     private var selectedShelveNo = ""
+    private var selectedPalletNo = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -62,8 +71,25 @@ class CreateCartonActivity : AppCompatActivity() {
 
     private fun initListener(){
         binding.cartonAddBTN.click {
-
+            val intent = Intent(this, AddUpdateCarton::class.java)
+            startActivity(intent)
         }
+        binding.toolbar.menu.findItem(R.id.logout).setOnMenuItemClickListener {
+            clearPreferences(this)
+            true
+        }
+    }
+
+    fun performAction(cartonName:String){
+        val intent = Intent(this, AddUpdateCarton::class.java)
+        intent.putExtra("updateBusLoc",busLocName)
+        intent.putExtra("updateWH",warehouseName)
+        intent.putExtra("updateRack",rackName)
+        intent.putExtra("updateShelf",shelfName)
+        intent.putExtra("updatePallet",palletName)
+        intent.putExtra("updateCarton",cartonName)
+        intent.putExtra("updateCartonKey",true)
+        startActivity(intent)
     }
 
     private fun initObserver(){
@@ -163,6 +189,66 @@ class CreateCartonActivity : AppCompatActivity() {
                 }
                 Status.ERROR ->{
 
+                }
+            }
+        })
+
+        /**
+         *      GET PALLET OBSERVER
+         */
+
+        viewModel.getPallet.observe(this, Observer{
+            when(it.status){
+                Status.LOADING ->{
+                }
+                Status.SUCCESS ->{
+                    try {
+                        showPalletSpinner(it.data!!)
+
+                    }catch (e:Exception){
+                        Log.i("","${e.message}")
+                        Log.i("palletStrace","${e.stackTrace}")
+                    }
+                }
+                Status.ERROR ->{
+
+                }
+            }
+        })
+
+        /**
+         *      GET CARTON OBSERVER
+         */
+
+        viewModel.getCarton(
+            Utils.getSimpleTextBody("2"),
+            Utils.getSimpleTextBody("1"),
+        )
+        viewModel.getCarton.observe(this, Observer{
+            when(it.status){
+                Status.LOADING ->{
+                }
+                Status.SUCCESS ->{
+                    try {
+                        showCartonSpinner(it.data!!)
+                        Log.i(success,"${it.data[0].analyticalNo}")
+
+                        cartonList = ArrayList()
+                        cartonList = it.data as ArrayList<GetCartonResponse>
+                        cartonAdapter = CartonAdapter(this,cartonList)
+
+                        binding.cartonRV.apply {
+                            adapter = cartonAdapter
+                            layoutManager = LinearLayoutManager(this@CreateCartonActivity)
+                        }
+
+                    }catch (e:Exception){
+                        Log.i("cartonException","${e.message}")
+                        Log.i("cartonStrace","${e.stackTrace}")
+                    }
+                }
+                Status.ERROR ->{
+                    Log.i("cartonException","${Exception().message}")
                 }
             }
         })
@@ -277,11 +363,72 @@ class CreateCartonActivity : AppCompatActivity() {
                 override fun onItemSelected(adapter: AdapterView<*>?, view: View?, position: Int, long: Long) {
                     Log.i("LocBus","This is shelf pos ${adapter?.getItemAtPosition(position)}")
                     selectedShelveNo = data[position].shelfNo.toString()
-//                    viewModel.getPallet("",selectedShelveNo,selectedBusLocNo)
+                    shelfName = data[position].shelfName.toString()
+                    viewModel.getPallet(
+                        Utils.getSimpleTextBody(""),
+                        Utils.getSimpleTextBody(selectedShelveNo),
+                        Utils.getSimpleTextBody(selectedBusLocNo),
+                    )
                 }
                 override fun onNothingSelected(p0: AdapterView<*>?) {}
             }
         }
+    }
+
+    private fun showPalletSpinner(data:List<GetPalletResponse>) {
+        //String array to store all the book names
+        val items = arrayOfNulls<String>(data.size)
+        val palletResponse = binding.palletSpinner
+
+        //Traversing through the whole list to get all the names
+        for (i in data.indices) {
+            //Storing names to string array
+            items[i] = data[i].pilotName
+            val adapter: ArrayAdapter<String?> =
+                ArrayAdapter(this, android.R.layout.simple_list_item_1, items)
+            //setting adapter to spinner
+            palletResponse.adapter = adapter
+            palletResponse.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
+
+                override fun onItemSelected(adapter: AdapterView<*>?, view: View?, position: Int, long: Long) {
+                    Log.i("LocBus","This is shelf pos ${adapter?.getItemAtPosition(position)}")
+                    selectedPalletNo = data[position].pilotNo.toString()
+                    palletName = data[position].pilotName.toString()
+
+                }
+                override fun onNothingSelected(p0: AdapterView<*>?) {}
+            }
+        }
+    }
+
+    private fun showCartonSpinner(data:List<GetCartonResponse>) {
+        //String array to store all the book names
+        val items = arrayOfNulls<String>(data.size)
+        val palletResponse = binding.cartonSpinner
+
+        //Traversing through the whole list to get all the names
+        for (i in data.indices) {
+            //Storing names to string array
+            items[i] = data[i].analyticalNo
+            val adapter: ArrayAdapter<String?> =
+                ArrayAdapter(this, android.R.layout.simple_list_item_1, items)
+            //setting adapter to spinner
+            palletResponse.adapter = adapter
+            palletResponse.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
+
+                override fun onItemSelected(adapter: AdapterView<*>?, view: View?, position: Int, long: Long) {
+                    Log.i("LocBus","This is shelf pos ${adapter?.getItemAtPosition(position)}")
+                }
+                override fun onNothingSelected(p0: AdapterView<*>?) {}
+            }
+        }
+    }
+
+    private fun clearPreferences(context: Context){
+        val settings: SharedPreferences =
+            context.getSharedPreferences(LocalPreferences.AppLoginPreferences.PREF, Context.MODE_PRIVATE)
+        settings.edit().clear().apply()
+        finish()
     }
 
 }

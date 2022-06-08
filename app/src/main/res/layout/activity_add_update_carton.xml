@@ -69,7 +69,7 @@
         android:layout_height="match_parent"
         android:layout_below="@+id/loginTimeTV"
         android:layout_marginTop="14dp"
-        android:background="@drawable/white_rounded_bg"
+        android:background="@drawable/top_rounded_white_bg"
         android:orientation="vertical">
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -79,7 +79,7 @@
             android:layout_marginStart="@dimen/_20sdp"
             android:layout_marginTop="@dimen/_40sdp"
             android:fontFamily="@font/amiko"
-            android:text="Add shelf details"
+            android:text="Add carton details"
             android:textColor="@color/black"
             android:textSize="@dimen/_18ssp" />
 
@@ -317,7 +317,7 @@
             android:weightSum="2">
 
             <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/addShelfBtn"
+                android:id="@+id/addCartonBtn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/dark_green_rounded_bg"
@@ -329,7 +329,7 @@
                 android:visibility="visible" />
 
             <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/updateShelfBtn"
+                android:id="@+id/updateCartonBtn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/dark_red_rounded_bg"

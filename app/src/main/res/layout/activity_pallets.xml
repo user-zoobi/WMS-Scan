@@ -7,68 +7,119 @@
     android:layout_height="match_parent"
     android:background="@color/royal_blue">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_20sdp"
-        android:background="@color/royal_blue"
-        app:menu="@menu/drawer_menu"
-        />
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/_50sdp"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:layout_marginEnd="@dimen/_20sdp"
+        app:cardElevation="@dimen/_20sdp">
+
+        <TextView
+            android:id="@+id/toolbar"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:background="@color/royal_blue"
+            android:paddingTop="@dimen/_15sdp"
+            android:paddingStart="@dimen/_10sdp"
+            android:paddingEnd="@dimen/_10sdp"
+            android:text="Logout"
+            android:textColor="@color/white"
+            android:fontFamily="@font/amiko"
+
+            android:textSize="@dimen/_18ssp" />
+
+    </com.google.android.material.card.MaterialCardView>
+
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/userNameTV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/toolbar"
         android:layout_alignParentStart="true"
-        android:layout_marginStart="@dimen/_20sdp"
+        android:layout_marginStart="@dimen/_10sdp"
+        android:layout_marginTop="@dimen/_10sdp"
         android:fontFamily="@font/amiko"
         android:text="User name"
         android:textColor="@color/white"
-        android:textSize="@dimen/_15ssp" />
+        android:textSize="@dimen/_12ssp" />
+
+    <TextView
+        android:id="@+id/colon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_10sdp"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:layout_toEndOf="@+id/userNameTV"
+        android:fontFamily="@font/amiko"
+        android:text=":"
+        android:textColor="@color/white" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/userDesignTV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/userNameTV"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="@dimen/_20sdp"
+        android:layout_marginStart="@dimen/_10sdp"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:layout_toEndOf="@id/colon"
         android:fontFamily="@font/amiko"
         android:text="Dept name"
         android:textColor="@color/white"
-        android:textSize="@dimen/_10ssp" />
-
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/loginText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/toolbar"
-        android:layout_alignParentEnd="true"
-        android:layout_marginEnd="@dimen/_20sdp"
-        android:fontFamily="@font/amiko"
-        android:text="Login time"
-        android:textColor="@color/white"
-        android:textSize="@dimen/_15ssp" />
-
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/loginTimeTV"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_marginEnd="@dimen/_20sdp"
-        android:fontFamily="@font/amiko"
-        android:layout_below="@+id/loginText"
-        android:text="Time value"
-        android:textColor="@color/white"
         android:textSize="@dimen/_12ssp" />
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/loginCont"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/userDesignTV"
+        android:layout_marginStart="@dimen/_10sdp"
+        android:orientation="horizontal">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/loginText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/toolbar"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginEnd="@dimen/_15sdp"
+            android:fontFamily="@font/amiko"
+            android:text="Login at"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_12ssp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_toEndOf="@+id/userNameTV"
+            android:fontFamily="@font/amiko"
+            android:text=":"
+            android:textColor="@color/white" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/loginTimeTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginEnd="@dimen/_20sdp"
+            android:fontFamily="@font/amiko"
+            android:text="Time value"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_12ssp"
+            android:layout_marginStart="@dimen/_10sdp"/>
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/loginTimeTV"
         android:layout_marginTop="@dimen/_20sdp"
+        android:layout_below="@+id/loginCont"
         android:background="@drawable/top_rounded_white_bg">
 
 
@@ -233,8 +284,9 @@
         android:layout_marginEnd="@dimen/_25sdp"
         android:layout_marginBottom="@dimen/_100sdp"
         android:background="@drawable/blue_circle_bg"
-        android:src="@drawable/white_add_icon"
         android:padding="@dimen/_10sdp"
-        android:visibility="visible"/>
+        android:src="@drawable/white_add_icon"
+        android:visibility="visible"
+        android:elevation="@dimen/_30sdp"/>
 
 </RelativeLayout>

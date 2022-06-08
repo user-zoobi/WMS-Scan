@@ -198,6 +198,7 @@ class AddUpdateRackDetails : AppCompatActivity() {
                 binding.businessLocTV.text = busName
                 binding.warehouseTV.text = wrhName
                 binding.rackTV.text = rackName
+                binding.editDetailTV.text = "Update to"
 
             }
             intent.extras?.getBoolean("ADDRackKey") == true -> {

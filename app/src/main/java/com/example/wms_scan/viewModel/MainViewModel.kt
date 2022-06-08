@@ -12,6 +12,7 @@ import com.example.scanmate.util.Constants.LogMessages.responseFound
 import com.example.scanmate.util.Constants.Logs.vmError
 import com.example.scanmate.util.Constants.Logs.vmSuccess
 import com.example.wms_scan.data.response.AddPalletResponse
+import com.example.wms_scan.data.response.GetCartonResponse
 import com.example.wms_scan.data.response.GetPalletResponse
 import kotlinx.coroutines.launch
 import okhttp3.RequestBody
@@ -245,6 +246,29 @@ class MainViewModel : ViewModel() {
             catch(e:Exception)
             {
                 _addPallet.value = ApiResponseCallback.error("${e.message}",null)
+            }
+        }
+    }
+
+    private val _getCarton = MutableLiveData<ApiResponseCallback<List<GetCartonResponse>>>()
+    val getCarton : LiveData<ApiResponseCallback<List<GetCartonResponse>>>
+    get() = _getCarton
+    fun getCarton(
+        PilotNo: RequestBody, LocationNo: RequestBody
+    ){
+        viewModelScope.launch {
+            _getCarton.value = ApiResponseCallback.loading()
+            try
+            {
+                _getCarton.value = ApiResponseCallback.success(repository.getCarton(
+                    PilotNo, LocationNo
+                ))
+            }
+            catch (e:Exception)
+            {
+                _getCarton.value = ApiResponseCallback.error(
+                    "${e.message}",null
+                )
             }
         }
     }

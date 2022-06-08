@@ -4,6 +4,7 @@ import com.example.scanmate.data.api.RetrofitClient
 import com.example.scanmate.data.response.*
 import com.example.scanmate.repository.remote.ApiHelper
 import com.example.wms_scan.data.response.AddPalletResponse
+import com.example.wms_scan.data.response.GetCartonResponse
 import com.example.wms_scan.data.response.GetPalletResponse
 import okhttp3.RequestBody
 
@@ -99,5 +100,13 @@ class GeneralRepository : ApiHelper {
             PilotNo, PilotName, PilotCode, ShelfNo,
             Capacity, LocationNo, DMLUserNo, DMLPCName
         )
+
+    override suspend fun getCarton(
+        PilotNo: RequestBody, LocationNo: RequestBody
+    ): List<GetCartonResponse> =
+        RetrofitClient.apiservice.getCarton(
+            PilotNo, LocationNo
+        )
+
 
 }

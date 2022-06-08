@@ -3,6 +3,7 @@ package com.example.scanmate.repository.remote
 import com.example.scanmate.data.api.RetrofitClient
 import com.example.scanmate.data.response.*
 import com.example.wms_scan.data.response.AddPalletResponse
+import com.example.wms_scan.data.response.GetCartonResponse
 import com.example.wms_scan.data.response.GetPalletResponse
 import okhttp3.RequestBody
 import retrofit2.http.Field
@@ -73,5 +74,11 @@ interface ApiHelper {
         Capacity:RequestBody, LocationNo:RequestBody, DMLUserNo:RequestBody, DMLPCName:RequestBody,
     ): AddPalletResponse = RetrofitClient.apiservice.addPallet(
         PilotNo, PilotName, PilotCode, ShelfNo, Capacity, LocationNo, DMLUserNo, DMLPCName
+    )
+
+    suspend fun getCarton(
+        PilotNo:RequestBody, LocationNo:RequestBody
+    ):List<GetCartonResponse> = RetrofitClient.apiservice.getCarton(
+        PilotNo,LocationNo
     )
 }

@@ -78,7 +78,6 @@ class PalletsActivity : AppCompatActivity() {
 
         }
 
-
     }
 
     private fun setupUi(){
@@ -96,9 +95,8 @@ class PalletsActivity : AppCompatActivity() {
             LocalPreferences.AppLoginPreferences.loginTime
         )
 
-        binding.toolbar.menu.findItem(R.id.logout).setOnMenuItemClickListener {
+        binding.toolbar.setOnClickListener {
             clearPreferences(this)
-            true
         }
     }
 

@@ -75,6 +75,7 @@ class AddUpdatePalletDetails : AppCompatActivity() {
                 binding.shelfTV.text = shelfName
                 binding.addPalletBtn.gone()
                 binding.updatePalletBtn.visible()
+                binding.editDetailTV.text = "Update to"
             }
 
             intent.extras?.getBoolean("AddPalletKey") == true ->{

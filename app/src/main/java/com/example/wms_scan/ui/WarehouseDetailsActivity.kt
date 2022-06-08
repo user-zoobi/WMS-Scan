@@ -37,8 +37,6 @@ class WarehouseDetailsActivity : AppCompatActivity() {
     private var selectedWareHouseNo = ""
     private var updatedWarehouseName = ""
     private var spinnerWarehouseName = ""
-    private lateinit var warehouseAdapter: WarehouseAdapter
-    private lateinit var warehouseList: ArrayList<GetWarehouseResponse>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -74,12 +72,14 @@ class WarehouseDetailsActivity : AppCompatActivity() {
 
         when {
             intent.extras?.getBoolean("WHKey") == true -> {
+
                 binding.addWarehouseBTN.gone()
                 binding.updateWarehouseBtn.visible()
                 val busName = intent.extras?.getString("busName")
                 val wrhName = intent.extras?.getString("whName")
                 binding.busLocTV.text = busName
                 binding.warehouseTV.text = wrhName
+                binding.editDetailTV.text = "Update to"
 
             }
             intent.extras?.getBoolean("AddWHKey") == true -> {

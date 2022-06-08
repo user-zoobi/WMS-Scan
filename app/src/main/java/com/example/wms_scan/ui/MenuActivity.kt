@@ -42,13 +42,13 @@ class MenuActivity : AppCompatActivity() {
     }
 
     private fun setupUi() {
+
         supportActionBar?.hide()
         dialog = CustomProgressDialog(this)
         setTransparentStatusBarColor(R.color.transparent)
 
-        binding.toolbar.menu.findItem(R.id.logout).setOnMenuItemClickListener {
+        binding.toolbar.setOnClickListener {
             clearPreferences(this)
-            true
         }
         binding.userNameTV.text = LocalPreferences.getString(this,
             LocalPreferences.AppLoginPreferences.userName

@@ -73,6 +73,8 @@ class AddUpdateShelfDetails : AppCompatActivity() {
 
                 val rackName = intent.extras?.getString("sRackName")
                 binding.rackTV.text = rackName
+
+                binding.editDetailTV.text = "Update to"
             }
 
             intent.extras?.getBoolean("shelfAddKey") == true -> {

@@ -17,6 +17,7 @@ object Routes {
         const val getShelf = "ShelfAPI/Get_Shelf"
         const val getPallet = "PilotAPI/Get_Pilot"
         const val addPallet = "PilotAPI/DML_Pilot"
+        const val getCarton = "CartonAPI/Get_Carton"
     }
 
 }
