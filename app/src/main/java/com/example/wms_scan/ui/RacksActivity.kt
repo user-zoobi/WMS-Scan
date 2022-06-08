@@ -103,16 +103,25 @@ class RacksActivity : AppCompatActivity() {
                 ).toString()
             ))
         viewModel.userLoc.observe(this, Observer {
-            when(it.status){
-                Status.LOADING->{
-                    dialog.show()
-                }
-                Status.SUCCESS ->{
-                    dialog.dismiss()
-                    showBusLocSpinner(it.data!!)
-                }
-                Status.ERROR ->{
-                    dialog.dismiss()
+            it.let {
+                when(it.status){
+                    Status.LOADING->{
+                        dialog.show()
+                    }
+                    Status.SUCCESS ->{
+                        if(it.data?.get(0)?.status == true)
+                        {
+                            dialog.dismiss()
+                            showBusLocSpinner(it.data)
+                        }
+                        else
+                        {
+                            toast("No record found")
+                        }
+                    }
+                    Status.ERROR ->{
+                        dialog.dismiss()
+                    }
                 }
             }
         })
@@ -122,24 +131,32 @@ class RacksActivity : AppCompatActivity() {
          */
 
         viewModel.getWarehouse.observe(this, Observer{
-            when(it.status){
-                Status.LOADING->{
-                }
-                Status.SUCCESS ->{
-
-                    try {
-                        it.data?.get(0)?.wHName?.let { it1 -> Log.i("warehouseResponse", it1) }
-                        showWarehouseSpinner(it.data!!)
-
+            it.let {
+                when(it.status){
+                    Status.LOADING->{
                     }
-                    catch(e:Exception){
-                        Log.i("rackAdapter","${e.message}")
-                        Log.i("rackAdapter","${e.stackTrace}")
+                    Status.SUCCESS ->{
+
+                        try {
+                            if(it.data?.get(0)?.status == true)
+                            {
+                                it.data[0].wHName?.let { it1 -> Log.i("warehouseResponse", it1) }
+                                showWarehouseSpinner(it.data)
+                            }
+                            else
+                            {
+                                toast("No record found")
+                            }
+                        }
+                        catch(e:Exception){
+                            Log.i("rackAdapter","${e.message}")
+                            Log.i("rackAdapter","${e.stackTrace}")
+                        }
+                        //warehouseAdapter.addItems(list)
                     }
-                    //warehouseAdapter.addItems(list)
-                }
-                Status.ERROR ->{
-                    dialog.dismiss()
+                    Status.ERROR ->{
+                        dialog.dismiss()
+                    }
                 }
             }
         })
@@ -149,23 +166,32 @@ class RacksActivity : AppCompatActivity() {
          */
 
         viewModel.getWarehouse.observe(this, Observer{
-            when(it.status){
-                Status.LOADING->{
-                }
-                Status.SUCCESS ->{
+            it.let {
+                when(it.status){
+                    Status.LOADING->{
+                    }
+                    Status.SUCCESS ->{
 
-                    try {
-                        it.data?.get(0)?.wHName?.let { it1 -> Log.i("warehouseResponse", it1) }
-                        showWarehouseSpinner(it.data!!)
+                        try {
+                            if(it.data?.get(0)?.status == true)
+                            {
+                                it.data[0].wHName?.let { it1 -> Log.i("warehouseResponse", it1) }
+                                showWarehouseSpinner(it.data)
+                            }
+                            else
+                            {
+                                toast("No record found")
+                            }
+                        }
+                        catch(e:Exception){
+                            Log.i("rackAdapter","${e.message}")
+                            Log.i("rackAdapter","${e.stackTrace}")
+                        }
+                        //warehouseAdapter.addItems(list)
                     }
-                    catch(e:Exception){
-                        Log.i("rackAdapter","${e.message}")
-                        Log.i("rackAdapter","${e.stackTrace}")
+                    Status.ERROR ->{
+                        dialog.dismiss()
                     }
-                    //warehouseAdapter.addItems(list)
-                }
-                Status.ERROR ->{
-                    dialog.dismiss()
                 }
             }
         })
@@ -175,32 +201,38 @@ class RacksActivity : AppCompatActivity() {
          */
 
         viewModel.getRack.observe(this, Observer{
-            when(it.status){
-                Status.LOADING ->{
-                }
-                Status.SUCCESS ->{
-                    // Log.i("getRack",it.data?.get(0)?.rackNo.toString())
-                    try
-                    {
-                        showRackSpinner(it.data!!)
-                        rackList = ArrayList()
-                        rackList = it.data as ArrayList<GetRackResponse>
-                        racksAdapter = RackAdapter(this,rackList)
+            it.let {
+                when(it.status){
+                    Status.LOADING ->{
+                    }
+                    Status.SUCCESS ->{
+                        // Log.i("getRack",it.data?.get(0)?.rackNo.toString())
+                        try
+                        {
+                            if(it.data?.get(0)?.status == true)
+                            {
+                                showRackSpinner(it.data)
+                                rackList = ArrayList()
+                                rackList = it.data as ArrayList<GetRackResponse>
+                                racksAdapter = RackAdapter(this,rackList)
+                                binding.racksRV.apply {
 
-                        binding.racksRV.apply {
-
-                            layoutManager = LinearLayoutManager(this@RacksActivity)
-                            adapter = racksAdapter
+                                    layoutManager = LinearLayoutManager(this@RacksActivity)
+                                    adapter = racksAdapter
+                                }
+                            }else{
+                                toast("No record found")
+                            }
+                        }
+                        catch (e: Exception)
+                        {
+                            Log.i("RACK_OBSERVER","${e.message}")
+                            Log.i("RACK_OBSERVER","${e.stackTrace}")
                         }
                     }
-                    catch (e: Exception)
-                    {
-                        Log.i("RACK_OBSERVER","${e.message}")
-                        Log.i("RACK_OBSERVER","${e.stackTrace}")
+                    Status.ERROR ->{
+                        dialog.dismiss()
                     }
-                }
-                Status.ERROR ->{
-                    dialog.dismiss()
                 }
             }
         })

@@ -16,10 +16,7 @@ import com.example.scanmate.data.response.GetRackResponse
 import com.example.scanmate.data.response.GetShelfResponse
 import com.example.scanmate.data.response.GetWarehouseResponse
 import com.example.scanmate.data.response.UserLocationResponse
-import com.example.scanmate.extensions.click
-import com.example.scanmate.extensions.gotoActivity
-import com.example.scanmate.extensions.obtainViewModel
-import com.example.scanmate.extensions.setTransparentStatusBarColor
+import com.example.scanmate.extensions.*
 import com.example.scanmate.util.CustomProgressDialog
 import com.example.scanmate.util.LocalPreferences
 import com.example.scanmate.util.Utils
@@ -74,8 +71,6 @@ class ShelfActivity : AppCompatActivity() {
             LocalPreferences.AppLoginPreferences.loginTime
         )
 
-
-
     }
 
     private fun initListener(){
@@ -123,8 +118,23 @@ class ShelfActivity : AppCompatActivity() {
                     dialog.show()
                 }
                 Status.SUCCESS ->{
-                    dialog.dismiss()
-                    showBusLocSpinner(it.data!!)
+                    try
+                    {
+                        if(it.data?.get(0)?.status == true)
+                        {
+                            dialog.dismiss()
+                            showBusLocSpinner(it.data!!)
+                        }
+                        else
+                        {
+                            toast("No record found")
+                        }
+                    }
+                    catch (e:Exception)
+                    {
+
+                    }
+
                 }
                 Status.ERROR ->{
                     dialog.dismiss()
@@ -144,8 +154,16 @@ class ShelfActivity : AppCompatActivity() {
                 Status.SUCCESS ->{
 
                     try {
-                        it.data?.get(0)?.wHName?.let { it1 -> Log.i("warehouseResponse", it1) }
-                        showWarehouseSpinner(it.data!!)
+                        if(it.data?.get(0)?.status == true)
+                        {
+                            it.data[0].wHName?.let { it1 -> Log.i("warehouseResponse", it1) }
+                            showWarehouseSpinner(it.data)
+                        }
+                        else
+                        {
+                            toast("no result found")
+                        }
+
                     }
                     catch(e:Exception){
                         Log.i("rackAdapter","${e.message}")
@@ -171,8 +189,14 @@ class ShelfActivity : AppCompatActivity() {
                     // Log.i("getRack",it.data?.get(0)?.rackNo.toString())
                     try
                     {
-                        showRackSpinner(it.data!!)
-
+                        if(it.data?.get(0)?.status == true)
+                        {
+                            showRackSpinner(it.data)
+                        }
+                        else
+                        {
+                            toast("no result found")
+                        }
                     }
                     catch (e: Exception)
                     {
@@ -196,19 +220,25 @@ class ShelfActivity : AppCompatActivity() {
                 Status.LOADING ->{
                 }
                 Status.SUCCESS ->{
-                    try {
-                        showShelfSpinner(it.data!!)
-                        shelfList = ArrayList()
-                        shelfList = it.data as ArrayList<GetShelfResponse>
-                        shelfAdapter = ShelfAdapter(this,shelfList)
+                    it.let{
+                        try {
+                            if(it.data?.get(0)?.status == true) {
+                                showShelfSpinner(it.data)
+                                shelfList = ArrayList()
+                                shelfList = it.data as ArrayList<GetShelfResponse>
+                                shelfAdapter = ShelfAdapter(this, shelfList)
 
-                        binding.shelfRV.apply {
-                            adapter = shelfAdapter
-                            layoutManager = LinearLayoutManager(this@ShelfActivity)
+                                binding.shelfRV.apply {
+                                    adapter = shelfAdapter
+                                    layoutManager = LinearLayoutManager(this@ShelfActivity)
+                                }
+                            }else{
+                                toast("no result found")
+                            }
+                        }catch (e:Exception){
+                            Log.i("","${e.message}")
+                            Log.i("rackAdapter","${e.stackTrace}")
                         }
-                    }catch (e:Exception){
-                        Log.i("","${e.message}")
-                        Log.i("rackAdapter","${e.stackTrace}")
                     }
                 }
                 Status.ERROR ->{

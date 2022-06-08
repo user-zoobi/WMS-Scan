@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/royal_blue"
-    tools:context=".ui.activity.LoginActivity">
+    tools:context=".ui.LoginActivity">
 
     <androidx.appcompat.widget.Toolbar
         android:layout_width="match_parent"
@@ -68,30 +68,42 @@
             android:textSize="@dimen/_20ssp"
             android:textStyle="bold" />
 
-        <androidx.appcompat.widget.AppCompatEditText
-            android:id="@+id/userIdET"
+        <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
-            android:layout_height="@dimen/_50sdp"
+            android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_20sdp"
             android:layout_marginTop="@dimen/_20sdp"
             android:layout_marginEnd="@dimen/_20sdp"
-            android:background="@drawable/grey_stroke_rounded_bg"
-            android:drawableStart="@drawable/person"
-            android:drawablePadding="@dimen/_10sdp"
-            android:fontFamily="@font/amiko"
-            android:hint="@string/enter_username"
-            android:paddingStart="@dimen/_20sdp"
-            android:textSize="@dimen/_15ssp"
-            android:textStyle="bold" />
+            app:cardElevation="@dimen/_5sdp">
 
-        <androidx.appcompat.widget.AppCompatEditText
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/userIdET"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_50sdp"
+                android:drawableStart="@drawable/person"
+                android:drawablePadding="@dimen/_10sdp"
+                android:fontFamily="@font/amiko"
+                android:background="@color/white"
+                android:hint="@string/enter_username"
+                android:paddingStart="@dimen/_20sdp"
+                android:textSize="@dimen/_15ssp"
+                android:textStyle="bold" />
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_20sdp"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:layout_marginEnd="@dimen/_20sdp"
+            app:cardElevation="@dimen/_5sdp">
+
+            <androidx.appcompat.widget.AppCompatEditText
             android:id="@+id/passwordET"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_50sdp"
-            android:layout_marginStart="@dimen/_20sdp"
-            android:layout_marginTop="@dimen/_20sdp"
-            android:layout_marginEnd="@dimen/_20sdp"
-            android:background="@drawable/grey_stroke_rounded_bg"
+            android:background="@color/white"
             android:drawableStart="@drawable/password_icon"
             android:drawablePadding="@dimen/_10sdp"
             android:fontFamily="@font/amiko"
@@ -100,6 +112,8 @@
             android:paddingStart="@dimen/_20sdp"
             android:textSize="@dimen/_15ssp"
             android:textStyle="bold" />
+
+        </com.google.android.material.card.MaterialCardView>
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/forgetPasswordTV"

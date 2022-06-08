@@ -88,8 +88,16 @@ class WarehouseActivity : AppCompatActivity() {
                     dialog.show()
                 }
                 Status.SUCCESS ->{
+
+                    if(it.data?.get(0)?.status == true)
+                    {
                     dialog.dismiss()
-                    showBusLocSpinner(it.data!!)
+                    showBusLocSpinner(it.data)
+                    }
+                    else
+                    {
+                        toast("No result found")
+                    }
                 }
                 Status.ERROR ->{
                     dialog.dismiss()
@@ -108,17 +116,25 @@ class WarehouseActivity : AppCompatActivity() {
                 Status.SUCCESS ->{
 
                     try {
-                        it.data?.get(0)?.wHName?.let { it1 -> Log.i("warehouseResponse", it1) }
-                        showWarehouseSpinner(it.data!!)
+                        if(it.data?.get(0)?.status == true)
+                        {
+                            it.data[0].wHName?.let { it1 -> Log.i("warehouseResponse", it1) }
+                            showWarehouseSpinner(it.data)
 
-                        list = ArrayList()
-                        list = it.data as ArrayList<GetWarehouseResponse>
-                        warehouseAdapter = WarehouseAdapter(this,list)
-                        binding.warehouseRV.apply {
-                            layoutManager = LinearLayoutManager(this@WarehouseActivity)
-                            adapter = warehouseAdapter
+                            list = ArrayList()
+                            list = it.data as ArrayList<GetWarehouseResponse>
+                            warehouseAdapter = WarehouseAdapter(this, list)
+                            binding.warehouseRV.apply {
+                                layoutManager = LinearLayoutManager(this@WarehouseActivity)
+                                adapter = warehouseAdapter
+                            }
+                        }
+                        else
+                        {
+                            toast("No result found")
                         }
                     }
+
                     catch(e:Exception){
                         Log.i("rackAdapter","${e.message}")
                         Log.i("rackAdapter","${e.stackTrace}")

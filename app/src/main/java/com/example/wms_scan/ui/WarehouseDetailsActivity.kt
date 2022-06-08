@@ -144,17 +144,19 @@ class WarehouseDetailsActivity : AppCompatActivity() {
             Utils.getSimpleTextBody("2"),
         )
         viewModel.userLoc.observe(this, Observer {
-            when(it.status){
-                Status.LOADING ->{
-                    dialog.show()
-                }
-                Status.SUCCESS ->{
-                    dialog.dismiss()
-                    Log.i("addShelf","${it.data?.get(0)?.busLocationName}")
-                    showBusLocSpinner(it.data!!)
-                }
-                Status.ERROR ->{
-                    dialog.dismiss()
+            it.let {
+                when(it.status){
+                    Status.LOADING ->{
+                        dialog.show()
+                    }
+                    Status.SUCCESS ->{
+                        dialog.dismiss()
+                        Log.i("addShelf","${it.data?.get(0)?.busLocationName}")
+                        showBusLocSpinner(it.data!!)
+                    }
+                    Status.ERROR ->{
+                        dialog.dismiss()
+                    }
                 }
             }
         })
@@ -164,16 +166,18 @@ class WarehouseDetailsActivity : AppCompatActivity() {
          */
 
         viewModel.getWarehouse.observe(this, Observer {
-            when(it.status){
-                Status.LOADING ->{
-                }
-                Status.SUCCESS ->{
-                    dialog.dismiss()
-                    Log.i("getWarehouse","${it.data?.get(0)?.wHName}")
-                    showWarehouseSpinner(it.data!!)
-                }
-                Status.ERROR ->{
-                    dialog.dismiss()
+            it.let {
+                when(it.status){
+                    Status.LOADING ->{
+                    }
+                    Status.SUCCESS ->{
+                        dialog.dismiss()
+                        Log.i("getWarehouse","${it.data?.get(0)?.wHName}")
+                        showWarehouseSpinner(it.data!!)
+                    }
+                    Status.ERROR ->{
+                        dialog.dismiss()
+                    }
                 }
             }
         })
@@ -190,18 +194,20 @@ class WarehouseDetailsActivity : AppCompatActivity() {
          */
 
         viewModel.addUpdateWarehouse.observe(this, Observer {
-            when(it.status){
-                Status.LOADING ->{
-                    dialog.show()
-                }
-                Status.SUCCESS ->{
-                    dialog.dismiss()
-                    Log.i("warehouseAdded",it.data?.error.toString())
+            it.let {
+                when(it.status){
+                    Status.LOADING ->{
+                        dialog.show()
+                    }
+                    Status.SUCCESS ->{
+                        dialog.dismiss()
+                        Log.i("warehouseAdded",it.data?.error.toString())
 
-                }
-                Status.ERROR ->{
-                    dialog.dismiss()
-                    toast("")
+                    }
+                    Status.ERROR ->{
+                        dialog.dismiss()
+                        toast("")
+                    }
                 }
             }
         })

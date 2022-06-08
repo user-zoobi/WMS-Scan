@@ -34,26 +34,18 @@ import com.example.wms_scan.databinding.ActivityPalletsBinding
 
 class PalletsActivity : AppCompatActivity() {
     private lateinit var binding:ActivityPalletsBinding
-    private lateinit var warehouseAdapter: WarehouseAdapter
-    private lateinit var racksAdapter: RackAdapter
-    private lateinit var shelfAdapter: ShelfAdapter
     private lateinit var palletAdapter: PalletsAdapter
     private lateinit var viewModel: MainViewModel
     private lateinit var dialog: CustomProgressDialog
-    private lateinit var list: ArrayList<GetWarehouseResponse>
-    private lateinit var rackList: ArrayList<GetRackResponse>
-    private lateinit var shelfList: ArrayList<GetShelfResponse>
     private lateinit var palletList: ArrayList<GetPalletResponse>
     private var selectedBusLocNo = ""
     private var selectedWareHouseNo = ""
     private var selectedRackNo = ""
     private var selectedShelveNo = ""
-    private var selectedPalletNo = ""
     private var busLocName = ""
     private var warehouseName = ""
     private var rackName = ""
     private var shelfName = ""
-    private var screen = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -118,8 +110,16 @@ class PalletsActivity : AppCompatActivity() {
                     dialog.show()
                 }
                 Status.SUCCESS ->{
-                    dialog.dismiss()
-                    showBusLocSpinner(it.data!!)
+                    it.let {
+                        if(it.data?.get(0)?.status == true) {
+                            dialog.dismiss()
+                            showBusLocSpinner(it.data!!)
+                        }
+                        else
+                        {
+                            toast("no result found")
+                        }
+                    }
                 }
                 Status.ERROR ->{
                     dialog.dismiss()
@@ -138,9 +138,15 @@ class PalletsActivity : AppCompatActivity() {
                 Status.SUCCESS ->{
 
                     try {
-                        it.data?.get(0)?.wHName?.let { it1 -> Log.i("warehouseResponse", it1) }
-                        showWarehouseSpinner(it.data!!)
-
+                        if(it.data?.get(0)?.status == true)
+                        {
+                            it.data[0].wHName?.let { it1 -> Log.i("warehouseResponse", it1) }
+                            showWarehouseSpinner(it.data)
+                        }
+                        else
+                        {
+                            toast("no result found")
+                        }
                     }
                     catch(e:Exception){
                         Log.i("rackAdapter","${e.message}")
@@ -166,8 +172,14 @@ class PalletsActivity : AppCompatActivity() {
                     // Log.i("getRack",it.data?.get(0)?.rackNo.toString())
                     try
                     {
+                        if(it.data?.get(0)?.status == true)
+                        {
                         showRackSpinner(it.data!!)
-
+                        }
+                        else
+                        {
+                            toast("no result found")
+                        }
                     }
                     catch (e: Exception)
                     {
@@ -192,8 +204,14 @@ class PalletsActivity : AppCompatActivity() {
                 }
                 Status.SUCCESS ->{
                     try {
-                        showShelfSpinner(it.data!!)
-
+                        if(it.data?.get(0)?.status == true)
+                        {
+                            showShelfSpinner(it.data!!)
+                        }
+                        else
+                        {
+                            toast("no result found")
+                        }
                     }catch (e:Exception){
                         Log.i("","${e.message}")
                         Log.i("rackAdapter","${e.stackTrace}")
@@ -217,14 +235,21 @@ class PalletsActivity : AppCompatActivity() {
                 Status.SUCCESS ->{
                     try
                     {
-                        Log.i(success,"Success")
-                        palletList = ArrayList()
-                        palletList = it.data as ArrayList<GetPalletResponse>
-                        palletAdapter = PalletsAdapter(this,palletList)
+                        if(it.data?.get(0)?.status == true)
+                        {
+                            Log.i(success,"Success")
+                            palletList = ArrayList()
+                            palletList = it.data as ArrayList<GetPalletResponse>
+                            palletAdapter = PalletsAdapter(this,palletList)
 
-                        binding.palletsRV.apply {
-                            adapter = palletAdapter
-                            layoutManager = LinearLayoutManager(this@PalletsActivity)
+                            binding.palletsRV.apply {
+                                adapter = palletAdapter
+                                layoutManager = LinearLayoutManager(this@PalletsActivity)
+                            }
+                        }
+                        else
+                        {
+                            toast("no result found")
                         }
                     }
                     catch (e:Exception)

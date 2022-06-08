@@ -12,10 +12,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import com.example.scanmate.data.callback.Status
 import com.example.scanmate.data.response.UserLocationResponse
-import com.example.scanmate.extensions.click
-import com.example.scanmate.extensions.gotoActivity
-import com.example.scanmate.extensions.obtainViewModel
-import com.example.scanmate.extensions.setTransparentStatusBarColor
+import com.example.scanmate.extensions.*
 import com.example.scanmate.util.CustomProgressDialog
 import com.example.scanmate.util.LocalPreferences
 import com.example.scanmate.util.LocalPreferences.AppConstants.orgBusLocNo
@@ -82,10 +79,15 @@ class MenuActivity : AppCompatActivity() {
                     dialog.show()
                 }
                 Status.SUCCESS ->{
-                    dialog.dismiss()
-                    it.data?.get(0)?.busLocationName?.let { it1 -> Log.i("Response", it1) }
-                    it.data?.get(0)?.busLocationName?.let { it1 ->
-                        LocalPreferences.put(this,orgBusLocNo, it1)
+                    if(it.data?.get(0)?.status == true)
+                    {
+                        dialog.dismiss()
+                        it.data?.get(0)?.busLocationName?.let { it1 -> Log.i("Response", it1) }
+                        it.data?.get(0)?.busLocationName?.let { it1 ->
+                            LocalPreferences.put(this,orgBusLocNo, it1)
+                        }
+                    }else{
+                     toast("no result found")
                     }
                 }
                 Status.ERROR ->{
@@ -100,8 +102,15 @@ class MenuActivity : AppCompatActivity() {
             when(it.status){
                 Status.LOADING -> dialog.show()
                 Status.SUCCESS ->{
-                    dialog.dismiss()
-                    Log.i("businessLoc1",it.data?.get(0)?.menu!!)
+                    if(it.data?.get(0)?.status == true)
+                    {
+                        dialog.dismiss()
+                        Log.i("businessLoc1",it.data?.get(0)?.menu!!)
+                    }
+                    else
+                    {
+                        toast("no result found")
+                    }
                 }
                 Status.ERROR -> dialog.dismiss()
             }
