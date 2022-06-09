@@ -43,6 +43,7 @@ class ShelfActivity : AppCompatActivity() {
     private var busLocName = ""
     private var warehouseName = ""
     private var rackName = ""
+    private var shelfName = ""
     private var selectedShelveNo = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -82,21 +83,30 @@ class ShelfActivity : AppCompatActivity() {
 
         binding.shelfAddBTN.click {
             val intent = Intent(this, AddUpdateShelfDetails::class.java)
-            intent.putExtra("addBusinessLocName",busLocName)
-            intent.putExtra("addWarehouse",warehouseName)
+            intent.putExtra("addBusLocNo",selectedBusLocNo)
+            intent.putExtra("addWHNo",selectedWareHouseNo)
+            intent.putExtra("addRackNo",selectedRackNo)
+            intent.putExtra("addShelfNo",selectedShelveNo)
+            intent.putExtra("addBusLocName",busLocName)
+            intent.putExtra("addWHName",warehouseName)
             intent.putExtra("addRackName",rackName)
-            intent.putExtra("shelfAddKey",true)
+            intent.putExtra("AddShelfKey",true)
             startActivity(intent)
         }
 
     }
 
-    fun showAction(){
+    fun showAction(shelfName:String,shelfNo:String){
         val intent = Intent(this, AddUpdateShelfDetails::class.java)
-        intent.putExtra("sRackName",rackName)
-        intent.putExtra("sBusinessLocName",busLocName)
-        intent.putExtra("sWarehouse",warehouseName)
-        intent.putExtra("SHELFKey",true)
+        intent.putExtra("updateBusLocNo",selectedBusLocNo)
+        intent.putExtra("updateWHNo",selectedWareHouseNo)
+        intent.putExtra("updateRackNo",selectedRackNo)
+        intent.putExtra("updateShelfNo",shelfNo)
+        intent.putExtra("updateBusinessLocName",busLocName)
+        intent.putExtra("updateWHName",warehouseName)
+        intent.putExtra("updateRackName",rackName)
+        intent.putExtra("updateShelfName",shelfName)
+        intent.putExtra("UpdateShelfKey",true)
         startActivity(intent)
     }
 

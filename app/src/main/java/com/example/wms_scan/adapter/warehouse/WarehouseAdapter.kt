@@ -15,7 +15,7 @@ import com.example.wms_scan.ui.WarehouseDetailsActivity
 class WarehouseAdapter(
     private val context: Context,
     private val list:ArrayList<GetWarehouseResponse>
-    )  : RecyclerView.Adapter<WarehouseAdapter.ViewHolder>() {
+    ) : RecyclerView.Adapter<WarehouseAdapter.ViewHolder>() {
 
     inner class ViewHolder(view: View): RecyclerView.ViewHolder(view){
         val binding = WarehouseListViewBinding.bind(view)
@@ -30,7 +30,6 @@ class WarehouseAdapter(
         val data = list[position]
         with(holder){
             binding.wrhTV.text = data.wHName
-            binding.wrhNo.text = data.wHNo.toString()
 
             binding.editIV.setOnClickListener {
                (context as WarehouseActivity).performAction(data.wHName, data.wHNo.toString())
@@ -39,10 +38,5 @@ class WarehouseAdapter(
     }
 
     override fun getItemCount(): Int = list.size
-
-//    var itemclick: ((Int) -> Unit)? = null
-//    fun onClick(listener: ((Int) -> Unit)) {
-//        itemclick = listener
-//    }
 
 }

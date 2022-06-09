@@ -22,6 +22,7 @@ import com.example.scanmate.util.Constants.WMSStructure.shelf
 import com.example.scanmate.util.Constants.WMSStructure.warehouse
 import com.example.scanmate.util.CustomProgressDialog
 import com.example.scanmate.util.LocalPreferences
+import com.example.scanmate.util.LocalPreferences.AppLoginPreferences.userNo
 import com.example.scanmate.util.Utils
 import com.example.scanmate.viewModel.MainViewModel
 import com.example.wms_scan.R
@@ -33,10 +34,13 @@ class WarehouseDetailsActivity : AppCompatActivity() {
     private lateinit var binding: ActivityWarehouseDetailsBinding
     private lateinit var viewModel: MainViewModel
     private lateinit var dialog: CustomProgressDialog
-    private var selectedBusLocNo = ""
-    private var selectedWareHouseNo = ""
+    private var selectedBusLocNo:String? = ""
+    private var selectedWHNo:String? = ""
     private var updatedWarehouseName = ""
-    private var spinnerWarehouseName = ""
+    private var selectedBusLocName:String? = ""
+    private var selectedWhName:String? = ""
+    private var updatedBusLocNo:String? = ""
+    private var updatedBusLocName:String? = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -71,61 +75,58 @@ class WarehouseDetailsActivity : AppCompatActivity() {
         )
 
         when {
-            intent.extras?.getBoolean("WHKey") == true -> {
+            intent.extras?.getBoolean("AddWHKey") == true -> {
 
+                selectedBusLocName = intent.extras?.getString("addBusName")
+                selectedBusLocNo = intent.extras?.getString("addBusLocNo")
+                selectedWHNo = intent.extras?.getString("addWhNo")
+
+                binding.busLocTV.text = selectedBusLocName
+                binding.warehouseTV.text = selectedWhName
+                binding.warehouseCont.gone()
+                Log.i("warehouseValues","THE KEYS ARE VALUES WITH selectedBusLocNo :$selectedBusLocNo\n $selectedBusLocName\n $selectedWHNo")
+            }
+
+            intent.extras?.getBoolean("UpdateWHKey") == true -> {
+                updatedBusLocName = intent.extras?.getString("updateBusName")
+                updatedBusLocNo = intent.extras?.getString("updateBusLocNo")
+                selectedWHNo = intent.extras?.getString("updateWhNo")
+                selectedWhName = intent.extras?.getString("updateWhName")
+
+                binding.busLocTV.text = updatedBusLocName
+                binding.warehouseTV.text = selectedWhName
                 binding.addWarehouseBTN.gone()
                 binding.updateWarehouseBtn.visible()
-                val busName = intent.extras?.getString("busName")
-                val wrhName = intent.extras?.getString("whName")
-                binding.busLocTV.text = busName
-                binding.warehouseTV.text = wrhName
-                binding.editDetailTV.text = "Update to"
-
-            }
-            intent.extras?.getBoolean("AddWHKey") == true -> {
-                val busName = intent.extras?.getString("addBusName")
-                binding.busLocTV.text = busName
-                binding.warehouseCont.gone()
+                binding.updateWarehouseET.hint = "Update warehouse"
+                Log.i("updateWHValues","THE KEYS ARE VALUES ARE :$selectedWHNo \n$selectedWhName")
             }
         }
-
     }
 
     private fun initListener(){
 
         binding.addWarehouseBTN.click {
             updatedWarehouseName = binding.updateWarehouseET.text.toString()
-            if (updatedWarehouseName.isNullOrEmpty()){
-                toast("Field must not be empty")
-            }else{
-                viewModel.addUpdateWarehouse(
-                    "0",
-                    updatedWarehouseName,
-                    "WH-1",
-                    selectedBusLocNo,
-                    LocalPreferences.getInt(this, LocalPreferences.AppLoginPreferences.userNo).toString(),
-                    "Test-PC"
-                )
-                toast("Warehouse Added")
-            }
+            viewModel.addUpdateWarehouse(
+                "0",
+                updatedWarehouseName,
+                "WH-1",
+                "$selectedBusLocNo",
+                LocalPreferences.getInt(this, userNo).toString(),
+                "Test-PC"
+            )
         }
 
         binding.updateWarehouseBtn.click {
-            if (updatedWarehouseName.isNullOrEmpty()){
-                toast("Field must not be empty")
-            }
-            else{
-                updatedWarehouseName = binding.updateWarehouseET.text.toString()
-                viewModel.addUpdateWarehouse(
-                    selectedWareHouseNo,
-                    updatedWarehouseName,
-                    "WH-1",
-                    selectedBusLocNo,
-                    LocalPreferences.getInt(this, LocalPreferences.AppLoginPreferences.userNo).toString(),
-                    "Test-PC"
-                )
-                toast("Warehouse updated")
-            }
+            updatedWarehouseName = binding.updateWarehouseET.text.toString()
+            viewModel.addUpdateWarehouse(
+                "$selectedWHNo",
+                "$updatedWarehouseName",
+                "WH-1",
+                "$updatedBusLocNo",
+                LocalPreferences.getInt(this, userNo).toString(),
+                "Test-PC"
+            )
         }
     }
 
@@ -135,58 +136,6 @@ class WarehouseDetailsActivity : AppCompatActivity() {
          *  ------------------------------------------------------------------------------------------------------
          */
 
-
-        /**
-         *       GET BUSINESS LOCATION OBSERVER
-         */
-
-        viewModel.userLocation(
-            Utils.getSimpleTextBody("2"),
-        )
-        viewModel.userLoc.observe(this, Observer {
-            it.let {
-                when(it.status){
-                    Status.LOADING ->{
-                        dialog.show()
-                    }
-                    Status.SUCCESS ->{
-                        dialog.dismiss()
-                        Log.i("addShelf","${it.data?.get(0)?.busLocationName}")
-                        showBusLocSpinner(it.data!!)
-                    }
-                    Status.ERROR ->{
-                        dialog.dismiss()
-                    }
-                }
-            }
-        })
-
-        /**
-         *       GET WAREHOUSE OBSERVER
-         */
-
-        viewModel.getWarehouse.observe(this, Observer {
-            it.let {
-                when(it.status){
-                    Status.LOADING ->{
-                    }
-                    Status.SUCCESS ->{
-                        dialog.dismiss()
-                        Log.i("getWarehouse","${it.data?.get(0)?.wHName}")
-                        showWarehouseSpinner(it.data!!)
-                    }
-                    Status.ERROR ->{
-                        dialog.dismiss()
-                    }
-                }
-            }
-        })
-
-
-        /**     ADDING DATA PORTION STARTED HERE
-         *  ------------------------------------------------------------------------------------------------------
-         *
-         *  */
 
 
         /**
@@ -211,64 +160,6 @@ class WarehouseDetailsActivity : AppCompatActivity() {
                 }
             }
         })
-    }
-
-    private fun showBusLocSpinner(data:List<UserLocationResponse>) {
-        //String array to store all the book names
-        val items = arrayOfNulls<String>(data.size)
-        val businessLocSpinner = binding.businessSpinnerCont
-
-        //Traversing through the whole list to get all the names
-        for (i in data.indices) {
-            //Storing names to string array
-            items[i] = data[i].busLocationName.toString()
-        }
-        val adapter: ArrayAdapter<String?> =
-            ArrayAdapter(this, android.R.layout.simple_list_item_1, items)
-        //setting adapter to spinner
-        businessLocSpinner.adapter = adapter
-
-        businessLocSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
-
-            override fun onItemSelected(adapter: AdapterView<*>?, view: View?, position: Int, long: Long) {
-                Log.i("LocBus","business Location no ${data[position].orgBusLocNo}")
-                // binding.rackSpinnerCont.visible()
-                selectedBusLocNo = data[position].orgBusLocNo.toString()
-                viewModel.getWarehouse("", selectedBusLocNo)
-            }
-            override fun onNothingSelected(p0: AdapterView<*>?) {}
-        }
-    }
-
-    private fun showWarehouseSpinner(data:List<GetWarehouseResponse>) {
-        //String array to store all the book names
-        val items = arrayOfNulls<String>(data.size)
-        val warehouseSpinner = binding.warehouseSpinnerCont
-
-        //Traversing through the whole list to get all the names
-        for (i in data.indices) {
-            //Storing names to string array
-            items[i] = data[i].wHName
-        }
-        val adapter: ArrayAdapter<String?> =
-            ArrayAdapter(this, android.R.layout.simple_list_item_1, items)
-        //setting adapter to spinner
-        warehouseSpinner.adapter = adapter
-        warehouseSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
-
-            override fun onItemSelected(adapter: AdapterView<*>?, view: View?, position: Int, long: Long) {
-                selectedWareHouseNo = data[position].wHNo.toString()
-                spinnerWarehouseName = data[position].wHName.toString()
-                viewModel.getRack(
-                    Utils.getSimpleTextBody(""),
-                    Utils.getSimpleTextBody(selectedWareHouseNo),
-                    Utils.getSimpleTextBody(selectedBusLocNo)
-                )
-                Log.i("LocBus","This is warehouse name is ${adapter?.getItemAtPosition(position)}")
-                Log.i("LocBus","This is warehouse pos is ${data[position].wHNo}")
-            }
-            override fun onNothingSelected(p0: AdapterView<*>?) {}
-        }
     }
 
     private fun clearPreferences(context: Context){

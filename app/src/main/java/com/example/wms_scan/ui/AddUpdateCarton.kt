@@ -4,11 +4,13 @@ import android.content.Context
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.example.scanmate.extensions.gone
-import com.example.scanmate.extensions.setTransparentStatusBarColor
-import com.example.scanmate.extensions.visible
+import android.util.Log
+import androidx.lifecycle.Observer
+import com.example.scanmate.data.callback.Status
+import com.example.scanmate.extensions.*
 import com.example.scanmate.util.CustomProgressDialog
 import com.example.scanmate.util.LocalPreferences
+import com.example.scanmate.util.Utils
 import com.example.scanmate.viewModel.MainViewModel
 import com.example.wms_scan.R
 import com.example.wms_scan.databinding.ActivityAddUpdateCartonBinding
@@ -18,12 +20,44 @@ class AddUpdateCarton : AppCompatActivity() {
     private lateinit var binding: ActivityAddUpdateCartonBinding
     private lateinit var viewModel: MainViewModel
     private lateinit var dialog: CustomProgressDialog
+    private var selectedBusLocNo:String? = ""
+    private var selectedWareHouseNo:String?  = ""
+    private var selectedRackNo:String?  = ""
+    private var selectedShelveNo:String?  = ""
+    private var selectedBusLocName:String?  = ""
+    private var selectedWHName:String?  = ""
+    private var selectedRackName:String?  = ""
+    private var selectedShelfName:String?  = ""
+    private var selectedPalletName:String?  = ""
+    private var selectedPalletNo:String?  = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityAddUpdateCartonBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        viewModel = obtainViewModel(MainViewModel::class.java)
         setupUi()
+        initObserver()
+    }
+
+    private fun initObserver(){
+        viewModel.addCarton.observe(this, Observer {
+            when(it.status){
+                Status.LOADING ->
+                {
+                    dialog.show()
+                }
+                Status.SUCCESS ->
+                {
+                    Log.i("addShelf","${it.data?.error}")
+                }
+                Status.ERROR ->
+                {
+                    Log.i("RACK_OBSERVER","${Exception().message}")
+                    Log.i("RACK_OBSERVER","${Exception().stackTrace}")
+                }
+            }
+        })
     }
 
     private fun setupUi(){
@@ -61,6 +95,24 @@ class AddUpdateCarton : AppCompatActivity() {
                 binding.editDetailTV.text = "Update to"
 
             }
+
+            intent.extras?.getBoolean("AddCartonKey") == true -> {
+
+
+                selectedBusLocName = intent.extras?.getString("addBusLocName")
+                selectedWHName = intent.extras?.getString("addWHName")
+                selectedRackName = intent.extras?.getString("addRackName")
+                selectedShelfName = intent.extras?.getString("addShelfName")
+                selectedPalletName = intent.extras?.getString("addPalletName")
+
+                binding.busLocTV.text = selectedBusLocName
+                binding.warehouseTV.text = selectedWHName
+                binding.rackTV.text = selectedRackName
+                binding.shelfTV.text = selectedShelfName
+                binding.palletTV.text = selectedPalletName
+
+
+            }
         }
 
     }
@@ -69,6 +121,36 @@ class AddUpdateCarton : AppCompatActivity() {
         binding.toolbar.menu.findItem(R.id.logout).setOnMenuItemClickListener {
             clearPreferences(this)
             true
+        }
+        binding.addCartonBtn.click {
+            val cartonName = binding.cartonNameET.text.toString()
+            viewModel.addCarton(
+                Utils.getSimpleTextBody("0"),
+                Utils.getSimpleTextBody("01"),
+                Utils.getSimpleTextBody("TEST"),
+                Utils.getSimpleTextBody("2"),
+                Utils.getSimpleTextBody(cartonName),
+                Utils.getSimpleTextBody("1"),
+                Utils.getSimpleTextBody("4"),
+                Utils.getSimpleTextBody("1"),
+                Utils.getSimpleTextBody("2"),
+                Utils.getSimpleTextBody("test"),
+            )
+        }
+        binding.updateCartonBtn.click {
+            val cartonName = binding.cartonNameET.text.toString()
+            viewModel.addCarton(
+                Utils.getSimpleTextBody("1"),
+                Utils.getSimpleTextBody("01"),
+                Utils.getSimpleTextBody("TEST"),
+                Utils.getSimpleTextBody("2"),
+                Utils.getSimpleTextBody(cartonName),
+                Utils.getSimpleTextBody("1"),
+                Utils.getSimpleTextBody("4"),
+                Utils.getSimpleTextBody("1"),
+                Utils.getSimpleTextBody("2"),
+                Utils.getSimpleTextBody("test"),
+            )
         }
     }
 

@@ -31,7 +31,9 @@ class ShelfAdapter(
           //  binding.shelfTV.text = data.shelfName
             binding.shelfTV.text = data.shelfName
             binding.editIV.setOnClickListener {
-                (context as ShelfActivity).showAction()
+                (context as ShelfActivity).showAction(
+                    data.shelfName.toString(),data.shelfNo.toString()
+                )
             }
         }
     }

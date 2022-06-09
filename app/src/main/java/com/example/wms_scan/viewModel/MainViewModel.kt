@@ -11,12 +11,12 @@ import com.example.wms_scan.repository.GeneralRepository
 import com.example.scanmate.util.Constants.LogMessages.responseFound
 import com.example.scanmate.util.Constants.Logs.vmError
 import com.example.scanmate.util.Constants.Logs.vmSuccess
+import com.example.wms_scan.data.response.AddCartonResponse
 import com.example.wms_scan.data.response.AddPalletResponse
 import com.example.wms_scan.data.response.GetCartonResponse
 import com.example.wms_scan.data.response.GetPalletResponse
 import kotlinx.coroutines.launch
 import okhttp3.RequestBody
-import java.lang.Exception
 
 class MainViewModel : ViewModel() {
 
@@ -269,6 +269,29 @@ class MainViewModel : ViewModel() {
                 _getCarton.value = ApiResponseCallback.error(
                     "${e.message}",null
                 )
+            }
+        }
+    }
+
+    private val _addCarton = MutableLiveData<ApiResponseCallback<AddCartonResponse>>()
+    val addCarton : LiveData<ApiResponseCallback<AddCartonResponse>>
+    get() = _addCarton
+
+    fun addCarton(
+        CartonNo: RequestBody, CartonCode: RequestBody, ItemCode: RequestBody, PilotNo: RequestBody,
+        AnalyticalNo: RequestBody, Carton_SNo: RequestBody, TotCarton: RequestBody, LocationNo: RequestBody,
+        DMLUserNo: RequestBody, DMLPCName: RequestBody
+
+    ){
+        viewModelScope.launch {
+            _addCarton.value = ApiResponseCallback.loading()
+            try {
+                _addCarton.value = ApiResponseCallback.success(repository.addCarton(
+                    CartonNo, CartonCode, ItemCode, PilotNo, AnalyticalNo, Carton_SNo, TotCarton, LocationNo, DMLUserNo, DMLPCName
+                ))
+            }
+            catch (e:Exception){
+                _addCarton.value = ApiResponseCallback.error("${e.message}",null)
             }
         }
     }

@@ -45,6 +45,7 @@ class CreateCartonActivity : AppCompatActivity() {
     private var palletName = ""
     private var selectedShelveNo = ""
     private var selectedPalletNo = ""
+    private var selectedPalletName = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -72,6 +73,16 @@ class CreateCartonActivity : AppCompatActivity() {
     private fun initListener(){
         binding.cartonAddBTN.click {
             val intent = Intent(this, AddUpdateCarton::class.java)
+            intent.putExtra("addBusLocNo",selectedBusLocNo)
+            intent.putExtra("addWHNo",selectedWareHouseNo)
+            intent.putExtra("addRackNo",selectedRackNo)
+            intent.putExtra("addShelfNo",selectedShelveNo)
+            intent.putExtra("addBusLocName",busLocName)
+            intent.putExtra("addWHName",warehouseName)
+            intent.putExtra("addRackName",rackName)
+            intent.putExtra("addShelfName",shelfName)
+            intent.putExtra("addPalletName",palletName)
+            intent.putExtra("AddCartonKey",true)
             startActivity(intent)
         }
         binding.toolbar.menu.findItem(R.id.logout).setOnMenuItemClickListener {
@@ -220,18 +231,13 @@ class CreateCartonActivity : AppCompatActivity() {
          *      GET CARTON OBSERVER
          */
 
-        viewModel.getCarton(
-            Utils.getSimpleTextBody("2"),
-            Utils.getSimpleTextBody("1"),
-        )
+
         viewModel.getCarton.observe(this, Observer{
             when(it.status){
                 Status.LOADING ->{
                 }
                 Status.SUCCESS ->{
                     try {
-                        showCartonSpinner(it.data!!)
-                        Log.i(success,"${it.data[0].analyticalNo}")
 
                         cartonList = ArrayList()
                         cartonList = it.data as ArrayList<GetCartonResponse>
@@ -394,30 +400,11 @@ class CreateCartonActivity : AppCompatActivity() {
                     Log.i("LocBus","This is shelf pos ${adapter?.getItemAtPosition(position)}")
                     selectedPalletNo = data[position].pilotNo.toString()
                     palletName = data[position].pilotName.toString()
+                    viewModel.getCarton(
+                        Utils.getSimpleTextBody(selectedPalletNo),
+                        Utils.getSimpleTextBody(selectedBusLocNo),
+                    )
 
-                }
-                override fun onNothingSelected(p0: AdapterView<*>?) {}
-            }
-        }
-    }
-
-    private fun showCartonSpinner(data:List<GetCartonResponse>) {
-        //String array to store all the book names
-        val items = arrayOfNulls<String>(data.size)
-        val palletResponse = binding.cartonSpinner
-
-        //Traversing through the whole list to get all the names
-        for (i in data.indices) {
-            //Storing names to string array
-            items[i] = data[i].analyticalNo
-            val adapter: ArrayAdapter<String?> =
-                ArrayAdapter(this, android.R.layout.simple_list_item_1, items)
-            //setting adapter to spinner
-            palletResponse.adapter = adapter
-            palletResponse.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
-
-                override fun onItemSelected(adapter: AdapterView<*>?, view: View?, position: Int, long: Long) {
-                    Log.i("LocBus","This is shelf pos ${adapter?.getItemAtPosition(position)}")
                 }
                 override fun onNothingSelected(p0: AdapterView<*>?) {}
             }

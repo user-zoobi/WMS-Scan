@@ -42,6 +42,8 @@ class PalletsActivity : AppCompatActivity() {
     private var selectedWareHouseNo = ""
     private var selectedRackNo = ""
     private var selectedShelveNo = ""
+    private var selectedPalletNo = ""
+    private var selectedPalletName = ""
     private var busLocName = ""
     private var warehouseName = ""
     private var rackName = ""
@@ -55,20 +57,6 @@ class PalletsActivity : AppCompatActivity() {
         setupUi()
         initListeners()
         initObservers()
-
-    }
-
-    private fun initListeners(){
-        binding.palletAddBTN.click {
-            val intent = Intent(this, AddUpdatePalletDetails::class.java)
-            intent.putExtra("addBusLoc",busLocName)
-            intent.putExtra("addWarehouse",warehouseName)
-            intent.putExtra("addRack",rackName)
-            intent.putExtra("addShelf",shelfName)
-            intent.putExtra("AddPalletKey",true)
-            startActivity(intent)
-
-        }
 
     }
 
@@ -267,17 +255,45 @@ class PalletsActivity : AppCompatActivity() {
 
     }
 
-    fun showAction(palletName:String){
+    fun showAction(palletName:String,palletNo:String){
 
         val intent = Intent(this, AddUpdatePalletDetails::class.java)
-        intent.putExtra("updatePallet",palletName)
-        intent.putExtra("updateBusLoc",busLocName)
-        intent.putExtra("updateWarehouse",warehouseName)
-        intent.putExtra("updateRacks",rackName)
-        intent.putExtra("updateShelf",shelfName)
+        intent.putExtra("updatedBusLocNo",selectedBusLocNo)
+        intent.putExtra("updatedWHNo",selectedWareHouseNo)
+        intent.putExtra("updatedRackNo",selectedRackNo)
+        intent.putExtra("updatedShelveNo",selectedShelveNo)
+        intent.putExtra("updatedBusLocName",busLocName)
+        intent.putExtra("updatedWHName",warehouseName)
+        intent.putExtra("updatedRackName",rackName)
+        intent.putExtra("updatedShelveName",shelfName)
+        intent.putExtra("updatedPalletName",palletName)
+        intent.putExtra("updatedPalletNo",palletNo)
         intent.putExtra("UpdatePalletKey",true)
         startActivity(intent)
 
+    }
+
+    private fun initListeners(){
+
+        binding.toolbar.menu.findItem(R.id.logout).setOnMenuItemClickListener {
+            clearPreferences(this)
+            true
+        }
+
+        binding.palletAddBTN.click {
+            val intent = Intent(this, AddUpdatePalletDetails::class.java)
+            intent.putExtra("addBusLocNo",selectedBusLocNo)
+            intent.putExtra("addWHNo",selectedWareHouseNo)
+            intent.putExtra("addRackNo",selectedRackNo)
+            intent.putExtra("addShelfNo",selectedShelveNo)
+            intent.putExtra("addBusLocName",busLocName)
+            intent.putExtra("addWHName",warehouseName)
+            intent.putExtra("addRackName",rackName)
+            intent.putExtra("addShelfName",shelfName)
+            intent.putExtra("AddPalletKey",true)
+            startActivity(intent)
+
+        }
     }
 
     private fun showBusLocSpinner(data:List<UserLocationResponse>) {
@@ -399,6 +415,7 @@ class PalletsActivity : AppCompatActivity() {
             }
         }
     }
+
 
     /**
      *  CLEAR ALL PREFERENCES

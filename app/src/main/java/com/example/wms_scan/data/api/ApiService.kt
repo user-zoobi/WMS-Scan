@@ -1,6 +1,7 @@
 package com.example.scanmate.data.api
 
 import com.example.scanmate.data.response.*
+import com.example.wms_scan.data.response.AddCartonResponse
 import com.example.wms_scan.data.routes.Routes.EndPoint.addRack
 import com.example.wms_scan.data.routes.Routes.EndPoint.addShelf
 import com.example.wms_scan.data.routes.Routes.EndPoint.addUpdateWarehouse
@@ -14,6 +15,7 @@ import com.example.wms_scan.data.routes.Routes.EndPoint.userMenu
 import com.example.wms_scan.data.response.AddPalletResponse
 import com.example.wms_scan.data.response.GetCartonResponse
 import com.example.wms_scan.data.response.GetPalletResponse
+import com.example.wms_scan.data.routes.Routes.EndPoint.addCarton
 import com.example.wms_scan.data.routes.Routes.EndPoint.addPallet
 import com.example.wms_scan.data.routes.Routes.EndPoint.getCarton
 import okhttp3.RequestBody
@@ -134,5 +136,20 @@ interface ApiService {
         @Part("PilotNo") PilotNo:RequestBody,
         @Part("LocationNo") LocationNo:RequestBody
     ):List<GetCartonResponse>
+
+    @Multipart
+    @POST(addCarton)
+    suspend fun addCarton(
+        @Part("CartonNo") CartonNo:RequestBody,
+        @Part("CartonCode") CartonCode:RequestBody,
+        @Part("ItemCode")ItemCode:RequestBody,
+        @Part("PilotNo")PilotNo:RequestBody,
+        @Part("AnalyticalNo")AnalyticalNo:RequestBody,
+        @Part("Carton_SNo")Carton_SNo:RequestBody,
+        @Part("TotCarton")TotCarton:RequestBody,
+        @Part("LocationNo")LocationNo:RequestBody,
+        @Part("DMLUserNo")DMLUserNo:RequestBody,
+        @Part("DMLPCName")DMLPCName:RequestBody,
+    ):AddCartonResponse
 
 }

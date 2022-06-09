@@ -26,11 +26,22 @@ class AddUpdateShelfDetails : AppCompatActivity() {
     private lateinit var viewModel: MainViewModel
     private lateinit var dialog: CustomProgressDialog
     private lateinit var binding: ActivityAddUpdateShelfDetailsBinding
-    private var selectedBusLocNo = ""
-    private var selectedWareHouseNo = ""
-    private var selectedRackNo = ""
-    private var selectedShelveNo = ""
-    private var selectedPalletNo = ""
+    private var selectedBusLocNo:String? = ""
+    private var selectedWareHouseNo:String? = ""
+    private var selectedRackNo:String? = ""
+    private var selectedShelveNo:String? = ""
+    private var selectedBusLocName:String? = ""
+    private var selectedWareHouseName:String? = ""
+    private var selectedRackName:String? = ""
+    private var selectedShelveName:String? = ""
+    private var updatedBusLocNo:String? = ""
+    private var updatedBusName:String? = ""
+    private var updatedWHNo:String? = ""
+    private var updatedWhName:String? = ""
+    private var updatedRackName:String? = ""
+    private var updatedRackNo:String? = ""
+    private var updatedShelfNo:String? = ""
+    private var updatedShelfName:String? = ""
     private var shelfNameInput = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -60,34 +71,48 @@ class AddUpdateShelfDetails : AppCompatActivity() {
         )
 
         when {
-            intent.extras?.getBoolean("SHELFKey") == true -> {
-                binding.addShelfBtn.gone()
-                binding.updateShelfBtn.visible()
+            intent.extras?.getBoolean("AddShelfKey") == true -> {
 
-                //edit button data
-                val busLocName = intent.extras?.getString("sBusinessLocName")
-                binding.busLocTV.text = busLocName
+                selectedBusLocName = intent.extras?.getString("addBusLocName")
+                selectedBusLocNo = intent.extras?.getString("addBusLocNo")
+                selectedWareHouseName = intent.extras?.getString("addWHName")
+                selectedWareHouseNo = intent.extras?.getString("addWHNo")
+                selectedRackName = intent.extras?.getString("addRackName")
+                selectedRackNo = intent.extras?.getString("addRackNo")
+                selectedShelveName = intent.extras?.getString("addShelfName")
+                selectedShelveNo = intent.extras?.getString("addShelfNo")
 
-                val warehouseName = intent.extras?.getString("sWarehouse")
-                binding.warehouseTV.text = warehouseName
+                binding.busLocTV.text = selectedBusLocName
+                binding.warehouseTV.text = selectedWareHouseName
+                binding.rackTV.text = selectedRackName
 
-                val rackName = intent.extras?.getString("sRackName")
-                binding.rackTV.text = rackName
+                Log.i("warehouseValues","THE KEYS VALUES ARE :$selectedBusLocName\n $selectedWareHouseName\n $selectedRackName \n $selectedShelveName")
 
-                binding.editDetailTV.text = "Update to"
+
             }
 
-            intent.extras?.getBoolean("shelfAddKey") == true -> {
+            intent.extras?.getBoolean("UpdateShelfKey") == true -> {
                 //add button data
 
-                val addBusLocName = intent.extras?.getString("addBusinessLocName")
-                binding.busLocTV.text = addBusLocName
+                updatedBusName = intent.extras?.getString("updateBusinessLocName")
+                updatedBusLocNo = intent.extras?.getString("updateBusLocNo")
+                updatedWhName = intent.extras?.getString("updateWHName")
+                updatedWHNo = intent.extras?.getString("updateWHNo")
+                updatedRackName = intent.extras?.getString("updateRackName")
+                updatedRackNo = intent.extras?.getString("updateRackNo")
+                updatedShelfName = intent.extras?.getString("updateShelfName")
+                updatedShelfNo = intent.extras?.getString("updateShelfNo")
 
-                val addWHName = intent.extras?.getString("addWarehouse")
-                binding.warehouseTV.text = addWHName
+                binding.busLocTV.text = updatedBusName
+                binding.warehouseTV.text = updatedWhName
+                binding.rackTV.text = updatedRackName
+                binding.editDetailTV.text = "Update to"
+                binding.addShelfBtn.gone()
+                binding.updateShelfBtn.visible()
+                binding.shelfNameET.hint= "Update Shelf"
 
-                val addRackName = intent.extras?.getString("addRackName")
-                binding.rackTV.text = addRackName
+                Log.i("warehouseValues","THE KEYS VALUES ARE :$updatedBusName\n $updatedWhName\n $updatedRackName \n $updatedShelfName")
+
             }
         }
 
@@ -97,125 +122,40 @@ class AddUpdateShelfDetails : AppCompatActivity() {
 
         binding.addShelfBtn.click {
             shelfNameInput = binding.shelfNameET.text.toString()
-            if (shelfNameInput.isNullOrEmpty())
-            {
-                toast("Field must not be empty")
-            }
-            else
-            {
-                viewModel.addShelf(
-                    Utils.getSimpleTextBody("0"),
-                    Utils.getSimpleTextBody(selectedRackNo),
-                    Utils.getSimpleTextBody(shelfNameInput),
-                    Utils.getSimpleTextBody("S-1"),
-                    Utils.getSimpleTextBody("10"),
-                    Utils.getSimpleTextBody(selectedBusLocNo),
-                    Utils.getSimpleTextBody(
-                        LocalPreferences.getInt(this,LocalPreferences.AppLoginPreferences.userNo).toString()
-                    ),
-                    Utils.getSimpleTextBody("TEST")
-                )
-                toast("Shelf Added")
-            }
-
+            viewModel.addShelf(
+                Utils.getSimpleTextBody("0"),
+                Utils.getSimpleTextBody("$selectedRackNo"),
+                Utils.getSimpleTextBody(shelfNameInput),
+                Utils.getSimpleTextBody("S-1"),
+                Utils.getSimpleTextBody("10"),
+                Utils.getSimpleTextBody("$selectedBusLocNo"),
+                Utils.getSimpleTextBody(
+                    LocalPreferences.getInt(this, LocalPreferences.AppLoginPreferences.userNo).toString()
+                ),
+                Utils.getSimpleTextBody("TEST"),
+            )
+            Log.i("shelfValues","THE KEYS ARE VALUES WITH selectedBusLocNo :$selectedBusLocNo\n $selectedBusLocName\n")
         }
 
         binding.updateShelfBtn.click {
             shelfNameInput = binding.shelfNameET.text.toString()
-            if (shelfNameInput.isNullOrEmpty())
-            {
-                toast("Field must not be empty")
-            }
-            else
-            {
-                viewModel.addShelf(
-                    Utils.getSimpleTextBody(selectedShelveNo),
-                    Utils.getSimpleTextBody(selectedRackNo),
-                    Utils.getSimpleTextBody(shelfNameInput),
-                    Utils.getSimpleTextBody("S-1"),
-                    Utils.getSimpleTextBody("10"),
-                    Utils.getSimpleTextBody(selectedBusLocNo),
-                    Utils.getSimpleTextBody(
-                        LocalPreferences.getInt(this,LocalPreferences.AppLoginPreferences.userNo).toString()
-                    ),
-                    Utils.getSimpleTextBody("TEST")
-                )
-                toast("Shelf Updated")
-            }
+            viewModel.addShelf(
+                Utils.getSimpleTextBody("$updatedShelfNo"),
+                Utils.getSimpleTextBody("$updatedRackNo"),
+                Utils.getSimpleTextBody(shelfNameInput),
+                Utils.getSimpleTextBody("S-1"),
+                Utils.getSimpleTextBody("10"),
+                Utils.getSimpleTextBody("$updatedBusLocNo"),
+                Utils.getSimpleTextBody(
+                    LocalPreferences.getInt(this, LocalPreferences.AppLoginPreferences.userNo).toString()
+                ),
+                Utils.getSimpleTextBody("TEST"),
+            )
 
         }
     }
 
     private fun initObserver(){
-
-        /**
-         *       GET USER LOCATION OBSERVER
-         */
-
-        viewModel.userLocation(
-            Utils.getSimpleTextBody("2"),
-        )
-        viewModel.userLoc.observe(this, Observer {
-            when(it.status){
-                Status.LOADING ->{
-                    dialog.show()
-                }
-                Status.SUCCESS ->{
-                    dialog.dismiss()
-                    Log.i("addShelf","${it.data?.get(0)?.busLocationName}")
-                }
-                Status.ERROR ->{
-                    dialog.dismiss()
-                }
-            }
-        })
-
-        /**
-         *       GET WAREHOUSE OBSERVER
-         */
-
-        viewModel.getWarehouse.observe(this, Observer {
-            when(it.status){
-                Status.LOADING ->{
-                }
-                Status.SUCCESS ->{
-
-                    Log.i("getWarehouse","${it.data?.get(0)?.wHName}")
-
-                }
-                Status.ERROR ->{
-
-                }
-            }
-        })
-
-        /**
-         *       GET RACK OBSERVER
-         */
-
-        viewModel.getRack.observe(this, Observer{
-            when(it.status){
-                Status.LOADING ->{
-
-                }
-                Status.SUCCESS ->{
-
-                    // Log.i("getRack",it.data?.get(0)?.rackNo.toString())
-                    try
-                    {
-
-                    }
-                    catch (e: Exception)
-                    {
-                        Log.i("RACK_OBSERVER","${e.message}")
-                        Log.i("RACK_OBSERVER","${e.stackTrace}")
-                    }
-                }
-                Status.ERROR ->{
-                    dialog.dismiss()
-                }
-            }
-        })
 
         /**
          *       ADD SHELF OBSERVER
@@ -232,32 +172,6 @@ class AddUpdateShelfDetails : AppCompatActivity() {
                 }
                 Status.ERROR ->{
                     dialog.dismiss()
-                }
-            }
-        })
-
-        /**
-         *      GET SHELF OBSERVER
-         */
-
-        viewModel.getShelf.observe(this,Observer{
-            when(it.status){
-                Status.LOADING ->{
-
-                }
-                Status.SUCCESS ->{
-                    try
-                    {
-
-                    }
-                    catch (e:Exception)
-                    {
-                        Log.i("","${e.message}")
-                        Log.i("rackAdapter","${e.stackTrace}")
-                    }
-                }
-                Status.ERROR ->{
-
                 }
             }
         })

@@ -24,10 +24,17 @@ class AddUpdateRackDetails : AppCompatActivity() {
     private lateinit var dialog: CustomProgressDialog
     private lateinit var binding:ActivityAddUpdateRackDetailsBinding
     private var selectedBusLocNo = ""
+    private var selectedBusLocName = ""
     private var selectedWareHouseNo = ""
+    private var selectedWHName = ""
     private var selectedRackNo = ""
-    private var selectedShelveNo = ""
-    private var selectedPalletNo = ""
+    private var selectedRackName = ""
+    private var updatedBusLocNo:String? = ""
+    private var updatedBusLocName:String? = ""
+    private var updatedWHName:String? = ""
+    private var updatedWHNo:String? = ""
+    private var updatedRackNo:String? = ""
+    private var updatedRackName:String? = ""
     private var rackName = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -44,132 +51,34 @@ class AddUpdateRackDetails : AppCompatActivity() {
 
         binding.addRackBtn.click {
             rackName = binding.rackNameET.text.toString()
-            if (rackName.isNullOrEmpty())
-            {
-                toast("Field must not be empty")
-            }
-            else
-            {
-                viewModel.addRack(
-                    Utils.getSimpleTextBody("0"),
-                    Utils.getSimpleTextBody(rackName),
-                    Utils.getSimpleTextBody("R-1"),
-                    Utils.getSimpleTextBody(selectedWareHouseNo),
-                    Utils.getSimpleTextBody("20"),
-                    Utils.getSimpleTextBody(selectedBusLocNo),
-                    Utils.getSimpleTextBody(
-                        LocalPreferences.getInt(this, LocalPreferences.AppLoginPreferences.userNo).toString()
-                    ),
-                    Utils.getSimpleTextBody("TEST"),
-                )
-                toast("Rack Added")
-            }
+            viewModel.addRack(
+                Utils.getSimpleTextBody("0"),
+                Utils.getSimpleTextBody(rackName),
+                Utils.getSimpleTextBody("R-1"),
+                Utils.getSimpleTextBody(selectedWareHouseNo),
+                Utils.getSimpleTextBody("20"),
+                Utils.getSimpleTextBody(selectedBusLocNo),
+                Utils.getSimpleTextBody(
+                    LocalPreferences.getInt(this, LocalPreferences.AppLoginPreferences.userNo).toString()),
+                Utils.getSimpleTextBody("TEST"),
+            )
         }
 
         binding.updateRackBtn.click {
             rackName = binding.rackNameET.text.toString()
-            if (rackName.isNullOrEmpty())
-            {
-                toast("Field must not be empty")
-            }
-            else
-            {
-                viewModel.addRack(
-                    Utils.getSimpleTextBody(selectedRackNo),
-                    Utils.getSimpleTextBody(rackName),
-                    Utils.getSimpleTextBody("R-1"),
-                    Utils.getSimpleTextBody(selectedWareHouseNo),
-                    Utils.getSimpleTextBody("20"),
-                    Utils.getSimpleTextBody(selectedBusLocNo),
-                    Utils.getSimpleTextBody(
-                        LocalPreferences.getInt(this, LocalPreferences.AppLoginPreferences.userNo).toString()
-                    ),
-                    Utils.getSimpleTextBody("TEST"),
-                )
-                toast("Rack Updated")
-            }
+            viewModel.addRack(
+                Utils.getSimpleTextBody("$updatedRackNo"),
+                Utils.getSimpleTextBody("$rackName"),
+                Utils.getSimpleTextBody("R-1"),
+                Utils.getSimpleTextBody("$updatedWHNo"),
+                Utils.getSimpleTextBody("20"),
+                Utils.getSimpleTextBody("$updatedBusLocNo"),
+                Utils.getSimpleTextBody(
+                   "${LocalPreferences.getInt(this, LocalPreferences.AppLoginPreferences.userNo)},"
+                ),
+                Utils.getSimpleTextBody("TEST"),
+            )
         }
-    }
-
-    private fun initObserver(){
-
-        viewModel.userLocation(
-            Utils.getSimpleTextBody("2"),
-        )
-        viewModel.userLoc.observe(this, Observer {
-            when(it.status){
-                Status.LOADING ->{
-                    dialog.show()
-                }
-                Status.SUCCESS ->{
-                    dialog.dismiss()
-                    Log.i("addShelf","${it.data?.get(0)?.busLocationName}")
-                    showBusLocSpinner(it.data!!)
-                }
-                Status.ERROR ->{
-                    dialog.dismiss()
-                }
-            }
-        })
-
-        /**
-         *       GET WAREHOUSE OBSERVER
-         */
-
-        viewModel.getWarehouse.observe(this, Observer {
-            when(it.status){
-                Status.LOADING ->{
-
-                }
-                Status.SUCCESS ->{
-                    Log.i("getWarehouse","${it.data?.get(0)?.wHName}")
-                    showWarehouseSpinner(it.data!!)
-                }
-                Status.ERROR ->{
-
-                }
-            }
-        })
-
-        /**
-         *       GET RACK OBSERVER
-         */
-
-        viewModel.getRack.observe(this, Observer {
-            when(it.status){
-                Status.LOADING ->{
-
-                }
-                Status.SUCCESS ->{
-
-                    Log.i("getRack","${it.data?.get(0)?.rackName}")
-                    showRackSpinner(it.data!!)
-                }
-                Status.ERROR ->{
-
-                }
-            }
-        })
-
-        /**
-         *       ADD RACK OBSERVER
-         */
-
-        viewModel.addRack.observe(this, Observer {
-            when(it.status){
-                Status.LOADING ->{
-                    dialog.show()
-                }
-                Status.SUCCESS ->{
-                    Log.i("addRack","${it.data?.error}")
-                    dialog.dismiss()
-                }
-                Status.ERROR ->{
-                    dialog.dismiss()
-                    toast("")
-                }
-            }
-        })
     }
 
     private fun setupUi(){
@@ -189,110 +98,53 @@ class AddUpdateRackDetails : AppCompatActivity() {
         )
 
         when {
-            intent.extras?.getBoolean("UpdateRackKey") == true -> {
+            intent.extras?.getBoolean("updateRackKey") == true -> {
+                updatedBusLocNo = intent.extras?.getString("updateBusNo")
+                updatedBusLocName = intent.extras?.getString("updateBusName")
+                updatedWHNo = intent.extras?.getString("updateWHNo")
+                updatedWHName = intent.extras?.getString("updateWhName")
+                updatedRackName = intent.extras?.getString("updateRackName")
+                updatedRackNo = intent.extras?.getString("updateRackNo")
+
+                binding.warehouseTV.text = updatedWHName
+                binding.businessLocTV.text = updatedBusLocName
+                binding.rackTV.text = updatedRackName
+                binding.rackNameET.hint = "Update rack"
                 binding.addRackBtn.gone()
                 binding.updateRackBtn.visible()
-                val busName = intent.extras?.getString("rackBusName")
-                val wrhName = intent.extras?.getString("rackWhName")
-                val rackName = intent.extras?.getString("rackName")
-                binding.businessLocTV.text = busName
-                binding.warehouseTV.text = wrhName
-                binding.rackTV.text = rackName
-                binding.editDetailTV.text = "Update to"
-
             }
-            intent.extras?.getBoolean("ADDRackKey") == true -> {
-                val busName = intent.extras?.getString("addRackBus")
-                val wrhName = intent.extras?.getString("addRackWh")
+
+            intent.extras?.getBoolean("AddRackKey") == true -> {
+                selectedBusLocNo = intent.extras?.getString("addBusNo")!!
+                selectedBusLocName = intent.extras?.getString("addBusName")!!
+                selectedWareHouseNo = intent.extras?.getString("addWHNo")!!
+                selectedWHName = intent.extras?.getString("addWHName")!!
+
+                binding.businessLocTV.text = selectedBusLocName
+                binding.warehouseTV.text = selectedWHName
                 binding.rackCont.gone()
-                binding.businessLocTV.text = busName
-                binding.warehouseTV.text = wrhName
             }
         }
 
     }
 
-    private fun showBusLocSpinner(data:List<UserLocationResponse>) {
-        //String array to store all the book names
-        val items = arrayOfNulls<String>(data.size)
-        val businessLocSpinner = binding.businessSpinnerCont
+    private fun initObserver(){
 
-        //Traversing through the whole list to get all the names
-        for (i in data.indices) {
-            //Storing names to string array
-            items[i] = data[i].busLocationName.toString()
-        }
-        val adapter: ArrayAdapter<String?> =
-            ArrayAdapter(this, android.R.layout.simple_list_item_1, items)
-        //setting adapter to spinner
-        businessLocSpinner.adapter = adapter
+        viewModel.addRack.observe(this, Observer {
+            it.let {
+                when(it.status){
+                    Status.LOADING ->{
+                        dialog.show()
+                    }
+                    Status.SUCCESS ->{
+                        dialog.dismiss()
 
-        businessLocSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
-
-            override fun onItemSelected(adapter: AdapterView<*>?, view: View?, position: Int, long: Long) {
-                Log.i("LocBus","business Location no ${data[position].orgBusLocNo}")
-                // binding.rackSpinnerCont.visible()
-                selectedBusLocNo = data[position].orgBusLocNo.toString()
-                viewModel.getWarehouse("", selectedBusLocNo)
+                    }
+                    Status.ERROR ->{
+                        dialog.dismiss()
+                    }
+                }
             }
-            override fun onNothingSelected(p0: AdapterView<*>?) {}
-        }
-    }
-
-
-    private fun showWarehouseSpinner(data:List<GetWarehouseResponse>) {
-        //String array to store all the book names
-        val items = arrayOfNulls<String>(data.size)
-        val warehouseSpinner = binding.warehouseSpinnerCont
-
-        //Traversing through the whole list to get all the names
-        for (i in data.indices) {
-            //Storing names to string array
-            items[i] = data[i].wHName
-        }
-        val adapter: ArrayAdapter<String?> =
-            ArrayAdapter(this, android.R.layout.simple_list_item_1, items)
-        //setting adapter to spinner
-        warehouseSpinner.adapter = adapter
-        warehouseSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
-
-            override fun onItemSelected(adapter: AdapterView<*>?, view: View?, position: Int, long: Long) {
-                selectedWareHouseNo = data[position].wHNo.toString()
-                viewModel.getRack(
-                    Utils.getSimpleTextBody(""),
-                    Utils.getSimpleTextBody(selectedWareHouseNo),
-                    Utils.getSimpleTextBody(selectedBusLocNo)
-                )
-                Log.i("LocBus","This is warehouse name is ${adapter?.getItemAtPosition(position)}")
-                Log.i("LocBus","This is warehouse pos is ${data[position].wHNo}")
-            }
-            override fun onNothingSelected(p0: AdapterView<*>?) {}
-        }
-    }
-
-
-    private fun showRackSpinner(data:List<GetRackResponse>) {
-        //String array to store all the book names
-        val items = arrayOfNulls<String>(data.size)
-        val rackSpinner = binding.rackSpinnerCont
-
-        //Traversing through the whole list to get all the names
-        for (i in data.indices) {
-            //Storing names to string array
-            items[i] = data[i].rackName
-        }
-        val adapter: ArrayAdapter<String?> =
-            ArrayAdapter(this, android.R.layout.simple_list_item_1, items)
-        //setting adapter to spinner
-        rackSpinner.adapter = adapter
-
-        rackSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
-            override fun onItemSelected(adapter: AdapterView<*>?, view: View?, position: Int, long: Long) {
-                selectedRackNo = data[position].rackNo.toString()
-
-                Log.i("LocBus","This is rack pos ${adapter?.getItemAtPosition(position)}")
-            }
-            override fun onNothingSelected(p0: AdapterView<*>?) {}
-        }
+        })
     }
 }

@@ -15,6 +15,7 @@ import com.example.scanmate.data.response.UserLocationResponse
 import com.example.scanmate.extensions.*
 import com.example.scanmate.util.CustomProgressDialog
 import com.example.scanmate.util.LocalPreferences
+import com.example.scanmate.util.LocalPreferences.AppLoginPreferences.userNo
 import com.example.scanmate.util.Utils
 import com.example.scanmate.viewModel.MainViewModel
 import com.example.wms_scan.R
@@ -26,11 +27,26 @@ class AddUpdatePalletDetails : AppCompatActivity() {
     private lateinit var viewModel: MainViewModel
     private lateinit var dialog: CustomProgressDialog
     private lateinit var binding:ActivityAddUpdatePalletDetailsBinding
-    private var selectedBusLocNo = ""
-    private var selectedWareHouseNo = ""
-    private var selectedRackNo = ""
-    private var selectedShelveNo = ""
-    private var selectedPalletNo = ""
+    private var selectedBusLocNo:String? = ""
+    private var selectedWareHouseNo:String?  = ""
+    private var selectedRackNo:String?  = ""
+    private var selectedShelveNo:String?  = ""
+    private var selectedBusLocName:String?  = ""
+    private var selectedWHName:String?  = ""
+    private var selectedRackName:String?  = ""
+    private var selectedShelfName:String?  = ""
+    private var selectedPalletName:String?  = ""
+    private var selectedPalletNo:String?  = ""
+    private var updatedBusLocNo:String?  = ""
+    private var updatedBusLocName:String?  = ""
+    private var updatedWarehouseName:String?  = ""
+    private var updatedWarehouseNo:String?  = ""
+    private var updatedRackName:String?  = ""
+    private var updatedRackNo:String?  = ""
+    private var updatedShelfName:String?  = ""
+    private var updatedShelfNo:String?  = ""
+    private var updatedPalletNo:String?  = ""
+    private var updatedPalletName:String?  = ""
     private var palletName = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -62,35 +78,42 @@ class AddUpdatePalletDetails : AppCompatActivity() {
         when{
             intent.extras?.getBoolean("UpdatePalletKey") == true -> {
 
-                val palletName = intent.extras?.getString("updatePallet")
-                val busLocName = intent.extras?.getString("updateBusLoc")
-                val warehouseName = intent.extras?.getString("updateWarehouse")
-                val rackName = intent.extras?.getString("updateRacks")
-                val shelfName = intent.extras?.getString("updateShelf")
+                updatedBusLocNo = intent.extras?.getString("updatedBusLocNo")
+                updatedWarehouseNo = intent.extras?.getString("updatedWHNo")
+                updatedRackNo = intent.extras?.getString("updatedRackNo")
+                updatedShelfNo = intent.extras?.getString("updatedShelveNo")
+                updatedBusLocName = intent.extras?.getString("updatedBusLocName")
+                updatedWarehouseName = intent.extras?.getString("updatedWHName")
+                updatedRackName = intent.extras?.getString("updatedRackName")
+                updatedShelfName = intent.extras?.getString("updatedShelveName")
+                updatedPalletName= intent.extras?.getString("updatedPalletName")
+                updatedPalletNo = intent.extras?.getString("updatedPalletNo")
 
-                binding.palletTV.text = palletName
-                binding.businessTV.text = busLocName
-                binding.warehouseTV.text = warehouseName
-                binding.rackTV.text = rackName
-                binding.shelfTV.text = shelfName
+                binding.businessTV.text = updatedBusLocName
+                binding.warehouseTV.text = updatedWarehouseName
+                binding.rackTV.text = updatedRackName
+                binding.shelfTV.text = updatedShelfName
+                binding.palletTV.text = updatedPalletName
                 binding.addPalletBtn.gone()
                 binding.updatePalletBtn.visible()
-                binding.editDetailTV.text = "Update to"
+                binding.palletNameET.hint = "Update pallet"
             }
 
             intent.extras?.getBoolean("AddPalletKey") == true ->{
+                selectedBusLocNo = intent.extras?.getString("addBusLocNo")
+                selectedWareHouseNo = intent.extras?.getString("addWHNo")
+                selectedRackNo = intent.extras?.getString("addRackNo")
+                selectedShelveNo = intent.extras?.getString("addShelfNo")
+                selectedBusLocName = intent.extras?.getString("addBusLocName")
+                selectedWHName = intent.extras?.getString("addWHName")
+                selectedRackName = intent.extras?.getString("addRackName")
+                selectedShelfName = intent.extras?.getString("addShelfName")
 
-                val palletName = intent.extras?.getString("updatePallet")
-                val busLocName = intent.extras?.getString("addBusLoc")
-                val warehouseName = intent.extras?.getString("addWarehouse")
-                val rackName = intent.extras?.getString("addRack")
-                val shelfName = intent.extras?.getString("addShelf")
-
-                binding.palletTV.text = palletName
-                binding.businessTV.text = busLocName
-                binding.warehouseTV.text = warehouseName
-                binding.rackTV.text = rackName
-                binding.shelfTV.text = shelfName
+                binding.businessTV.text = selectedBusLocName
+                binding.warehouseTV.text = selectedWHName
+                binding.rackTV.text = selectedRackName
+                binding.shelfTV.text = selectedShelfName
+                binding.palletTV.text = selectedPalletName
                 binding.palletCont.gone()
             }
         }
@@ -101,54 +124,33 @@ class AddUpdatePalletDetails : AppCompatActivity() {
         // ADD YOUR PALLET
 
         binding.addPalletBtn.click {
-
             palletName = binding.palletNameET.text.toString()
-            if (palletName.isNullOrEmpty())
-            {
-                toast("Field must not be empty")
-            }
-            else
-            {
-                viewModel.addPallet(
-                    Utils.getSimpleTextBody("0"),
-                    Utils.getSimpleTextBody(palletName),
-                    Utils.getSimpleTextBody("P-1"),
-                    Utils.getSimpleTextBody(selectedShelveNo),
-                    Utils.getSimpleTextBody("20"),
-                    Utils.getSimpleTextBody(selectedBusLocNo),
-                    Utils.getSimpleTextBody(
-                        LocalPreferences.getInt(this,LocalPreferences.AppLoginPreferences.userNo).toString()
-                    ),
-                    Utils.getSimpleTextBody("TEST"),
-                )
-                toast("Pallet added")
-            }
+            viewModel.addPallet(
+                Utils.getSimpleTextBody("0"),
+                Utils.getSimpleTextBody(palletName),
+                Utils.getSimpleTextBody("P-1"),
+                Utils.getSimpleTextBody("$selectedShelveNo"),
+                Utils.getSimpleTextBody("20"),
+                Utils.getSimpleTextBody("$selectedBusLocNo"),
+                Utils.getSimpleTextBody("${LocalPreferences.getInt(this, userNo)}"),
+                Utils.getSimpleTextBody("TEST"),
+            )
 
         }
 
         // UPDATE YOUR PALLET
         binding.updatePalletBtn.click {
             palletName = binding.palletNameET.text.toString()
-            if (palletName.isNullOrEmpty())
-            {
-                toast("Pallet updated")
-            }
-            else
-            {
-                viewModel.addPallet(
-                    Utils.getSimpleTextBody(selectedPalletNo),
-                    Utils.getSimpleTextBody(palletName),
-                    Utils.getSimpleTextBody("P-1"),
-                    Utils.getSimpleTextBody(selectedShelveNo),
-                    Utils.getSimpleTextBody("20"),
-                    Utils.getSimpleTextBody(selectedBusLocNo),
-                    Utils.getSimpleTextBody(
-                        LocalPreferences.getInt(this,LocalPreferences.AppLoginPreferences.userNo).toString()
-                    ),
-                    Utils.getSimpleTextBody("TEST"),
-                )
-            }
-
+            viewModel.addPallet(
+                Utils.getSimpleTextBody("$updatedPalletNo"),
+                Utils.getSimpleTextBody(palletName),
+                Utils.getSimpleTextBody("P-1"),
+                Utils.getSimpleTextBody("$updatedShelfNo"),
+                Utils.getSimpleTextBody("20"),
+                Utils.getSimpleTextBody("$updatedBusLocNo"),
+                Utils.getSimpleTextBody("${LocalPreferences.getInt(this, userNo)}"),
+                Utils.getSimpleTextBody("TEST"),
+            )
         }
 
 

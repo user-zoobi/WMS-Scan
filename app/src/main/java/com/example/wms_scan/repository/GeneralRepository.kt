@@ -3,6 +3,7 @@ package com.example.wms_scan.repository
 import com.example.scanmate.data.api.RetrofitClient
 import com.example.scanmate.data.response.*
 import com.example.scanmate.repository.remote.ApiHelper
+import com.example.wms_scan.data.response.AddCartonResponse
 import com.example.wms_scan.data.response.AddPalletResponse
 import com.example.wms_scan.data.response.GetCartonResponse
 import com.example.wms_scan.data.response.GetPalletResponse
@@ -108,5 +109,12 @@ class GeneralRepository : ApiHelper {
             PilotNo, LocationNo
         )
 
-
+    override suspend fun addCarton(
+        CartonNo: RequestBody, CartonCode: RequestBody, ItemCode: RequestBody, PilotNo: RequestBody, AnalyticalNo: RequestBody, Carton_SNo: RequestBody,
+        TotCarton: RequestBody, LocationNo: RequestBody, DMLUserNo: RequestBody, DMLPCName: RequestBody
+    ): AddCartonResponse =
+        RetrofitClient.apiservice.addCarton(
+            CartonNo, CartonCode, ItemCode, PilotNo,
+            AnalyticalNo, Carton_SNo, TotCarton, LocationNo, DMLUserNo, DMLPCName
+        )
 }

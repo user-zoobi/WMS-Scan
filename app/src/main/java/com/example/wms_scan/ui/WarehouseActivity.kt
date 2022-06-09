@@ -1,7 +1,9 @@
 package com.example.wms_scan.ui
 
 import android.R
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -150,26 +152,31 @@ class WarehouseActivity : AppCompatActivity() {
 
     private fun initListeners(){
 
+        binding.toolbar.menu.findItem(com.example.wms_scan.R.id.logout).setOnMenuItemClickListener {
+            clearPreferences(this)
+            true
+        }
 
         binding.whAddBTN.click{
             val intent = Intent(this, WarehouseDetailsActivity::class.java)
             intent.putExtra("addBusName",businessLocName)
-            intent.putExtra("addWhName",selectedWareHouseNo)
+            intent.putExtra("addBusLocNo",selectedBusLocNo)
             intent.putExtra("AddWHKey",true)
             startActivity(intent)
         }
     }
 
-    fun performAction(value1: String?, value2: String)
+    fun performAction(whName: String?, whNo: String)
     {
-        toast("Values from adapter: v1: $value1, v2: $value2")
+        toast("Values from adapter: v1: $whName, v2: $whNo")
         val intent = Intent(this, WarehouseDetailsActivity::class.java)
-        intent.putExtra("busName",businessLocName)
-        intent.putExtra("whName",value1)
-        intent.putExtra("WHKey",true)
+        intent.putExtra("updateBusName",businessLocName)
+        intent.putExtra("updateBusLocNo",selectedBusLocNo)
+        intent.putExtra("updateWhName",whName)
+        intent.putExtra("updateWhNo",whNo)
+        intent.putExtra("UpdateWHKey",true)
         startActivity(intent)
     }
-
 
     private fun showBusLocSpinner(data:List<UserLocationResponse>) {
         //String array to store all the book names
@@ -227,6 +234,13 @@ class WarehouseActivity : AppCompatActivity() {
             }
             override fun onNothingSelected(p0: AdapterView<*>?) {}
         }
+    }
+
+    private fun clearPreferences(context: Context){
+        val settings: SharedPreferences =
+            context.getSharedPreferences(LocalPreferences.AppLoginPreferences.PREF, Context.MODE_PRIVATE)
+        settings.edit().clear().apply()
+        onBackPressed()
     }
 
 }

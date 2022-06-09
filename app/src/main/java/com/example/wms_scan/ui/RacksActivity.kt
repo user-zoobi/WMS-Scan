@@ -1,6 +1,8 @@
 package com.example.wms_scan.ui
 
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -37,6 +39,7 @@ class RacksActivity : AppCompatActivity() {
     private var selectedBusLocNo = ""
     private var selectedWareHouseNo = ""
     private var selectedRackNo = ""
+    private var selectedRackName = ""
     private var businessLocName = ""
     private var warehouseName = ""
 
@@ -70,23 +73,34 @@ class RacksActivity : AppCompatActivity() {
 
     private fun initListeners(){
 
+        binding.toolbar.menu.findItem(com.example.wms_scan.R.id.logout).setOnMenuItemClickListener {
+            clearPreferences(this)
+            true
+        }
         binding.rackAddBTN.click {
             val intent = Intent(this, AddUpdateRackDetails::class.java)
-            intent.putExtra("addRackBus",businessLocName)
-            intent.putExtra("addRackWh",warehouseName)
-            intent.putExtra("ADDRackKey",true)
+            intent.putExtra("addBusNo",selectedBusLocNo)
+            intent.putExtra("addBusName",businessLocName)
+            intent.putExtra("addWHNo",selectedWareHouseNo)
+            intent.putExtra("addWHName",warehouseName)
+            intent.putExtra("addRackNo",selectedRackNo)
+            intent.putExtra("addRackName",selectedRackName)
+            intent.putExtra("AddRackKey",true)
             startActivity(intent)
         }
 
     }
 
-    fun openActivity(value1: String?, value2: String){
-        Log.i("Warehouse","$value1 $value2")
+    fun openActivity(rackName: String?, rackNo: String){
+        Log.i("Warehouse","$rackName $rackNo")
         val intent = Intent(this, AddUpdateRackDetails::class.java)
-        intent.putExtra("rackBusName",businessLocName)
-        intent.putExtra("rackWhName",warehouseName)
-        intent.putExtra("rackName",value1)
-        intent.putExtra("UpdateRackKey",true)
+        intent.putExtra("updateBusNo",selectedBusLocNo)
+        intent.putExtra("updateBusName",businessLocName)
+        intent.putExtra("updateWHNo",selectedWareHouseNo)
+        intent.putExtra("updateWhName",warehouseName)
+        intent.putExtra("updateRackName",rackName)
+        intent.putExtra("updateRackNo",rackNo)
+        intent.putExtra("updateRackKey",true)
         startActivity(intent)
     }
 
@@ -316,6 +330,8 @@ class RacksActivity : AppCompatActivity() {
         rackSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
             override fun onItemSelected(adapter: AdapterView<*>?, view: View?, position: Int, long: Long) {
                 selectedRackNo = data[position].rackNo.toString()
+                selectedRackName = data[position].rackName.toString()
+
                 viewModel.getShelf(
                     Utils.getSimpleTextBody(""),
                     Utils.getSimpleTextBody(selectedRackNo),
@@ -326,6 +342,13 @@ class RacksActivity : AppCompatActivity() {
             }
             override fun onNothingSelected(p0: AdapterView<*>?) {}
         }
+    }
+
+    private fun clearPreferences(context: Context){
+        val settings: SharedPreferences =
+            context.getSharedPreferences(LocalPreferences.AppLoginPreferences.PREF, Context.MODE_PRIVATE)
+        settings.edit().clear().apply()
+        onBackPressed()
     }
 
 }

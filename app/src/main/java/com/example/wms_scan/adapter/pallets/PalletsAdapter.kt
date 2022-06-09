@@ -30,7 +30,10 @@ class PalletsAdapter(
         with(holder){
             binding.palletTV.text = data.pilotName
             binding.editIV.setOnClickListener {
-                (context as PalletsActivity).showAction(data.pilotName.toString())
+                (context as PalletsActivity).showAction(
+                    data.pilotName.toString(),
+                    data.pilotNo.toString()
+                )
             }
         }
     }

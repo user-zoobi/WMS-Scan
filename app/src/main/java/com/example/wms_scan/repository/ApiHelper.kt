@@ -2,6 +2,7 @@ package com.example.scanmate.repository.remote
 
 import com.example.scanmate.data.api.RetrofitClient
 import com.example.scanmate.data.response.*
+import com.example.wms_scan.data.response.AddCartonResponse
 import com.example.wms_scan.data.response.AddPalletResponse
 import com.example.wms_scan.data.response.GetCartonResponse
 import com.example.wms_scan.data.response.GetPalletResponse
@@ -80,5 +81,12 @@ interface ApiHelper {
         PilotNo:RequestBody, LocationNo:RequestBody
     ):List<GetCartonResponse> = RetrofitClient.apiservice.getCarton(
         PilotNo,LocationNo
+    )
+
+    suspend fun addCarton(
+        CartonNo:RequestBody, CartonCode:RequestBody, ItemCode:RequestBody, PilotNo:RequestBody, AnalyticalNo:RequestBody,
+        Carton_SNo:RequestBody, TotCarton:RequestBody, LocationNo:RequestBody, DMLUserNo:RequestBody, DMLPCName:RequestBody,
+    ):AddCartonResponse = RetrofitClient.apiservice.addCarton(
+        CartonNo, CartonCode, ItemCode, PilotNo, AnalyticalNo, Carton_SNo, TotCarton, LocationNo, DMLUserNo, DMLPCName
     )
 }

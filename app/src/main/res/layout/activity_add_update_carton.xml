@@ -296,7 +296,7 @@
                 app:cardElevation="@dimen/_10sdp">
 
                 <androidx.appcompat.widget.AppCompatEditText
-                    android:id="@+id/shelfNameET"
+                    android:id="@+id/cartonNameET"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_50sdp"
                     android:background="@color/white"
