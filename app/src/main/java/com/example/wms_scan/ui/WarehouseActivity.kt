@@ -133,6 +133,7 @@ class WarehouseActivity : AppCompatActivity() {
                         }
                         else
                         {
+                            binding.warehouseRV.adapter = null
                             toast("No result found")
                         }
                     }

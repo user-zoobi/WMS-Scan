@@ -236,6 +236,7 @@ class RacksActivity : AppCompatActivity() {
                                 }
                             }else{
                                 toast("No record found")
+                                binding.racksRV.adapter = null
                             }
                         }
                         catch (e: Exception)

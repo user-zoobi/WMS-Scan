@@ -115,6 +115,7 @@ class WarehouseDetailsActivity : AppCompatActivity() {
                 LocalPreferences.getInt(this, userNo).toString(),
                 "Test-PC"
             )
+            toast("warehouse added")
         }
 
         binding.updateWarehouseBtn.click {
@@ -127,6 +128,7 @@ class WarehouseDetailsActivity : AppCompatActivity() {
                 LocalPreferences.getInt(this, userNo).toString(),
                 "Test-PC"
             )
+            toast("warehouse updated")
         }
     }
 

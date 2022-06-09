@@ -62,6 +62,7 @@ class AddUpdateRackDetails : AppCompatActivity() {
                     LocalPreferences.getInt(this, LocalPreferences.AppLoginPreferences.userNo).toString()),
                 Utils.getSimpleTextBody("TEST"),
             )
+            toast("rack added")
         }
 
         binding.updateRackBtn.click {
@@ -78,6 +79,7 @@ class AddUpdateRackDetails : AppCompatActivity() {
                 ),
                 Utils.getSimpleTextBody("TEST"),
             )
+            toast("rack updated")
         }
     }
 

@@ -244,6 +244,7 @@ class ShelfActivity : AppCompatActivity() {
                                 }
                             }else{
                                 toast("no result found")
+                                binding.shelfRV.adapter = null
                             }
                         }catch (e:Exception){
                             Log.i("","${e.message}")

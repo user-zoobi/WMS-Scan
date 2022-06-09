@@ -134,6 +134,7 @@ class AddUpdateShelfDetails : AppCompatActivity() {
                 ),
                 Utils.getSimpleTextBody("TEST"),
             )
+            toast("shelf added")
             Log.i("shelfValues","THE KEYS ARE VALUES WITH selectedBusLocNo :$selectedBusLocNo\n $selectedBusLocName\n")
         }
 
@@ -151,6 +152,7 @@ class AddUpdateShelfDetails : AppCompatActivity() {
                 ),
                 Utils.getSimpleTextBody("TEST"),
             )
+            toast("shelf updated")
 
         }
     }

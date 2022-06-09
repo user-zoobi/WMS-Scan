@@ -238,14 +238,19 @@ class CreateCartonActivity : AppCompatActivity() {
                 }
                 Status.SUCCESS ->{
                     try {
+                        if(it.data?.get(0)?.status == true)
+                        {
+                            cartonList = ArrayList()
+                            cartonList = it.data as ArrayList<GetCartonResponse>
+                            cartonAdapter = CartonAdapter(this,cartonList)
 
-                        cartonList = ArrayList()
-                        cartonList = it.data as ArrayList<GetCartonResponse>
-                        cartonAdapter = CartonAdapter(this,cartonList)
-
-                        binding.cartonRV.apply {
-                            adapter = cartonAdapter
-                            layoutManager = LinearLayoutManager(this@CreateCartonActivity)
+                            binding.cartonRV.apply {
+                                adapter = cartonAdapter
+                                layoutManager = LinearLayoutManager(this@CreateCartonActivity)
+                            }
+                        }else{
+                            toast("no result found")
+                            binding.cartonRV.adapter = null
                         }
 
                     }catch (e:Exception){

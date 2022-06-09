@@ -136,6 +136,7 @@ class AddUpdateCarton : AppCompatActivity() {
                 Utils.getSimpleTextBody("2"),
                 Utils.getSimpleTextBody("test"),
             )
+            toast("carton added")
         }
         binding.updateCartonBtn.click {
             val cartonName = binding.cartonNameET.text.toString()
@@ -151,6 +152,7 @@ class AddUpdateCarton : AppCompatActivity() {
                 Utils.getSimpleTextBody("2"),
                 Utils.getSimpleTextBody("test"),
             )
+            toast("carton updated")
         }
     }
 

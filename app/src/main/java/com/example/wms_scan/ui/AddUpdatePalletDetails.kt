@@ -135,6 +135,7 @@ class AddUpdatePalletDetails : AppCompatActivity() {
                 Utils.getSimpleTextBody("${LocalPreferences.getInt(this, userNo)}"),
                 Utils.getSimpleTextBody("TEST"),
             )
+            toast("pallet added")
 
         }
 
@@ -151,6 +152,7 @@ class AddUpdatePalletDetails : AppCompatActivity() {
                 Utils.getSimpleTextBody("${LocalPreferences.getInt(this, userNo)}"),
                 Utils.getSimpleTextBody("TEST"),
             )
+            toast("pallet updated")
         }
 
 

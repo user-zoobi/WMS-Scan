@@ -238,6 +238,7 @@ class PalletsActivity : AppCompatActivity() {
                         else
                         {
                             toast("no result found")
+                            binding.palletsRV.adapter = null
                         }
                     }
                     catch (e:Exception)
