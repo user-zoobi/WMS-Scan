@@ -118,8 +118,6 @@ class WarehouseActivity : AppCompatActivity() {
             else
             {
                 if (binding.warehouseRV.adapter == null){
-                    binding.warehouseCont.gone()
-                    binding.noInternetConnectionCont.visible()
                     toast(NoInternetFound)
                 }
             }
@@ -173,8 +171,6 @@ class WarehouseActivity : AppCompatActivity() {
             else
             {
                 if (binding.warehouseRV.adapter == null){
-                    binding.warehouseCont.gone()
-                    binding.noInternetConnectionCont.visible()
                     toast(NoInternetFound)
                 }
             }
@@ -200,8 +196,6 @@ class WarehouseActivity : AppCompatActivity() {
             }
             else
             {
-                binding.warehouseCont.gone()
-                binding.noInternetConnectionCont.visible()
                 toast(NoInternetFound)
             }
         }
@@ -222,8 +216,6 @@ class WarehouseActivity : AppCompatActivity() {
         }
         else
         {
-            binding.warehouseCont.gone()
-            binding.noInternetConnectionCont.visible()
             toast(NoInternetFound)
         }
     }
