@@ -113,7 +113,10 @@ class RacksActivity : AppCompatActivity() {
             intent.putExtra("updateRackName",rackName)
             intent.putExtra("updateRackNo",rackNo)
             intent.putExtra("updateRackKey",true)
+            finish();
+            overridePendingTransition(0, 0);
             startActivity(intent)
+            overridePendingTransition(0, 0);
         }
         else
         {
