@@ -17,9 +17,12 @@ import com.example.scanmate.data.response.GetShelfResponse
 import com.example.scanmate.data.response.GetWarehouseResponse
 import com.example.scanmate.data.response.UserLocationResponse
 import com.example.scanmate.extensions.*
+import com.example.scanmate.util.Constants
+import com.example.scanmate.util.Constants.Toast.NoInternetFound
 import com.example.scanmate.util.CustomProgressDialog
 import com.example.scanmate.util.LocalPreferences
 import com.example.scanmate.util.Utils
+import com.example.scanmate.util.Utils.isNetworkConnected
 import com.example.scanmate.viewModel.MainViewModel
 import com.example.wms_scan.R
 import com.example.wms_scan.adapter.pallets.PalletsAdapter
@@ -73,35 +76,49 @@ class RacksActivity : AppCompatActivity() {
 
     private fun initListeners(){
 
-        binding.toolbar.menu.findItem(com.example.wms_scan.R.id.logout).setOnMenuItemClickListener {
+        binding.toolbar.menu.findItem(R.id.logout).setOnMenuItemClickListener {
             clearPreferences(this)
             true
         }
         binding.rackAddBTN.click {
-            val intent = Intent(this, AddUpdateRackDetails::class.java)
-            intent.putExtra("addBusNo",selectedBusLocNo)
-            intent.putExtra("addBusName",businessLocName)
-            intent.putExtra("addWHNo",selectedWareHouseNo)
-            intent.putExtra("addWHName",warehouseName)
-            intent.putExtra("addRackNo",selectedRackNo)
-            intent.putExtra("addRackName",selectedRackName)
-            intent.putExtra("AddRackKey",true)
-            startActivity(intent)
+            if (isNetworkConnected(this))
+            {
+                val intent = Intent(this, AddUpdateRackDetails::class.java)
+                intent.putExtra("addBusNo",selectedBusLocNo)
+                intent.putExtra("addBusName",businessLocName)
+                intent.putExtra("addWHNo",selectedWareHouseNo)
+                intent.putExtra("addWHName",warehouseName)
+                intent.putExtra("addRackNo",selectedRackNo)
+                intent.putExtra("addRackName",selectedRackName)
+                intent.putExtra("AddRackKey",true)
+                startActivity(intent)
+            }
+            else
+            {
+                toast(NoInternetFound)
+            }
         }
-
     }
 
     fun openActivity(rackName: String?, rackNo: String){
-        Log.i("Warehouse","$rackName $rackNo")
-        val intent = Intent(this, AddUpdateRackDetails::class.java)
-        intent.putExtra("updateBusNo",selectedBusLocNo)
-        intent.putExtra("updateBusName",businessLocName)
-        intent.putExtra("updateWHNo",selectedWareHouseNo)
-        intent.putExtra("updateWhName",warehouseName)
-        intent.putExtra("updateRackName",rackName)
-        intent.putExtra("updateRackNo",rackNo)
-        intent.putExtra("updateRackKey",true)
-        startActivity(intent)
+
+        if (isNetworkConnected(this))
+        {
+            Log.i("Warehouse","$rackName $rackNo")
+            val intent = Intent(this, AddUpdateRackDetails::class.java)
+            intent.putExtra("updateBusNo",selectedBusLocNo)
+            intent.putExtra("updateBusName",businessLocName)
+            intent.putExtra("updateWHNo",selectedWareHouseNo)
+            intent.putExtra("updateWhName",warehouseName)
+            intent.putExtra("updateRackName",rackName)
+            intent.putExtra("updateRackNo",rackNo)
+            intent.putExtra("updateRackKey",true)
+            startActivity(intent)
+        }
+        else
+        {
+            toast(NoInternetFound)
+        }
     }
 
     private fun initObserver(){
@@ -118,25 +135,36 @@ class RacksActivity : AppCompatActivity() {
             ))
         viewModel.userLoc.observe(this, Observer {
             it.let {
-                when(it.status){
-                    Status.LOADING->{
-                        dialog.show()
-                    }
-                    Status.SUCCESS ->{
-                        if(it.data?.get(0)?.status == true)
-                        {
+                if(isNetworkConnected(this))
+                {
+                    when(it.status){
+                        Status.LOADING->{
+                            dialog.show()
+                        }
+                        Status.SUCCESS ->{
+                            if(it.data?.get(0)?.status == true)
+                            {
+                                dialog.dismiss()
+                                showBusLocSpinner(it.data)
+                            }
+                            else
+                            {
+                                toast("No record found")
+                                binding.racksRV.adapter = null
+                            }
+                        }
+                        Status.ERROR ->{
                             dialog.dismiss()
-                            showBusLocSpinner(it.data)
                         }
-                        else
-                        {
-                            toast("No record found")
-                        }
-                    }
-                    Status.ERROR ->{
-                        dialog.dismiss()
                     }
                 }
+                else
+                {
+                    if (binding.racksRV.adapter == null){
+                        toast(NoInternetFound)
+                    }
+                }
+
             }
         })
 
@@ -146,32 +174,43 @@ class RacksActivity : AppCompatActivity() {
 
         viewModel.getWarehouse.observe(this, Observer{
             it.let {
-                when(it.status){
-                    Status.LOADING->{
-                    }
-                    Status.SUCCESS ->{
+                if(isNetworkConnected(this))
+                {
+                    when(it.status){
+                        Status.LOADING->{
+                        }
+                        Status.SUCCESS ->{
 
-                        try {
-                            if(it.data?.get(0)?.status == true)
-                            {
-                                it.data[0].wHName?.let { it1 -> Log.i("warehouseResponse", it1) }
-                                showWarehouseSpinner(it.data)
+                            try {
+                                if(it.data?.get(0)?.status == true)
+                                {
+                                    it.data[0].wHName?.let { it1 -> Log.i("warehouseResponse", it1) }
+                                    showWarehouseSpinner(it.data)
+                                }
+                                else
+                                {
+                                    toast("No record found")
+                                    binding.racksRV.adapter = null
+                                }
                             }
-                            else
-                            {
-                                toast("No record found")
+                            catch(e:Exception){
+                                Log.i("rackAdapter","${e.message}")
+                                Log.i("rackAdapter","${e.stackTrace}")
                             }
+                            //warehouseAdapter.addItems(list)
                         }
-                        catch(e:Exception){
-                            Log.i("rackAdapter","${e.message}")
-                            Log.i("rackAdapter","${e.stackTrace}")
+                        Status.ERROR ->{
+                            dialog.dismiss()
                         }
-                        //warehouseAdapter.addItems(list)
-                    }
-                    Status.ERROR ->{
-                        dialog.dismiss()
                     }
                 }
+                else
+                {
+                    if (binding.racksRV.adapter == null){
+                        toast(NoInternetFound)
+                    }
+                }
+
             }
         })
 
@@ -181,32 +220,43 @@ class RacksActivity : AppCompatActivity() {
 
         viewModel.getWarehouse.observe(this, Observer{
             it.let {
-                when(it.status){
-                    Status.LOADING->{
-                    }
-                    Status.SUCCESS ->{
+                if(isNetworkConnected(this))
+                {
+                    when(it.status){
+                        Status.LOADING->{
+                        }
+                        Status.SUCCESS ->{
 
-                        try {
-                            if(it.data?.get(0)?.status == true)
-                            {
-                                it.data[0].wHName?.let { it1 -> Log.i("warehouseResponse", it1) }
-                                showWarehouseSpinner(it.data)
+                            try {
+                                if(it.data?.get(0)?.status == true)
+                                {
+                                    it.data[0].wHName?.let { it1 -> Log.i("warehouseResponse", it1) }
+                                    showWarehouseSpinner(it.data)
+                                }
+                                else
+                                {
+                                    toast("No record found")
+                                    binding.racksRV.adapter = null
+                                }
                             }
-                            else
-                            {
-                                toast("No record found")
+                            catch(e:Exception){
+                                Log.i("rackAdapter","${e.message}")
+                                Log.i("rackAdapter","${e.stackTrace}")
                             }
+                            //warehouseAdapter.addItems(list)
                         }
-                        catch(e:Exception){
-                            Log.i("rackAdapter","${e.message}")
-                            Log.i("rackAdapter","${e.stackTrace}")
+                        Status.ERROR ->{
+                            dialog.dismiss()
                         }
-                        //warehouseAdapter.addItems(list)
-                    }
-                    Status.ERROR ->{
-                        dialog.dismiss()
                     }
                 }
+                else
+                {
+                    if (binding.racksRV.adapter == null){
+                        toast(NoInternetFound)
+                    }
+                }
+
             }
         })
 
@@ -216,39 +266,49 @@ class RacksActivity : AppCompatActivity() {
 
         viewModel.getRack.observe(this, Observer{
             it.let {
-                when(it.status){
-                    Status.LOADING ->{
-                    }
-                    Status.SUCCESS ->{
-                        // Log.i("getRack",it.data?.get(0)?.rackNo.toString())
-                        try
-                        {
-                            if(it.data?.get(0)?.status == true)
+                if(isNetworkConnected(this))
+                {
+                    when(it.status){
+                        Status.LOADING ->{
+                        }
+                        Status.SUCCESS ->{
+                            // Log.i("getRack",it.data?.get(0)?.rackNo.toString())
+                            try
                             {
-                                showRackSpinner(it.data)
-                                rackList = ArrayList()
-                                rackList = it.data as ArrayList<GetRackResponse>
-                                racksAdapter = RackAdapter(this,rackList)
-                                binding.racksRV.apply {
+                                if(it.data?.get(0)?.status == true)
+                                {
+                                    showRackSpinner(it.data)
+                                    rackList = ArrayList()
+                                    rackList = it.data as ArrayList<GetRackResponse>
+                                    racksAdapter = RackAdapter(this,rackList)
+                                    binding.racksRV.apply {
 
-                                    layoutManager = LinearLayoutManager(this@RacksActivity)
-                                    adapter = racksAdapter
+                                        layoutManager = LinearLayoutManager(this@RacksActivity)
+                                        adapter = racksAdapter
+                                    }
+                                }else{
+                                    toast("No record found")
+                                    binding.racksRV.adapter = null
                                 }
-                            }else{
-                                toast("No record found")
-                                binding.racksRV.adapter = null
+                            }
+                            catch (e: Exception)
+                            {
+                                Log.i("RACK_OBSERVER","${e.message}")
+                                Log.i("RACK_OBSERVER","${e.stackTrace}")
                             }
                         }
-                        catch (e: Exception)
-                        {
-                            Log.i("RACK_OBSERVER","${e.message}")
-                            Log.i("RACK_OBSERVER","${e.stackTrace}")
+                        Status.ERROR ->{
+                            dialog.dismiss()
                         }
                     }
-                    Status.ERROR ->{
-                        dialog.dismiss()
+                }
+                else
+                {
+                    if (binding.racksRV.adapter == null){
+                        toast(NoInternetFound)
                     }
                 }
+
             }
         })
 

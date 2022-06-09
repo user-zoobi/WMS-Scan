@@ -1,9 +1,11 @@
 package com.example.wms_scan.ui
 
 import android.R
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.net.ConnectivityManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -18,9 +20,12 @@ import com.example.scanmate.data.response.GetShelfResponse
 import com.example.scanmate.data.response.GetWarehouseResponse
 import com.example.scanmate.data.response.UserLocationResponse
 import com.example.scanmate.extensions.*
+import com.example.scanmate.util.Constants.Toast.NoInternetFound
+import com.example.scanmate.util.Constants.Toast.noRecordFound
 import com.example.scanmate.util.CustomProgressDialog
 import com.example.scanmate.util.LocalPreferences
 import com.example.scanmate.util.Utils
+import com.example.scanmate.util.Utils.isNetworkConnected
 import com.example.scanmate.viewModel.MainViewModel
 import com.example.wms_scan.adapter.pallets.PalletsAdapter
 import com.example.wms_scan.adapter.racks.RackAdapter
@@ -85,26 +90,40 @@ class WarehouseActivity : AppCompatActivity() {
                 ).toString()
             ))
         viewModel.userLoc.observe(this, Observer {
-            when(it.status){
-                Status.LOADING->{
-                    dialog.show()
-                }
-                Status.SUCCESS ->{
 
-                    if(it.data?.get(0)?.status == true)
-                    {
-                    dialog.dismiss()
-                    showBusLocSpinner(it.data)
+            if(isNetworkConnected(this)){
+
+                when(it.status){
+                    Status.LOADING->{
+                        dialog.show()
                     }
-                    else
-                    {
-                        toast("No result found")
+                    Status.SUCCESS ->{
+
+                        if(it.data?.get(0)?.status == true)
+                        {
+                            dialog.dismiss()
+                            showBusLocSpinner(it.data)
+                        }
+                        else
+                        {
+                            binding.warehouseRV.adapter = null
+                            toast(noRecordFound)
+                        }
                     }
-                }
-                Status.ERROR ->{
-                    dialog.dismiss()
+                    Status.ERROR ->{
+                        dialog.dismiss()
+                    }
                 }
             }
+            else
+            {
+                if (binding.warehouseRV.adapter == null){
+                    binding.warehouseCont.gone()
+                    binding.noInternetConnectionCont.visible()
+                    toast(NoInternetFound)
+                }
+            }
+
         })
 
         /**
@@ -112,42 +131,54 @@ class WarehouseActivity : AppCompatActivity() {
          */
 
         viewModel.getWarehouse.observe(this, Observer{
-            when(it.status){
-                Status.LOADING->{
-                }
-                Status.SUCCESS ->{
+            if(isNetworkConnected(this))
+            {
+                when(it.status){
+                    Status.LOADING->{
+                    }
+                    Status.SUCCESS ->{
 
-                    try {
-                        if(it.data?.get(0)?.status == true)
-                        {
-                            it.data[0].wHName?.let { it1 -> Log.i("warehouseResponse", it1) }
-                            showWarehouseSpinner(it.data)
+                        try {
+                            if(it.data?.get(0)?.status == true)
+                            {
+                                it.data[0].wHName?.let { it1 -> Log.i("warehouseResponse", it1) }
+                                showWarehouseSpinner(it.data)
 
-                            list = ArrayList()
-                            list = it.data as ArrayList<GetWarehouseResponse>
-                            warehouseAdapter = WarehouseAdapter(this, list)
-                            binding.warehouseRV.apply {
-                                layoutManager = LinearLayoutManager(this@WarehouseActivity)
-                                adapter = warehouseAdapter
+                                list = ArrayList()
+                                list = it.data as ArrayList<GetWarehouseResponse>
+                                warehouseAdapter = WarehouseAdapter(this, list)
+                                binding.warehouseRV.apply {
+                                    layoutManager = LinearLayoutManager(this@WarehouseActivity)
+                                    adapter = warehouseAdapter
+                                }
+                            }
+                            else
+                            {
+                                binding.warehouseRV.adapter = null
+                                toast(noRecordFound)
                             }
                         }
-                        else
-                        {
-                            binding.warehouseRV.adapter = null
-                            toast("No result found")
-                        }
-                    }
 
-                    catch(e:Exception){
-                        Log.i("rackAdapter","${e.message}")
-                        Log.i("rackAdapter","${e.stackTrace}")
+                        catch(e:Exception){
+                            Log.i("rackAdapter","${e.message}")
+                            Log.i("rackAdapter","${e.stackTrace}")
+                        }
+                        //warehouseAdapter.addItems(list)
                     }
-                    //warehouseAdapter.addItems(list)
-                }
-                Status.ERROR ->{
-                    dialog.dismiss()
+                    Status.ERROR ->{
+                        dialog.dismiss()
+                    }
                 }
             }
+            else
+            {
+                if (binding.warehouseRV.adapter == null){
+                    binding.warehouseCont.gone()
+                    binding.noInternetConnectionCont.visible()
+                    toast(NoInternetFound)
+                }
+            }
+
         })
     }
 
@@ -159,24 +190,42 @@ class WarehouseActivity : AppCompatActivity() {
         }
 
         binding.whAddBTN.click{
-            val intent = Intent(this, WarehouseDetailsActivity::class.java)
-            intent.putExtra("addBusName",businessLocName)
-            intent.putExtra("addBusLocNo",selectedBusLocNo)
-            intent.putExtra("AddWHKey",true)
-            startActivity(intent)
+            if (isNetworkConnected(this))
+            {
+                val intent = Intent(this, WarehouseDetailsActivity::class.java)
+                intent.putExtra("addBusName",businessLocName)
+                intent.putExtra("addBusLocNo",selectedBusLocNo)
+                intent.putExtra("AddWHKey",true)
+                startActivity(intent)
+            }
+            else
+            {
+                binding.warehouseCont.gone()
+                binding.noInternetConnectionCont.visible()
+                toast(NoInternetFound)
+            }
         }
     }
 
     fun performAction(whName: String?, whNo: String)
     {
-        toast("Values from adapter: v1: $whName, v2: $whNo")
-        val intent = Intent(this, WarehouseDetailsActivity::class.java)
-        intent.putExtra("updateBusName",businessLocName)
-        intent.putExtra("updateBusLocNo",selectedBusLocNo)
-        intent.putExtra("updateWhName",whName)
-        intent.putExtra("updateWhNo",whNo)
-        intent.putExtra("UpdateWHKey",true)
-        startActivity(intent)
+        if (isNetworkConnected(this))
+        {
+            toast("Values from adapter: v1: $whName, v2: $whNo")
+            val intent = Intent(this, WarehouseDetailsActivity::class.java)
+            intent.putExtra("updateBusName",businessLocName)
+            intent.putExtra("updateBusLocNo",selectedBusLocNo)
+            intent.putExtra("updateWhName",whName)
+            intent.putExtra("updateWhNo",whNo)
+            intent.putExtra("UpdateWHKey",true)
+            startActivity(intent)
+        }
+        else
+        {
+            binding.warehouseCont.gone()
+            binding.noInternetConnectionCont.visible()
+            toast(NoInternetFound)
+        }
     }
 
     private fun showBusLocSpinner(data:List<UserLocationResponse>) {
@@ -243,5 +292,4 @@ class WarehouseActivity : AppCompatActivity() {
         settings.edit().clear().apply()
         onBackPressed()
     }
-
 }

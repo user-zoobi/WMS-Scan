@@ -8,9 +8,12 @@ import android.util.Log
 import androidx.lifecycle.Observer
 import com.example.scanmate.data.callback.Status
 import com.example.scanmate.extensions.*
+import com.example.scanmate.util.Constants
+import com.example.scanmate.util.Constants.Toast.NoInternetFound
 import com.example.scanmate.util.CustomProgressDialog
 import com.example.scanmate.util.LocalPreferences
 import com.example.scanmate.util.Utils
+import com.example.scanmate.util.Utils.isNetworkConnected
 import com.example.scanmate.viewModel.MainViewModel
 import com.example.wms_scan.R
 import com.example.wms_scan.databinding.ActivityAddUpdateCartonBinding
@@ -42,21 +45,28 @@ class AddUpdateCarton : AppCompatActivity() {
 
     private fun initObserver(){
         viewModel.addCarton.observe(this, Observer {
-            when(it.status){
-                Status.LOADING ->
-                {
-                    dialog.show()
-                }
-                Status.SUCCESS ->
-                {
-                    Log.i("addShelf","${it.data?.error}")
-                }
-                Status.ERROR ->
-                {
-                    Log.i("RACK_OBSERVER","${Exception().message}")
-                    Log.i("RACK_OBSERVER","${Exception().stackTrace}")
+            if(isNetworkConnected(this)){
+                when(it.status){
+                    Status.LOADING ->
+                    {
+                        dialog.show()
+                    }
+                    Status.SUCCESS ->
+                    {
+                        Log.i("addShelf","${it.data?.error}")
+                    }
+                    Status.ERROR ->
+                    {
+                        Log.i("RACK_OBSERVER","${Exception().message}")
+                        Log.i("RACK_OBSERVER","${Exception().stackTrace}")
+                    }
                 }
             }
+            else
+            {
+                toast(NoInternetFound)
+            }
+
         })
     }
 
@@ -124,34 +134,46 @@ class AddUpdateCarton : AppCompatActivity() {
         }
         binding.addCartonBtn.click {
             val cartonName = binding.cartonNameET.text.toString()
-            viewModel.addCarton(
-                Utils.getSimpleTextBody("0"),
-                Utils.getSimpleTextBody("01"),
-                Utils.getSimpleTextBody("TEST"),
-                Utils.getSimpleTextBody("2"),
-                Utils.getSimpleTextBody(cartonName),
-                Utils.getSimpleTextBody("1"),
-                Utils.getSimpleTextBody("4"),
-                Utils.getSimpleTextBody("1"),
-                Utils.getSimpleTextBody("2"),
-                Utils.getSimpleTextBody("test"),
-            )
+            if(isNetworkConnected(this)){
+                viewModel.addCarton(
+                    Utils.getSimpleTextBody("0"),
+                    Utils.getSimpleTextBody("01"),
+                    Utils.getSimpleTextBody("TEST"),
+                    Utils.getSimpleTextBody("2"),
+                    Utils.getSimpleTextBody(cartonName),
+                    Utils.getSimpleTextBody("1"),
+                    Utils.getSimpleTextBody("4"),
+                    Utils.getSimpleTextBody("1"),
+                    Utils.getSimpleTextBody("2"),
+                    Utils.getSimpleTextBody("test"),
+                )
+            }
+            else{
+                toast(NoInternetFound)
+            }
+
             toast("carton added")
         }
         binding.updateCartonBtn.click {
             val cartonName = binding.cartonNameET.text.toString()
-            viewModel.addCarton(
-                Utils.getSimpleTextBody("1"),
-                Utils.getSimpleTextBody("01"),
-                Utils.getSimpleTextBody("TEST"),
-                Utils.getSimpleTextBody("2"),
-                Utils.getSimpleTextBody(cartonName),
-                Utils.getSimpleTextBody("1"),
-                Utils.getSimpleTextBody("4"),
-                Utils.getSimpleTextBody("1"),
-                Utils.getSimpleTextBody("2"),
-                Utils.getSimpleTextBody("test"),
-            )
+            if(isNetworkConnected(this)){
+                viewModel.addCarton(
+                    Utils.getSimpleTextBody("1"),
+                    Utils.getSimpleTextBody("01"),
+                    Utils.getSimpleTextBody("TEST"),
+                    Utils.getSimpleTextBody("2"),
+                    Utils.getSimpleTextBody(cartonName),
+                    Utils.getSimpleTextBody("1"),
+                    Utils.getSimpleTextBody("4"),
+                    Utils.getSimpleTextBody("1"),
+                    Utils.getSimpleTextBody("2"),
+                    Utils.getSimpleTextBody("test"),
+                )
+            }
+            else{
+                toast(NoInternetFound)
+            }
+
             toast("carton updated")
         }
     }

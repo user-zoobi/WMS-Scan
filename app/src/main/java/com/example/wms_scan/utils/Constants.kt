@@ -24,4 +24,9 @@ object Constants {
         const val pallets = "pallets"
     }
 
+    object Toast{
+        const val NoInternetFound = "No Internet Found"
+        const val noRecordFound = "No Record Found"
+    }
+
 }

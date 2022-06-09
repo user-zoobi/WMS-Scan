@@ -117,8 +117,23 @@ class CreateCartonActivity : AppCompatActivity() {
                     dialog.show()
                 }
                 Status.SUCCESS ->{
-                    dialog.dismiss()
-                    showBusLocSpinner(it.data!!)
+                    try
+                    {
+                        if(it.data?.get(0)?.status == true)
+                        {
+                            dialog.dismiss()
+                            showBusLocSpinner(it.data!!)
+                        }
+                        else{
+                            toast("No record found")
+                            binding.cartonRV.adapter = null
+                        }
+                    }
+                    catch(e:Exception){
+                        Log.i("CARTON_OBSERVER","${e.message}")
+                        Log.i("CARTON_OBSERVER","${e.stackTrace}")
+                    }
+
                 }
                 Status.ERROR ->{
                     dialog.dismiss()
@@ -138,8 +153,17 @@ class CreateCartonActivity : AppCompatActivity() {
                 Status.SUCCESS ->{
 
                     try {
-                        it.data?.get(0)?.wHName?.let { it1 -> Log.i("warehouseResponse", it1) }
-                        showWarehouseSpinner(it.data!!)
+                        if(it.data?.get(0)?.status == true)
+                        {
+                            it.data?.get(0)?.wHName?.let { it1 -> Log.i("warehouseResponse", it1) }
+                            showWarehouseSpinner(it.data!!)
+                        }
+                        else
+                        {
+                            toast("No record found")
+                            binding.cartonRV.adapter = null
+                        }
+
                     }
                     catch(e:Exception){
                         Log.i("rackAdapter","${e.message}")
@@ -165,8 +189,15 @@ class CreateCartonActivity : AppCompatActivity() {
                     // Log.i("getRack",it.data?.get(0)?.rackNo.toString())
                     try
                     {
-                        showRackSpinner(it.data!!)
-
+                        if(it.data?.get(0)?.status == true)
+                        {
+                            showRackSpinner(it.data!!)
+                        }
+                        else
+                        {
+                            toast("No record found")
+                            binding.cartonRV.adapter = null
+                        }
                     }
                     catch (e: Exception)
                     {
@@ -191,7 +222,16 @@ class CreateCartonActivity : AppCompatActivity() {
                 }
                 Status.SUCCESS ->{
                     try {
-                        showShelfSpinner(it.data!!)
+                        if(it.data?.get(0)?.status == true)
+                        {
+                            showShelfSpinner(it.data!!)
+                        }
+                        else
+                        {
+                            toast("No record found")
+                            binding.cartonRV.adapter = null
+                        }
+
 
                     }catch (e:Exception){
                         Log.i("","${e.message}")
@@ -214,9 +254,17 @@ class CreateCartonActivity : AppCompatActivity() {
                 }
                 Status.SUCCESS ->{
                     try {
-                        showPalletSpinner(it.data!!)
-
-                    }catch (e:Exception){
+                        if(it.data?.get(0)?.status == true)
+                        {
+                            showPalletSpinner(it.data!!)
+                        }
+                        else
+                        {
+                            toast("No record found")
+                            binding.cartonRV.adapter = null
+                        }
+                    }
+                    catch (e:Exception){
                         Log.i("","${e.message}")
                         Log.i("palletStrace","${e.stackTrace}")
                     }

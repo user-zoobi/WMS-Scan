@@ -5,8 +5,13 @@ import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.example.scanmate.data.response.GetWarehouseResponse
+import com.example.scanmate.extensions.toast
+import com.example.scanmate.util.Constants
+import com.example.scanmate.util.Constants.Toast.NoInternetFound
+import com.example.scanmate.util.Utils.isNetworkConnected
 import com.example.wms_scan.R
 import com.example.wms_scan.databinding.WarehouseListViewBinding
 import com.example.wms_scan.ui.WarehouseActivity
@@ -32,7 +37,13 @@ class WarehouseAdapter(
             binding.wrhTV.text = data.wHName
 
             binding.editIV.setOnClickListener {
-               (context as WarehouseActivity).performAction(data.wHName, data.wHNo.toString())
+                if (isNetworkConnected(context)){
+                    (context as WarehouseActivity).performAction(data.wHName, data.wHNo.toString())
+                }
+                else
+                {
+                    Toast.makeText(context, NoInternetFound, Toast.LENGTH_SHORT).show()
+                }
             }
         }
     }

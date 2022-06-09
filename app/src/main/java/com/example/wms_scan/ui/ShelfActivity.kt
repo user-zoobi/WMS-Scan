@@ -17,6 +17,8 @@ import com.example.scanmate.data.response.GetShelfResponse
 import com.example.scanmate.data.response.GetWarehouseResponse
 import com.example.scanmate.data.response.UserLocationResponse
 import com.example.scanmate.extensions.*
+import com.example.scanmate.util.Constants
+import com.example.scanmate.util.Constants.Toast.NoInternetFound
 import com.example.scanmate.util.CustomProgressDialog
 import com.example.scanmate.util.LocalPreferences
 import com.example.scanmate.util.Utils
@@ -82,32 +84,46 @@ class ShelfActivity : AppCompatActivity() {
         }
 
         binding.shelfAddBTN.click {
-            val intent = Intent(this, AddUpdateShelfDetails::class.java)
-            intent.putExtra("addBusLocNo",selectedBusLocNo)
-            intent.putExtra("addWHNo",selectedWareHouseNo)
-            intent.putExtra("addRackNo",selectedRackNo)
-            intent.putExtra("addShelfNo",selectedShelveNo)
-            intent.putExtra("addBusLocName",busLocName)
-            intent.putExtra("addWHName",warehouseName)
-            intent.putExtra("addRackName",rackName)
-            intent.putExtra("AddShelfKey",true)
-            startActivity(intent)
+            if (Utils.isNetworkConnected(this))
+            {
+                val intent = Intent(this, AddUpdateShelfDetails::class.java)
+                intent.putExtra("addBusLocNo",selectedBusLocNo)
+                intent.putExtra("addWHNo",selectedWareHouseNo)
+                intent.putExtra("addRackNo",selectedRackNo)
+                intent.putExtra("addShelfNo",selectedShelveNo)
+                intent.putExtra("addBusLocName",busLocName)
+                intent.putExtra("addWHName",warehouseName)
+                intent.putExtra("addRackName",rackName)
+                intent.putExtra("AddShelfKey",true)
+                startActivity(intent)
+            }
+            else
+            {
+                toast(NoInternetFound)
+            }
         }
 
     }
 
     fun showAction(shelfName:String,shelfNo:String){
-        val intent = Intent(this, AddUpdateShelfDetails::class.java)
-        intent.putExtra("updateBusLocNo",selectedBusLocNo)
-        intent.putExtra("updateWHNo",selectedWareHouseNo)
-        intent.putExtra("updateRackNo",selectedRackNo)
-        intent.putExtra("updateShelfNo",shelfNo)
-        intent.putExtra("updateBusinessLocName",busLocName)
-        intent.putExtra("updateWHName",warehouseName)
-        intent.putExtra("updateRackName",rackName)
-        intent.putExtra("updateShelfName",shelfName)
-        intent.putExtra("UpdateShelfKey",true)
-        startActivity(intent)
+        if (Utils.isNetworkConnected(this))
+        {
+            val intent = Intent(this, AddUpdateShelfDetails::class.java)
+            intent.putExtra("updateBusLocNo",selectedBusLocNo)
+            intent.putExtra("updateWHNo",selectedWareHouseNo)
+            intent.putExtra("updateRackNo",selectedRackNo)
+            intent.putExtra("updateShelfNo",shelfNo)
+            intent.putExtra("updateBusinessLocName",busLocName)
+            intent.putExtra("updateWHName",warehouseName)
+            intent.putExtra("updateRackName",rackName)
+            intent.putExtra("updateShelfName",shelfName)
+            intent.putExtra("UpdateShelfKey",true)
+            startActivity(intent)
+        }
+        else
+        {
+            toast(NoInternetFound)
+        }
     }
 
     private fun initObserver(){

@@ -72,12 +72,14 @@
 
 
         <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/warehouseCont"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_20sdp"
             android:layout_marginTop="@dimen/_20sdp"
             android:layout_marginEnd="@dimen/_20sdp"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:visibility="visible">
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -169,7 +171,34 @@
         android:src="@drawable/white_add_icon"
         android:elevation="@dimen/_30sdp"/>
 
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/noInternetConnectionCont"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_marginStart="@dimen/_20sdp"
+        android:layout_marginEnd="@dimen/_20sdp"
+        android:orientation="vertical"
+        android:visibility="gone">
 
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="@dimen/_200sdp"
+            android:layout_height="@dimen/_200sdp"
+            android:layout_gravity="center"
+            android:src="@drawable/no_internet"
+            android:tint="@color/dark_grey" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:fontFamily="@font/amiko"
+            android:text="No Internet Connection Found"
+            android:textColor="@color/dark_grey"
+            android:textSize="@dimen/_20ssp" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
 
 
 </RelativeLayout>

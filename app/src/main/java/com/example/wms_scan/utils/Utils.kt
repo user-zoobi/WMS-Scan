@@ -1,5 +1,8 @@
 package com.example.scanmate.util
 
+import android.annotation.SuppressLint
+import android.content.Context
+import android.net.ConnectivityManager
 import android.text.TextUtils
 import android.util.Patterns
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -32,6 +35,11 @@ object Utils {
         } else {
             DecimalFormat("#,##0").format(numValue)
         }
+    }
+    @SuppressLint("ServiceCast")
+    fun isNetworkConnected(context: Context): Boolean {
+        val cm = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        return cm.activeNetworkInfo != null && cm.activeNetworkInfo!!.isConnectedOrConnecting
     }
 
 }
