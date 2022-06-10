@@ -66,8 +66,8 @@
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="@dimen/_20sdp"
         android:layout_below="@+id/loginTimeTV"
+        android:layout_marginTop="@dimen/_20sdp"
         android:background="@drawable/top_rounded_white_bg">
 
         <androidx.appcompat.widget.LinearLayoutCompat
@@ -92,11 +92,11 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="@dimen/_10sdp"
                 android:layout_marginBottom="@dimen/_10sdp"
+                android:fontFamily="@font/amiko"
                 android:text="@string/scan_pallet"
                 android:textColor="@color/black"
                 android:textSize="@dimen/_18ssp"
-                android:fontFamily="@font/amiko"
-                android:textStyle="bold"  />
+                android:textStyle="bold" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 

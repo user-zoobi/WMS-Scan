@@ -4,31 +4,39 @@ import android.content.Context
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import androidx.lifecycle.Observer
-import com.example.scanmate.data.callback.Status
 import com.example.scanmate.extensions.*
-import com.example.scanmate.util.Constants
-import com.example.scanmate.util.Constants.Toast.NoInternetFound
 import com.example.scanmate.util.CustomProgressDialog
 import com.example.scanmate.util.LocalPreferences
-import com.example.scanmate.util.Utils
-import com.example.scanmate.util.Utils.isNetworkConnected
 import com.example.scanmate.viewModel.MainViewModel
 import com.example.wms_scan.R
-import com.example.wms_scan.databinding.ActivityAddUpdateCartonBinding
-import com.example.wms_scan.databinding.ActivityMenuBinding
+import com.example.wms_scan.databinding.ActivityScanCartonBinding
 
-class AddUpdateCarton : AppCompatActivity() {
-    private lateinit var binding: ActivityAddUpdateCartonBinding
+class ScanCartonActivity : AppCompatActivity() {
+    private lateinit var binding: ActivityScanCartonBinding
     private lateinit var viewModel: MainViewModel
     private lateinit var dialog: CustomProgressDialog
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityAddUpdateCartonBinding.inflate(layoutInflater)
+        binding = ActivityScanCartonBinding.inflate(layoutInflater)
         setContentView(binding.root)
         viewModel = obtainViewModel(MainViewModel::class.java)
+        setupUi()
+    }
+
+    private fun setupUi(){
+        dialog = CustomProgressDialog(this)
+        binding.userNameTV.text = LocalPreferences.getString(this,
+            LocalPreferences.AppLoginPreferences.userName
+        )
+        binding.userDesignTV.text = LocalPreferences.getString(this,
+            LocalPreferences.AppLoginPreferences.userDesignation
+        )
+        binding.loginTimeTV.text = LocalPreferences.getString(this,
+            LocalPreferences.AppLoginPreferences.loginTime
+        )
+        supportActionBar?.hide()
+        setTransparentStatusBarColor(R.color.transparent)
     }
 
     private fun clearPreferences(context: Context){

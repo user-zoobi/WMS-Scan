@@ -40,6 +40,7 @@ class CreateCartonActivity : AppCompatActivity() {
         setContentView(binding.root)
         viewModel = obtainViewModel(MainViewModel::class.java)
         setupUi()
+        initListeners()
 
     }
 
@@ -56,6 +57,13 @@ class CreateCartonActivity : AppCompatActivity() {
         )
         supportActionBar?.hide()
         setTransparentStatusBarColor(R.color.transparent)
+    }
+
+    private fun initListeners(){
+
+        binding.scanBtn.click {
+            gotoActivity(ScanCartonActivity::class.java)
+        }
     }
 
 
