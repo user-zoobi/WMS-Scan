@@ -48,7 +48,7 @@
         android:layout_alignParentEnd="true"
         android:layout_marginEnd="19dp"
         android:fontFamily="@font/amiko"
-        android:text="Login time"
+        android:text="Login At"
         android:textColor="@color/white"
         android:textSize="@dimen/_15ssp" />
 
@@ -79,7 +79,7 @@
             android:layout_marginStart="@dimen/_20sdp"
             android:layout_marginTop="@dimen/_40sdp"
             android:fontFamily="@font/amiko"
-            android:text="Edit warehouse details"
+            android:text="Add warehouse"
             android:textColor="@color/black"
             android:textSize="@dimen/_18ssp" />
 
@@ -89,58 +89,23 @@
             android:orientation="vertical"
             android:weightSum="2">
 
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/businessSpinner"
-                android:layout_width="match_parent"
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_20sdp"
-                android:layout_marginTop="@dimen/_30sdp"
-                android:layout_marginEnd="@dimen/_20sdp"
-                android:layout_marginBottom="@dimen/_10sdp"
-                android:visibility="gone"
-                app:cardElevation="@dimen/_10sdp">
-
-                <Spinner
-                    android:id="@+id/businessSpinnerCont"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/_50sdp"
-                    android:layout_weight="1.5"
-                    android:editable="false"
-                    android:fontFamily="@font/amiko"
-                    android:paddingStart="@dimen/_10sdp"
-                    android:textSize="@dimen/_15ssp"
-                    android:textStyle="bold" />
-
-            </com.google.android.material.card.MaterialCardView>
-
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/warehouseSpinner"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/_20sdp"
-                android:layout_marginTop="@dimen/_10sdp"
-                android:layout_marginEnd="@dimen/_20sdp"
-                android:layout_marginBottom="@dimen/_10sdp"
-                android:visibility="gone"
-                app:cardElevation="@dimen/_10sdp">
-
-                <androidx.appcompat.widget.AppCompatSpinner
-                    android:id="@+id/warehouseSpinnerCont"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/_50sdp"
-                    android:layout_weight="1.5"
-                    android:fontFamily="@font/amiko"
-                    android:paddingStart="@dimen/_10sdp"
-                    android:textSize="@dimen/_15ssp"
-                    android:textStyle="bold" />
-            </com.google.android.material.card.MaterialCardView>
+                android:layout_marginTop="@dimen/_20sdp"
+                android:layout_marginBottom="@dimen/_5sdp"
+                android:fontFamily="@font/amiko"
+                android:text="Business Location Name"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_10ssp" />
 
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/businessLocCont"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_50sdp"
                 android:layout_marginStart="@dimen/_20sdp"
-                android:layout_marginTop="@dimen/_20sdp"
+
                 android:layout_marginEnd="@dimen/_20sdp"
                 android:layout_marginBottom="@dimen/_10sdp"
                 app:cardElevation="@dimen/_10sdp">
@@ -157,33 +122,21 @@
 
             </com.google.android.material.card.MaterialCardView>
 
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/warehouseCont"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/_50sdp"
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_20sdp"
-                android:layout_marginTop="@dimen/_10sdp"
-                android:layout_marginEnd="@dimen/_20sdp"
-                android:layout_marginBottom="@dimen/_10sdp"
-                app:cardElevation="@dimen/_10sdp">
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/warehouseTV"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:background="@color/white"
-                    android:hint="warehouse name"
-                    android:paddingStart="@dimen/_20sdp"
-                    android:textSize="@dimen/_18ssp" />
-
-            </com.google.android.material.card.MaterialCardView>
+                android:layout_marginTop="@dimen/_20sdp"
+                android:layout_marginBottom="@dimen/_5sdp"
+                android:fontFamily="@font/amiko"
+                android:text="Warehouse Name"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_10ssp" />
 
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_20sdp"
-                android:layout_marginTop="@dimen/_10sdp"
                 android:layout_marginEnd="@dimen/_20sdp"
                 android:layout_marginBottom="@dimen/_10sdp"
                 app:cardElevation="@dimen/_10sdp">

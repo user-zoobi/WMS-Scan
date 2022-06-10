@@ -82,8 +82,7 @@ class WarehouseDetailsActivity : AppCompatActivity() {
                 selectedWHNo = intent.extras?.getString("addWhNo")
 
                 binding.busLocTV.text = selectedBusLocName
-                binding.warehouseTV.text = selectedWhName
-                binding.warehouseCont.gone()
+                binding.updateWarehouseET.text = selectedWhName?.toEditable()
                 Log.i("warehouseValues","THE KEYS ARE VALUES WITH selectedBusLocNo :$selectedBusLocNo\n $selectedBusLocName\n $selectedWHNo")
             }
 
@@ -94,7 +93,7 @@ class WarehouseDetailsActivity : AppCompatActivity() {
                 selectedWhName = intent.extras?.getString("updateWhName")
 
                 binding.busLocTV.text = updatedBusLocName
-                binding.warehouseTV.text = selectedWhName
+                binding.updateWarehouseET.text = selectedWhName?.toEditable()
                 binding.addWarehouseBTN.gone()
                 binding.updateWarehouseBtn.visible()
                 binding.updateWarehouseET.hint = "Update warehouse"

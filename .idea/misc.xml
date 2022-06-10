@@ -7,8 +7,8 @@
         <entry key="..\:/Users/BI.IT-021/StudioProjects/WMS-Scan/app/src/main/res/drawable-v24/red_rounded_bg.xml" value="0.181" />
         <entry key="..\:/Users/BI.IT-021/StudioProjects/WMS-Scan/app/src/main/res/layout/activity_add_update_carton.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/BI.IT-021/StudioProjects/WMS-Scan/app/src/main/res/layout/activity_add_update_pallet_details.xml" value="0.20416666666666666" />
-        <entry key="..\:/Users/BI.IT-021/StudioProjects/WMS-Scan/app/src/main/res/layout/activity_add_update_rack_details.xml" value="0.20416666666666666" />
-        <entry key="..\:/Users/BI.IT-021/StudioProjects/WMS-Scan/app/src/main/res/layout/activity_add_update_shelf_details.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/BI.IT-021/StudioProjects/WMS-Scan/app/src/main/res/layout/activity_add_update_rack_details.xml" value="0.25" />
+        <entry key="..\:/Users/BI.IT-021/StudioProjects/WMS-Scan/app/src/main/res/layout/activity_add_update_shelf_details.xml" value="0.25" />
         <entry key="..\:/Users/BI.IT-021/StudioProjects/WMS-Scan/app/src/main/res/layout/activity_add_warehouse.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/BI.IT-021/StudioProjects/WMS-Scan/app/src/main/res/layout/activity_business_location.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/BI.IT-021/StudioProjects/WMS-Scan/app/src/main/res/layout/activity_create_carton.xml" value="0.20416666666666666" />
@@ -16,9 +16,11 @@
         <entry key="..\:/Users/BI.IT-021/StudioProjects/WMS-Scan/app/src/main/res/layout/activity_menu.xml" value="0.22" />
         <entry key="..\:/Users/BI.IT-021/StudioProjects/WMS-Scan/app/src/main/res/layout/activity_pallets.xml" value="0.25" />
         <entry key="..\:/Users/BI.IT-021/StudioProjects/WMS-Scan/app/src/main/res/layout/activity_racks.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/BI.IT-021/StudioProjects/WMS-Scan/app/src/main/res/layout/activity_scanner.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/BI.IT-021/StudioProjects/WMS-Scan/app/src/main/res/layout/activity_scanner_camera.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/BI.IT-021/StudioProjects/WMS-Scan/app/src/main/res/layout/activity_shelf.xml" value="0.20416666666666666" />
-        <entry key="..\:/Users/BI.IT-021/StudioProjects/WMS-Scan/app/src/main/res/layout/activity_warehouse.xml" value="0.20416666666666666" />
-        <entry key="..\:/Users/BI.IT-021/StudioProjects/WMS-Scan/app/src/main/res/layout/activity_warehouse_details.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/BI.IT-021/StudioProjects/WMS-Scan/app/src/main/res/layout/activity_warehouse.xml" value="0.25" />
+        <entry key="..\:/Users/BI.IT-021/StudioProjects/WMS-Scan/app/src/main/res/layout/activity_warehouse_details.xml" value="0.25" />
         <entry key="..\:/Users/BI.IT-021/StudioProjects/WMS-Scan/app/src/main/res/layout/carton_list_view.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/BI.IT-021/StudioProjects/WMS-Scan/app/src/main/res/layout/pallet_list_view.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/BI.IT-021/StudioProjects/WMS-Scan/app/src/main/res/layout/racks_list_view.xml" value="0.20416666666666666" />
@@ -28,7 +30,6 @@
         <entry key="..\:/Users/smc/AndroidStudioProjects/WMS-Scan/app/src/main/res/layout/activity_add_update_rack_details.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/smc/AndroidStudioProjects/WMS-Scan/app/src/main/res/layout/activity_add_update_shelf_details.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/smc/AndroidStudioProjects/WMS-Scan/app/src/main/res/layout/activity_business_location.xml" value="0.22" />
-        <entry key="..\:/Users/smc/AndroidStudioProjects/WMS-Scan/app/src/main/res/layout/activity_warehouse.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/smc/AndroidStudioProjects/WMS-Scan/app/src/main/res/layout/activity_warehouse_details.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/smc/AndroidStudioProjects/WMS-Scan/app/src/main/res/layout/product_list_view.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/smc/AndroidStudioProjects/WMSScan/app/src/main/res/drawable-v24/yellow_rounded_bg.xml" value="0.1355" />

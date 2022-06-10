@@ -23,6 +23,7 @@ import com.example.scanmate.util.Constants.LogMessages.success
 import com.example.scanmate.util.CustomProgressDialog
 import com.example.scanmate.util.LocalPreferences
 import com.example.scanmate.util.Utils
+import com.example.scanmate.util.Utils.isNetworkConnected
 import com.example.scanmate.viewModel.MainViewModel
 import com.example.wms_scan.R
 import com.example.wms_scan.adapter.pallets.PalletsAdapter
@@ -317,9 +318,16 @@ class PalletsActivity : AppCompatActivity() {
             override fun onItemSelected(adapter: AdapterView<*>?, view: View?, position: Int, long: Long) {
                 Log.i("LocBus","business Location no ${data[position].orgBusLocNo}")
                 // binding.rackSpinnerCont.visible()
-                selectedBusLocNo = data[position].orgBusLocNo.toString()
-                busLocName = data[position].busLocationName.toString()
-                viewModel.getWarehouse("", selectedBusLocNo)
+                if (isNetworkConnected(this@PalletsActivity))
+                {
+                    selectedBusLocNo = data[position].orgBusLocNo.toString()
+                    busLocName = data[position].busLocationName.toString()
+                    viewModel.getWarehouse("", selectedBusLocNo)
+                }else
+                {
+                    businessLocSpinner.adapter = null
+                }
+
             }
             override fun onNothingSelected(p0: AdapterView<*>?) {}
         }
@@ -342,15 +350,23 @@ class PalletsActivity : AppCompatActivity() {
         warehouseSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
 
             override fun onItemSelected(adapter: AdapterView<*>?, view: View?, position: Int, long: Long) {
-                selectedWareHouseNo = data[position].wHNo.toString()
-                warehouseName = data[position].wHName.toString()
-                viewModel.getRack(
-                    Utils.getSimpleTextBody(""),
-                    Utils.getSimpleTextBody(selectedWareHouseNo),
-                    Utils.getSimpleTextBody(selectedBusLocNo)
-                )
-                Log.i("LocBus","This is warehouse name is ${adapter?.getItemAtPosition(position)}")
-                Log.i("LocBus","This is warehouse pos is ${data[position].wHNo}")
+                if (isNetworkConnected(this@PalletsActivity))
+                {
+                    selectedWareHouseNo = data[position].wHNo.toString()
+                    warehouseName = data[position].wHName.toString()
+                    viewModel.getRack(
+                        Utils.getSimpleTextBody(""),
+                        Utils.getSimpleTextBody(selectedWareHouseNo),
+                        Utils.getSimpleTextBody(selectedBusLocNo)
+                    )
+                    Log.i("LocBus","This is warehouse name is ${adapter?.getItemAtPosition(position)}")
+                    Log.i("LocBus","This is warehouse pos is ${data[position].wHNo}")
+                }else
+                {
+                    warehouseSpinner.adapter = null
+                }
+
+
             }
             override fun onNothingSelected(p0: AdapterView<*>?) {}
         }
@@ -373,13 +389,21 @@ class PalletsActivity : AppCompatActivity() {
 
         rackSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
             override fun onItemSelected(adapter: AdapterView<*>?, view: View?, position: Int, long: Long) {
-                selectedRackNo = data[position].rackNo.toString()
-                rackName = data[position].rackName.toString()
-                viewModel.getShelf(
-                    Utils.getSimpleTextBody(""),
-                    Utils.getSimpleTextBody(selectedRackNo),
-                    Utils.getSimpleTextBody(selectedBusLocNo)
-                )
+                if (isNetworkConnected(this@PalletsActivity))
+                {
+                    selectedRackNo = data[position].rackNo.toString()
+                    rackName = data[position].rackName.toString()
+                    viewModel.getShelf(
+                        Utils.getSimpleTextBody(""),
+                        Utils.getSimpleTextBody(selectedRackNo),
+                        Utils.getSimpleTextBody(selectedBusLocNo)
+                    )
+                }
+                else
+                {
+                    rackSpinner.adapter = null
+                }
+
 
                 Log.i("LocBus","This is rack pos ${adapter?.getItemAtPosition(position)}")
             }
@@ -403,14 +427,22 @@ class PalletsActivity : AppCompatActivity() {
             shelfResponse.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
 
                 override fun onItemSelected(adapter: AdapterView<*>?, view: View?, position: Int, long: Long) {
-                    Log.i("LocBus","This is shelf pos ${adapter?.getItemAtPosition(position)}")
-                    selectedShelveNo = data[position].shelfNo.toString()
-                    shelfName = data[position].shelfName.toString()
-                    viewModel.getPallet(
-                        Utils.getSimpleTextBody(""),
-                        Utils.getSimpleTextBody(selectedShelveNo),
-                        Utils.getSimpleTextBody(selectedBusLocNo)
-                    )
+                    if (isNetworkConnected(this@PalletsActivity))
+                    {
+                        Log.i("LocBus","This is shelf pos ${adapter?.getItemAtPosition(position)}")
+                        selectedShelveNo = data[position].shelfNo.toString()
+                        shelfName = data[position].shelfName.toString()
+                        viewModel.getPallet(
+                            Utils.getSimpleTextBody(""),
+                            Utils.getSimpleTextBody(selectedShelveNo),
+                            Utils.getSimpleTextBody(selectedBusLocNo)
+                        )
+                    }
+                    else
+                    {
+                        shelfResponse.adapter = null
+                    }
+
                 }
                 override fun onNothingSelected(p0: AdapterView<*>?) {}
             }

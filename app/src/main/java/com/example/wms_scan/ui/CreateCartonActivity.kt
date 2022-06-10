@@ -122,7 +122,7 @@ class CreateCartonActivity : AppCompatActivity() {
                         if(it.data?.get(0)?.status == true)
                         {
                             dialog.dismiss()
-                            showBusLocSpinner(it.data!!)
+                            showBusLocSpinner(it.data)
                         }
                         else{
                             toast("No record found")
@@ -155,8 +155,8 @@ class CreateCartonActivity : AppCompatActivity() {
                     try {
                         if(it.data?.get(0)?.status == true)
                         {
-                            it.data?.get(0)?.wHName?.let { it1 -> Log.i("warehouseResponse", it1) }
-                            showWarehouseSpinner(it.data!!)
+                            it.data.get(0).wHName?.let { it1 -> Log.i("warehouseResponse", it1) }
+                            showWarehouseSpinner(it.data)
                         }
                         else
                         {
@@ -470,5 +470,10 @@ class CreateCartonActivity : AppCompatActivity() {
         settings.edit().clear().apply()
         finish()
     }
+
+    override fun onBackPressed() {
+        finish()
+    }
+
 
 }

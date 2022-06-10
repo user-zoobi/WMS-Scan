@@ -113,10 +113,7 @@ class RacksActivity : AppCompatActivity() {
             intent.putExtra("updateRackName",rackName)
             intent.putExtra("updateRackNo",rackNo)
             intent.putExtra("updateRackKey",true)
-            finish();
-            overridePendingTransition(0, 0);
             startActivity(intent)
-            overridePendingTransition(0, 0);
         }
         else
         {
@@ -143,6 +140,7 @@ class RacksActivity : AppCompatActivity() {
                     when(it.status){
                         Status.LOADING->{
                             dialog.show()
+                            dialog.setCanceledOnTouchOutside(true);
                         }
                         Status.SUCCESS ->{
                             if(it.data?.get(0)?.status == true)
@@ -335,11 +333,20 @@ class RacksActivity : AppCompatActivity() {
         businessLocSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
 
             override fun onItemSelected(adapter: AdapterView<*>?, view: View?, position: Int, long: Long) {
-                Log.i("LocBus","business Location no ${data[position].orgBusLocNo}")
-                // binding.rackSpinnerCont.visible()
-                businessLocName = data[position].busLocationName.toString()
-                selectedBusLocNo = data[position].orgBusLocNo.toString()
-                viewModel.getWarehouse("", selectedBusLocNo)
+
+                if (isNetworkConnected(this@RacksActivity))
+                {
+                    Log.i("LocBus","business Location no ${data[position].orgBusLocNo}")
+                    // binding.rackSpinnerCont.visible()
+                    businessLocName = data[position].busLocationName.toString()
+                    selectedBusLocNo = data[position].orgBusLocNo.toString()
+                    viewModel.getWarehouse("", selectedBusLocNo)
+                }
+                else
+                {
+                    businessLocSpinner.adapter = null
+                }
+
             }
             override fun onNothingSelected(p0: AdapterView<*>?) {}
         }
@@ -362,15 +369,23 @@ class RacksActivity : AppCompatActivity() {
         warehouseSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
 
             override fun onItemSelected(adapter: AdapterView<*>?, view: View?, position: Int, long: Long) {
-                selectedWareHouseNo = data[position].wHNo.toString()
-                viewModel.getRack(
-                    Utils.getSimpleTextBody(""),
-                    Utils.getSimpleTextBody(selectedWareHouseNo),
-                    Utils.getSimpleTextBody(selectedBusLocNo)
-                )
-                warehouseName = data[position].wHName.toString()
-                Log.i("LocBus","This is warehouse name is ${adapter?.getItemAtPosition(position)}")
-                Log.i("LocBus","This is warehouse pos is ${data[position].wHNo}")
+                if (isNetworkConnected(this@RacksActivity))
+                {
+                    selectedWareHouseNo = data[position].wHNo.toString()
+                    viewModel.getRack(
+                        Utils.getSimpleTextBody(""),
+                        Utils.getSimpleTextBody(selectedWareHouseNo),
+                        Utils.getSimpleTextBody(selectedBusLocNo)
+                    )
+                    warehouseName = data[position].wHName.toString()
+                    Log.i("LocBus","This is warehouse name is ${adapter?.getItemAtPosition(position)}")
+                    Log.i("LocBus","This is warehouse pos is ${data[position].wHNo}")
+                }
+                else
+                {
+                    warehouseSpinner.adapter = null
+                }
+
             }
             override fun onNothingSelected(p0: AdapterView<*>?) {}
         }
@@ -393,14 +408,22 @@ class RacksActivity : AppCompatActivity() {
 
         rackSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
             override fun onItemSelected(adapter: AdapterView<*>?, view: View?, position: Int, long: Long) {
-                selectedRackNo = data[position].rackNo.toString()
-                selectedRackName = data[position].rackName.toString()
+                if (isNetworkConnected(this@RacksActivity))
+                {
+                    selectedRackNo = data[position].rackNo.toString()
+                    selectedRackName = data[position].rackName.toString()
 
-                viewModel.getShelf(
-                    Utils.getSimpleTextBody(""),
-                    Utils.getSimpleTextBody(selectedRackNo),
-                    Utils.getSimpleTextBody(selectedBusLocNo)
-                )
+                    viewModel.getShelf(
+                        Utils.getSimpleTextBody(""),
+                        Utils.getSimpleTextBody(selectedRackNo),
+                        Utils.getSimpleTextBody(selectedBusLocNo)
+                    )
+                }
+                else
+                {
+                    rackSpinner.adapter = null
+                }
+
 
                 Log.i("LocBus","This is rack pos ${adapter?.getItemAtPosition(position)}")
             }

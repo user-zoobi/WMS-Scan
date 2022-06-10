@@ -50,6 +50,7 @@ class AddUpdateCarton : AppCompatActivity() {
                     Status.LOADING ->
                     {
                         dialog.show()
+                        dialog.setCanceledOnTouchOutside(true);
                     }
                     Status.SUCCESS ->
                     {
@@ -100,6 +101,9 @@ class AddUpdateCarton : AppCompatActivity() {
                 val palletName = intent.extras?.getString("updatePallet")
                 binding.palletTV.text = palletName
 
+                val cartonName = intent.extras?.getString("updateCarton")
+                binding.cartonNameET.text = cartonName?.toEditable()
+
                 binding.addCartonBtn.gone()
                 binding.updateCartonBtn.visible()
                 binding.editDetailTV.text = "Update to"
@@ -147,12 +151,12 @@ class AddUpdateCarton : AppCompatActivity() {
                     Utils.getSimpleTextBody("2"),
                     Utils.getSimpleTextBody("test"),
                 )
+                toast("carton added")
             }
             else{
                 toast(NoInternetFound)
             }
 
-            toast("carton added")
         }
         binding.updateCartonBtn.click {
             val cartonName = binding.cartonNameET.text.toString()
@@ -169,12 +173,11 @@ class AddUpdateCarton : AppCompatActivity() {
                     Utils.getSimpleTextBody("2"),
                     Utils.getSimpleTextBody("test"),
                 )
+                toast("carton updated")
             }
             else{
                 toast(NoInternetFound)
             }
-
-            toast("carton updated")
         }
     }
 
@@ -182,6 +185,12 @@ class AddUpdateCarton : AppCompatActivity() {
         val settings: SharedPreferences =
             context.getSharedPreferences(LocalPreferences.AppLoginPreferences.PREF, Context.MODE_PRIVATE)
         settings.edit().clear().apply()
+        finish()
+    }
+
+
+
+    override fun onBackPressed() {
         finish()
     }
 

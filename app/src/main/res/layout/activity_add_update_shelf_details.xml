@@ -48,7 +48,7 @@
         android:layout_alignParentEnd="true"
         android:layout_marginEnd="19dp"
         android:fontFamily="@font/amiko"
-        android:text="Login time"
+        android:text="Login At"
         android:textColor="@color/white"
         android:textSize="@dimen/_15ssp" />
 
@@ -79,7 +79,7 @@
             android:layout_marginStart="@dimen/_20sdp"
             android:layout_marginTop="@dimen/_40sdp"
             android:fontFamily="@font/amiko"
-            android:text="Add shelf details"
+            android:text="Add shelf"
             android:textColor="@color/black"
             android:textSize="@dimen/_18ssp" />
 
@@ -176,6 +176,17 @@
 
             <!--            </com.google.android.material.card.MaterialCardView>-->
 
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_20sdp"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:layout_marginBottom="@dimen/_5sdp"
+                android:fontFamily="@font/amiko"
+                android:text="Business Location Name"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_10ssp" />
+
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/busLocCont"
                 android:layout_width="match_parent"
@@ -198,12 +209,22 @@
 
             </com.google.android.material.card.MaterialCardView>
 
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_20sdp"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:layout_marginBottom="@dimen/_5sdp"
+                android:fontFamily="@font/amiko"
+                android:text="Warehouse Name"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_10ssp" />
+
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/warehouseCont"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_50sdp"
                 android:layout_marginStart="@dimen/_20sdp"
-                android:layout_marginTop="@dimen/_10sdp"
                 android:layout_marginEnd="@dimen/_20sdp"
                 android:layout_marginBottom="@dimen/_10sdp"
                 app:cardElevation="@dimen/_10sdp">
@@ -220,12 +241,22 @@
 
             </com.google.android.material.card.MaterialCardView>
 
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_20sdp"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:layout_marginBottom="@dimen/_5sdp"
+                android:fontFamily="@font/amiko"
+                android:text="Rack Name"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_10ssp" />
+
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/rackCont"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_50sdp"
                 android:layout_marginStart="@dimen/_20sdp"
-                android:layout_marginTop="@dimen/_10sdp"
                 android:layout_marginEnd="@dimen/_20sdp"
                 android:layout_marginBottom="@dimen/_10sdp"
                 app:cardElevation="@dimen/_10sdp">
@@ -242,11 +273,21 @@
 
             </com.google.android.material.card.MaterialCardView>
 
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_20sdp"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:layout_marginBottom="@dimen/_5sdp"
+                android:fontFamily="@font/amiko"
+                android:text="Shelf Name"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_10ssp" />
+
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_20sdp"
-                android:layout_marginTop="@dimen/_10sdp"
                 android:layout_marginEnd="@dimen/_20sdp"
                 android:layout_marginBottom="@dimen/_10sdp"
                 app:cardElevation="@dimen/_10sdp">

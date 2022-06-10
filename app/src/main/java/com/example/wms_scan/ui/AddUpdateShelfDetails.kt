@@ -86,7 +86,8 @@ class AddUpdateShelfDetails : AppCompatActivity() {
                 binding.warehouseTV.text = selectedWareHouseName
                 binding.rackTV.text = selectedRackName
 
-                Log.i("warehouseValues","THE KEYS VALUES ARE :$selectedBusLocName\n $selectedWareHouseName\n $selectedRackName \n $selectedShelveName")
+                Log.i("warehouseValues","THE KEYS VALUES ARE :" +
+                        "$selectedBusLocName\n $selectedWareHouseName\n $selectedRackName \n $selectedShelveName")
 
 
             }
@@ -107,6 +108,7 @@ class AddUpdateShelfDetails : AppCompatActivity() {
                 binding.warehouseTV.text = updatedWhName
                 binding.rackTV.text = updatedRackName
                 binding.editDetailTV.text = "Update to"
+                binding.shelfNameET.text = updatedShelfName?.toEditable()
                 binding.addShelfBtn.gone()
                 binding.updateShelfBtn.visible()
                 binding.shelfNameET.hint= "Update Shelf"

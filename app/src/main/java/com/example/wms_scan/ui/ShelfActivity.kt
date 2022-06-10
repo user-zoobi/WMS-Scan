@@ -109,6 +109,7 @@ class ShelfActivity : AppCompatActivity() {
         if (Utils.isNetworkConnected(this))
         {
             val intent = Intent(this, AddUpdateShelfDetails::class.java)
+
             intent.putExtra("updateBusLocNo",selectedBusLocNo)
             intent.putExtra("updateWHNo",selectedWareHouseNo)
             intent.putExtra("updateRackNo",selectedRackNo)
@@ -295,11 +296,19 @@ class ShelfActivity : AppCompatActivity() {
         businessLocSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
 
             override fun onItemSelected(adapter: AdapterView<*>?, view: View?, position: Int, long: Long) {
-                Log.i("LocBus","business Location no ${data[position].orgBusLocNo}")
-                // binding.rackSpinnerCont.visible()
-                selectedBusLocNo = data[position].orgBusLocNo.toString()
-                viewModel.getWarehouse("", selectedBusLocNo)
-                busLocName = data[position].busLocationName.toString()
+
+                if (Utils.isNetworkConnected(this@ShelfActivity))
+                {
+                    Log.i("LocBus","business Location no ${data[position].orgBusLocNo}")
+                    // binding.rackSpinnerCont.visible()
+                    selectedBusLocNo = data[position].orgBusLocNo.toString()
+                    viewModel.getWarehouse("", selectedBusLocNo)
+                    busLocName = data[position].busLocationName.toString()
+                }
+                else{
+                    businessLocSpinner.adapter = null
+                }
+
             }
             override fun onNothingSelected(p0: AdapterView<*>?) {}
         }
@@ -322,15 +331,22 @@ class ShelfActivity : AppCompatActivity() {
         warehouseSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
 
             override fun onItemSelected(adapter: AdapterView<*>?, view: View?, position: Int, long: Long) {
-                selectedWareHouseNo = data[position].wHNo.toString()
-                warehouseName = data[position].wHName.toString()
-                viewModel.getRack(
-                    Utils.getSimpleTextBody(""),
-                    Utils.getSimpleTextBody(selectedWareHouseNo),
-                    Utils.getSimpleTextBody(selectedBusLocNo)
-                )
-                Log.i("LocBus","This is warehouse name is ${adapter?.getItemAtPosition(position)}")
-                Log.i("LocBus","This is warehouse pos is ${data[position].wHNo}")
+                if (Utils.isNetworkConnected(this@ShelfActivity))
+                {
+                    selectedWareHouseNo = data[position].wHNo.toString()
+                    warehouseName = data[position].wHName.toString()
+                    viewModel.getRack(
+                        Utils.getSimpleTextBody(""),
+                        Utils.getSimpleTextBody(selectedWareHouseNo),
+                        Utils.getSimpleTextBody(selectedBusLocNo)
+                    )
+                    Log.i("LocBus","This is warehouse name is ${adapter?.getItemAtPosition(position)}")
+                    Log.i("LocBus","This is warehouse pos is ${data[position].wHNo}")
+                }
+                else{
+                    warehouseSpinner.adapter = null
+                }
+
             }
             override fun onNothingSelected(p0: AdapterView<*>?) {}
         }
@@ -353,15 +369,23 @@ class ShelfActivity : AppCompatActivity() {
 
         rackSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
             override fun onItemSelected(adapter: AdapterView<*>?, view: View?, position: Int, long: Long) {
-                selectedRackNo = data[position].rackNo.toString()
-                rackName = data[position].rackName.toString()
-                viewModel.getShelf(
-                    Utils.getSimpleTextBody(""),
-                    Utils.getSimpleTextBody(selectedRackNo),
-                    Utils.getSimpleTextBody(selectedBusLocNo)
-                )
+                if (Utils.isNetworkConnected(this@ShelfActivity))
+                {
+                    selectedRackNo = data[position].rackNo.toString()
+                    rackName = data[position].rackName.toString()
+                    viewModel.getShelf(
+                        Utils.getSimpleTextBody(""),
+                        Utils.getSimpleTextBody(selectedRackNo),
+                        Utils.getSimpleTextBody(selectedBusLocNo)
+                    )
 
-                Log.i("LocBus","This is rack pos ${adapter?.getItemAtPosition(position)}")
+                    Log.i("LocBus","This is rack pos ${adapter?.getItemAtPosition(position)}")
+                }
+                else
+                {
+                    rackSpinner.adapter = null
+                }
+
             }
             override fun onNothingSelected(p0: AdapterView<*>?) {}
         }
@@ -383,9 +407,17 @@ class ShelfActivity : AppCompatActivity() {
             shelfResponse.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
 
                 override fun onItemSelected(adapter: AdapterView<*>?, view: View?, position: Int, long: Long) {
-                    Log.i("LocBus","This is shelf pos ${adapter?.getItemAtPosition(position)}")
-                    selectedShelveNo = data[position].shelfNo.toString()
+                    if (Utils.isNetworkConnected(this@ShelfActivity))
+                    {
+                        Log.i("LocBus","This is shelf pos ${adapter?.getItemAtPosition(position)}")
+                        selectedShelveNo = data[position].shelfNo.toString()
 //                    viewModel.getPallet("",selectedShelveNo,selectedBusLocNo)
+                    }
+                    else
+                    {
+                        shelfResponse.adapter = null
+                    }
+
                 }
                 override fun onNothingSelected(p0: AdapterView<*>?) {}
             }

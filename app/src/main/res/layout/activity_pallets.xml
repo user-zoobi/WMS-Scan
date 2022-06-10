@@ -47,7 +47,7 @@
         android:layout_alignParentEnd="true"
         android:layout_marginEnd="19dp"
         android:fontFamily="@font/amiko"
-        android:text="Login time"
+        android:text="Login At"
         android:textColor="@color/white"
         android:textSize="@dimen/_15ssp" />
 

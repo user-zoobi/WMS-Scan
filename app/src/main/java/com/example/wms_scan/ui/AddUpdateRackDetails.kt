@@ -110,7 +110,7 @@ class AddUpdateRackDetails : AppCompatActivity() {
 
                 binding.warehouseTV.text = updatedWHName
                 binding.businessLocTV.text = updatedBusLocName
-                binding.rackTV.text = updatedRackName
+                binding.rackNameET.text = updatedRackName?.toEditable()
                 binding.rackNameET.hint = "Update rack"
                 binding.addRackBtn.gone()
                 binding.updateRackBtn.visible()
@@ -121,10 +121,8 @@ class AddUpdateRackDetails : AppCompatActivity() {
                 selectedBusLocName = intent.extras?.getString("addBusName")!!
                 selectedWareHouseNo = intent.extras?.getString("addWHNo")!!
                 selectedWHName = intent.extras?.getString("addWHName")!!
-
                 binding.businessLocTV.text = selectedBusLocName
                 binding.warehouseTV.text = selectedWHName
-                binding.rackCont.gone()
             }
         }
 

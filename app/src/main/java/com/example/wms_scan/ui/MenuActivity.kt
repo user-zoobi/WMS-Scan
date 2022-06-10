@@ -77,6 +77,7 @@ class MenuActivity : AppCompatActivity() {
             when(it.status){
                 Status.LOADING -> {
                     dialog.show()
+                    dialog.setCanceledOnTouchOutside(true)
                 }
                 Status.SUCCESS ->{
                     if(it.data?.get(0)?.status == true)

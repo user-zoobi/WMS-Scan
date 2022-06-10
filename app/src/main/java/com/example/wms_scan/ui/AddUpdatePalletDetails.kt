@@ -93,13 +93,14 @@ class AddUpdatePalletDetails : AppCompatActivity() {
                 binding.warehouseTV.text = updatedWarehouseName
                 binding.rackTV.text = updatedRackName
                 binding.shelfTV.text = updatedShelfName
-                binding.palletTV.text = updatedPalletName
+                binding.palletNameET.text = updatedPalletName?.toEditable()
                 binding.addPalletBtn.gone()
                 binding.updatePalletBtn.visible()
                 binding.palletNameET.hint = "Update pallet"
             }
 
             intent.extras?.getBoolean("AddPalletKey") == true ->{
+
                 selectedBusLocNo = intent.extras?.getString("addBusLocNo")
                 selectedWareHouseNo = intent.extras?.getString("addWHNo")
                 selectedRackNo = intent.extras?.getString("addRackNo")
@@ -113,8 +114,7 @@ class AddUpdatePalletDetails : AppCompatActivity() {
                 binding.warehouseTV.text = selectedWHName
                 binding.rackTV.text = selectedRackName
                 binding.shelfTV.text = selectedShelfName
-                binding.palletTV.text = selectedPalletName
-                binding.palletCont.gone()
+
             }
         }
     }
@@ -225,8 +225,6 @@ class AddUpdatePalletDetails : AppCompatActivity() {
                         Log.i("RACK_OBSERVER","${e.message}")
                         Log.i("RACK_OBSERVER","${e.stackTrace}")
                     }
-
-
                 }
                 Status.ERROR ->{
 
@@ -239,15 +237,18 @@ class AddUpdatePalletDetails : AppCompatActivity() {
          */
 
         viewModel.getShelf.observe(this,Observer{
-            when(it.status){
+            when(it.status)
+            {
                 Status.LOADING ->{
 
                 }
                 Status.SUCCESS ->{
-                    try {
+                    try
+                    {
 
-
-                    }catch (e:Exception){
+                    }
+                    catch (e:Exception)
+                    {
                         Log.i("","${e.message}")
                         Log.i("rackAdapter","${e.stackTrace}")
                     }
@@ -267,10 +268,12 @@ class AddUpdatePalletDetails : AppCompatActivity() {
 
                 }
                 Status.SUCCESS ->{
-                    try {
+                    try
+                    {
 
 
-                    }catch (e:Exception){
+                    }
+                    catch (e:Exception){
                         Log.i("","${e.message}")
                         Log.i("rackAdapter","${e.stackTrace}")
                     }
@@ -309,7 +312,5 @@ class AddUpdatePalletDetails : AppCompatActivity() {
                 }
             }
         })
-
     }
-
 }

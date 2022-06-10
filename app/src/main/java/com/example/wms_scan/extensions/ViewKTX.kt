@@ -1,5 +1,6 @@
 package com.example.scanmate.extensions
 
+import android.text.Editable
 import android.text.method.PasswordTransformationMethod
 import android.view.View
 import android.widget.EditText
@@ -31,6 +32,8 @@ fun EditText.showPassword(isShowPassword: Boolean) {
         }
     }
 }
+
+fun String.toEditable(): Editable =  Editable.Factory.getInstance().newEditable(this)
 
 fun View.snackBar(message: String) {
     Snackbar.make(this, message, Snackbar.LENGTH_SHORT).show()
