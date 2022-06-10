@@ -33,12 +33,6 @@
                 android:textSize="@dimen/_20ssp"
                 android:visibility="visible" />
 
-            <FragmentBreadCrumbs
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/_50sdp"
-                android:layout_marginTop="@dimen/_20sdp">
-
-            </FragmentBreadCrumbs>
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 

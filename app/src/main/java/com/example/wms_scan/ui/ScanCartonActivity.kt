@@ -21,23 +21,8 @@ class ScanCartonActivity : AppCompatActivity() {
         binding = ActivityScanCartonBinding.inflate(layoutInflater)
         setContentView(binding.root)
         viewModel = obtainViewModel(MainViewModel::class.java)
-        setupUi()
     }
 
-    private fun setupUi(){
-        dialog = CustomProgressDialog(this)
-        binding.userNameTV.text = LocalPreferences.getString(this,
-            LocalPreferences.AppLoginPreferences.userName
-        )
-        binding.userDesignTV.text = LocalPreferences.getString(this,
-            LocalPreferences.AppLoginPreferences.userDesignation
-        )
-        binding.loginTimeTV.text = LocalPreferences.getString(this,
-            LocalPreferences.AppLoginPreferences.loginTime
-        )
-        supportActionBar?.hide()
-        setTransparentStatusBarColor(R.color.transparent)
-    }
 
     private fun clearPreferences(context: Context){
         val settings: SharedPreferences =

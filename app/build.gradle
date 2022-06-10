@@ -112,6 +112,4 @@ dependencies {
     //powermenu
     implementation "com.github.skydoves:powermenu:2.2.0"
 
-    //breadcrumb
-    implementation 'com.github.SmailBarkouch:android-breadcrumb:1.0.0'
 }
