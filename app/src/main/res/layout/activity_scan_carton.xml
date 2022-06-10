@@ -17,9 +17,10 @@
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
             android:layout_marginStart="@dimen/_20sdp"
-            android:layout_marginEnd="@dimen/_20sdp">
+            android:layout_marginTop="@dimen/_20sdp"
+            android:layout_marginEnd="@dimen/_20sdp"
+            android:orientation="vertical">
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvHeader"
@@ -27,12 +28,145 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
                 android:fontFamily="@font/amiko"
-                android:layout_marginTop="@dimen/_20sdp"
-                android:text="Pallets"
+                android:text="Carton"
                 android:textColor="@color/black"
                 android:textSize="@dimen/_20ssp"
                 android:visibility="visible" />
 
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:layout_marginEnd="@dimen/_5sdp"
+                android:layout_marginBottom="@dimen/_5sdp"
+                app:cardElevation="@dimen/_5sdp">
+
+                <androidx.appcompat.widget.AppCompatSpinner
+                    android:id="@+id/businessLocationSpinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:maxLines="1"
+                    android:paddingStart="@dimen/_10sdp"
+                    android:spinnerMode="dropdown"
+                    android:visibility="visible" />
+
+            </com.google.android.material.card.MaterialCardView>
+
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/warehouseSpinnerCont"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginEnd="@dimen/_5sdp"
+                android:layout_marginBottom="@dimen/_15sdp"
+                android:visibility="visible"
+                app:cardElevation="@dimen/_5sdp">
+
+                <androidx.appcompat.widget.AppCompatSpinner
+                    android:id="@+id/warehouseSpinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:maxLines="1"
+                    android:paddingStart="@dimen/_10sdp"
+                    android:spinnerMode="dropdown" />
+
+            </com.google.android.material.card.MaterialCardView>
+
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/rackSpinnerCont"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:layout_marginEnd="@dimen/_5sdp"
+                android:layout_marginBottom="@dimen/_10sdp"
+                android:visibility="visible"
+                app:cardElevation="@dimen/_5sdp">
+
+                <androidx.appcompat.widget.AppCompatSpinner
+                    android:id="@+id/rackSpinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:maxLines="1"
+                    android:paddingStart="@dimen/_10sdp"
+                    android:spinnerMode="dropdown" />
+
+            </com.google.android.material.card.MaterialCardView>
+
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/shelfSpinnerCont"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:layout_marginEnd="@dimen/_5sdp"
+                android:layout_marginBottom="@dimen/_10sdp"
+                android:visibility="visible"
+                app:cardElevation="@dimen/_5sdp">
+
+                <androidx.appcompat.widget.AppCompatSpinner
+                    android:id="@+id/shelfSpinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:maxLines="1"
+                    android:paddingStart="@dimen/_20sdp"
+                    android:spinnerMode="dropdown"
+                    android:visibility="visible" />
+
+            </com.google.android.material.card.MaterialCardView>
+
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/palletSpinnerCont"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginEnd="@dimen/_5sdp"
+                android:layout_marginBottom="@dimen/_5sdp"
+                app:cardElevation="@dimen/_5sdp">
+
+                <androidx.appcompat.widget.AppCompatSpinner
+                    android:id="@+id/palletSpinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:maxLines="1"
+                    android:paddingStart="@dimen/_20sdp"
+                    android:spinnerMode="dropdown" />
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/scanBtn"
+                android:layout_width="@dimen/_250sdp"
+                android:layout_height="@dimen/_250sdp"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/_20sdp"
+                app:lottie_autoPlay="true"
+                app:lottie_loop="true"
+                app:lottie_rawRes="@raw/qr_anim" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/scanCartonTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:fontFamily="@font/amiko"
+                android:text="@string/scan_carton"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_20ssp"
+                android:visibility="visible" />
+
+            <include
+                android:id="@+id/carton_details"
+                layout="@layout/carton_detail_view"
+                android:visibility="gone" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 

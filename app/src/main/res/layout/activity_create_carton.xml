@@ -76,20 +76,10 @@
             android:layout_gravity="center"
             android:orientation="vertical">
 
-            <com.airbnb.lottie.LottieAnimationView
-                android:id="@+id/scanBtn"
-                android:layout_width="@dimen/_250sdp"
-                android:layout_height="@dimen/_250sdp"
-                android:layout_gravity="center"
-                android:layout_marginTop="@dimen/_10sdp"
-                app:lottie_autoPlay="true"
-                app:lottie_loop="true"
-                app:lottie_rawRes="@raw/qr_anim" />
-
             <androidx.appcompat.widget.AppCompatTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
+                android:layout_marginStart="@dimen/_20sdp"
                 android:layout_marginTop="@dimen/_10sdp"
                 android:layout_marginBottom="@dimen/_10sdp"
                 android:fontFamily="@font/amiko"
@@ -97,6 +87,17 @@
                 android:textColor="@color/black"
                 android:textSize="@dimen/_18ssp"
                 android:textStyle="bold" />
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/scanBtn"
+                android:layout_width="@dimen/_250sdp"
+                android:layout_height="@dimen/_250sdp"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginBottom="@dimen/_10sdp"
+                app:lottie_autoPlay="true"
+                app:lottie_loop="true"
+                app:lottie_rawRes="@raw/qr_anim" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 

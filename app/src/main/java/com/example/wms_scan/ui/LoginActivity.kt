@@ -54,6 +54,7 @@ class LoginActivity : AppCompatActivity() {
 
                     Status.LOADING -> {
                         dialog.show()
+                        dialog.setCanceledOnTouchOutside(true)
                     }
                     Status.SUCCESS -> {
                         dialog.dismiss()

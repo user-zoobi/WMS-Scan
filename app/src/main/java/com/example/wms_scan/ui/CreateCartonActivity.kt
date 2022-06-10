@@ -78,5 +78,4 @@ class CreateCartonActivity : AppCompatActivity() {
         finish()
     }
 
-
 }

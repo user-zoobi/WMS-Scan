@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import com.example.scanmate.extensions.*
 import com.example.scanmate.util.CustomProgressDialog
 import com.example.scanmate.util.LocalPreferences
@@ -21,14 +22,29 @@ class ScanCartonActivity : AppCompatActivity() {
         binding = ActivityScanCartonBinding.inflate(layoutInflater)
         setContentView(binding.root)
         viewModel = obtainViewModel(MainViewModel::class.java)
+        initListeners()
+        setupUi()
     }
 
+    private fun setupUi(){
+        dialog = CustomProgressDialog(this)
+        supportActionBar?.hide()
+        setTransparentStatusBarColor(R.color.transparent)
+    }
 
     private fun clearPreferences(context: Context){
         val settings: SharedPreferences =
             context.getSharedPreferences(LocalPreferences.AppLoginPreferences.PREF, Context.MODE_PRIVATE)
         settings.edit().clear().apply()
         finish()
+    }
+
+    private fun initListeners(){
+        binding.scanBtn.click {
+            binding.scanBtn.gone()
+            binding.scanCartonTV.gone()
+            binding.cartonDetails.root.visible()
+        }
     }
 
     override fun onBackPressed() {
