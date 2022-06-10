@@ -4,8 +4,8 @@ object Routes {
 
     const val BASE_URL = "https://call.i-konnect.net/"
 
-
     object EndPoint{
+
         const val userAuth = "GAuthAPI/Get_SM_User_Auth"
         const val userLoc = "WHUserAPI/Get_SM_User_Location"
         const val userMenu = "WHUserAPI/Get_SM_UserMenu"
@@ -19,6 +19,7 @@ object Routes {
         const val addPallet = "PilotAPI/DML_Pilot"
         const val getCarton = "CartonAPI/Get_Carton"
         const val addCarton = "CartonAPI/DML_Carton"
+
     }
 
 }

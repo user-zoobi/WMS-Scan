@@ -33,9 +33,6 @@ class CartonAdapter(
         val data= list[position]
         with(holder){
             binding.cartonTV.text = data.analyticalNo
-            binding.editIV.setOnClickListener {
-                (context as CreateCartonActivity).performAction(data.analyticalNo.toString())
-            }
         }
     }
 

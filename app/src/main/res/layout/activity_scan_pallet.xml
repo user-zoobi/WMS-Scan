@@ -95,7 +95,6 @@
                 android:text="@string/scan_pallet"
                 android:textColor="@color/black"
                 android:textSize="@dimen/_18ssp"
-                android:fontFamily="@font/amiko"
                 android:textStyle="bold"  />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
