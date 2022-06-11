@@ -17,6 +17,7 @@ import com.example.scanmate.data.response.GetShelfResponse
 import com.example.scanmate.data.response.GetWarehouseResponse
 import com.example.scanmate.data.response.UserLocationResponse
 import com.example.scanmate.extensions.*
+import com.example.scanmate.util.Constants
 import com.example.scanmate.util.Constants.LogMessages.success
 import com.example.scanmate.util.CustomProgressDialog
 import com.example.scanmate.util.LocalPreferences
@@ -24,6 +25,7 @@ import com.example.scanmate.util.Utils
 import com.example.scanmate.viewModel.MainViewModel
 import com.example.wms_scan.R
 import com.example.wms_scan.adapter.carton.CartonAdapter
+import com.example.wms_scan.adapter.pallets.PalletsAdapter
 import com.example.wms_scan.adapter.shelf.ShelfAdapter
 import com.example.wms_scan.data.response.GetCartonResponse
 import com.example.wms_scan.data.response.GetPalletResponse
@@ -45,6 +47,7 @@ class CreateCartonActivity : AppCompatActivity() {
     }
 
     private fun setupUi(){
+
         dialog = CustomProgressDialog(this)
         binding.userNameTV.text = LocalPreferences.getString(this,
             LocalPreferences.AppLoginPreferences.userName
@@ -57,6 +60,7 @@ class CreateCartonActivity : AppCompatActivity() {
         )
         supportActionBar?.hide()
         setTransparentStatusBarColor(R.color.transparent)
+
     }
 
     private fun initListeners(){
@@ -64,6 +68,11 @@ class CreateCartonActivity : AppCompatActivity() {
         binding.scanBtn.click {
             gotoActivity(ScanCartonActivity::class.java)
         }
+
+    }
+
+    private fun initObserver(){
+
     }
 
 

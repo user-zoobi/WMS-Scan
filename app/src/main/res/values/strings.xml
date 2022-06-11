@@ -54,11 +54,14 @@
     <string name="add_rack">Add rack</string>
     <string name="add_pallet">Add pallet</string>
     <string name="master">Master</string>
-    <string name="scan_pallet">Scan pallet code</string>
+    <string name="scan_pallet">Scan your pallet code</string>
+    <string name="update_pallet_code">Or update pallet code</string>
+    <string name="click_here_to_scan">Click here to scan</string>
     <string name="scan_carton">Scan Carton Code</string>
     <string name="carton_number">Carton number</string>
     <string name="analytical_number">Analytical Number</string>
     <string name="size">Size</string>
     <string name="add">Add</string>
+    <string name="update">Update</string>
 
 </resources>
