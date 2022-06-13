@@ -55,6 +55,7 @@ object LocalPreferences {
         const val whNo = "whNo"
         const val rackNo = "rackNo"
         const val shelfNo = "shelfNo"
+        const val palletNo = "palletNo"
 
     }
 

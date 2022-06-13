@@ -132,10 +132,10 @@ class MenuActivity : AppCompatActivity() {
             gotoActivity(PalletsActivity::class.java)
         }
         binding.placeCartonIV.setOnClickListener {
-            gotoActivity(CreateCartonActivity::class.java)
+            gotoActivity(CreateCartonActivity::class.java, "placeCarton",true)
         }
         binding.scanCartonIV.click {
-            gotoActivity(ScannerActivity::class.java, "scannerKey",true)
+            gotoActivity(ScannerActivity::class.java)
         }
     }
 

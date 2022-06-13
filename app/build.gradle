@@ -112,4 +112,10 @@ dependencies {
     //powermenu
     implementation "com.github.skydoves:powermenu:2.2.0"
 
+    implementation('com.journeyapps:zxing-android-embedded:4.3.0') { transitive = false }
+    implementation 'com.google.zxing:core:3.3.3'
+
+    implementation 'com.itextpdf:itextg:5.5.10'
+    implementation 'com.karumi:dexter:6.2.3'
+
 }

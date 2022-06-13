@@ -47,7 +47,7 @@
         android:textColor="@color/dark_grey"/>
 
     <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/cartonName"
+        android:id="@+id/cartonCode"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@+id/cartonViewHeader"
@@ -72,7 +72,7 @@
         app:layout_constraintTop_toBottomOf="@id/cartonNameTV"/>
 
     <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/batchNo"
+        android:id="@+id/materialNo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toEndOf="@id/main_name"

@@ -10,6 +10,7 @@ import android.view.animation.AnimationUtils
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import com.example.scanmate.extensions.gotoActivity
 import com.example.scanmate.extensions.setTransparentStatusBarColor
 import com.example.wms_scan.R
 import com.example.wms_scan.databinding.ActivityScannerCameraBinding

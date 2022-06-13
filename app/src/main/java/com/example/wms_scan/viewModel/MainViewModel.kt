@@ -263,12 +263,14 @@ class MainViewModel : ViewModel() {
                 _getCarton.value = ApiResponseCallback.success(repository.getCarton(
                     PilotNo, LocationNo
                 ))
+                Log.i("getCartonSuccess","Data responded")
             }
             catch (e:Exception)
             {
                 _getCarton.value = ApiResponseCallback.error(
                     "${e.message}",null
                 )
+                Log.i("getCartonViewModelExc","${e.message}")
             }
         }
     }

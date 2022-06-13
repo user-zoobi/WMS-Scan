@@ -87,6 +87,7 @@
                 android:textSize="@dimen/_18ssp" />
 
             <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/clickHereTV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_30sdp"
@@ -109,11 +110,41 @@
                 android:src="@drawable/qr_code"
                 android:tint="@color/dark_grey" />
 
+            <SurfaceView
+                android:id="@+id/cameraSurfaceView"
+                android:layout_width="@dimen/_350sdp"
+                android:layout_height="@dimen/_300sdp"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/stopCamera"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:layout_marginEnd="@dimen/_30sdp"
+                android:background="@drawable/blue_rounded_bg"
+                android:gravity="center"
+                android:paddingStart="@dimen/_10sdp"
+                android:paddingTop="@dimen/_10sdp"
+                android:paddingEnd="@dimen/_10sdp"
+                android:paddingBottom="@dimen/_10sdp"
+                android:text="Stop camera"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_18ssp"
+                android:visibility="gone" />
+
             <androidx.appcompat.widget.AppCompatTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_30sdp"
-                android:layout_marginTop="@dimen/_30sdp"
+                android:layout_marginTop="@dimen/_20sdp"
                 android:layout_marginBottom="@dimen/_10sdp"
                 android:fontFamily="@font/amiko"
                 android:text="@string/update_pallet_code"
@@ -124,23 +155,23 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_50sdp"
                 android:layout_marginStart="@dimen/_20sdp"
-                android:layout_marginEnd="@dimen/_20sdp"
                 android:layout_marginTop="@dimen/_20sdp"
+                android:layout_marginEnd="@dimen/_20sdp"
                 android:layout_marginBottom="@dimen/_10sdp"
                 android:background="@drawable/blue_rounded_bg"
-                android:orientation="vertical"
-                android:elevation="@dimen/_5sdp">
+                android:elevation="@dimen/_5sdp"
+                android:orientation="vertical">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/update"
-                    android:textSize="@dimen/_18ssp"
                     android:layout_gravity="center"
                     android:layout_marginTop="@dimen/_10sdp"
-                    android:textStyle="bold"
+                    android:fontFamily="@font/amiko"
+                    android:text="@string/update"
                     android:textColor="@color/white"
-                    android:fontFamily="@font/amiko"/>
+                    android:textSize="@dimen/_18ssp"
+                    android:textStyle="bold" />
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 

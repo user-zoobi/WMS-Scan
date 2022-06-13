@@ -17,6 +17,8 @@ import com.example.scanmate.data.response.GetWarehouseResponse
 import com.example.scanmate.data.response.UserLocationResponse
 import com.example.scanmate.extensions.*
 import com.example.scanmate.util.Constants
+import com.example.scanmate.util.Constants.LogMessages.error
+import com.example.scanmate.util.Constants.LogMessages.loading
 import com.example.scanmate.util.Constants.Toast.NoInternetFound
 import com.example.scanmate.util.CustomProgressDialog
 import com.example.scanmate.util.LocalPreferences
@@ -44,6 +46,7 @@ class ScanCartonActivity : AppCompatActivity() {
     private var rackName = ""
     private var shelfName = ""
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityScanCartonBinding.inflate(layoutInflater)
@@ -52,6 +55,8 @@ class ScanCartonActivity : AppCompatActivity() {
         initListeners()
         setupUi()
         initObserver()
+
+
     }
 
     private fun setupUi(){
@@ -71,14 +76,20 @@ class ScanCartonActivity : AppCompatActivity() {
     {
 
         binding.scanBtn.click {
+
             binding.scanBtn.gone()
             binding.scanCartonTV.gone()
             binding.cartonDetails.root.visible()
+
+
         }
         binding.cartonDetails.closeIV.click {
             binding.cartonDetails.root.gone()
             binding.scanBtn.visible()
             binding.scanCartonTV.visible()
+        }
+        binding.printIV.click {
+            gotoActivity(QrCodeGeneratorActivity::class.java)
         }
 
     }
@@ -248,6 +259,35 @@ class ScanCartonActivity : AppCompatActivity() {
             }
         })
 
+        //GET CARTON
+        viewModel.getCarton(
+            Utils.getSimpleTextBody(selectedPalletNo),
+            Utils.getSimpleTextBody(selectedBusLocNo)
+        )
+        viewModel.getCarton.observe(this, Observer {
+            when(it.status){
+
+                Status.LOADING ->{
+                    Log.i(loading,"Loading")
+                }
+                Status.SUCCESS ->{
+                    try
+                    {
+
+                    }
+                    catch (e:Exception){
+                        Log.i("","${e.message}")
+                        Log.i("cartonException","${e.stackTrace}")
+                    }
+
+                }
+                Status.ERROR ->{
+                    Log.i(error,"Error")
+                }
+
+            }
+        })
+
     }
 
     private fun showBusLocSpinner(data:List<UserLocationResponse>) {
@@ -273,6 +313,10 @@ class ScanCartonActivity : AppCompatActivity() {
                 if (Utils.isNetworkConnected(this@ScanCartonActivity))
                 {
                     selectedBusLocNo = data[position].orgBusLocNo.toString()
+                    LocalPreferences.put(
+                        this@ScanCartonActivity,
+                        LocalPreferences.AppLoginPreferences.busLocNo, selectedBusLocNo
+                    )
                     busLocName = data[position].busLocationName.toString()
                     viewModel.getWarehouse("", selectedBusLocNo)
                 }else
@@ -422,6 +466,10 @@ class ScanCartonActivity : AppCompatActivity() {
                         Log.i("LocBus","This is shelf pos ${adapter?.getItemAtPosition(position)}")
                         selectedPalletNo = data[position].pilotNo.toString()
                         selectedPalletName = data[position].pilotName.toString()
+                        LocalPreferences.put(
+                            this@ScanCartonActivity,
+                            LocalPreferences.AppLoginPreferences.palletNo, selectedPalletNo
+                        )
                     }
                     else
                     {
@@ -433,6 +481,7 @@ class ScanCartonActivity : AppCompatActivity() {
             }
         }
     }
+
 
     override fun onBackPressed() {
         finish()
