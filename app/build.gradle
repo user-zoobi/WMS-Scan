@@ -116,6 +116,10 @@ dependencies {
     implementation 'com.journeyapps:zxing-android-embedded:4.3.0@aar'
     implementation 'com.google.zxing:core:3.3.3'
 
+    //itext
+    implementation 'com.itextpdf:itextg:5.5.10'
+
+    implementation 'com.karumi:dexter:6.2.3'
 
 
 }

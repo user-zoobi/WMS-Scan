@@ -113,7 +113,7 @@ class ScanCartonActivity : AppCompatActivity() {
             LocalPreferences.AppLoginPreferences.palletNo
         ).toString()
         Log.i("prefBusLocNo","$selectedBusLocNo   $selectedPalletNo")
-        LocalPreferences.put(this,"qrData",selectedPalletNo)
+
     }
 
     private fun clearPreferences(context: Context){
@@ -529,6 +529,7 @@ class ScanCartonActivity : AppCompatActivity() {
                             this@ScanCartonActivity,
                             LocalPreferences.AppLoginPreferences.palletNo, selectedPalletNo
                         )
+                        LocalPreferences.put(this@ScanCartonActivity,"qrData",selectedPalletNo)
                     }
                     else
                     {

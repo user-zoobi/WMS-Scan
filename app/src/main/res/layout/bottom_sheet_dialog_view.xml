@@ -5,22 +5,37 @@
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <ImageView
-        android:id="@+id/qrImageView"
-        android:layout_width="@dimen/_200sdp"
-        android:layout_height="@dimen/_200sdp"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_gravity="center"
-        android:layout_marginTop="@dimen/_50sdp" />
-
-    <Button
-        android:id="@+id/button2"
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/qrCont"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/qrImageView"
+        android:padding="@dimen/_20sdp"
+        android:layout_marginTop="@dimen/_20sdp"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/grey_stroke_white_rounded_bg">
+
+        <ImageView
+            android:id="@+id/qrImageView"
+            android:layout_width="@dimen/_250sdp"
+            android:layout_height="@dimen/_250sdp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/printBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/qrCont"
         android:layout_centerInParent="true"
         android:layout_marginTop="@dimen/_50sdp"
-        android:text="print" />
+        android:layout_marginBottom="@dimen/_20sdp"
+        android:background="@drawable/blue_rounded_bg"
+        android:fontFamily="@font/amiko"
+        android:text="print"
+        android:textColor="@color/white" />
 
 </RelativeLayout>
