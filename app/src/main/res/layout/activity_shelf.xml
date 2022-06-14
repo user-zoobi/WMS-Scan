@@ -93,8 +93,23 @@
                     android:fontFamily="@font/amiko"
                     android:text="Shelf"
                     android:textColor="@color/black"
+                    android:layout_centerVertical="true"
                     android:textSize="@dimen/_20ssp"
                     android:visibility="visible" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="@dimen/_30sdp"
+                    android:layout_height="@dimen/_30sdp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:layout_marginBottom="@dimen/_10sdp"
+                    android:background="@drawable/blue_rounded_bg"
+                    android:elevation="@dimen/_10sdp"
+                    android:padding="@dimen/_5sdp"
+                    android:src="@drawable/print_icon"
+                    android:tint="@color/white" />
 
             </RelativeLayout>
 

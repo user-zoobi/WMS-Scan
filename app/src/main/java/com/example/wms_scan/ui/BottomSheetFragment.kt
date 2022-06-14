@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import com.example.boschscan.extensions.toast
 import com.example.scanmate.extensions.click
 import com.example.scanmate.util.LocalPreferences
+import com.example.scanmate.util.LocalPreferences.AppLoginPreferences.palletNo
 import com.example.wms_scan.databinding.BottomSheetDialogViewBinding
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.zxing.BarcodeFormat
@@ -38,14 +39,9 @@ class BottomSheetFragment : BottomSheetDialogFragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = BottomSheetDialogViewBinding.inflate(inflater, container, false)
-        selectedPalletNo = LocalPreferences.getString(requireContext(),"qrData")
-        Log.i("qrData",LocalPreferences.getString(requireContext(),"qrData").toString())
+        selectedPalletNo = LocalPreferences.getString(requireContext(),palletNo)
+        Log.i("qrData",LocalPreferences.getString(requireContext(),palletNo).toString())
         generateQRCode("$selectedPalletNo")
-        binding.printBtn.click {
-
-            savePDF()
-        }
-
         return binding.root
     }
 
@@ -71,37 +67,5 @@ class BottomSheetFragment : BottomSheetDialogFragment() {
         }
     }
 
-    private fun savePDF(){
-      val mDoc = Document()
-      val mFileName = SimpleDateFormat("yyyMMdd_HHmmss", Locale.getDefault())
-          .format(System.currentTimeMillis())
-
-        val mFilePath = Environment.getExternalStorageDirectory().toString() + "/" + mFileName + ".pdf"
-                try {
-                    PdfWriter.getInstance(mDoc, FileOutputStream(mFilePath))
-                    mDoc.open()
-                    mDoc.add(Paragraph(selectedPalletNo))
-                    mDoc.close()
-                    toast("Pdf created")
-                }catch (e:Exception){
-                    toast("no pdf")
-                }
-    }
-
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
-    ) {
-        when(requestCode){
-            STORAGE_CODE -> {
-                if (grantResults.isNotEmpty()){
-                    savePDF()
-                }else{
-                    toast("Permission denied")
-                }
-            }
-        }
-    }
 
 }
