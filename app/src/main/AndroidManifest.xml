@@ -17,7 +17,8 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
-        android:theme="@style/Theme.WMSScan">
+        android:theme="@style/Theme.WMSScan"
+        android:requestLegacyExternalStorage="true">
         <activity
             android:name=".ui.PdfViewActivity"
             android:exported="false" />

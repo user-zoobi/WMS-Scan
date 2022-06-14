@@ -88,7 +88,7 @@ class ScanCartonActivity : AppCompatActivity() {
             binding.scanBtn.visible()
             binding.scanCartonTV.visible()
         }
-        binding.printIV.click {
+        binding.qrGenerateIV.click {
             gotoActivity(QrCodeGeneratorActivity::class.java)
         }
 
@@ -481,6 +481,8 @@ class ScanCartonActivity : AppCompatActivity() {
             }
         }
     }
+
+
 
 
     override fun onBackPressed() {

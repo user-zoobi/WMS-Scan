@@ -181,7 +181,7 @@ class CreateCartonActivity : AppCompatActivity() {
                     }
                 }else
                 {
-                    Toast.makeText(this@CreateCartonActivity, "value- else", Toast.LENGTH_SHORT).show()
+
 
                 }
             }
