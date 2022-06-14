@@ -1,147 +1,164 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".MainActivity">
+    android:layout_marginStart="@dimen/_10sdp"
+    android:layout_marginEnd="@dimen/_10sdp"
+    android:layout_marginTop="@dimen/_20sdp">
 
-<!--    <com.google.android.material.textfield.TextInputLayout-->
-<!--        style="@style/OutlinedRoundBox"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_marginTop="20dp"-->
-<!--        android:hint="Seller's name"-->
-<!--        android:paddingStart="20dp"-->
-<!--        android:paddingEnd="20dp"-->
-<!--        app:endIconMode="clear_text"-->
-<!--        app:hintTextAppearance="@style/TextLabel"-->
-<!--        app:layout_constraintTop_toTopOf="parent">-->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        android:background="@drawable/grey_stroke_white_rounded_bg"
+        android:layout_marginStart="@dimen/_10sdp"
+        android:layout_marginEnd="@dimen/_10sdp"
+        app:layout_constraintTop_toTopOf="parent">
 
-<!--        <com.google.android.material.textfield.TextInputEditText-->
-<!--            android:id="@+id/seller_name_edit"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:inputType="text"-->
-<!--            android:text="Marn Resturant"-->
-<!--            android:textColor="@color/black"-->
-<!--            android:textSize="16sp"-->
-<!--            app:backgroundTint="@color/white" />-->
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/cartonViewHeader"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_20sdp"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:fontFamily="@font/amiko"
+            android:text="Carton Details"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_20ssp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-<!--    </com.google.android.material.textfield.TextInputLayout>-->
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/closeIV"
+            android:layout_width="@dimen/_30sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:layout_marginEnd="@dimen/_20sdp"
+            android:background="@drawable/grey_rounded_bg"
+            android:padding="@dimen/_5sdp"
+            android:src="@drawable/close_icon"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-<!--    <com.google.android.material.textfield.TextInputLayout-->
-<!--        style="@style/OutlinedRoundBox"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_marginTop="20dp"-->
-<!--        android:hint="Seller's VAT Number"-->
-<!--        android:paddingStart="20dp"-->
-<!--        android:paddingEnd="20dp"-->
-<!--        app:endIconMode="clear_text"-->
-<!--        app:hintTextAppearance="@style/TextLabel"-->
-<!--        app:layout_constraintTop_toTopOf="parent">-->
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/cartonNameTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_20sdp"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:fontFamily="@font/amiko"
+            android:text="@string/carton_number"
+            android:textColor="@color/dark_grey"
+            android:textSize="@dimen/_18ssp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cartonViewHeader" />
 
-<!--        <com.google.android.material.textfield.TextInputEditText-->
-<!--            android:id="@+id/tax_number_edit"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:inputType="number"-->
-<!--            android:text="1234567890"-->
-<!--            android:textColor="@color/black"-->
-<!--            android:textSize="16sp"-->
-<!--            app:backgroundTint="@color/white" />-->
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/cartonCode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_30sdp"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:fontFamily="@font/amiko"
+            android:text="2/5"
+            android:textColor="@color/dark_grey"
+            android:textSize="@dimen/_18ssp"
+            app:layout_constraintStart_toEndOf="@id/cartonNameTV"
+            app:layout_constraintTop_toBottomOf="@+id/cartonViewHeader" />
 
-<!--    </com.google.android.material.textfield.TextInputLayout>-->
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/main_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_20sdp"
+            android:layout_marginTop="@dimen/_15sdp"
+            android:text="Material number"
+            android:textSize="@dimen/_18ssp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cartonNameTV" />
 
-<!--    <com.google.android.material.textfield.TextInputLayout-->
-<!--        style="@style/OutlinedRoundBox"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_marginTop="20dp"-->
-<!--        android:hint="Invoide Date/Time"-->
-<!--        android:paddingStart="20dp"-->
-<!--        android:paddingEnd="20dp"-->
-<!--        app:endIconMode="clear_text"-->
-<!--        app:hintTextAppearance="@style/TextLabel"-->
-<!--        app:layout_constraintTop_toTopOf="parent">-->
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/materialNo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_35sdp"
+            android:layout_marginTop="@dimen/_15sdp"
+            android:text="RM-2005"
+            android:textSize="@dimen/_18ssp"
+            app:layout_constraintStart_toEndOf="@id/main_name"
+            app:layout_constraintTop_toBottomOf="@id/cartonNameTV" />
 
-<!--        <com.google.android.material.textfield.TextInputEditText-->
-<!--            android:id="@+id/date_time_edit"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:inputType="text"-->
-<!--            android:text="22/11/2021 03:00 am"-->
-<!--            android:textColor="@color/black"-->
-<!--            android:textSize="16sp"-->
-<!--            app:backgroundTint="@color/white" />-->
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/analyticalNumTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_20sdp"
+            android:layout_marginTop="@dimen/_15sdp"
+            android:text="@string/analytical_number"
+            android:textSize="@dimen/_18ssp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/main_name" />
 
-<!--    </com.google.android.material.textfield.TextInputLayout>-->
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/analyticalNum"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_20sdp"
+            android:layout_marginTop="@dimen/_15sdp"
+            android:text="PC-2700"
+            android:textSize="@dimen/_18ssp"
+            app:layout_constraintStart_toEndOf="@id/analyticalNumTV"
+            app:layout_constraintTop_toBottomOf="@id/main_name" />
 
-<!--    <com.google.android.material.textfield.TextInputLayout-->
-<!--        style="@style/OutlinedRoundBox"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_marginTop="20dp"-->
-<!--        android:hint="Invoice Total(with VAT)"-->
-<!--        android:paddingStart="20dp"-->
-<!--        android:paddingEnd="20dp"-->
-<!--        app:endIconMode="clear_text"-->
-<!--        app:hintTextAppearance="@style/TextLabel"-->
-<!--        app:layout_constraintTop_toTopOf="parent">-->
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/sizeTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_20sdp"
+            android:layout_marginTop="@dimen/_15sdp"
+            android:text="@string/size"
+            android:textSize="@dimen/_18ssp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/analyticalNumTV" />
 
-<!--        <com.google.android.material.textfield.TextInputEditText-->
-<!--            android:id="@+id/total_edit"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:inputType="number"-->
-<!--            android:text="100"-->
-<!--            android:textColor="@color/black"-->
-<!--            android:textSize="16sp"-->
-<!--            app:backgroundTint="@color/white" />-->
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/size"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_135sdp"
+            android:layout_marginTop="@dimen/_15sdp"
+            android:text="5"
+            android:textSize="@dimen/_18ssp"
+            app:layout_constraintStart_toEndOf="@id/sizeTV"
+            app:layout_constraintTop_toBottomOf="@id/analyticalNumTV" />
 
-<!--    </com.google.android.material.textfield.TextInputLayout>-->
+        <androidx.appcompat.widget.AppCompatButton
+            android:layout_width="@dimen/_150sdp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_30sdp"
+            android:layout_marginBottom="@dimen/_20sdp"
+            android:background="@drawable/blue_rounded_bg"
+            android:fontFamily="@font/amiko"
+            android:text="@string/add"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_15ssp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/sizeTV" />
 
-<!--    <com.google.android.material.textfield.TextInputLayout-->
-<!--        style="@style/OutlinedRoundBox"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_marginTop="20dp"-->
-<!--        android:hint="VAT Total"-->
-<!--        android:paddingStart="20dp"-->
-<!--        android:paddingEnd="20dp"-->
-<!--        app:endIconMode="clear_text"-->
-<!--        app:hintTextAppearance="@style/TextLabel"-->
-<!--        app:layout_constraintTop_toTopOf="parent">-->
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-<!--        <com.google.android.material.textfield.TextInputEditText-->
-<!--            android:id="@+id/vat_amount_edit"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:inputType="number"-->
-<!--            android:text="15"-->
-<!--            android:textColor="@color/black"-->
-<!--            android:textSize="16sp"-->
-<!--            app:backgroundTint="@color/white" />-->
 
-<!--    </com.google.android.material.textfield.TextInputLayout>-->
-
-    <Button
-        android:id="@+id/convert_button"
-        android:layout_width="150dp"
-        android:layout_height="50dp"
-        android:layout_gravity="center"
-        android:layout_marginTop="100dp"
-        android:text="Convert"/>
-
-    <Button
-        android:id="@+id/printBtn"
-        android:layout_width="150dp"
-        android:layout_height="50dp"
-        android:layout_gravity="center"
-        android:layout_marginTop="100dp"
-        android:text="PDF"/>
-
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

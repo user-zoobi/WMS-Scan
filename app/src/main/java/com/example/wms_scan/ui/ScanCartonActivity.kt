@@ -1,15 +1,30 @@
 package com.example.wms_scan.ui
 
+import android.annotation.SuppressLint
+import android.content.ContentValues.TAG
 import android.content.Context
 import android.content.SharedPreferences
-import androidx.appcompat.app.AppCompatActivity
+import android.content.pm.PackageManager
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.graphics.Canvas
+import android.graphics.Color.BLACK
+import android.graphics.Color.WHITE
+import android.graphics.Matrix
 import android.os.Bundle
+import android.text.TextUtils
 import android.util.Log
+import android.view.SurfaceHolder
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.EditText
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.scanmate.data.callback.Status
 import com.example.scanmate.data.response.GetRackResponse
 import com.example.scanmate.data.response.GetShelfResponse
@@ -28,6 +43,17 @@ import com.example.wms_scan.R
 import com.example.wms_scan.adapter.pallets.PalletsAdapter
 import com.example.wms_scan.data.response.GetPalletResponse
 import com.example.wms_scan.databinding.ActivityScanCartonBinding
+import com.google.android.gms.vision.CameraSource
+import com.google.android.gms.vision.Detector
+import com.google.android.gms.vision.barcode.Barcode
+import com.google.android.gms.vision.barcode.BarcodeDetector
+import com.google.zxing.BarcodeFormat
+import com.google.zxing.EncodeHintType
+import com.google.zxing.MultiFormatWriter
+import com.google.zxing.common.BitMatrix
+import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel
+import java.io.IOException
+
 
 class ScanCartonActivity : AppCompatActivity() {
     private lateinit var binding: ActivityScanCartonBinding
@@ -45,7 +71,15 @@ class ScanCartonActivity : AppCompatActivity() {
     private var warehouseName = ""
     private var rackName = ""
     private var shelfName = ""
-
+    var itemCode = ""
+    var cartonCode = ""
+    var paletteName = ""
+    var analyticalNo = ""
+    private val requestCodeCameraPermission = 1001
+    private lateinit var cameraSource: CameraSource
+    private lateinit var barcodeDetector: BarcodeDetector
+    private var scannedValue = ""
+    private lateinit var bottomSheet:BottomSheetFragment
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,6 +90,14 @@ class ScanCartonActivity : AppCompatActivity() {
         setupUi()
         initObserver()
 
+        if (ContextCompat.checkSelfPermission(
+                this , android.Manifest.permission.CAMERA
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            askForCameraPermission()
+        } else {
+            setupControls()
+        }
 
     }
 
@@ -63,6 +105,15 @@ class ScanCartonActivity : AppCompatActivity() {
         dialog = CustomProgressDialog(this)
         supportActionBar?.hide()
         setTransparentStatusBarColor(R.color.transparent)
+
+        selectedBusLocNo = LocalPreferences.getString(this,
+            LocalPreferences.AppLoginPreferences.busLocNo
+        ).toString()
+        selectedPalletNo = LocalPreferences.getString(this,
+            LocalPreferences.AppLoginPreferences.palletNo
+        ).toString()
+        Log.i("prefBusLocNo","$selectedBusLocNo   $selectedPalletNo")
+        LocalPreferences.put(this,"qrData",selectedPalletNo)
     }
 
     private fun clearPreferences(context: Context){
@@ -72,24 +123,26 @@ class ScanCartonActivity : AppCompatActivity() {
         finish()
     }
 
-    private fun initListeners()
-    {
+    private fun initListeners(){
 
         binding.scanBtn.click {
 
             binding.scanBtn.gone()
             binding.scanCartonTV.gone()
-            binding.cartonDetails.root.visible()
-
+            binding.surfaceCont.visible()
 
         }
-        binding.cartonDetails.closeIV.click {
-            binding.cartonDetails.root.gone()
+
+        binding.closeIV.click {
+
+            binding.surfaceCont.gone()
             binding.scanBtn.visible()
             binding.scanCartonTV.visible()
+
         }
+
         binding.qrGenerateIV.click {
-            gotoActivity(QrCodeGeneratorActivity::class.java)
+            onBtnClick(binding.root)
         }
 
     }
@@ -273,7 +326,13 @@ class ScanCartonActivity : AppCompatActivity() {
                 Status.SUCCESS ->{
                     try
                     {
-
+                        cartonCode = it.data?.get(0)?.cartonCode.toString()
+                        itemCode = it.data?.get(0)?.itemCode.toString()
+                        paletteName = it.data?.get(0)?.pilotNo.toString()
+                        analyticalNo = it.data?.get(0)?.analyticalNo.toString()
+                        selectedBusLocNo = intent.extras?.getString("addBusLocNo").toString()
+                        Log.i("GetCartonSuccess","$cartonCode $itemCode $paletteName")
+                        dialog.dismiss()
                     }
                     catch (e:Exception){
                         Log.i("","${e.message}")
@@ -482,8 +541,103 @@ class ScanCartonActivity : AppCompatActivity() {
         }
     }
 
+    private fun setupControls() {
+        barcodeDetector =
+            BarcodeDetector.Builder(this).setBarcodeFormats(Barcode.ALL_FORMATS).build()
+
+        cameraSource = CameraSource.Builder(this, barcodeDetector)
+            .setRequestedPreviewSize(1920, 1080)
+            .setAutoFocusEnabled(true) //you should add this feature
+            .build()
+
+        binding.cameraSurfaceView.holder.addCallback(object : SurfaceHolder.Callback {
+            @SuppressLint("MissingPermission")
+            override fun surfaceCreated(holder: SurfaceHolder) {
+                try {
+                    //Start preview after 1s delay
+                    cameraSource.start(holder)
+                } catch (e: IOException) {
+                    e.printStackTrace()
+                }
+            }
+
+            @SuppressLint("MissingPermission")
+            override fun surfaceChanged(
+                holder: SurfaceHolder, format: Int,
+                width: Int, height: Int
+            ) {
+                try {
+                    cameraSource.start(holder)
+                } catch (e: IOException) {
+                    e.printStackTrace()
+                }
+            }
+
+            override fun surfaceDestroyed(holder: SurfaceHolder) {
+                cameraSource.stop()
+            }
+        })
 
 
+        barcodeDetector.setProcessor(object : Detector.Processor<Barcode> {
+            override fun release() {
+                Toast.makeText(applicationContext, "Scanner has been closed", Toast.LENGTH_SHORT)
+                    .show()
+            }
+
+            override fun receiveDetections(detections: Detector.Detections<Barcode>) {
+                val barcodes = detections.detectedItems
+                if (barcodes.size() == 1) {
+                    scannedValue = barcodes.valueAt(0).rawValue
+
+
+                    //Don't forget to add this line printing value or finishing activity must run on main thread
+                    runOnUiThread {
+                        cameraSource.stop()
+                        Toast.makeText(this@ScanCartonActivity, "value- $scannedValue", Toast.LENGTH_SHORT).show()
+                        when{
+                            intent.extras?.getBoolean("scanCarton") == true -> {
+                                gotoActivity(QrCodeGeneratorActivity::class.java)
+                            }
+                        }
+                    }
+                }else
+                {
+
+
+                }
+            }
+        })
+    }
+
+    private fun askForCameraPermission() {
+        ActivityCompat.requestPermissions(
+            this,
+            arrayOf(android.Manifest.permission.CAMERA),
+            requestCodeCameraPermission
+        )
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == requestCodeCameraPermission && grantResults.isNotEmpty()) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                setupControls()
+            } else {
+                Toast.makeText(applicationContext, "Permission Denied", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        cameraSource.stop()
+    }
+
+    fun onBtnClick(view: View?) {
+        bottomSheet = BottomSheetFragment()
+        bottomSheet.show(supportFragmentManager,"")
+    }
 
     override fun onBackPressed() {
         finish()

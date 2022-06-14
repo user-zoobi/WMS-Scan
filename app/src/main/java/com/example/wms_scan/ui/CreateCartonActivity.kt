@@ -106,19 +106,6 @@ class CreateCartonActivity : AppCompatActivity() {
 
     }
 
-    private fun initObserver(){
-
-    }
-
-
-    private fun clearPreferences(context: Context){
-        val settings: SharedPreferences =
-            context.getSharedPreferences(LocalPreferences.AppLoginPreferences.PREF, Context.MODE_PRIVATE)
-        settings.edit().clear().apply()
-        finish()
-    }
-
-
     private fun setupControls() {
         barcodeDetector =
             BarcodeDetector.Builder(this).setBarcodeFormats(Barcode.ALL_FORMATS).build()
@@ -175,7 +162,7 @@ class CreateCartonActivity : AppCompatActivity() {
                         Toast.makeText(this@CreateCartonActivity, "value- $scannedValue", Toast.LENGTH_SHORT).show()
                         when{
                             intent.extras?.getBoolean("placeCarton") == true -> {
-                                gotoActivity(ScanCartonActivity::class.java)
+                                gotoActivity(ScanCartonActivity::class.java,"scanCarton",true)
                             }
                         }
                     }

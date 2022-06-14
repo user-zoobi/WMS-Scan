@@ -1,6 +1,7 @@
 package com.example.scanmate.util
 
 import android.content.Context
+import android.os.Parcelable
 import com.example.scanmate.util.LocalPreferences.AppLoginPreferences.PREF
 
 object LocalPreferences {
@@ -22,6 +23,7 @@ object LocalPreferences {
         val editor = pref.edit()
         editor.putBoolean(key, value).apply()
     }
+
 
     fun getBoolean(context: Context, key: String): Boolean {
         val pref = context.getSharedPreferences(PREF, Context.MODE_PRIVATE)
