@@ -86,6 +86,24 @@ class ShelfActivity : AppCompatActivity() {
             true
         }
 
+        binding.swipeRefresh.click {
+            if (isNetworkConnected(this))
+            {
+                viewModel.userLocation(
+                    Utils.getSimpleTextBody(
+                        LocalPreferences.getInt(this, LocalPreferences.AppLoginPreferences.userNo).toString()
+                    )
+                )
+                viewModel.getWarehouse("", selectedBusLocNo)
+
+                viewModel.getRack(
+                    Utils.getSimpleTextBody(""),
+                    Utils.getSimpleTextBody(selectedWareHouseNo),
+                    Utils.getSimpleTextBody(selectedBusLocNo)
+                )
+            }
+        }
+
         binding.shelfAddBTN.click {
             if (isNetworkConnected(this))
             {
@@ -106,24 +124,6 @@ class ShelfActivity : AppCompatActivity() {
             }
         }
 
-        binding.refresh.click {
-
-            if (isNetworkConnected(this))
-            {
-                viewModel.userLocation(
-                    Utils.getSimpleTextBody(
-                        LocalPreferences.getInt(this, LocalPreferences.AppLoginPreferences.userNo).toString()
-                    )
-                )
-                viewModel.getWarehouse("", selectedBusLocNo)
-
-                viewModel.getRack(
-                    Utils.getSimpleTextBody(""),
-                    Utils.getSimpleTextBody(selectedWareHouseNo),
-                    Utils.getSimpleTextBody(selectedBusLocNo)
-                )
-            }
-        }
     }
 
     fun showAction(shelfName:String,shelfNo:String){
@@ -275,8 +275,10 @@ class ShelfActivity : AppCompatActivity() {
         viewModel.getShelf.observe(this, Observer{
             when(it.status){
                 Status.LOADING ->{
+                    binding.swipeRefresh.isRefreshing = true
                 }
                 Status.SUCCESS ->{
+                    binding.swipeRefresh.isRefreshing = false
                     it.let{
                         if (isNetworkConnected(this)){
                             LocalPreferences.put(this, isRefreshRequired, true)

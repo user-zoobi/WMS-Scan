@@ -162,10 +162,6 @@ class WarehouseActivity : AppCompatActivity() {
             true
         }
 
-        binding.refresh.click {
-
-        }
-
         binding.swipeRefresh.setOnRefreshListener {
             if (isNetworkConnected(this@WarehouseActivity))
             {

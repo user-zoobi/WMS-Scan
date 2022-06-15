@@ -90,28 +90,7 @@ class PalletsActivity : AppCompatActivity() {
             true
         }
 
-        binding.palletAddBTN.click {
-            if (isNetworkConnected(this)){
-                val intent = Intent(this, AddUpdatePalletDetails::class.java)
-                intent.putExtra("addBusLocNo",selectedBusLocNo)
-                intent.putExtra("addWHNo",selectedWareHouseNo)
-                intent.putExtra("addRackNo",selectedRackNo)
-                intent.putExtra("addShelfNo",selectedShelveNo)
-                intent.putExtra("addBusLocName",busLocName)
-                intent.putExtra("addWHName",warehouseName)
-                intent.putExtra("addRackName",rackName)
-                intent.putExtra("addShelfName",shelfName)
-                intent.putExtra("AddPalletKey",true)
-                startActivity(intent)
-            }
-            else{
-                toast(NoInternetFound)
-            }
-
-        }
-
-        binding.refresh.click {
-
+        binding.swipeRefresh.setOnRefreshListener {
             if (isNetworkConnected(this))
             {
                 viewModel.userLocation(
@@ -133,12 +112,25 @@ class PalletsActivity : AppCompatActivity() {
                     Utils.getSimpleTextBody(selectedBusLocNo)
                 )
             }
-            else
-            {
-                toast(NoInternetFound)
+        }
+
+        binding.palletAddBTN.click {
+            if (isNetworkConnected(this)){
+                val intent = Intent(this, AddUpdatePalletDetails::class.java)
+                intent.putExtra("addBusLocNo",selectedBusLocNo)
+                intent.putExtra("addWHNo",selectedWareHouseNo)
+                intent.putExtra("addRackNo",selectedRackNo)
+                intent.putExtra("addShelfNo",selectedShelveNo)
+                intent.putExtra("addBusLocName",busLocName)
+                intent.putExtra("addWHName",warehouseName)
+                intent.putExtra("addRackName",rackName)
+                intent.putExtra("addShelfName",shelfName)
+                intent.putExtra("AddPalletKey",true)
+                startActivity(intent)
             }
 
         }
+
     }
 
     private fun initObservers(){
@@ -307,9 +299,11 @@ class PalletsActivity : AppCompatActivity() {
         viewModel.getPallet.observe(this, Observer {
             when(it.status){
                 Status.LOADING ->{
-                    Log.i(loading,"Success")
+                    binding.swipeRefresh.isRefreshing = true
+                    Log.i(loading,"Loading")
                 }
                 Status.SUCCESS ->{
+                    binding.swipeRefresh.isRefreshing = false
                     try
                     {
                         LocalPreferences.put(this,isRefreshRequired, true)

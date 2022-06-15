@@ -98,10 +98,6 @@ class RacksActivity : AppCompatActivity() {
             }
         }
 
-//        binding.refresh.click {
-//
-//        }
-
         binding.swipeRefresh.setOnRefreshListener {
             if (isNetworkConnected(this))
             {

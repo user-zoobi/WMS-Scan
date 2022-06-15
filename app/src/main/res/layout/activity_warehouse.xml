@@ -98,28 +98,12 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentStart="true"
+                        android:layout_centerVertical="true"
                         android:fontFamily="@font/amiko"
                         android:text="Warehouse"
                         android:textColor="@color/black"
                         android:textSize="@dimen/_20ssp"
-                        android:layout_centerVertical="true"
                         android:visibility="visible" />
-
-                    <com.google.android.material.card.MaterialCardView
-                        android:id="@+id/refresh"
-                        android:layout_width="@dimen/_30sdp"
-                        android:layout_height="@dimen/_30sdp"
-                        android:layout_alignParentEnd="true"
-                        android:layout_margin="@dimen/_5sdp"
-                        app:cardElevation="@dimen/_10sdp">
-
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:padding="@dimen/_5sdp"
-                            android:src="@drawable/refresh" />
-
-                    </com.google.android.material.card.MaterialCardView>
 
 
                 </RelativeLayout>
