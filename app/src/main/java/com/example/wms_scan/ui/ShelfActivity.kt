@@ -86,7 +86,7 @@ class ShelfActivity : AppCompatActivity() {
             true
         }
 
-        binding.swipeRefresh.click {
+        binding.swipeRefresh.setOnRefreshListener {
             if (isNetworkConnected(this))
             {
                 viewModel.userLocation(
