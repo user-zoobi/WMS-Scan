@@ -102,6 +102,10 @@ class ShelfActivity : AppCompatActivity() {
                     Utils.getSimpleTextBody(selectedBusLocNo)
                 )
             }
+            else
+            {
+                binding.swipeRefresh.isRefreshing = false
+            }
         }
 
         binding.shelfAddBTN.click {

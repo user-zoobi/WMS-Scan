@@ -110,7 +110,7 @@ class WarehouseActivity : AppCompatActivity() {
         viewModel.getWarehouse.observe(this, Observer{
             when(it.status){
                 Status.LOADING->{
-                    binding.swipeRefresh.isRefreshing = true
+                    binding.swipeRefresh.isRefreshing = isNetworkConnected(this)
                 }
                 Status.SUCCESS ->{
                     binding.swipeRefresh.isRefreshing = false
@@ -170,6 +170,9 @@ class WarehouseActivity : AppCompatActivity() {
                         LocalPreferences.getInt(this, userNo).toString()
                     )
                 )
+            }
+            else{
+                binding.swipeRefresh.isRefreshing = false
             }
         }
 

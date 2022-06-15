@@ -18,6 +18,7 @@ import com.example.scanmate.util.LocalPreferences
 import com.example.scanmate.util.LocalPreferences.AppConstants.orgBusLocNo
 import com.example.scanmate.util.LocalPreferences.AppLoginPreferences.PREF
 import com.example.scanmate.util.LocalPreferences.AppLoginPreferences.busLocNo
+import com.example.scanmate.util.LocalPreferences.AppLoginPreferences.scanCarton
 import com.example.scanmate.util.LocalPreferences.AppLoginPreferences.userNo
 import com.example.scanmate.util.Utils
 import com.example.scanmate.viewModel.MainViewModel
@@ -135,7 +136,7 @@ class MenuActivity : AppCompatActivity() {
             gotoActivity(CreateCartonActivity::class.java, "placeCarton",true)
         }
         binding.scanCartonIV.click {
-            gotoActivity(ScannerActivity::class.java)
+            gotoActivity(ScannerActivity::class.java,scanCarton,true)
         }
     }
 

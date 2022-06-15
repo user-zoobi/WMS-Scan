@@ -107,6 +107,17 @@ class RacksActivity : AppCompatActivity() {
                     )
                 )
                 viewModel.getWarehouse("", selectedBusLocNo)
+
+                viewModel.getRack(
+                    Utils.getSimpleTextBody(""),
+                    Utils.getSimpleTextBody(selectedWareHouseNo),
+                    Utils.getSimpleTextBody(selectedBusLocNo)
+                )
+
+            }
+            else
+            {
+                binding.swipeRefresh.isRefreshing = false
             }
         }
 
@@ -362,7 +373,7 @@ class RacksActivity : AppCompatActivity() {
 
             override fun onItemSelected(adapter: AdapterView<*>?, view: View?, position: Int, long: Long) {
 
-                if (Utils.isNetworkConnected(this@RacksActivity)) {
+                if (isNetworkConnected(this@RacksActivity)) {
                     selectedWareHouseNo = data[position].wHNo.toString()
                     viewModel.getRack(
                         Utils.getSimpleTextBody(""),

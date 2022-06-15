@@ -61,9 +61,11 @@ class AddUpdateRackDetails : AppCompatActivity() {
                 Utils.getSimpleTextBody("20"),
                 Utils.getSimpleTextBody(selectedBusLocNo),
                 Utils.getSimpleTextBody(
-                    LocalPreferences.getInt(this, LocalPreferences.AppLoginPreferences.userNo).toString()),
+                    LocalPreferences.getInt(this,userNo).toString()),
                 Utils.getSimpleTextBody("TEST"),
             )
+
+            toast("rack added")
 
         }
 
@@ -142,7 +144,6 @@ class AddUpdateRackDetails : AppCompatActivity() {
                         dialog.dismiss()
                         LocalPreferences.put(this,isRefreshRequired, true)
                         finish()
-                        toast("rack added")
 
                     }
                     Status.ERROR ->{

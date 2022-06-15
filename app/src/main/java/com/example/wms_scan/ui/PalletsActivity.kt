@@ -112,6 +112,10 @@ class PalletsActivity : AppCompatActivity() {
                     Utils.getSimpleTextBody(selectedBusLocNo)
                 )
             }
+            else
+            {
+                binding.swipeRefresh.isRefreshing = false
+            }
         }
 
         binding.palletAddBTN.click {

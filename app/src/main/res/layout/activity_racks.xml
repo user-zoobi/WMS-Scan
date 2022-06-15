@@ -73,8 +73,8 @@
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="@dimen/_20sdp"
             android:layout_below="@+id/loginTimeTV"
+            android:layout_marginTop="@dimen/_20sdp"
             android:background="@drawable/top_rounded_white_bg">
 
 
@@ -122,6 +122,7 @@
                         android:maxLines="1"
                         android:paddingStart="@dimen/_10sdp"
                         android:spinnerMode="dropdown"
+                        android:theme="@style/SpinnerScrollBar"
                         android:visibility="visible" />
 
                 </com.google.android.material.card.MaterialCardView>
@@ -143,7 +144,8 @@
                         android:layout_height="wrap_content"
                         android:maxLines="1"
                         android:paddingStart="@dimen/_10sdp"
-                        android:spinnerMode="dropdown" />
+                        android:spinnerMode="dropdown"
+                        android:theme="@style/SpinnerScrollBar" />
 
                 </com.google.android.material.card.MaterialCardView>
 
@@ -166,6 +168,15 @@
                         android:spinnerMode="dropdown" />
 
                 </com.google.android.material.card.MaterialCardView>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_20sdp"
+                    android:fontFamily="@font/amiko"
+                    android:text="Available Racks"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_20ssp" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/racksRV"

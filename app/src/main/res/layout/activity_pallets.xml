@@ -215,6 +215,15 @@
 
                 </com.google.android.material.card.MaterialCardView>
 
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_20sdp"
+                    android:fontFamily="@font/amiko"
+                    android:text="Available Pallets"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_20ssp" />
+
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/palletsRV"
                     android:layout_width="match_parent"

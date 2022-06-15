@@ -3,6 +3,7 @@ package com.example.wms_scan.ui
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.scanmate.extensions.*
+import com.example.scanmate.util.LocalPreferences.AppLoginPreferences.scanCarton
 import com.example.wms_scan.R
 import com.example.wms_scan.databinding.ActivityScannerBinding
 
@@ -33,7 +34,7 @@ class ScannerActivity : AppCompatActivity() {
 
     private fun setupUi(){
         when {
-            intent.extras?.getBoolean("scannerKey") == true -> {
+            intent.extras?.getBoolean(scanCarton) == true -> {
                 binding.loginBtn.hide()
             }
         }
