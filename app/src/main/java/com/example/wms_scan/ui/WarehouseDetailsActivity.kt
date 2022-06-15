@@ -16,12 +16,9 @@ import com.example.scanmate.data.response.GetShelfResponse
 import com.example.scanmate.data.response.GetWarehouseResponse
 import com.example.scanmate.data.response.UserLocationResponse
 import com.example.scanmate.extensions.*
-import com.example.scanmate.util.Constants.WMSStructure.pallets
-import com.example.scanmate.util.Constants.WMSStructure.racks
-import com.example.scanmate.util.Constants.WMSStructure.shelf
-import com.example.scanmate.util.Constants.WMSStructure.warehouse
 import com.example.scanmate.util.CustomProgressDialog
 import com.example.scanmate.util.LocalPreferences
+import com.example.scanmate.util.LocalPreferences.AppLoginPreferences.isRefreshRequired
 import com.example.scanmate.util.LocalPreferences.AppLoginPreferences.userNo
 import com.example.scanmate.util.Utils
 import com.example.scanmate.viewModel.MainViewModel
@@ -91,7 +88,7 @@ class WarehouseDetailsActivity : AppCompatActivity() {
                 updatedBusLocNo = intent.extras?.getString("updateBusLocNo")
                 selectedWHNo = intent.extras?.getString("updateWhNo")
                 selectedWhName = intent.extras?.getString("updateWhName")
-
+                binding.editDetailTV.text = "Update to"
                 binding.busLocTV.text = updatedBusLocName
                 binding.updateWarehouseET.text = selectedWhName?.toEditable()
                 binding.addWarehouseBTN.gone()
@@ -114,7 +111,9 @@ class WarehouseDetailsActivity : AppCompatActivity() {
                 LocalPreferences.getInt(this, userNo).toString(),
                 "Test-PC"
             )
+            LocalPreferences.put(this, isRefreshRequired, true)
             toast("warehouse added")
+            finish()
         }
 
         binding.updateWarehouseBtn.click {
@@ -127,7 +126,6 @@ class WarehouseDetailsActivity : AppCompatActivity() {
                 LocalPreferences.getInt(this, userNo).toString(),
                 "Test-PC"
             )
-            toast("warehouse updated")
         }
     }
 
@@ -152,6 +150,9 @@ class WarehouseDetailsActivity : AppCompatActivity() {
                     Status.SUCCESS ->{
                         dialog.dismiss()
                         Log.i("warehouseAdded",it.data?.error.toString())
+                        LocalPreferences.put(this, isRefreshRequired, true)
+                        toast("warehouse updated")
+                        finish()
 
                     }
                     Status.ERROR ->{

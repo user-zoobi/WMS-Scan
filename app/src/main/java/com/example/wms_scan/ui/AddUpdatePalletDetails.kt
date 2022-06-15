@@ -15,6 +15,7 @@ import com.example.scanmate.data.response.UserLocationResponse
 import com.example.scanmate.extensions.*
 import com.example.scanmate.util.CustomProgressDialog
 import com.example.scanmate.util.LocalPreferences
+import com.example.scanmate.util.LocalPreferences.AppLoginPreferences.isRefreshRequired
 import com.example.scanmate.util.LocalPreferences.AppLoginPreferences.userNo
 import com.example.scanmate.util.Utils
 import com.example.scanmate.viewModel.MainViewModel
@@ -124,6 +125,7 @@ class AddUpdatePalletDetails : AppCompatActivity() {
         // ADD YOUR PALLET
 
         binding.addPalletBtn.click {
+            LocalPreferences.put(this,isRefreshRequired, true)
             palletName = binding.palletNameET.text.toString()
             viewModel.addPallet(
                 Utils.getSimpleTextBody("0"),
@@ -136,6 +138,7 @@ class AddUpdatePalletDetails : AppCompatActivity() {
                 Utils.getSimpleTextBody("TEST"),
             )
             toast("pallet added")
+            finish()
 
         }
 
@@ -153,6 +156,7 @@ class AddUpdatePalletDetails : AppCompatActivity() {
                 Utils.getSimpleTextBody("TEST"),
             )
             toast("pallet updated")
+            finish()
         }
 
 

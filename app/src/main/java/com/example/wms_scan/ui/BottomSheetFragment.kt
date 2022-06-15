@@ -1,5 +1,6 @@
 package com.example.wms_scan.ui
 
+import android.annotation.SuppressLint
 import android.graphics.*
 import android.os.Build
 import android.os.Bundle
@@ -14,12 +15,14 @@ import com.example.scanmate.util.LocalPreferences
 import com.example.scanmate.util.LocalPreferences.AppLoginPreferences.palletNo
 import com.example.wms_scan.databinding.BottomSheetDialogViewBinding
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.google.android.material.internal.ViewUtils.getContentView
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.qrcode.QRCodeWriter
 import com.itextpdf.text.Document
 import com.itextpdf.text.DocumentException
 
 import com.itextpdf.text.Paragraph
+import com.itextpdf.text.pdf.PdfDocument
 
 import com.itextpdf.text.pdf.PdfWriter
 import java.io.FileNotFoundException
@@ -65,6 +68,12 @@ class BottomSheetFragment : BottomSheetDialogFragment() {
         {
 
         }
+    }
+
+    @SuppressLint("RestrictedApi")
+    private fun generatePDF(){
+
+
     }
 
 

@@ -20,8 +20,10 @@ import com.example.scanmate.extensions.*
 import com.example.scanmate.util.Constants.LogMessages.error
 import com.example.scanmate.util.Constants.LogMessages.loading
 import com.example.scanmate.util.Constants.LogMessages.success
+import com.example.scanmate.util.Constants.Toast.NoInternetFound
 import com.example.scanmate.util.CustomProgressDialog
 import com.example.scanmate.util.LocalPreferences
+import com.example.scanmate.util.LocalPreferences.AppLoginPreferences.isRefreshRequired
 import com.example.scanmate.util.Utils
 import com.example.scanmate.util.Utils.isNetworkConnected
 import com.example.scanmate.viewModel.MainViewModel
@@ -81,6 +83,64 @@ class PalletsActivity : AppCompatActivity() {
         }
     }
 
+    private fun initListeners(){
+
+        binding.toolbar.menu.findItem(R.id.logout).setOnMenuItemClickListener {
+            clearPreferences(this)
+            true
+        }
+
+        binding.palletAddBTN.click {
+            if (isNetworkConnected(this)){
+                val intent = Intent(this, AddUpdatePalletDetails::class.java)
+                intent.putExtra("addBusLocNo",selectedBusLocNo)
+                intent.putExtra("addWHNo",selectedWareHouseNo)
+                intent.putExtra("addRackNo",selectedRackNo)
+                intent.putExtra("addShelfNo",selectedShelveNo)
+                intent.putExtra("addBusLocName",busLocName)
+                intent.putExtra("addWHName",warehouseName)
+                intent.putExtra("addRackName",rackName)
+                intent.putExtra("addShelfName",shelfName)
+                intent.putExtra("AddPalletKey",true)
+                startActivity(intent)
+            }
+            else{
+                toast(NoInternetFound)
+            }
+
+        }
+
+        binding.refresh.click {
+
+            if (isNetworkConnected(this))
+            {
+                viewModel.userLocation(
+                    Utils.getSimpleTextBody(
+                        LocalPreferences.getInt(this, LocalPreferences.AppLoginPreferences.userNo).toString()
+                    )
+                )
+                viewModel.getWarehouse("", selectedBusLocNo)
+
+                viewModel.getRack(
+                    Utils.getSimpleTextBody(""),
+                    Utils.getSimpleTextBody(selectedWareHouseNo),
+                    Utils.getSimpleTextBody(selectedBusLocNo)
+                )
+
+                viewModel.getShelf(
+                    Utils.getSimpleTextBody(""),
+                    Utils.getSimpleTextBody(selectedRackNo),
+                    Utils.getSimpleTextBody(selectedBusLocNo)
+                )
+            }
+            else
+            {
+                toast(NoInternetFound)
+            }
+
+        }
+    }
+
     private fun initObservers(){
 
         /**
@@ -99,16 +159,22 @@ class PalletsActivity : AppCompatActivity() {
                     dialog.show()
                 }
                 Status.SUCCESS ->{
-                    it.let {
-                        if(it.data?.get(0)?.status == true) {
-                            dialog.dismiss()
-                            showBusLocSpinner(it.data!!)
-                        }
-                        else
-                        {
-                            toast("no result found")
+                    if (isNetworkConnected(this)){
+                        it.let {
+                            if(it.data?.get(0)?.status == true) {
+                                dialog.dismiss()
+                                showBusLocSpinner(it.data!!)
+                            }
+                            else
+                            {
+                            }
                         }
                     }
+                    else
+                    {
+                        binding.palletsRV.adapter = null
+                    }
+
                 }
                 Status.ERROR ->{
                     dialog.dismiss()
@@ -125,23 +191,29 @@ class PalletsActivity : AppCompatActivity() {
                 Status.LOADING->{
                 }
                 Status.SUCCESS ->{
+                    if (isNetworkConnected(this)){
+                        try {
+                            if(it.data?.get(0)?.status == true)
+                            {
+                                it.data[0].wHName?.let { it1 -> Log.i("warehouseResponse", it1) }
+                                showWarehouseSpinner(it.data)
+                            }
+                            else
+                            {
 
-                    try {
-                        if(it.data?.get(0)?.status == true)
-                        {
-                            it.data[0].wHName?.let { it1 -> Log.i("warehouseResponse", it1) }
-                            showWarehouseSpinner(it.data)
+                                binding.palletsRV.adapter = null
+                            }
                         }
-                        else
-                        {
-                            toast("no result found")
+                        catch(e:Exception){
+                            Log.i("rackAdapter","${e.message}")
+                            Log.i("rackAdapter","${e.stackTrace}")
                         }
+                        //warehouseAdapter.addItems(list)
                     }
-                    catch(e:Exception){
-                        Log.i("rackAdapter","${e.message}")
-                        Log.i("rackAdapter","${e.stackTrace}")
+                    else
+                    {
+                        binding.palletsRV.adapter = null
                     }
-                    //warehouseAdapter.addItems(list)
                 }
                 Status.ERROR ->{
                     dialog.dismiss()
@@ -158,23 +230,31 @@ class PalletsActivity : AppCompatActivity() {
                 Status.LOADING ->{
                 }
                 Status.SUCCESS ->{
+
+                    if (isNetworkConnected(this)){
+                        try
+                        {
+                            if(it.data?.get(0)?.status == true)
+                            {
+                                showRackSpinner(it.data!!)
+                            }
+                            else
+                            {
+                                binding.palletsRV.adapter = null
+                            }
+                        }
+                        catch (e: Exception)
+                        {
+                            Log.i("RACK_OBSERVER","${e.message}")
+                            Log.i("RACK_OBSERVER","${e.stackTrace}")
+                        }
+                    }
+                    else
+                    {
+                        binding.palletsRV.adapter = null
+                    }
                     // Log.i("getRack",it.data?.get(0)?.rackNo.toString())
-                    try
-                    {
-                        if(it.data?.get(0)?.status == true)
-                        {
-                        showRackSpinner(it.data!!)
-                        }
-                        else
-                        {
-                            toast("no result found")
-                        }
-                    }
-                    catch (e: Exception)
-                    {
-                        Log.i("RACK_OBSERVER","${e.message}")
-                        Log.i("RACK_OBSERVER","${e.stackTrace}")
-                    }
+
                 }
                 Status.ERROR ->{
                     dialog.dismiss()
@@ -192,19 +272,27 @@ class PalletsActivity : AppCompatActivity() {
                 Status.LOADING ->{
                 }
                 Status.SUCCESS ->{
-                    try {
-                        if(it.data?.get(0)?.status == true)
-                        {
-                            showShelfSpinner(it.data!!)
+                    if (isNetworkConnected(this)){
+                        try {
+                            if(it.data?.get(0)?.status == true)
+                            {
+                                showShelfSpinner(it.data!!)
+                            }
+                            else
+                            {
+                                binding.palletsRV.adapter = null
+                            }
                         }
-                        else
-                        {
-                            toast("no result found")
+                        catch (e:Exception){
+                            Log.i("","${e.message}")
+                            Log.i("rackAdapter","${e.stackTrace}")
                         }
-                    }catch (e:Exception){
-                        Log.i("","${e.message}")
-                        Log.i("rackAdapter","${e.stackTrace}")
                     }
+                    else
+                    {
+                        binding.palletsRV.adapter = null
+                    }
+
                 }
                 Status.ERROR ->{
 
@@ -224,6 +312,7 @@ class PalletsActivity : AppCompatActivity() {
                 Status.SUCCESS ->{
                     try
                     {
+                        LocalPreferences.put(this,isRefreshRequired, true)
                         if(it.data?.get(0)?.status == true)
                         {
                             Log.i(success,"Success")
@@ -238,7 +327,6 @@ class PalletsActivity : AppCompatActivity() {
                         }
                         else
                         {
-                            toast("no result found")
                             binding.palletsRV.adapter = null
                         }
                     }
@@ -275,29 +363,6 @@ class PalletsActivity : AppCompatActivity() {
 
     }
 
-    private fun initListeners(){
-
-        binding.toolbar.menu.findItem(R.id.logout).setOnMenuItemClickListener {
-            clearPreferences(this)
-            true
-        }
-
-        binding.palletAddBTN.click {
-            val intent = Intent(this, AddUpdatePalletDetails::class.java)
-            intent.putExtra("addBusLocNo",selectedBusLocNo)
-            intent.putExtra("addWHNo",selectedWareHouseNo)
-            intent.putExtra("addRackNo",selectedRackNo)
-            intent.putExtra("addShelfNo",selectedShelveNo)
-            intent.putExtra("addBusLocName",busLocName)
-            intent.putExtra("addWHName",warehouseName)
-            intent.putExtra("addRackName",rackName)
-            intent.putExtra("addShelfName",shelfName)
-            intent.putExtra("AddPalletKey",true)
-            startActivity(intent)
-
-        }
-    }
-
     private fun showBusLocSpinner(data:List<UserLocationResponse>) {
         //String array to store all the book names
         val items = arrayOfNulls<String>(data.size)
@@ -325,7 +390,8 @@ class PalletsActivity : AppCompatActivity() {
                     viewModel.getWarehouse("", selectedBusLocNo)
                 }else
                 {
-                    businessLocSpinner.adapter = null
+                    binding.palletsRV.adapter = null
+                    toast(NoInternetFound)
                 }
 
             }
@@ -363,7 +429,8 @@ class PalletsActivity : AppCompatActivity() {
                     Log.i("LocBus","This is warehouse pos is ${data[position].wHNo}")
                 }else
                 {
-                    warehouseSpinner.adapter = null
+                    binding.palletsRV.adapter = null
+                    toast(NoInternetFound)
                 }
 
 
@@ -401,7 +468,8 @@ class PalletsActivity : AppCompatActivity() {
                 }
                 else
                 {
-                    rackSpinner.adapter = null
+                    binding.palletsRV.adapter = null
+                    toast(NoInternetFound)
                 }
 
 
@@ -440,7 +508,8 @@ class PalletsActivity : AppCompatActivity() {
                     }
                     else
                     {
-                        shelfResponse.adapter = null
+                        binding.palletsRV.adapter = null
+                        toast(NoInternetFound)
                     }
 
                 }
@@ -448,7 +517,6 @@ class PalletsActivity : AppCompatActivity() {
             }
         }
     }
-
 
     /**
      *  CLEAR ALL PREFERENCES
@@ -460,4 +528,18 @@ class PalletsActivity : AppCompatActivity() {
         settings.edit().clear().apply()
         onBackPressed()
     }
+
+    override fun onResume() {
+        super.onResume()
+        if (LocalPreferences.getBoolean(this, isRefreshRequired)){
+
+            viewModel.getPallet(
+                Utils.getSimpleTextBody(""),
+                Utils.getSimpleTextBody(selectedShelveNo),
+                Utils.getSimpleTextBody(selectedBusLocNo)
+            )
+
+        }
+    }
+
 }

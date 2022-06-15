@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.view.WindowManager
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.lifecycle.Observer
@@ -21,7 +22,9 @@ import com.example.scanmate.util.Constants
 import com.example.scanmate.util.Constants.Toast.NoInternetFound
 import com.example.scanmate.util.CustomProgressDialog
 import com.example.scanmate.util.LocalPreferences
+import com.example.scanmate.util.LocalPreferences.AppLoginPreferences.isRefreshRequired
 import com.example.scanmate.util.Utils
+import com.example.scanmate.util.Utils.isNetworkConnected
 import com.example.scanmate.viewModel.MainViewModel
 import com.example.wms_scan.R
 import com.example.wms_scan.adapter.pallets.PalletsAdapter
@@ -59,7 +62,7 @@ class ShelfActivity : AppCompatActivity() {
     }
 
     private fun setupUi(){
-
+        window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
         dialog = CustomProgressDialog(this)
         supportActionBar?.hide()
         setTransparentStatusBarColor(R.color.transparent)
@@ -84,7 +87,7 @@ class ShelfActivity : AppCompatActivity() {
         }
 
         binding.shelfAddBTN.click {
-            if (Utils.isNetworkConnected(this))
+            if (isNetworkConnected(this))
             {
                 val intent = Intent(this, AddUpdateShelfDetails::class.java)
                 intent.putExtra("addBusLocNo",selectedBusLocNo)
@@ -103,6 +106,24 @@ class ShelfActivity : AppCompatActivity() {
             }
         }
 
+        binding.refresh.click {
+
+            if (isNetworkConnected(this))
+            {
+                viewModel.userLocation(
+                    Utils.getSimpleTextBody(
+                        LocalPreferences.getInt(this, LocalPreferences.AppLoginPreferences.userNo).toString()
+                    )
+                )
+                viewModel.getWarehouse("", selectedBusLocNo)
+
+                viewModel.getRack(
+                    Utils.getSimpleTextBody(""),
+                    Utils.getSimpleTextBody(selectedWareHouseNo),
+                    Utils.getSimpleTextBody(selectedBusLocNo)
+                )
+            }
+        }
     }
 
     fun showAction(shelfName:String,shelfNo:String){
@@ -145,23 +166,28 @@ class ShelfActivity : AppCompatActivity() {
                     dialog.show()
                 }
                 Status.SUCCESS ->{
-                    try
-                    {
-                        if(it.data?.get(0)?.status == true)
+                    if (isNetworkConnected(this)){
+                        try
                         {
-                            dialog.dismiss()
-                            showBusLocSpinner(it.data!!)
+                            if(it.data?.get(0)?.status == true)
+                            {
+                                dialog.dismiss()
+                                showBusLocSpinner(it.data)
+                            }
+                            else
+                            {
+                                binding.shelfRV.adapter = null
+                            }
                         }
-                        else
+                        catch (e:Exception)
                         {
-                            toast("No record found")
+
                         }
                     }
-                    catch (e:Exception)
+                    else
                     {
-
+                        binding.shelfRV.adapter = null
                     }
-
                 }
                 Status.ERROR ->{
                     dialog.dismiss()
@@ -179,23 +205,26 @@ class ShelfActivity : AppCompatActivity() {
                 Status.LOADING->{
                 }
                 Status.SUCCESS ->{
+                    if (isNetworkConnected(this)){
 
-                    try {
-                        if(it.data?.get(0)?.status == true)
-                        {
-                            it.data[0].wHName?.let { it1 -> Log.i("warehouseResponse", it1) }
-                            showWarehouseSpinner(it.data)
-                        }
-                        else
-                        {
-                            toast("no result found")
+                        try {
+                            if(it.data?.get(0)?.status == true)
+                            {
+                                it.data[0].wHName?.let { it1 -> Log.i("warehouseResponse", it1) }
+                                showWarehouseSpinner(it.data)
+                            }
+                            else
+                            {
+                                binding.shelfRV.adapter = null
+                            }
                         }
 
+                        catch(e:Exception){
+                            Log.i("rackAdapter","${e.message}")
+                            Log.i("rackAdapter","${e.stackTrace}")
+                        }
                     }
-                    catch(e:Exception){
-                        Log.i("rackAdapter","${e.message}")
-                        Log.i("rackAdapter","${e.stackTrace}")
-                    }
+
                     //warehouseAdapter.addItems(list)
                 }
                 Status.ERROR ->{
@@ -213,22 +242,23 @@ class ShelfActivity : AppCompatActivity() {
                 Status.LOADING ->{
                 }
                 Status.SUCCESS ->{
-                    // Log.i("getRack",it.data?.get(0)?.rackNo.toString())
-                    try
-                    {
-                        if(it.data?.get(0)?.status == true)
+                    if (isNetworkConnected(this)){
+                        try
                         {
-                            showRackSpinner(it.data)
+                            if(it.data?.get(0)?.status == true)
+                            {
+                                showRackSpinner(it.data)
+                            }
+                            else
+                            {
+                                binding.shelfRV.adapter = null
+                            }
                         }
-                        else
+                        catch (e: Exception)
                         {
-                            toast("no result found")
+                            Log.i("RACK_OBSERVER","${e.message}")
+                            Log.i("RACK_OBSERVER","${e.stackTrace}")
                         }
-                    }
-                    catch (e: Exception)
-                    {
-                        Log.i("RACK_OBSERVER","${e.message}")
-                        Log.i("RACK_OBSERVER","${e.stackTrace}")
                     }
                 }
                 Status.ERROR ->{
@@ -248,24 +278,31 @@ class ShelfActivity : AppCompatActivity() {
                 }
                 Status.SUCCESS ->{
                     it.let{
-                        try {
-                            if(it.data?.get(0)?.status == true) {
-                                showShelfSpinner(it.data)
-                                shelfList = ArrayList()
-                                shelfList = it.data as ArrayList<GetShelfResponse>
-                                shelfAdapter = ShelfAdapter(this, shelfList)
+                        if (isNetworkConnected(this)){
+                            LocalPreferences.put(this, isRefreshRequired, true)
+                            try {
+                                if(it.data?.get(0)?.status == true) {
+                                    showShelfSpinner(it.data)
+                                    shelfList = ArrayList()
+                                    shelfList = it.data as ArrayList<GetShelfResponse>
+                                    shelfAdapter = ShelfAdapter(this, shelfList)
 
-                                binding.shelfRV.apply {
-                                    adapter = shelfAdapter
-                                    layoutManager = LinearLayoutManager(this@ShelfActivity)
+                                    binding.shelfRV.apply {
+                                        adapter = shelfAdapter
+                                        layoutManager = LinearLayoutManager(this@ShelfActivity)
+                                    }
+                                }else{
+                                    binding.shelfRV.adapter = null
                                 }
-                            }else{
-                                toast("no result found")
-                                binding.shelfRV.adapter = null
                             }
-                        }catch (e:Exception){
-                            Log.i("","${e.message}")
-                            Log.i("rackAdapter","${e.stackTrace}")
+                            catch (e:Exception){
+                                Log.i("","${e.message}")
+                                Log.i("rackAdapter","${e.stackTrace}")
+                            }
+                        }
+                        else
+                        {
+                            binding.shelfRV.adapter = null
                         }
                     }
                 }
@@ -276,7 +313,6 @@ class ShelfActivity : AppCompatActivity() {
         })
 
     }
-
 
     private fun showBusLocSpinner(data:List<UserLocationResponse>) {
         //String array to store all the book names
@@ -306,7 +342,8 @@ class ShelfActivity : AppCompatActivity() {
                     busLocName = data[position].busLocationName.toString()
                 }
                 else{
-                    businessLocSpinner.adapter = null
+                    binding.shelfRV.adapter = null
+                    toast(NoInternetFound)
                 }
 
             }
@@ -343,8 +380,10 @@ class ShelfActivity : AppCompatActivity() {
                     Log.i("LocBus","This is warehouse name is ${adapter?.getItemAtPosition(position)}")
                     Log.i("LocBus","This is warehouse pos is ${data[position].wHNo}")
                 }
-                else{
-                    warehouseSpinner.adapter = null
+                else
+                {
+                    binding.shelfRV.adapter = null
+                    toast(NoInternetFound)
                 }
 
             }
@@ -383,7 +422,8 @@ class ShelfActivity : AppCompatActivity() {
                 }
                 else
                 {
-                    rackSpinner.adapter = null
+                    binding.shelfRV.adapter = null
+                    toast(NoInternetFound)
                 }
 
             }
@@ -415,12 +455,25 @@ class ShelfActivity : AppCompatActivity() {
                     }
                     else
                     {
-                        shelfResponse.adapter = null
+                        binding.shelfRV.adapter = null
+                        toast(NoInternetFound)
                     }
 
                 }
                 override fun onNothingSelected(p0: AdapterView<*>?) {}
             }
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (LocalPreferences.getBoolean(this, isRefreshRequired)){
+
+            viewModel.getShelf(
+                Utils.getSimpleTextBody(""),
+                Utils.getSimpleTextBody(selectedRackNo),
+                Utils.getSimpleTextBody(selectedBusLocNo)
+            )
         }
     }
 

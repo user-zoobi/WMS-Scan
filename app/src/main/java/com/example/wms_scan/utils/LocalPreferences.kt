@@ -58,6 +58,7 @@ object LocalPreferences {
         const val rackNo = "rackNo"
         const val shelfNo = "shelfNo"
         const val palletNo = "palletNo"
+        const val isRefreshRequired = "isRefreshRequired"
 
     }
 

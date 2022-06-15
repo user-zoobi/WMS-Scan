@@ -13,22 +13,18 @@ import android.widget.ArrayAdapter
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.scanmate.data.callback.Status
-import com.example.scanmate.data.response.GetRackResponse
-import com.example.scanmate.data.response.GetShelfResponse
 import com.example.scanmate.data.response.GetWarehouseResponse
 import com.example.scanmate.data.response.UserLocationResponse
 import com.example.scanmate.extensions.*
+import com.example.scanmate.util.Constants.Toast.NoInternetFound
 import com.example.scanmate.util.CustomProgressDialog
 import com.example.scanmate.util.LocalPreferences
-import com.example.scanmate.util.LocalPreferences.AppLoginPreferences.busLocNo
+import com.example.scanmate.util.LocalPreferences.AppLoginPreferences.isRefreshRequired
+import com.example.scanmate.util.LocalPreferences.AppLoginPreferences.userNo
 import com.example.scanmate.util.Utils
+import com.example.scanmate.util.Utils.isNetworkConnected
 import com.example.scanmate.viewModel.MainViewModel
-import com.example.wms_scan.adapter.pallets.PalletsAdapter
-import com.example.wms_scan.adapter.racks.RackAdapter
-import com.example.wms_scan.adapter.shelf.ShelfAdapter
 import com.example.wms_scan.adapter.warehouse.WarehouseAdapter
-import com.example.wms_scan.data.response.GetPalletResponse
-import com.example.wms_scan.databinding.ActivityRacksBinding
 import com.example.wms_scan.databinding.ActivityWarehouseBinding
 
 class WarehouseActivity : AppCompatActivity() {
@@ -81,18 +77,16 @@ class WarehouseActivity : AppCompatActivity() {
 
         viewModel.userLocation(
             Utils.getSimpleTextBody(
-                LocalPreferences.getInt(this,
-                    LocalPreferences.AppLoginPreferences.userNo
-                ).toString()
+                LocalPreferences.getInt(this, userNo).toString()
             ))
         viewModel.userLoc.observe(this, Observer {
             when(it.status){
                 Status.LOADING->{
-                    dialog.show()
+                    binding.swipeRefresh.isRefreshing = true
                     dialog.setCanceledOnTouchOutside(true);
                 }
                 Status.SUCCESS ->{
-
+                    binding.swipeRefresh.isRefreshing = false
                     if(it.data?.get(0)?.status == true)
                     {
                     dialog.dismiss()
@@ -116,20 +110,29 @@ class WarehouseActivity : AppCompatActivity() {
         viewModel.getWarehouse.observe(this, Observer{
             when(it.status){
                 Status.LOADING->{
+                    binding.swipeRefresh.isRefreshing = true
                 }
                 Status.SUCCESS ->{
-
+                    binding.swipeRefresh.isRefreshing = false
                     try {
-                        if(it.data?.get(0)?.status == true)
+                        LocalPreferences.put(this, isRefreshRequired, true)
+                        if (isNetworkConnected(this))
                         {
-                            it.data[0].wHName?.let { it1 -> Log.i("warehouseResponse", it1) }
+                            Log.i("Data",it.data?.get(0).toString())
+                            if(it.data?.get(0)?.status == true)
+                            {
+                                it.data[0].wHName?.let { it1 -> Log.i("warehouseResponse", it1) }
 
-                            list = ArrayList()
-                            list = it.data as ArrayList<GetWarehouseResponse>
-                            warehouseAdapter = WarehouseAdapter(this, list)
-                            binding.warehouseRV.apply {
-                                layoutManager = LinearLayoutManager(this@WarehouseActivity)
-                                adapter = warehouseAdapter
+                                list = ArrayList()
+                                list = it.data as ArrayList<GetWarehouseResponse>
+                                warehouseAdapter = WarehouseAdapter(this, list)
+                                binding.warehouseRV.apply {
+                                    layoutManager = LinearLayoutManager(this@WarehouseActivity)
+                                    adapter = warehouseAdapter
+                                }
+                            }
+                            else{
+                                binding.warehouseRV.adapter = null
                             }
                         }
                         else
@@ -160,19 +163,33 @@ class WarehouseActivity : AppCompatActivity() {
         }
 
         binding.refresh.click {
-            if (Utils.isNetworkConnected(this@WarehouseActivity))
+
+        }
+
+        binding.swipeRefresh.setOnRefreshListener {
+            if (isNetworkConnected(this@WarehouseActivity))
             {
-                viewModel.getWarehouse("", selectedBusLocNo)
+                viewModel.userLocation(
+                    Utils.getSimpleTextBody(
+                        LocalPreferences.getInt(this, userNo).toString()
+                    )
+                )
             }
         }
 
         binding.whAddBTN.click{
-            val intent = Intent(this, WarehouseDetailsActivity::class.java)
+            if (isNetworkConnected(this)){
+                val intent = Intent(this, WarehouseDetailsActivity::class.java)
 
-            intent.putExtra("addBusName",businessLocName)
-            intent.putExtra("addBusLocNo",selectedBusLocNo)
-            intent.putExtra("AddWHKey",true)
-            startActivity(intent)
+                intent.putExtra("addBusName",businessLocName)
+                intent.putExtra("addBusLocNo",selectedBusLocNo)
+                intent.putExtra("AddWHKey",true)
+                startActivity(intent)
+            }
+            else
+            {
+                toast(NoInternetFound)
+            }
         }
     }
 
@@ -215,7 +232,8 @@ class WarehouseActivity : AppCompatActivity() {
                     businessLocName = data[position].busLocationName.toString()
                 }
                 else{
-                    businessLocSpinner.adapter = null
+                    binding.warehouseRV.adapter = null
+                    toast(NoInternetFound)
                 }
 
             }
@@ -228,6 +246,14 @@ class WarehouseActivity : AppCompatActivity() {
             context.getSharedPreferences(LocalPreferences.AppLoginPreferences.PREF, Context.MODE_PRIVATE)
         settings.edit().clear().apply()
         onBackPressed()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (LocalPreferences.getBoolean(this, isRefreshRequired ))
+        {
+            viewModel.getWarehouse("", selectedBusLocNo)
+        }
     }
 
 

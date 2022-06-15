@@ -79,7 +79,7 @@
             android:layout_marginStart="@dimen/_20sdp"
             android:layout_marginTop="@dimen/_40sdp"
             android:fontFamily="@font/amiko"
-            android:text="Edit racks details"
+            android:text="Add rack"
             android:textColor="@color/black"
             android:textSize="@dimen/_18ssp" />
 

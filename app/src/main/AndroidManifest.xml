@@ -20,74 +20,92 @@
         android:theme="@style/Theme.WMSScan">
         <activity
             android:name=".ui.CartonDetailActivity"
+            android:windowSoftInputMode="stateVisible|adjustResize"
             android:exported="false" />
         <activity
             android:name=".ui.qrCode.QrCodeGeneratorActivity"
+            android:windowSoftInputMode="stateVisible|adjustResize"
             android:exported="false" />
         <activity
             android:name=".ui.ScanCartonActivity"
             android:exported="false"
+            android:windowSoftInputMode="stateVisible|adjustResize"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.WarehouseActivity"
             android:exported="false"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateVisible|adjustResize"/>
         <activity
             android:name=".ui.PalletsActivity"
             android:exported="false"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateVisible|adjustResize"/>
         <activity
             android:name=".ui.ShelfActivity"
             android:exported="false"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateVisible|adjustResize"/>
         <activity
             android:name=".ui.RacksActivity"
             android:exported="false"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateVisible|adjustResize"/>
         <activity
             android:name=".ui.AddUpdatePalletDetails"
             android:exported="false"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateVisible|adjustResize"/>
         <activity
             android:name=".ui.AddUpdateShelfDetails"
             android:exported="false"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateVisible|adjustResize"/>
         <activity
             android:name=".ui.AddUpdateRackDetails"
             android:exported="false"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateVisible|adjustResize"/>
         <activity
             android:name=".ui.CreateCartonActivity"
             android:exported="false"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateVisible|adjustResize"/>
         <activity
             android:name=".ui.LoginActivity"
             android:exported="false"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateVisible|adjustResize"/>
         <activity
             android:name=".ui.MenuActivity"
             android:exported="false"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateVisible|adjustResize"/>
         <activity
             android:name=".ui.NoNetworkActivity"
             android:exported="false"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateVisible|adjustResize"/>
         <activity
             android:name=".ui.ScannerActivity"
             android:exported="false"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateVisible|adjustResize"/>
         <activity
             android:name=".ui.ScannerCameraActivity"
             android:exported="false"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateVisible|adjustResize"/>
         <activity
             android:name=".ui.WarehouseDetailsActivity"
             android:exported="false"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateVisible|adjustResize"/>
         <activity
             android:name=".ui.SplashActivity"
             android:exported="true"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateVisible|adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

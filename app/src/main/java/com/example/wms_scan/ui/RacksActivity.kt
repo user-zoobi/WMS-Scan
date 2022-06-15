@@ -3,34 +3,31 @@ package com.example.wms_scan.ui
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.scanmate.data.callback.Status
 import com.example.scanmate.data.response.GetRackResponse
-import com.example.scanmate.data.response.GetShelfResponse
 import com.example.scanmate.data.response.GetWarehouseResponse
 import com.example.scanmate.data.response.UserLocationResponse
-import com.example.scanmate.extensions.*
-import com.example.scanmate.util.Constants
+import com.example.scanmate.extensions.click
+import com.example.scanmate.extensions.obtainViewModel
+import com.example.scanmate.extensions.setTransparentStatusBarColor
+import com.example.scanmate.extensions.toast
 import com.example.scanmate.util.Constants.Toast.NoInternetFound
 import com.example.scanmate.util.CustomProgressDialog
 import com.example.scanmate.util.LocalPreferences
+import com.example.scanmate.util.LocalPreferences.AppLoginPreferences.isRefreshRequired
 import com.example.scanmate.util.Utils
 import com.example.scanmate.util.Utils.isNetworkConnected
 import com.example.scanmate.viewModel.MainViewModel
 import com.example.wms_scan.R
-import com.example.wms_scan.adapter.pallets.PalletsAdapter
 import com.example.wms_scan.adapter.racks.RackAdapter
-import com.example.wms_scan.adapter.shelf.ShelfAdapter
-import com.example.wms_scan.adapter.warehouse.WarehouseAdapter
-import com.example.wms_scan.data.response.GetPalletResponse
-import com.example.wms_scan.databinding.ActivityPalletsBinding
 import com.example.wms_scan.databinding.ActivityRacksBinding
 
 class RacksActivity : AppCompatActivity() {
@@ -54,6 +51,8 @@ class RacksActivity : AppCompatActivity() {
         setupUi()
         initListeners()
         initObserver()
+
+
     }
 
     private fun setupUi(){
@@ -98,6 +97,23 @@ class RacksActivity : AppCompatActivity() {
                 toast(NoInternetFound)
             }
         }
+
+//        binding.refresh.click {
+//
+//        }
+
+        binding.swipeRefresh.setOnRefreshListener {
+            if (isNetworkConnected(this))
+            {
+                viewModel.userLocation(
+                    Utils.getSimpleTextBody(
+                        LocalPreferences.getInt(this, LocalPreferences.AppLoginPreferences.userNo).toString()
+                    )
+                )
+                viewModel.getWarehouse("", selectedBusLocNo)
+            }
+        }
+
     }
 
     fun openActivity(rackName: String?, rackNo: String){
@@ -150,7 +166,7 @@ class RacksActivity : AppCompatActivity() {
                             }
                             else
                             {
-                                toast("No record found")
+
                                 binding.racksRV.adapter = null
                             }
                         }
@@ -161,9 +177,7 @@ class RacksActivity : AppCompatActivity() {
                 }
                 else
                 {
-                    if (binding.racksRV.adapter == null){
-                        toast(NoInternetFound)
-                    }
+
                 }
 
             }
@@ -205,12 +219,6 @@ class RacksActivity : AppCompatActivity() {
                         }
                     }
                 }
-                else
-                {
-                    if (binding.racksRV.adapter == null){
-                        toast(NoInternetFound)
-                    }
-                }
 
             }
         })
@@ -227,8 +235,11 @@ class RacksActivity : AppCompatActivity() {
                         Status.LOADING->{
                         }
                         Status.SUCCESS ->{
+                            binding.swipeRefresh.isRefreshing = false
 
                             try {
+                                LocalPreferences.put(this, isRefreshRequired, false)
+
                                 if(it.data?.get(0)?.status == true)
                                 {
                                     it.data[0].wHName?.let { it1 -> Log.i("warehouseResponse", it1) }
@@ -236,7 +247,6 @@ class RacksActivity : AppCompatActivity() {
                                 }
                                 else
                                 {
-                                    toast("No record found")
                                     binding.racksRV.adapter = null
                                 }
                             }
@@ -249,12 +259,6 @@ class RacksActivity : AppCompatActivity() {
                         Status.ERROR ->{
                             dialog.dismiss()
                         }
-                    }
-                }
-                else
-                {
-                    if (binding.racksRV.adapter == null){
-                        toast(NoInternetFound)
                     }
                 }
 
@@ -288,7 +292,6 @@ class RacksActivity : AppCompatActivity() {
                                         adapter = racksAdapter
                                     }
                                 }else{
-                                    toast("No record found")
                                     binding.racksRV.adapter = null
                                 }
                             }
@@ -301,12 +304,6 @@ class RacksActivity : AppCompatActivity() {
                         Status.ERROR ->{
                             dialog.dismiss()
                         }
-                    }
-                }
-                else
-                {
-                    if (binding.racksRV.adapter == null){
-                        toast(NoInternetFound)
                     }
                 }
 
@@ -334,8 +331,7 @@ class RacksActivity : AppCompatActivity() {
 
             override fun onItemSelected(adapter: AdapterView<*>?, view: View?, position: Int, long: Long) {
 
-                if (isNetworkConnected(this@RacksActivity))
-                {
+                if (isNetworkConnected(this@RacksActivity)){
                     Log.i("LocBus","business Location no ${data[position].orgBusLocNo}")
                     // binding.rackSpinnerCont.visible()
                     businessLocName = data[position].busLocationName.toString()
@@ -344,9 +340,9 @@ class RacksActivity : AppCompatActivity() {
                 }
                 else
                 {
-                    businessLocSpinner.adapter = null
-                }
+                    binding.racksRV.adapter = null
 
+                }
             }
             override fun onNothingSelected(p0: AdapterView<*>?) {}
         }
@@ -369,8 +365,8 @@ class RacksActivity : AppCompatActivity() {
         warehouseSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
 
             override fun onItemSelected(adapter: AdapterView<*>?, view: View?, position: Int, long: Long) {
-                if (isNetworkConnected(this@RacksActivity))
-                {
+
+                if (Utils.isNetworkConnected(this@RacksActivity)) {
                     selectedWareHouseNo = data[position].wHNo.toString()
                     viewModel.getRack(
                         Utils.getSimpleTextBody(""),
@@ -383,7 +379,8 @@ class RacksActivity : AppCompatActivity() {
                 }
                 else
                 {
-                    warehouseSpinner.adapter = null
+                    binding.racksRV.adapter = null
+                    toast(NoInternetFound)
                 }
 
             }
@@ -408,11 +405,9 @@ class RacksActivity : AppCompatActivity() {
 
         rackSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
             override fun onItemSelected(adapter: AdapterView<*>?, view: View?, position: Int, long: Long) {
-                if (isNetworkConnected(this@RacksActivity))
-                {
+                if (Utils.isNetworkConnected(this@RacksActivity)) {
                     selectedRackNo = data[position].rackNo.toString()
                     selectedRackName = data[position].rackName.toString()
-
                     viewModel.getShelf(
                         Utils.getSimpleTextBody(""),
                         Utils.getSimpleTextBody(selectedRackNo),
@@ -421,13 +416,26 @@ class RacksActivity : AppCompatActivity() {
                 }
                 else
                 {
-                    rackSpinner.adapter = null
+                    binding.racksRV.adapter = null
+                    toast(NoInternetFound)
                 }
-
 
                 Log.i("LocBus","This is rack pos ${adapter?.getItemAtPosition(position)}")
             }
             override fun onNothingSelected(p0: AdapterView<*>?) {}
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        if (LocalPreferences.getBoolean(this, isRefreshRequired))
+        {
+            viewModel.getRack(
+                Utils.getSimpleTextBody(""),
+                Utils.getSimpleTextBody(selectedWareHouseNo),
+                Utils.getSimpleTextBody(selectedBusLocNo)
+            )
         }
     }
 

@@ -14,6 +14,8 @@ import com.example.scanmate.data.response.UserLocationResponse
 import com.example.scanmate.extensions.*
 import com.example.scanmate.util.CustomProgressDialog
 import com.example.scanmate.util.LocalPreferences
+import com.example.scanmate.util.LocalPreferences.AppLoginPreferences.isRefreshRequired
+import com.example.scanmate.util.LocalPreferences.AppLoginPreferences.userNo
 import com.example.scanmate.util.Utils
 import com.example.scanmate.viewModel.MainViewModel
 import com.example.wms_scan.R
@@ -62,7 +64,7 @@ class AddUpdateRackDetails : AppCompatActivity() {
                     LocalPreferences.getInt(this, LocalPreferences.AppLoginPreferences.userNo).toString()),
                 Utils.getSimpleTextBody("TEST"),
             )
-            toast("rack added")
+
         }
 
         binding.updateRackBtn.click {
@@ -74,11 +76,10 @@ class AddUpdateRackDetails : AppCompatActivity() {
                 Utils.getSimpleTextBody("$updatedWHNo"),
                 Utils.getSimpleTextBody("20"),
                 Utils.getSimpleTextBody("$updatedBusLocNo"),
-                Utils.getSimpleTextBody(
-                   "${LocalPreferences.getInt(this, LocalPreferences.AppLoginPreferences.userNo)},"
-                ),
+                Utils.getSimpleTextBody("${LocalPreferences.getInt(this, userNo)}"),
                 Utils.getSimpleTextBody("TEST"),
             )
+            finish()
             toast("rack updated")
         }
     }
@@ -112,6 +113,7 @@ class AddUpdateRackDetails : AppCompatActivity() {
                 binding.businessLocTV.text = updatedBusLocName
                 binding.rackNameET.text = updatedRackName?.toEditable()
                 binding.rackNameET.hint = "Update rack"
+                binding.editDetailTV.text = "Update to"
                 binding.addRackBtn.gone()
                 binding.updateRackBtn.visible()
             }
@@ -138,6 +140,9 @@ class AddUpdateRackDetails : AppCompatActivity() {
                     }
                     Status.SUCCESS ->{
                         dialog.dismiss()
+                        LocalPreferences.put(this,isRefreshRequired, true)
+                        finish()
+                        toast("rack added")
 
                     }
                     Status.ERROR ->{
