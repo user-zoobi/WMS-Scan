@@ -46,7 +46,7 @@ class WarehouseAdapter(
                 }
             }
             binding.showQRIV.setOnClickListener {
-                (context as WarehouseActivity).showQrCode()
+                (context as WarehouseActivity).showQrCode(data.wHCode.toString())
             }
         }
     }

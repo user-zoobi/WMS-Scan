@@ -37,7 +37,7 @@ class ShelfAdapter(
                 )
             }
             binding.showQRIV.setOnClickListener {
-                (context as ShelfActivity).showQrCode()
+                (context as ShelfActivity).showQrCode(data.shelfCode.toString())
             }
         }
     }

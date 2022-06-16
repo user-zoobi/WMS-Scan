@@ -18,7 +18,6 @@ import com.example.scanmate.data.response.GetShelfResponse
 import com.example.scanmate.data.response.GetWarehouseResponse
 import com.example.scanmate.data.response.UserLocationResponse
 import com.example.scanmate.extensions.*
-import com.example.scanmate.util.Constants
 import com.example.scanmate.util.Constants.Toast.NoInternetFound
 import com.example.scanmate.util.CustomProgressDialog
 import com.example.scanmate.util.LocalPreferences
@@ -27,12 +26,7 @@ import com.example.scanmate.util.Utils
 import com.example.scanmate.util.Utils.isNetworkConnected
 import com.example.scanmate.viewModel.MainViewModel
 import com.example.wms_scan.R
-import com.example.wms_scan.adapter.pallets.PalletsAdapter
-import com.example.wms_scan.adapter.racks.RackAdapter
 import com.example.wms_scan.adapter.shelf.ShelfAdapter
-import com.example.wms_scan.adapter.warehouse.WarehouseAdapter
-import com.example.wms_scan.data.response.GetPalletResponse
-import com.example.wms_scan.databinding.ActivityRacksBinding
 import com.example.wms_scan.databinding.ActivityShelfBinding
 
 class ShelfActivity : AppCompatActivity() {
@@ -48,9 +42,12 @@ class ShelfActivity : AppCompatActivity() {
     private var busLocName = ""
     private var warehouseName = ""
     private var rackName = ""
-    private var shelfName = ""
     private var selectedShelveNo = ""
-    private lateinit var bottomSheet:BottomSheetFragment
+    private lateinit var bottomSheet: QrCodeDetailActivity
+
+    private var shelfNo = ""
+    private var shelfName = ""
+    private var shelfCode = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -153,9 +150,13 @@ class ShelfActivity : AppCompatActivity() {
         }
     }
 
-    fun showQrCode(){
-        bottomSheet = BottomSheetFragment()
-        bottomSheet.show(supportFragmentManager,"")
+    fun showQrCode(shelfCode:String){
+        val intent = Intent(this, QrCodeDetailActivity::class.java)
+        intent.putExtra("shelfKey",true)
+        intent.putExtra("shelfQrCode",shelfCode)
+        intent.putExtra("shelfQrNo",shelfNo)
+        intent.putExtra("shelfQrName",shelfName)
+        startActivity(intent)
     }
 
     private fun initObserver(){
@@ -294,6 +295,11 @@ class ShelfActivity : AppCompatActivity() {
                             LocalPreferences.put(this, isRefreshRequired, true)
                             try {
                                 if(it.data?.get(0)?.status == true) {
+
+                                    shelfName = it.data[0].shelfName.toString()
+                                    shelfNo = it.data[0].shelfNo.toString()
+                                    shelfCode = it.data[0].shelfCode.toString()
+
                                     showShelfSpinner(it.data)
                                     shelfList = ArrayList()
                                     shelfList = it.data as ArrayList<GetShelfResponse>

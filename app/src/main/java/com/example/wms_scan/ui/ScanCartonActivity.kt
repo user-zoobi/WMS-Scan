@@ -56,7 +56,7 @@ class ScanCartonActivity : AppCompatActivity() {
     private var warehouseName = ""
     private var rackName = ""
     private var shelfName = ""
-    private lateinit var bottomSheet:BottomSheetFragment
+    private lateinit var bottomSheet: QrCodeDetailActivity
     private val requestCodeCameraPermission = 1001
     private lateinit var cameraSource: CameraSource
     private lateinit var barcodeDetector: BarcodeDetector
@@ -111,8 +111,7 @@ class ScanCartonActivity : AppCompatActivity() {
             binding.scanCartonTV.visible()
         }
         binding.qrGenerateIV.click {
-            bottomSheet = BottomSheetFragment()
-            bottomSheet.show(supportFragmentManager,"")
+
         }
 
     }

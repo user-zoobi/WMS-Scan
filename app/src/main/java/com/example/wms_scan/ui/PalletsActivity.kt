@@ -29,9 +29,6 @@ import com.example.scanmate.util.Utils.isNetworkConnected
 import com.example.scanmate.viewModel.MainViewModel
 import com.example.wms_scan.R
 import com.example.wms_scan.adapter.pallets.PalletsAdapter
-import com.example.wms_scan.adapter.racks.RackAdapter
-import com.example.wms_scan.adapter.shelf.ShelfAdapter
-import com.example.wms_scan.adapter.warehouse.WarehouseAdapter
 import com.example.wms_scan.data.response.GetPalletResponse
 import com.example.wms_scan.databinding.ActivityPalletsBinding
 
@@ -51,7 +48,11 @@ class PalletsActivity : AppCompatActivity() {
     private var warehouseName = ""
     private var rackName = ""
     private var shelfName = ""
-    private lateinit var bottomSheet:BottomSheetFragment
+    private lateinit var bottomSheet: QrCodeDetailActivity
+
+    private var palletNo = ""
+    private var palletName = ""
+    private var palletCode = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -311,6 +312,11 @@ class PalletsActivity : AppCompatActivity() {
                         LocalPreferences.put(this,isRefreshRequired, true)
                         if(it.data?.get(0)?.status == true)
                         {
+
+                            palletName = it.data[0].pilotName.toString()
+                            palletCode = it.data[0].pilotCode.toString()
+                            palletNo = it.data[0].pilotNo.toString()
+
                             Log.i(success,"Success")
                             palletList = ArrayList()
                             palletList = it.data as ArrayList<GetPalletResponse>
@@ -359,9 +365,13 @@ class PalletsActivity : AppCompatActivity() {
 
     }
 
-    fun showQrCode(){
-        bottomSheet = BottomSheetFragment()
-        bottomSheet.show(supportFragmentManager,"")
+    fun showQrCode(palletCode:String){
+        val intent = Intent(this, QrCodeDetailActivity::class.java)
+        intent.putExtra("palletKey",true)
+        intent.putExtra("palletQrCode",palletCode)
+        intent.putExtra("palletQrNo",palletNo)
+        intent.putExtra("palletQrName",palletName)
+        startActivity(intent)
     }
 
     private fun showBusLocSpinner(data:List<UserLocationResponse>) {

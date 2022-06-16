@@ -61,11 +61,13 @@ object LocalPreferences {
         const val isRefreshRequired = "isRefreshRequired"
         const val scanCarton = "scanCarton"
 
+
     }
 
     object AppConstants{
 
         const val orgBusLocNo = "OrgBusLocNo"
+        const val qrCodeFlag = "qrCodeFlag"
 
     }
 

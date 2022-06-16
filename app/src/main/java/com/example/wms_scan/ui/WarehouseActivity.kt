@@ -1,15 +1,14 @@
 package com.example.wms_scan.ui
 
-import android.R
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.scanmate.data.callback.Status
@@ -34,9 +33,11 @@ class WarehouseActivity : AppCompatActivity() {
     private lateinit var dialog: CustomProgressDialog
     private lateinit var list: ArrayList<GetWarehouseResponse>
     private var selectedBusLocNo = ""
-    private var selectedWareHouseNo = ""
+    private var whNo = ""
+    private var whName = ""
+    private var whCode = ""
     private var businessLocName = ""
-    private lateinit var bottomSheet:BottomSheetFragment
+    private lateinit var bottomSheet: QrCodeDetailActivity
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -123,6 +124,14 @@ class WarehouseActivity : AppCompatActivity() {
                             {
                                 it.data[0].wHName?.let { it1 -> Log.i("warehouseResponse", it1) }
 
+                                // DATA FOR QR CODE /////////////////
+
+                                whNo = it.data[0].wHNo.toString()
+                                whName = it.data[0].wHName.toString()
+                                whCode = it.data[0].wHCode.toString()
+
+                                ///////////////////////////////////
+
                                 list = ArrayList()
                                 list = it.data as ArrayList<GetWarehouseResponse>
                                 warehouseAdapter = WarehouseAdapter(this, list)
@@ -204,9 +213,13 @@ class WarehouseActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
-    fun showQrCode(){
-        bottomSheet = BottomSheetFragment()
-        bottomSheet.show(supportFragmentManager,"")
+    fun showQrCode(warehouseCode:String){
+       val intent = Intent(this, QrCodeDetailActivity::class.java)
+        intent.putExtra("warehouseKey",true)
+        intent.putExtra("whQrCode",warehouseCode)
+        intent.putExtra("whNo",whNo)
+        intent.putExtra("whName",whName)
+        startActivity(intent)
     }
 
     private fun showBusLocSpinner(data:List<UserLocationResponse>) {
@@ -259,6 +272,8 @@ class WarehouseActivity : AppCompatActivity() {
             viewModel.getWarehouse("", selectedBusLocNo)
         }
     }
+
+
 
 
 }

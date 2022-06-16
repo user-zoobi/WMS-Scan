@@ -39,7 +39,11 @@ class RacksActivity : AppCompatActivity() {
     private var selectedRackName = ""
     private var businessLocName = ""
     private var warehouseName = ""
-    private lateinit var bottomSheet:BottomSheetFragment
+
+    private var rackNo = ""
+    private var rackName = ""
+    private var rackCode = ""
+    private lateinit var bottomSheet: QrCodeDetailActivity
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -287,10 +291,15 @@ class RacksActivity : AppCompatActivity() {
                             {
                                 if(it.data?.get(0)?.status == true)
                                 {
+                                    rackName = it.data[0].rackName.toString()
+                                    rackNo = it.data[0].rackNo.toString()
+                                    rackCode = it.data[0].rackCode.toString()
+
                                     showRackSpinner(it.data)
                                     rackList = ArrayList()
                                     rackList = it.data as ArrayList<GetRackResponse>
                                     racksAdapter = RackAdapter(this,rackList)
+
                                     binding.racksRV.apply {
 
                                         layoutManager = LinearLayoutManager(this@RacksActivity)
@@ -444,9 +453,13 @@ class RacksActivity : AppCompatActivity() {
         }
     }
 
-    fun showQrCode(){
-        bottomSheet = BottomSheetFragment()
-        bottomSheet.show(supportFragmentManager,"")
+    fun showQrCode(rackCode:String){
+        val intent = Intent(this, QrCodeDetailActivity::class.java)
+        intent.putExtra("rackKey",true)
+        intent.putExtra("rackQrCode",rackCode)
+        intent.putExtra("rackQrName",rackName)
+        intent.putExtra("rackQrNo",rackNo)
+        startActivity(intent)
     }
 
     private fun clearPreferences(context: Context){
