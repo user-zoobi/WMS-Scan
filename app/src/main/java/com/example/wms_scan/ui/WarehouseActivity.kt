@@ -194,7 +194,7 @@ class WarehouseActivity : AppCompatActivity() {
 
     fun performAction(whName: String?, whNo: String)
     {
-        toast("Values from adapter: v1: $whName, v2: $whNo")
+
         val intent = Intent(this, WarehouseDetailsActivity::class.java)
         intent.putExtra("updateBusName",businessLocName)
         intent.putExtra("updateBusLocNo",selectedBusLocNo)
@@ -244,7 +244,7 @@ class WarehouseActivity : AppCompatActivity() {
         val settings: SharedPreferences =
             context.getSharedPreferences(LocalPreferences.AppLoginPreferences.PREF, Context.MODE_PRIVATE)
         settings.edit().clear().apply()
-        onBackPressed()
+        gotoActivity(LoginActivity::class.java)
     }
 
     override fun onResume() {

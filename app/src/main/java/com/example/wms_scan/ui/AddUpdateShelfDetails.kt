@@ -136,7 +136,6 @@ class AddUpdateShelfDetails : AppCompatActivity() {
                 ),
                 Utils.getSimpleTextBody("TEST"),
             )
-            toast("shelf added")
             Log.i("shelfValues","THE KEYS ARE VALUES WITH selectedBusLocNo :$selectedBusLocNo\n $selectedBusLocName\n")
             finish()
         }
@@ -155,7 +154,6 @@ class AddUpdateShelfDetails : AppCompatActivity() {
                 ),
                 Utils.getSimpleTextBody("TEST"),
             )
-            toast("shelf updated")
             finish()
 
         }
@@ -173,8 +171,19 @@ class AddUpdateShelfDetails : AppCompatActivity() {
                     dialog.show()
                 }
                 Status.SUCCESS ->{
-                    dialog.dismiss()
-                    Log.i("addPallet","${it.data?.error}")
+
+                    if (it.data?.status == true)
+                    {
+                        dialog.dismiss()
+                        LocalPreferences.put(this,
+                            LocalPreferences.AppLoginPreferences.isRefreshRequired, true)
+                        finish()
+                        toast(it.data.error!!)
+                    }
+                    else
+                    {
+                        toast(it.data?.error!!)
+                    }
                 }
                 Status.ERROR ->{
                     dialog.dismiss()

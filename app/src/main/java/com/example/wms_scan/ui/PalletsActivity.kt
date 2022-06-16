@@ -78,9 +78,6 @@ class PalletsActivity : AppCompatActivity() {
             LocalPreferences.AppLoginPreferences.loginTime
         )
 
-        binding.toolbar.setOnClickListener {
-            clearPreferences(this)
-        }
     }
 
     private fun initListeners(){
@@ -524,7 +521,7 @@ class PalletsActivity : AppCompatActivity() {
         val settings: SharedPreferences =
             context.getSharedPreferences(LocalPreferences.AppLoginPreferences.PREF, Context.MODE_PRIVATE)
         settings.edit().clear().apply()
-        onBackPressed()
+        gotoActivity(LoginActivity::class.java)
     }
 
     override fun onResume() {

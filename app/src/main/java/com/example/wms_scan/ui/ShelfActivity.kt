@@ -487,7 +487,7 @@ class ShelfActivity : AppCompatActivity() {
         val settings: SharedPreferences =
             context.getSharedPreferences(LocalPreferences.AppLoginPreferences.PREF, Context.MODE_PRIVATE)
         settings.edit().clear().apply()
-        onBackPressed()
+        gotoActivity(LoginActivity::class.java)
     }
 
 }

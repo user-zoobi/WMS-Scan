@@ -1,35 +1,59 @@
 package com.example.wms_scan.ui
 
-import androidx.appcompat.app.AppCompatActivity
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
+import com.example.scanmate.extensions.gotoActivity
+import com.example.scanmate.extensions.obtainViewModel
+import com.example.scanmate.extensions.setTransparentStatusBarColor
+import com.example.scanmate.util.CustomProgressDialog
 import com.example.scanmate.util.LocalPreferences
+import com.example.scanmate.viewModel.MainViewModel
 import com.example.wms_scan.R
-import com.example.wms_scan.databinding.CartonDetailViewBinding
+import com.example.wms_scan.databinding.ActivityCartonDetailBinding
+
 
 class CartonDetailActivity : AppCompatActivity() {
-
-    private lateinit var binding:CartonDetailViewBinding
+    private lateinit var binding:ActivityCartonDetailBinding
+    private lateinit var viewModel: MainViewModel
+    private lateinit var dialog: CustomProgressDialog
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = CartonDetailViewBinding.inflate(layoutInflater)
+        binding = ActivityCartonDetailBinding.inflate(layoutInflater)
+        viewModel = obtainViewModel(MainViewModel::class.java)
         setContentView(binding.root)
+        dialog = CustomProgressDialog(this)
+        initListener()
+        initObserver()
         setupUi()
 
     }
 
-    private fun setupUi(){
-
-        val cartonCode = LocalPreferences.getString(this,"CartonCode")
-        val itemCode = LocalPreferences.getString(this,"ItemCode")
-        val pilotName = LocalPreferences.getString(this,"PilotName")
-        val analyticalNo = LocalPreferences.getString(this,"AnalyticalNo")
-        val totCarton = LocalPreferences.getBoolean(this,"TotCarton").toString()
-
-        binding.cartonNameTV.text = itemCode
-        binding.materialNo.text = pilotName
-        binding.analyticalNumTV.text = analyticalNo
-        binding.sizeTV.text = totCarton
+    private fun initListener(){
 
     }
+
+    private fun initObserver(){
+
+    }
+
+    private fun setupUi(){
+        supportActionBar?.hide()
+        dialog = CustomProgressDialog(this)
+        setTransparentStatusBarColor(R.color.transparent)
+    }
+
+    private fun clearPreferences(context: Context){
+        val settings: SharedPreferences =
+            context.getSharedPreferences(LocalPreferences.AppLoginPreferences.PREF, Context.MODE_PRIVATE)
+        settings.edit().clear().apply()
+        onBackPressed()
+    }
+
+    override fun onBackPressed() {
+        gotoActivity(LoginActivity::class.java)
+    }
+
 }

@@ -29,6 +29,9 @@ class ScannerActivity : AppCompatActivity() {
         binding.loginBtn.click {
             gotoActivity(LoginActivity::class.java)
         }
+        binding.backBtn.click {
+            onBackPressed()
+        }
 
     }
 
@@ -38,5 +41,9 @@ class ScannerActivity : AppCompatActivity() {
                 binding.loginBtn.hide()
             }
         }
+    }
+
+    override fun onBackPressed() {
+        finish()
     }
 }

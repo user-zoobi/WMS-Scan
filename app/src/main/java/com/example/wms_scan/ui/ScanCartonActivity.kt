@@ -15,7 +15,6 @@ import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.scanmate.data.callback.Status
 import com.example.scanmate.data.response.GetRackResponse
 import com.example.scanmate.data.response.GetShelfResponse
@@ -35,7 +34,6 @@ import com.example.wms_scan.R
 import com.example.wms_scan.adapter.pallets.PalletsAdapter
 import com.example.wms_scan.data.response.GetPalletResponse
 import com.example.wms_scan.databinding.ActivityScanCartonBinding
-import com.example.wms_scan.ui.qrCode.QrCodeGeneratorActivity
 import com.google.android.gms.vision.CameraSource
 import com.google.android.gms.vision.Detector
 import com.google.android.gms.vision.barcode.Barcode
@@ -550,7 +548,8 @@ class ScanCartonActivity : AppCompatActivity() {
 
             override fun receiveDetections(detections: Detector.Detections<Barcode>) {
                 val barcodes = detections.detectedItems
-                if (barcodes.size() == 1) {
+                if (barcodes.size() == 1)
+                {
                     scannedValue = barcodes.valueAt(0).rawValue
 
 
@@ -559,14 +558,14 @@ class ScanCartonActivity : AppCompatActivity() {
                         cameraSource.stop()
                         Toast.makeText(this@ScanCartonActivity, "value- $scannedValue", Toast.LENGTH_SHORT).show()
                         when{
-                            intent.extras?.getBoolean("placeCarton") == true -> {
-                                gotoActivity(ScanCartonActivity::class.java,"scanCarton",true)
+                            intent.extras?.getBoolean("scanCarton") == true -> {
+                                gotoActivity(CartonDetailActivity::class.java)
                             }
                         }
                     }
-                }else
+                }
+                else
                 {
-
 
                 }
             }

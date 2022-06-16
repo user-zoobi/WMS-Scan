@@ -64,9 +64,7 @@ class AddUpdateRackDetails : AppCompatActivity() {
                     LocalPreferences.getInt(this,userNo).toString()),
                 Utils.getSimpleTextBody("TEST"),
             )
-
-            toast("rack added")
-
+            LocalPreferences.getBoolean(this, isRefreshRequired)
         }
 
         binding.updateRackBtn.click {
@@ -82,7 +80,6 @@ class AddUpdateRackDetails : AppCompatActivity() {
                 Utils.getSimpleTextBody("TEST"),
             )
             finish()
-            toast("rack updated")
         }
     }
 
@@ -141,9 +138,19 @@ class AddUpdateRackDetails : AppCompatActivity() {
                         dialog.show()
                     }
                     Status.SUCCESS ->{
-                        dialog.dismiss()
-                        LocalPreferences.put(this,isRefreshRequired, true)
-                        finish()
+
+                        if (it.data?.status == true)
+                        {
+                            dialog.dismiss()
+                            LocalPreferences.put(this,isRefreshRequired, true)
+                            finish()
+                            toast(it.data.error!!)
+                        }
+                        else
+                        {
+                            toast(it.data?.error!!)
+                        }
+
 
                     }
                     Status.ERROR ->{

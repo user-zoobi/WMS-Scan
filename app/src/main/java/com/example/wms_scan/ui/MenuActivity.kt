@@ -45,8 +45,9 @@ class MenuActivity : AppCompatActivity() {
         dialog = CustomProgressDialog(this)
         setTransparentStatusBarColor(R.color.transparent)
 
-        binding.toolbar.setOnClickListener {
+        binding.toolbar.menu.findItem(R.id.logout).setOnMenuItemClickListener {
             clearPreferences(this)
+            true
         }
         binding.userNameTV.text = LocalPreferences.getString(this,
             LocalPreferences.AppLoginPreferences.userName
@@ -59,10 +60,6 @@ class MenuActivity : AppCompatActivity() {
         )
 
         initListeners()
-    }
-
-    override fun onBackPressed() {
-        finish()
     }
 
     private fun initObserver(){
@@ -145,6 +142,10 @@ class MenuActivity : AppCompatActivity() {
         val settings: SharedPreferences =
             context.getSharedPreferences(PREF, Context.MODE_PRIVATE)
         settings.edit().clear().apply()
-        finish()
+        gotoActivity(LoginActivity::class.java)
+    }
+
+    override fun onBackPressed() {
+       finish()
     }
 }

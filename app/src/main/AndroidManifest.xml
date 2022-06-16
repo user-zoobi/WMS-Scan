@@ -23,7 +23,7 @@
             android:windowSoftInputMode="stateVisible|adjustResize"
             android:exported="false" />
         <activity
-            android:name=".ui.qrCode.QrCodeGeneratorActivity"
+            android:name=".ui.CartonDetailActivity"
             android:windowSoftInputMode="stateVisible|adjustResize"
             android:exported="false" />
         <activity

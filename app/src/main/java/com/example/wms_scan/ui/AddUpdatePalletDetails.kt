@@ -137,7 +137,6 @@ class AddUpdatePalletDetails : AppCompatActivity() {
                 Utils.getSimpleTextBody("${LocalPreferences.getInt(this, userNo)}"),
                 Utils.getSimpleTextBody("TEST"),
             )
-            toast("pallet added")
             finish()
 
         }
@@ -155,7 +154,6 @@ class AddUpdatePalletDetails : AppCompatActivity() {
                 Utils.getSimpleTextBody("${LocalPreferences.getInt(this, userNo)}"),
                 Utils.getSimpleTextBody("TEST"),
             )
-            toast("pallet updated")
             finish()
         }
 
@@ -178,7 +176,6 @@ class AddUpdatePalletDetails : AppCompatActivity() {
                 }
                 Status.SUCCESS ->{
                     dialog.dismiss()
-                    Log.i("addShelf","${it.data?.get(0)?.busLocationName}")
                 }
                 Status.ERROR ->{
                     dialog.dismiss()
@@ -301,8 +298,17 @@ class AddUpdatePalletDetails : AppCompatActivity() {
                 Status.SUCCESS ->{
                     try
                     {
-                        dialog.dismiss()
-                        Log.i("","${it.data?.error}")
+                        if (it.data?.status == true)
+                        {
+                            dialog.dismiss()
+                            LocalPreferences.put(this,isRefreshRequired, true)
+                            finish()
+                            toast(it.data.error!!)
+                        }
+                        else
+                        {
+                            toast(it.data?.error!!)
+                        }
                     }
                     catch (e:Exception)
                     {

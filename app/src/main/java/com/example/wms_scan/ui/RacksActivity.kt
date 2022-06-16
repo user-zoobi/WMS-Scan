@@ -15,10 +15,7 @@ import com.example.scanmate.data.callback.Status
 import com.example.scanmate.data.response.GetRackResponse
 import com.example.scanmate.data.response.GetWarehouseResponse
 import com.example.scanmate.data.response.UserLocationResponse
-import com.example.scanmate.extensions.click
-import com.example.scanmate.extensions.obtainViewModel
-import com.example.scanmate.extensions.setTransparentStatusBarColor
-import com.example.scanmate.extensions.toast
+import com.example.scanmate.extensions.*
 import com.example.scanmate.util.Constants.Toast.NoInternetFound
 import com.example.scanmate.util.CustomProgressDialog
 import com.example.scanmate.util.LocalPreferences
@@ -450,7 +447,7 @@ class RacksActivity : AppCompatActivity() {
         val settings: SharedPreferences =
             context.getSharedPreferences(LocalPreferences.AppLoginPreferences.PREF, Context.MODE_PRIVATE)
         settings.edit().clear().apply()
-        onBackPressed()
+        gotoActivity(LoginActivity::class.java)
     }
 
 }

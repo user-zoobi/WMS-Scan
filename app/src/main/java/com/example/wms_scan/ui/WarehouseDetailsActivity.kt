@@ -38,6 +38,8 @@ class WarehouseDetailsActivity : AppCompatActivity() {
     private var selectedWhName:String? = ""
     private var updatedBusLocNo:String? = ""
     private var updatedBusLocName:String? = ""
+    private var dataStatus:String = ""
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -102,30 +104,29 @@ class WarehouseDetailsActivity : AppCompatActivity() {
     private fun initListener(){
 
         binding.addWarehouseBTN.click {
-            updatedWarehouseName = binding.updateWarehouseET.text.toString()
-            viewModel.addUpdateWarehouse(
-                "0",
-                updatedWarehouseName,
-                "WH-1",
-                "$selectedBusLocNo",
-                LocalPreferences.getInt(this, userNo).toString(),
-                "Test-PC"
-            )
-            LocalPreferences.put(this, isRefreshRequired, true)
-            toast("warehouse added")
-            finish()
+                updatedWarehouseName = binding.updateWarehouseET.text.toString()
+                viewModel.addUpdateWarehouse(
+                    "0",
+                    updatedWarehouseName,
+                    "WH-1",
+                    "$selectedBusLocNo",
+                    LocalPreferences.getInt(this, userNo).toString(),
+                    "Test-PC"
+                )
+                LocalPreferences.put(this, isRefreshRequired, true)
+                finish()
         }
 
         binding.updateWarehouseBtn.click {
-            updatedWarehouseName = binding.updateWarehouseET.text.toString()
-            viewModel.addUpdateWarehouse(
-                "$selectedWHNo",
-                "$updatedWarehouseName",
-                "WH-1",
-                "$updatedBusLocNo",
-                LocalPreferences.getInt(this, userNo).toString(),
-                "Test-PC"
-            )
+                updatedWarehouseName = binding.updateWarehouseET.text.toString()
+                viewModel.addUpdateWarehouse(
+                    "$selectedWHNo",
+                    "$updatedWarehouseName",
+                    "WH-1",
+                    "$updatedBusLocNo",
+                    LocalPreferences.getInt(this, userNo).toString(),
+                    "Test-PC"
+                )
         }
     }
 
@@ -148,10 +149,18 @@ class WarehouseDetailsActivity : AppCompatActivity() {
                         dialog.show()
                     }
                     Status.SUCCESS ->{
-                        dialog.dismiss()
-                        Log.i("warehouseAdded",it.data?.error.toString())
-                        LocalPreferences.put(this, isRefreshRequired, true)
-                        toast("warehouse updated")
+                        dataStatus = it.data?.status.toString()
+
+                        if (it.data?.status == true){
+                            toast(it.data.error!!)
+                            dialog.dismiss()
+                            Log.i("warehouseAdded",it.data.error.toString())
+                            LocalPreferences.put(this, isRefreshRequired, true)
+                        }
+                        else
+                        {
+                            toast(it.data?.error!!)
+                        }
                         finish()
 
                     }
