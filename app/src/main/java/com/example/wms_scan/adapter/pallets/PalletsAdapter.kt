@@ -10,6 +10,7 @@ import com.example.wms_scan.R
 import com.example.wms_scan.data.response.GetPalletResponse
 import com.example.wms_scan.databinding.PalletListViewBinding
 import com.example.wms_scan.ui.PalletsActivity
+import com.example.wms_scan.ui.WarehouseActivity
 
 class PalletsAdapter(
     private val context:Context,
@@ -34,6 +35,9 @@ class PalletsAdapter(
                     data.pilotName.toString(),
                     data.pilotNo.toString()
                 )
+            }
+            binding.showQRIV.setOnClickListener {
+                (context as PalletsActivity).showQrCode()
             }
         }
     }

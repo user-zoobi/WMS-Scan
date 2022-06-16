@@ -45,6 +45,9 @@ class WarehouseAdapter(
                     Toast.makeText(context, NoInternetFound, Toast.LENGTH_SHORT).show()
                 }
             }
+            binding.showQRIV.setOnClickListener {
+                (context as WarehouseActivity).showQrCode()
+            }
         }
     }
 

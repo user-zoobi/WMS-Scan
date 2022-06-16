@@ -51,6 +51,7 @@ class PalletsActivity : AppCompatActivity() {
     private var warehouseName = ""
     private var rackName = ""
     private var shelfName = ""
+    private lateinit var bottomSheet:BottomSheetFragment
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -356,6 +357,11 @@ class PalletsActivity : AppCompatActivity() {
         intent.putExtra("UpdatePalletKey",true)
         startActivity(intent)
 
+    }
+
+    fun showQrCode(){
+        bottomSheet = BottomSheetFragment()
+        bottomSheet.show(supportFragmentManager,"")
     }
 
     private fun showBusLocSpinner(data:List<UserLocationResponse>) {

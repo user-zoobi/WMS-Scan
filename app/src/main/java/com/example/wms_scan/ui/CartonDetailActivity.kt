@@ -49,10 +49,6 @@ class CartonDetailActivity : AppCompatActivity() {
         val settings: SharedPreferences =
             context.getSharedPreferences(LocalPreferences.AppLoginPreferences.PREF, Context.MODE_PRIVATE)
         settings.edit().clear().apply()
-        onBackPressed()
-    }
-
-    override fun onBackPressed() {
         gotoActivity(LoginActivity::class.java)
     }
 

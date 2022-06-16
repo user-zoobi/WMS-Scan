@@ -36,7 +36,7 @@ class WarehouseActivity : AppCompatActivity() {
     private var selectedBusLocNo = ""
     private var selectedWareHouseNo = ""
     private var businessLocName = ""
-
+    private lateinit var bottomSheet:BottomSheetFragment
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -202,6 +202,11 @@ class WarehouseActivity : AppCompatActivity() {
         intent.putExtra("updateWhNo",whNo)
         intent.putExtra("UpdateWHKey",true)
         startActivity(intent)
+    }
+
+    fun showQrCode(){
+        bottomSheet = BottomSheetFragment()
+        bottomSheet.show(supportFragmentManager,"")
     }
 
     private fun showBusLocSpinner(data:List<UserLocationResponse>) {

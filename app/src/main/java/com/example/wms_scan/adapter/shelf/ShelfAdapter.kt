@@ -9,6 +9,7 @@ import com.example.scanmate.data.response.GetShelfResponse
 import com.example.wms_scan.R
 import com.example.wms_scan.databinding.ShelfListViewBinding
 import com.example.wms_scan.ui.ShelfActivity
+import com.example.wms_scan.ui.WarehouseActivity
 
 class ShelfAdapter(
     private val context:Context,
@@ -34,6 +35,9 @@ class ShelfAdapter(
                 (context as ShelfActivity).showAction(
                     data.shelfName.toString(),data.shelfNo.toString()
                 )
+            }
+            binding.showQRIV.setOnClickListener {
+                (context as ShelfActivity).showQrCode()
             }
         }
     }

@@ -39,6 +39,7 @@ class RacksActivity : AppCompatActivity() {
     private var selectedRackName = ""
     private var businessLocName = ""
     private var warehouseName = ""
+    private lateinit var bottomSheet:BottomSheetFragment
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -441,6 +442,11 @@ class RacksActivity : AppCompatActivity() {
                 Utils.getSimpleTextBody(selectedBusLocNo)
             )
         }
+    }
+
+    fun showQrCode(){
+        bottomSheet = BottomSheetFragment()
+        bottomSheet.show(supportFragmentManager,"")
     }
 
     private fun clearPreferences(context: Context){

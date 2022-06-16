@@ -50,6 +50,7 @@ class ShelfActivity : AppCompatActivity() {
     private var rackName = ""
     private var shelfName = ""
     private var selectedShelveNo = ""
+    private lateinit var bottomSheet:BottomSheetFragment
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -150,6 +151,11 @@ class ShelfActivity : AppCompatActivity() {
         {
             toast(NoInternetFound)
         }
+    }
+
+    fun showQrCode(){
+        bottomSheet = BottomSheetFragment()
+        bottomSheet.show(supportFragmentManager,"")
     }
 
     private fun initObserver(){

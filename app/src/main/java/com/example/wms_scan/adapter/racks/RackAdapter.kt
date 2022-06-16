@@ -9,6 +9,7 @@ import com.example.scanmate.data.response.GetRackResponse
 import com.example.wms_scan.R
 import com.example.wms_scan.databinding.RacksListViewBinding
 import com.example.wms_scan.ui.RacksActivity
+import com.example.wms_scan.ui.WarehouseActivity
 
 class RackAdapter(
     val context:Context,
@@ -30,6 +31,10 @@ class RackAdapter(
             binding.rackTV.text = data.rackName
             binding.editIV.setOnClickListener {
                 (context as RacksActivity).openActivity(data.rackName,data.rackNo.toString())
+            }
+
+            binding.showQRIV.setOnClickListener {
+                (context as RacksActivity).showQrCode()
             }
         }
     }
