@@ -1,9 +1,11 @@
 package com.example.wms_scan.ui
 
+import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -110,9 +112,6 @@ class ScanCartonActivity : AppCompatActivity() {
             binding.scanBtn.visible()
             binding.scanCartonTV.visible()
         }
-        binding.qrGenerateIV.click {
-
-        }
 
     }
 
@@ -137,7 +136,6 @@ class ScanCartonActivity : AppCompatActivity() {
                     it.let {
                         if(it.data?.get(0)?.status == true) {
                             dialog.dismiss()
-                            showBusLocSpinner(it.data!!)
                         }
                         else
                         {
@@ -165,7 +163,6 @@ class ScanCartonActivity : AppCompatActivity() {
                         if(it.data?.get(0)?.status == true)
                         {
                             it.data[0].wHName?.let { it1 -> Log.i("warehouseResponse", it1) }
-                            showWarehouseSpinner(it.data)
                         }
                         else
                         {
@@ -198,7 +195,6 @@ class ScanCartonActivity : AppCompatActivity() {
                     {
                         if(it.data?.get(0)?.status == true)
                         {
-                            showRackSpinner(it.data!!)
                         }
                         else
                         {
@@ -230,7 +226,6 @@ class ScanCartonActivity : AppCompatActivity() {
                     try {
                         if(it.data?.get(0)?.status == true)
                         {
-                            showShelfSpinner(it.data!!)
                         }
                         else
                         {
@@ -261,7 +256,6 @@ class ScanCartonActivity : AppCompatActivity() {
                     {
                         if(it.data?.get(0)?.status == true)
                         {
-                            showPalletSpinner(it.data)
                         }
                         else
                         {
@@ -312,194 +306,6 @@ class ScanCartonActivity : AppCompatActivity() {
 
     }
 
-    private fun showBusLocSpinner(data:List<UserLocationResponse>) {
-        //String array to store all the book names
-        val items = arrayOfNulls<String>(data.size)
-        val businessLocSpinner = binding.businessLocationSpinner
-
-        //Traversing through the whole list to get all the names
-        for (i in data.indices) {
-            //Storing names to string array
-            items[i] = data[i].busLocationName
-        }
-        val adapter: ArrayAdapter<String?> =
-            ArrayAdapter(this, android.R.layout.simple_list_item_1, items)
-        //setting adapter to spinner
-        businessLocSpinner.adapter = adapter
-
-        businessLocSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
-
-            override fun onItemSelected(adapter: AdapterView<*>?, view: View?, position: Int, long: Long) {
-                Log.i("LocBus","business Location no ${data[position].orgBusLocNo}")
-                // binding.rackSpinnerCont.visible()
-                if (Utils.isNetworkConnected(this@ScanCartonActivity))
-                {
-                    selectedBusLocNo = data[position].orgBusLocNo.toString()
-                    LocalPreferences.put(
-                        this@ScanCartonActivity,
-                        LocalPreferences.AppLoginPreferences.busLocNo, selectedBusLocNo
-                    )
-                    busLocName = data[position].busLocationName.toString()
-                    viewModel.getWarehouse("", selectedBusLocNo)
-                }else
-                {
-                    businessLocSpinner.adapter = null
-                }
-
-            }
-            override fun onNothingSelected(p0: AdapterView<*>?) {}
-        }
-    }
-
-    private fun showWarehouseSpinner(data:List<GetWarehouseResponse>) {
-        //String array to store all the book names
-        val items = arrayOfNulls<String>(data.size)
-        val warehouseSpinner = binding.warehouseSpinner
-
-        //Traversing through the whole list to get all the names
-        for (i in data.indices) {
-            //Storing names to string array
-            items[i] = data[i].wHName
-        }
-        val adapter: ArrayAdapter<String?> =
-            ArrayAdapter(this, android.R.layout.simple_list_item_1, items)
-        //setting adapter to spinner
-        warehouseSpinner.adapter = adapter
-        warehouseSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
-
-            override fun onItemSelected(adapter: AdapterView<*>?, view: View?, position: Int, long: Long) {
-                if (Utils.isNetworkConnected(this@ScanCartonActivity))
-                {
-                    selectedWareHouseNo = data[position].wHNo.toString()
-                    warehouseName = data[position].wHName.toString()
-                    viewModel.getRack(
-                        Utils.getSimpleTextBody(""),
-                        Utils.getSimpleTextBody(selectedWareHouseNo),
-                        Utils.getSimpleTextBody(selectedBusLocNo)
-                    )
-                    Log.i("LocBus","This is warehouse name is ${adapter?.getItemAtPosition(position)}")
-                    Log.i("LocBus","This is warehouse pos is ${data[position].wHNo}")
-                }else
-                {
-                    warehouseSpinner.adapter = null
-                }
-
-
-            }
-            override fun onNothingSelected(p0: AdapterView<*>?) {}
-        }
-    }
-
-    private fun showRackSpinner(data:List<GetRackResponse>) {
-        //String array to store all the book names
-        val items = arrayOfNulls<String>(data.size)
-        val rackSpinner = binding.rackSpinner
-
-        //Traversing through the whole list to get all the names
-        for (i in data.indices) {
-            //Storing names to string array
-            items[i] = data[i].rackName
-        }
-        val adapter: ArrayAdapter<String?> =
-            ArrayAdapter(this, android.R.layout.simple_list_item_1, items)
-        //setting adapter to spinner
-        rackSpinner.adapter = adapter
-
-        rackSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
-            override fun onItemSelected(adapter: AdapterView<*>?, view: View?, position: Int, long: Long) {
-                if (Utils.isNetworkConnected(this@ScanCartonActivity))
-                {
-                    selectedRackNo = data[position].rackNo.toString()
-                    rackName = data[position].rackName.toString()
-                    viewModel.getShelf(
-                        Utils.getSimpleTextBody(""),
-                        Utils.getSimpleTextBody(selectedRackNo),
-                        Utils.getSimpleTextBody(selectedBusLocNo)
-                    )
-                }
-                else
-                {
-                    rackSpinner.adapter = null
-                }
-
-
-                Log.i("LocBus","This is rack pos ${adapter?.getItemAtPosition(position)}")
-            }
-            override fun onNothingSelected(p0: AdapterView<*>?) {}
-        }
-    }
-
-    private fun showShelfSpinner(data:List<GetShelfResponse>) {
-        //String array to store all the book names
-        val items = arrayOfNulls<String>(data.size)
-        val shelfResponse = binding.shelfSpinner
-
-        //Traversing through the whole list to get all the names
-        for (i in data.indices) {
-            //Storing names to string array
-            items[i] = data[i].shelfName
-            val adapter: ArrayAdapter<String?> =
-                ArrayAdapter(this, android.R.layout.simple_list_item_1, items)
-            //setting adapter to spinner
-            shelfResponse.adapter = adapter
-            shelfResponse.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
-
-                override fun onItemSelected(adapter: AdapterView<*>?, view: View?, position: Int, long: Long) {
-                    if (Utils.isNetworkConnected(this@ScanCartonActivity))
-                    {
-                        Log.i("LocBus","This is shelf pos ${adapter?.getItemAtPosition(position)}")
-                        selectedShelveNo = data[position].shelfNo.toString()
-                        shelfName = data[position].shelfName.toString()
-                        viewModel.getPallet(
-                            Utils.getSimpleTextBody(""),
-                            Utils.getSimpleTextBody(selectedShelveNo),
-                            Utils.getSimpleTextBody(selectedBusLocNo)
-                        )
-                    }
-                    else
-                    {
-                        shelfResponse.adapter = null
-                    }
-
-                }
-                override fun onNothingSelected(p0: AdapterView<*>?) {}
-            }
-        }
-    }
-
-    private fun showPalletSpinner(data:List<GetPalletResponse>) {
-        //String array to store all the book names
-        val items = arrayOfNulls<String>(data.size)
-        val shelfResponse = binding.palletSpinner
-
-        //Traversing through the whole list to get all the names
-        for (i in data.indices) {
-            //Storing names to string array
-            items[i] = data[i].pilotName
-            val adapter: ArrayAdapter<String?> =
-                ArrayAdapter(this, android.R.layout.simple_list_item_1, items)
-            //setting adapter to spinner
-            shelfResponse.adapter = adapter
-            shelfResponse.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
-
-                override fun onItemSelected(adapter: AdapterView<*>?, view: View?, position: Int, long: Long) {
-                    if (Utils.isNetworkConnected(this@ScanCartonActivity))
-                    {
-                        Log.i("LocBus","This is shelf pos ${adapter?.getItemAtPosition(position)}")
-                        selectedPalletNo = data[position].pilotNo.toString()
-                        selectedPalletName = data[position].pilotName.toString()
-                        LocalPreferences.put(this@ScanCartonActivity, palletNo, selectedPalletNo)
-                    }
-                    else
-                    {
-                        toast(NoInternetFound)
-                    }
-
-                }
-                override fun onNothingSelected(p0: AdapterView<*>?) {}
-            }
-        }
-    }
 
     private fun setupControls() {
         barcodeDetector =
@@ -603,5 +409,7 @@ class ScanCartonActivity : AppCompatActivity() {
     override fun onBackPressed() {
         finish()
     }
+
+
 
 }

@@ -2,10 +2,7 @@ package com.example.scanmate.repository.remote
 
 import com.example.scanmate.data.api.RetrofitClient
 import com.example.scanmate.data.response.*
-import com.example.wms_scan.data.response.AddCartonResponse
-import com.example.wms_scan.data.response.AddPalletResponse
-import com.example.wms_scan.data.response.GetCartonResponse
-import com.example.wms_scan.data.response.GetPalletResponse
+import com.example.wms_scan.data.response.*
 import okhttp3.RequestBody
 import retrofit2.http.Field
 import retrofit2.http.Part
@@ -89,4 +86,8 @@ interface ApiHelper {
     ):AddCartonResponse = RetrofitClient.apiservice.addCarton(
         CartonNo, CartonCode, ItemCode, PilotNo, AnalyticalNo, Carton_SNo, TotCarton, LocationNo, DMLUserNo, DMLPCName
     )
+
+    suspend fun palletHierarchy(
+        PilotNo:RequestBody
+    ):List<PaletteHierarchy> = RetrofitClient.apiservice.palletHierarchy(PilotNo)
 }

@@ -453,7 +453,7 @@ class RacksActivity : AppCompatActivity() {
         }
     }
 
-    fun showQrCode(rackCode:String){
+    fun showQrCode(rackCode:String, rackName:String, rackNo:String){
         val intent = Intent(this, QrCodeDetailActivity::class.java)
         intent.putExtra("rackKey",true)
         intent.putExtra("rackQrCode",rackCode)

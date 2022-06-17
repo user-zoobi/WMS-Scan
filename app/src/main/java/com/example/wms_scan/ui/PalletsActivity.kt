@@ -365,7 +365,7 @@ class PalletsActivity : AppCompatActivity() {
 
     }
 
-    fun showQrCode(palletCode:String){
+    fun showQrCode(palletCode:String, palletName:String, palletNo:String){
         val intent = Intent(this, QrCodeDetailActivity::class.java)
         intent.putExtra("palletKey",true)
         intent.putExtra("palletQrCode",palletCode)

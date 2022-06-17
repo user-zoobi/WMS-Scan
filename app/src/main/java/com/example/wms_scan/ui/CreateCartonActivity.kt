@@ -52,6 +52,8 @@ class CreateCartonActivity : AppCompatActivity() {
     private lateinit var cameraSource: CameraSource
     private lateinit var barcodeDetector: BarcodeDetector
     private var scannedValue = ""
+    private var palletCode = ""
+    private var palletNo = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -70,6 +72,10 @@ class CreateCartonActivity : AppCompatActivity() {
             setupControls()
         }
 
+        viewModel.palletHierarchy(
+            Utils.getSimpleTextBody("101010101-2")
+        )
+
     }
 
     private fun setupUi(){
@@ -84,6 +90,9 @@ class CreateCartonActivity : AppCompatActivity() {
         binding.loginTimeTV.text = LocalPreferences.getString(this,
             LocalPreferences.AppLoginPreferences.loginTime
         )
+        palletCode = intent.extras?.getString("palletQrCode").toString()
+        palletNo = intent.extras?.getString("palletQrNo").toString()
+
         supportActionBar?.hide()
         setTransparentStatusBarColor(R.color.transparent)
 
@@ -143,9 +152,9 @@ class CreateCartonActivity : AppCompatActivity() {
             }
         })
 
-
         barcodeDetector.setProcessor(object : Detector.Processor<Barcode> {
-            override fun release() {
+            override fun release()
+            {
                 Toast.makeText(applicationContext, "Scanner has been closed", Toast.LENGTH_SHORT)
                     .show()
             }
@@ -154,23 +163,42 @@ class CreateCartonActivity : AppCompatActivity() {
                 val barcodes = detections.detectedItems
                 if (barcodes.size() == 1) {
                     scannedValue = barcodes.valueAt(0).rawValue
-
-
                     //Don't forget to add this line printing value or finishing activity must run on main thread
                     runOnUiThread {
                         cameraSource.stop()
                         Toast.makeText(this@CreateCartonActivity, "value- $scannedValue", Toast.LENGTH_SHORT).show()
-                        when{
-                            intent.extras?.getBoolean("placeCarton") == true -> {
-                                gotoActivity(ScanCartonActivity::class.java,"scanCarton",true)
+                        viewModel.palletHierarchy.observe(this@CreateCartonActivity, Observer{
+                            when(it.status){
+                                Status.LOADING->{
+                                }
+                                Status.SUCCESS ->{
+                                    if (Utils.isNetworkConnected(this@CreateCartonActivity)){
+                                        it.let {
+                                            if(it.data?.get(0)?.status == true) {
+                                                gotoActivity(ScanCartonActivity::class.java)
+                                                val whName = it.data[0].wHName
+                                                val rackName = it.data[0].rackName
+                                                val shelfName = it.data[0].shelfName
+                                                val palletName = it.data[0].pilotName
+                                                val error = it.data[0].error
+                                                val status = it.data[0].status
+
+                                                Log.i("palletHierarchy","whName :$whName rackName $rackName shelfName $shelfName $palletName\n $error $status")
+                                            }
+                                            else { }
+                                        }
+                                    }
+                                    else { }
+                                }
+                                Status.ERROR ->{
+                                    dialog.dismiss()
+                                    Log.i("error","${Exception().message}")
+                                }
                             }
-                        }
+                        })
                     }
-                }else
-                {
-
-
                 }
+                else { }
             }
         })
     }
@@ -187,12 +215,16 @@ class CreateCartonActivity : AppCompatActivity() {
         requestCode: Int,
         permissions: Array<out String>,
         grantResults: IntArray
-    ) {
+    )
+    {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == requestCodeCameraPermission && grantResults.isNotEmpty()) {
-            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED)
+            {
                 setupControls()
-            } else {
+            }
+            else
+            {
                 Toast.makeText(applicationContext, "Permission Denied", Toast.LENGTH_SHORT).show()
             }
         }

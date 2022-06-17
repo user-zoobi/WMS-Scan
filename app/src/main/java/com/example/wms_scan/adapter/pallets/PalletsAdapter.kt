@@ -37,7 +37,11 @@ class PalletsAdapter(
                 )
             }
             binding.showQRIV.setOnClickListener {
-                (context as PalletsActivity).showQrCode(data.pilotCode.toString())
+                (context as PalletsActivity).showQrCode(
+                    data.pilotCode.toString(),
+                    data.pilotName.toString(),
+                    data.pilotNo.toString()
+                )
             }
         }
     }

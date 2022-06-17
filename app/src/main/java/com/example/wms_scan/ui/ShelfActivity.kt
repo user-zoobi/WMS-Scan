@@ -150,7 +150,7 @@ class ShelfActivity : AppCompatActivity() {
         }
     }
 
-    fun showQrCode(shelfCode:String){
+    fun showQrCode(shelfCode:String, shelfName: String, shelfNo: String){
         val intent = Intent(this, QrCodeDetailActivity::class.java)
         intent.putExtra("shelfKey",true)
         intent.putExtra("shelfQrCode",shelfCode)

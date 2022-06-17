@@ -11,10 +11,7 @@ import com.example.wms_scan.repository.GeneralRepository
 import com.example.scanmate.util.Constants.LogMessages.responseFound
 import com.example.scanmate.util.Constants.Logs.vmError
 import com.example.scanmate.util.Constants.Logs.vmSuccess
-import com.example.wms_scan.data.response.AddCartonResponse
-import com.example.wms_scan.data.response.AddPalletResponse
-import com.example.wms_scan.data.response.GetCartonResponse
-import com.example.wms_scan.data.response.GetPalletResponse
+import com.example.wms_scan.data.response.*
 import kotlinx.coroutines.launch
 import okhttp3.RequestBody
 
@@ -294,6 +291,27 @@ class MainViewModel : ViewModel() {
             }
             catch (e:Exception){
                 _addCarton.value = ApiResponseCallback.error("${e.message}",null)
+            }
+        }
+    }
+
+
+    private val _palletHierarchy = MutableLiveData<ApiResponseCallback<List<PaletteHierarchy>>>()
+    val palletHierarchy : LiveData<ApiResponseCallback<List<PaletteHierarchy>>>
+    get() = _palletHierarchy
+    fun palletHierarchy(
+        PilotNo: RequestBody
+    ){
+        viewModelScope.launch {
+            _palletHierarchy.value = ApiResponseCallback.loading()
+            try
+            {
+                _palletHierarchy.value = ApiResponseCallback.success(repository.palletHierarchy(PilotNo))
+            }
+            catch (e:Exception)
+            {
+                _palletHierarchy.value = ApiResponseCallback.error("${e.message}",null)
+                Log.i("palletHierarchy","${e.message}")
             }
         }
     }

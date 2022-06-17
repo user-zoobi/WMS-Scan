@@ -3,10 +3,7 @@ package com.example.wms_scan.repository
 import com.example.scanmate.data.api.RetrofitClient
 import com.example.scanmate.data.response.*
 import com.example.scanmate.repository.remote.ApiHelper
-import com.example.wms_scan.data.response.AddCartonResponse
-import com.example.wms_scan.data.response.AddPalletResponse
-import com.example.wms_scan.data.response.GetCartonResponse
-import com.example.wms_scan.data.response.GetPalletResponse
+import com.example.wms_scan.data.response.*
 import okhttp3.RequestBody
 
 class GeneralRepository : ApiHelper {
@@ -117,4 +114,7 @@ class GeneralRepository : ApiHelper {
             CartonNo, CartonCode, ItemCode, PilotNo,
             AnalyticalNo, Carton_SNo, TotCarton, LocationNo, DMLUserNo, DMLPCName
         )
+
+    override suspend fun palletHierarchy(PilotNo: RequestBody): List<PaletteHierarchy>
+    = RetrofitClient.apiservice.palletHierarchy(PilotNo)
 }

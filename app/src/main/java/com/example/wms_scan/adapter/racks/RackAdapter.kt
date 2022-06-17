@@ -34,7 +34,11 @@ class RackAdapter(
             }
 
             binding.showQRIV.setOnClickListener {
-                (context as RacksActivity).showQrCode(data.rackCode.toString())
+                (context as RacksActivity).showQrCode(
+                    data.rackCode.toString(),
+                    data.rackName.toString(),
+                    data.rackNo.toString()
+                )
             }
         }
     }

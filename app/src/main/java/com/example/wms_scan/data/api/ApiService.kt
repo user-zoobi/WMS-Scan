@@ -1,7 +1,7 @@
 package com.example.scanmate.data.api
 
 import com.example.scanmate.data.response.*
-import com.example.wms_scan.data.response.AddCartonResponse
+import com.example.wms_scan.data.response.*
 import com.example.wms_scan.data.routes.Routes.EndPoint.addRack
 import com.example.wms_scan.data.routes.Routes.EndPoint.addShelf
 import com.example.wms_scan.data.routes.Routes.EndPoint.addUpdateWarehouse
@@ -12,12 +12,10 @@ import com.example.wms_scan.data.routes.Routes.EndPoint.getWarehouse
 import com.example.wms_scan.data.routes.Routes.EndPoint.userAuth
 import com.example.wms_scan.data.routes.Routes.EndPoint.userLoc
 import com.example.wms_scan.data.routes.Routes.EndPoint.userMenu
-import com.example.wms_scan.data.response.AddPalletResponse
-import com.example.wms_scan.data.response.GetCartonResponse
-import com.example.wms_scan.data.response.GetPalletResponse
 import com.example.wms_scan.data.routes.Routes.EndPoint.addCarton
 import com.example.wms_scan.data.routes.Routes.EndPoint.addPallet
 import com.example.wms_scan.data.routes.Routes.EndPoint.getCarton
+import com.example.wms_scan.data.routes.Routes.EndPoint.paletteHierarchy
 import okhttp3.RequestBody
 import retrofit2.http.*
 
@@ -152,4 +150,10 @@ interface ApiService {
         @Part("DMLPCName")DMLPCName:RequestBody,
     ):AddCartonResponse
 
+
+    @Multipart
+    @POST(paletteHierarchy)
+    suspend fun palletHierarchy(
+        @Part("PilotNo") PilotNo:RequestBody
+    ):List<PaletteHierarchy>
 }

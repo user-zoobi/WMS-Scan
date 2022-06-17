@@ -203,7 +203,6 @@ class WarehouseActivity : AppCompatActivity() {
 
     fun performAction(whName: String?, whNo: String)
     {
-
         val intent = Intent(this, WarehouseDetailsActivity::class.java)
         intent.putExtra("updateBusName",businessLocName)
         intent.putExtra("updateBusLocNo",selectedBusLocNo)
@@ -213,7 +212,7 @@ class WarehouseActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
-    fun showQrCode(warehouseCode:String){
+    fun showQrCode(warehouseCode:String, whName:String, whNo:String){
        val intent = Intent(this, QrCodeDetailActivity::class.java)
         intent.putExtra("warehouseKey",true)
         intent.putExtra("whQrCode",warehouseCode)
