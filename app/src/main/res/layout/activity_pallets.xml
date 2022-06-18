@@ -79,6 +79,7 @@
 
 
             <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/viewCont"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_20sdp"
@@ -234,6 +235,15 @@
                     tools:itemCount="4"
                     tools:listitem="@layout/warehouse_list_view" />
 
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/printAllTV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/amiko"
+                    android:text="Print All"
+                    android:textColor="@color/royal_blue"
+                    android:textSize="@dimen/_15ssp" />
+
             </androidx.appcompat.widget.LinearLayoutCompat>
 
         </androidx.core.widget.NestedScrollView>
@@ -254,5 +264,11 @@
         android:src="@drawable/white_add_icon"
         android:visibility="visible"
         android:elevation="@dimen/_30sdp"/>
+
+    <include
+        android:id="@+id/qrCodeGenerator"
+        layout="@layout/activity_qr_code_detail_activity"
+        android:visibility="gone"/>
+
 
 </RelativeLayout>

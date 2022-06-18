@@ -1,14 +1,22 @@
 package com.example.wms_scan.ui
 
+import android.Manifest
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.content.pm.PackageManager
+import android.graphics.Bitmap
+import android.graphics.Color
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Environment
 import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.ImageView
+import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.scanmate.data.callback.Status
@@ -31,6 +39,16 @@ import com.example.wms_scan.R
 import com.example.wms_scan.adapter.pallets.PalletsAdapter
 import com.example.wms_scan.data.response.GetPalletResponse
 import com.example.wms_scan.databinding.ActivityPalletsBinding
+import com.google.zxing.BarcodeFormat
+import com.google.zxing.qrcode.QRCodeWriter
+import com.itextpdf.text.Document
+import com.itextpdf.text.Image
+import com.itextpdf.text.pdf.PdfWriter
+import java.io.ByteArrayOutputStream
+import java.io.FileOutputStream
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
 class PalletsActivity : AppCompatActivity() {
     private lateinit var binding:ActivityPalletsBinding
@@ -48,7 +66,9 @@ class PalletsActivity : AppCompatActivity() {
     private var warehouseName = ""
     private var rackName = ""
     private var shelfName = ""
-    private lateinit var bottomSheet: QrCodeDetailActivity
+    private val REQUEST_EXTERNAL_STORAGe = 1
+    private lateinit var bmp:Bitmap
+    private var STORAGE_CODE = 1001
 
     private var palletNo = ""
     private var palletName = ""
@@ -66,6 +86,7 @@ class PalletsActivity : AppCompatActivity() {
     }
 
     private fun setupUi(){
+
         dialog = CustomProgressDialog(this)
         supportActionBar?.hide()
         setTransparentStatusBarColor(R.color.transparent)
@@ -552,5 +573,6 @@ class PalletsActivity : AppCompatActivity() {
 
         }
     }
+
 
 }

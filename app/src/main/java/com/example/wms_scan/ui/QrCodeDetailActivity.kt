@@ -11,7 +11,7 @@ import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.scanmate.extensions.setTransparentStatusBarColor
-import com.example.wms_scan.databinding.BottomSheetDialogViewBinding
+import com.example.wms_scan.databinding.ActivityQrCodeDetailActivityBinding
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.qrcode.QRCodeWriter
 import com.itextpdf.text.Document
@@ -25,7 +25,7 @@ import java.util.*
 
 
 class QrCodeDetailActivity : AppCompatActivity() {
-    lateinit var binding: BottomSheetDialogViewBinding
+    lateinit var binding: ActivityQrCodeDetailActivityBinding
     private var qRBit: Bitmap? = null
     private var selectedPalletNo:String? = ""
     private val REQUEST_EXTERNAL_STORAGe = 1
@@ -61,7 +61,7 @@ class QrCodeDetailActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = BottomSheetDialogViewBinding.inflate(layoutInflater)
+        binding = ActivityQrCodeDetailActivityBinding.inflate(layoutInflater)
         setContentView(binding.root)
         supportActionBar?.hide()
         setTransparentStatusBarColor(com.example.wms_scan.R.color.transparent)
@@ -76,12 +76,12 @@ class QrCodeDetailActivity : AppCompatActivity() {
         rackName = intent.extras?.getString("rackQrName")
 
         shelfCode = intent.extras?.getString("shelfQrCode")
-        shelfName = intent.extras?.getString("shelfQrNo")
-        shelfNo = intent.extras?.getString("shelfQrName")
+        shelfNo = intent.extras?.getString("shelfQrNo")
+        shelfName   = intent.extras?.getString("shelfQrName")
 
         palletCode = intent.extras?.getString("palletQrCode")
-        palletName = intent.extras?.getString("palletQrNo")
-        palletNo = intent.extras?.getString("palletQrName")
+        palletNo  = intent.extras?.getString("palletQrNo")
+        palletName = intent.extras?.getString("palletQrName")
 
         when{
             intent.extras?.getBoolean("warehouseKey") == true->{
@@ -167,27 +167,20 @@ class QrCodeDetailActivity : AppCompatActivity() {
         //pdf file name
         val mFileName = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(System.currentTimeMillis())
         //pdf file path
-        val mFilePath = Environment.getExternalStorageDirectory().toString() + "/" + mFileName +".pdf"
+        val mFilePath = Environment.getExternalStorageDirectory().toString() + "/" + "QrGeneratedFile" +".pdf"
         try {
-             val mDoc = Document()
-            //create instance of PdfWriter class
+            val mDoc = Document()
             PdfWriter.getInstance(mDoc, FileOutputStream(mFilePath))
-
-            // generate image
-
-            //open the document for writing
             mDoc.open()
-
-            //add paragraph to the document
-            mDoc.add(Paragraph("$palletCode-$palletNo"))
-
-            val stream = ByteArrayOutputStream()
-            bmp.compress(Bitmap.CompressFormat.JPEG, 100, stream)
-            val myImg: Image = Image.getInstance(stream.toByteArray())
-            myImg.alignment = Image.MIDDLE
-            mDoc.add(myImg)
-
-            //close document
+            for (i in 0..9){
+                val stream = ByteArrayOutputStream()
+                bmp.compress(Bitmap.CompressFormat.JPEG, 100, stream)
+                val myImg: Image = Image.getInstance(stream.toByteArray())
+                myImg.alignment = Image.MIDDLE
+                mDoc.add(myImg)
+            }
+            val qrText = mDoc.add(Paragraph("$palletCode-$palletNo"))
+            binding.qrText.text = qrText.toString()
             mDoc.close()
 
             //show file saved message with file name and path
