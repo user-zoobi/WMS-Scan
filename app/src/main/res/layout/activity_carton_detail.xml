@@ -8,6 +8,7 @@
     android:background="@color/royal_blue">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layoutCont"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="@dimen/_100sdp"
@@ -18,18 +19,144 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
+        <TextView
+            android:id="@+id/tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:orientation="horizontal"
+            android:weightSum="4"
+            android:layout_marginStart="@dimen/_20sdp"
+            android:layout_marginEnd="@dimen/_20sdp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_50sdp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/breadcrumbs"
+                    android:tint="@color/blue" />
+
+                <TextView
+                    android:id="@+id/busLocTc"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:fontFamily="@font/amiko"
+                    android:text="BusLoc"
+                    android:textSize="@dimen/_8ssp"
+                    android:textColor="@color/white"
+                    android:textStyle="bold" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_50sdp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/breadcrumbs"
+                    android:tint="@color/light_blue" />
+
+                <TextView
+                    android:id="@+id/whTV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:fontFamily="@font/amiko"
+                    android:text="Warehouse"
+                    android:paddingStart="@dimen/_5sdp"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/_8ssp"
+                    android:textStyle="bold" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_50sdp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/breadcrumbs"
+                    android:tint="@color/blue" />
+
+                <TextView
+                    android:id="@+id/rackTV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:fontFamily="@font/amiko"
+                    android:text="Racks"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/_8ssp"
+                    android:textStyle="bold" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_50sdp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/breadcrumbs"
+                    android:tint="@color/light_blue" />
+
+                <TextView
+                    android:id="@+id/shelfTV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:fontFamily="@font/amiko"
+                    android:text="Shelf"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/_8ssp"
+                    android:textStyle="bold" />
+
+            </RelativeLayout>
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/detailCont"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_30sdp"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:layout_marginEnd="@dimen/_30sdp"
             android:layout_marginBottom="@dimen/_50sdp"
+            android:background="@drawable/grey_stroke_white_rounded_bg"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            android:background="@drawable/grey_stroke_white_rounded_bg"
-            android:layout_marginStart="@dimen/_30sdp"
-            android:layout_marginEnd="@dimen/_30sdp"
             app:layout_constraintTop_toTopOf="parent">
 
             <androidx.appcompat.widget.AppCompatTextView
@@ -51,7 +178,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_20sdp"
-                android:layout_marginTop="@dimen/_20sdp"
+                android:layout_marginTop="@dimen/_50sdp"
                 android:fontFamily="@font/amiko"
                 android:text="@string/carton_number"
                 android:textColor="@color/dark_grey"
@@ -65,7 +192,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_30sdp"
-                android:layout_marginTop="@dimen/_20sdp"
+                android:layout_marginTop="@dimen/_50sdp"
                 android:fontFamily="@font/amiko"
                 android:text="2/5"
                 android:textColor="@color/dark_grey"
@@ -78,7 +205,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_20sdp"
-                android:layout_marginTop="@dimen/_15sdp"
+                android:layout_marginTop="@dimen/_50sdp"
                 android:text="Material number"
                 android:textSize="@dimen/_18ssp"
                 android:textStyle="bold"
@@ -90,7 +217,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_35sdp"
-                android:layout_marginTop="@dimen/_15sdp"
+                android:layout_marginTop="@dimen/_50sdp"
                 android:text="RM-2005"
                 android:textSize="@dimen/_18ssp"
                 app:layout_constraintStart_toEndOf="@id/main_name"
@@ -101,7 +228,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_20sdp"
-                android:layout_marginTop="@dimen/_15sdp"
+                android:layout_marginTop="@dimen/_50sdp"
                 android:text="@string/analytical_number"
                 android:textSize="@dimen/_18ssp"
                 android:textStyle="bold"
@@ -113,7 +240,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_20sdp"
-                android:layout_marginTop="@dimen/_15sdp"
+                android:layout_marginTop="@dimen/_50sdp"
                 android:text="PC-2700"
                 android:textSize="@dimen/_18ssp"
                 app:layout_constraintStart_toEndOf="@id/analyticalNumTV"
@@ -124,7 +251,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_20sdp"
-                android:layout_marginTop="@dimen/_15sdp"
+                android:layout_marginTop="@dimen/_50sdp"
                 android:layout_marginBottom="@dimen/_30sdp"
                 android:text="@string/size"
                 android:textSize="@dimen/_18ssp"
@@ -138,7 +265,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_135sdp"
-                android:layout_marginTop="@dimen/_15sdp"
+                android:layout_marginTop="@dimen/_50sdp"
                 android:text="5"
                 android:textSize="@dimen/_18ssp"
                 app:layout_constraintStart_toEndOf="@id/sizeTV"
@@ -148,8 +275,10 @@
 
 
         <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/saveBtn"
             android:layout_width="@dimen/_150sdp"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/_30sdp"
             android:layout_marginBottom="@dimen/_20sdp"
             android:background="@drawable/blue_rounded_bg"
             android:fontFamily="@font/amiko"
@@ -157,10 +286,9 @@
             android:textAllCaps="false"
             android:textColor="@color/white"
             android:textSize="@dimen/_15ssp"
-            app:layout_constraintTop_toBottomOf="@id/detailCont"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginEnd="@dimen/_30sdp"
+            app:layout_constraintTop_toBottomOf="@id/detailCont"
 
             />
 

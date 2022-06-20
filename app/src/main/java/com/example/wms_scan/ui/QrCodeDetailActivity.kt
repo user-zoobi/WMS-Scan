@@ -1,7 +1,7 @@
 package com.example.wms_scan.ui
 
 import android.Manifest
-import android.R.string
+import android.R.attr
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.Color
@@ -16,10 +16,8 @@ import com.example.wms_scan.data.response.GetPalletResponse
 import com.example.wms_scan.databinding.ActivityQrCodeDetailActivityBinding
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.qrcode.QRCodeWriter
-import com.itextpdf.text.Document
-import com.itextpdf.text.Image
-import com.itextpdf.text.Paragraph
-import com.itextpdf.text.pdf.PdfPCell
+import com.itextpdf.text.*
+import com.itextpdf.text.pdf.PdfChunk
 import com.itextpdf.text.pdf.PdfPTable
 import com.itextpdf.text.pdf.PdfWriter
 import java.io.ByteArrayOutputStream
@@ -88,7 +86,7 @@ class QrCodeDetailActivity : AppCompatActivity() {
         when{
             intent.extras?.getBoolean("warehouseKey") == true->{
                 generateQRCode("$whCode-$whName")
-                binding.qrCodeNameTV.text = "warehouse : $whName"
+                binding.qrCodeNameTV.text = "warehouse: $whName"
                 binding.qrCodeTV.text = "warehouse code: $whCode"
                 binding.qrCodeNoTV.text = "warehouse number: $whNo"
             }
@@ -100,9 +98,9 @@ class QrCodeDetailActivity : AppCompatActivity() {
             }
             intent.extras?.getBoolean("shelfKey") == true->{
                 generateQRCode("$shelfCode-$shelfNo")
-                binding.qrCodeNameTV.text = "shelf name: is $shelfName"
-                binding.qrCodeTV.text = "shelf code: is $shelfCode"
-                binding.qrCodeNoTV.text = "shelf no; $shelfNo"
+                binding.qrCodeNameTV.text = "shelf name: $shelfName"
+                binding.qrCodeTV.text = "shelf code:$shelfCode"
+                binding.qrCodeNoTV.text = "shelf no: $shelfNo"
             }
             intent.extras?.getBoolean("palletKey") == true->{
                 generateQRCode("$palletCode-$palletNo")
@@ -182,6 +180,8 @@ class QrCodeDetailActivity : AppCompatActivity() {
             val pdfTable = PdfPTable(2)
             for (i in 0 until 6){
                 pdfTable.addCell(myImg)
+                val font = Font()
+                font.color = BaseColor.BLACK;
             }
             mDoc.add(pdfTable)
 

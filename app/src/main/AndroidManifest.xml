@@ -20,6 +20,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.WMSScan">
         <activity
+            android:name=".utils.PermissionDialog"
+            android:exported="false" />
+        <activity
             android:name=".ui.TestActivity"
             android:exported="false" />
         <activity

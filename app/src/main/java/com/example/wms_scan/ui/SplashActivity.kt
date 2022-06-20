@@ -3,9 +3,14 @@ package com.example.wms_scan.ui
 import android.annotation.SuppressLint
 import android.content.Context
 import android.net.ConnectivityManager
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
+import android.view.ViewGroup
+import android.widget.LinearLayout
+import android.widget.MediaController
+import android.widget.VideoView
 import androidx.appcompat.app.AppCompatDelegate
 import com.example.scanmate.extensions.gotoActivity
 import com.example.scanmate.extensions.setTransparentStatusBarColor
@@ -29,6 +34,7 @@ class SplashActivity : AppCompatActivity() {
         setTransparentStatusBarColor(R.color.transparent)
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         handler()
+        configureVideoView()
     }
 
     private fun handler(){
@@ -62,6 +68,23 @@ class SplashActivity : AppCompatActivity() {
         val cm = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         return cm.activeNetworkInfo != null && cm.activeNetworkInfo!!.isConnectedOrConnecting
     }
+
+    private fun configureVideoView() {
+
+        binding.videoSplash.setVideoURI(
+            Uri.parse(
+                "android.resource://"
+                        + packageName + "/" + R.raw.splash_white
+            )
+        )
+
+        binding.videoSplash.requestFocus()
+
+        binding.videoSplash.start()
+
+
+    }
+
 
 
 }

@@ -88,6 +88,11 @@ class ScanCartonActivity : AppCompatActivity() {
         dialog = CustomProgressDialog(this)
         supportActionBar?.hide()
         setTransparentStatusBarColor(R.color.transparent)
+
+        binding.busLocTV.text = intent.extras?.getString("whName")
+        binding.whTV.text = intent.extras?.getString("rackName")
+        binding.rackTV.text = intent.extras?.getString("shelfName")
+        binding.shelfTV.text = intent.extras?.getString("palletName")
     }
 
     private fun clearPreferences(context: Context){

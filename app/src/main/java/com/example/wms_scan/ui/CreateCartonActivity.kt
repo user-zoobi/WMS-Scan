@@ -19,6 +19,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.boschscan.extensions.putExtra
 import com.example.scanmate.data.callback.Status
 import com.example.scanmate.data.response.GetRackResponse
 import com.example.scanmate.data.response.GetShelfResponse
@@ -103,14 +104,14 @@ class CreateCartonActivity : AppCompatActivity() {
         binding.scanBtn.click {
 //            gotoActivity(ScanCartonActivity::class.java)
             binding.scanBtn.gone()
-            binding.cameraSurfaceView.visible()
-            binding.stopCamera.visible()
+            binding.scannerCont.visible()
+            binding.closeIV.visible()
             binding.clickHereTV.gone()
         }
-        binding.stopCamera.click {
-            binding.cameraSurfaceView.gone()
+        binding.closeIV.click {
+            binding.scannerCont.gone()
             binding.scanBtn.visible()
-            binding.stopCamera.gone()
+            binding.closeIV.gone()
         }
 
     }
@@ -175,11 +176,18 @@ class CreateCartonActivity : AppCompatActivity() {
                                     if (Utils.isNetworkConnected(this@CreateCartonActivity)){
                                         it.let {
                                             if(it.data?.get(0)?.status == true) {
-                                                gotoActivity(ScanCartonActivity::class.java)
+//                                                gotoActivity(ScanCartonActivity::class.java, "scanCarton", true)
                                                 val whName = it.data[0].wHName
                                                 val rackName = it.data[0].rackName
                                                 val shelfName = it.data[0].shelfName
                                                 val palletName = it.data[0].pilotName
+                                                val intent = Intent(this@CreateCartonActivity, ScanCartonActivity::class.java)
+                                                intent.putExtra("whName",whName)
+                                                intent.putExtra("rackName",rackName)
+                                                intent.putExtra("shelfName",shelfName)
+                                                intent.putExtra("palletName",palletName)
+                                                intent.putExtra("scanCarton",true)
+                                                startActivity(intent)
                                                 val error = it.data[0].error
                                                 val status = it.data[0].status
 

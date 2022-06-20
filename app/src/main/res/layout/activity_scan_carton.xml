@@ -18,9 +18,9 @@
             android:id="@+id/scanCont"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/_20sdp"
+            android:layout_marginStart="@dimen/_12sdp"
             android:layout_marginTop="@dimen/_20sdp"
-            android:layout_marginEnd="@dimen/_20sdp"
+            android:layout_marginEnd="@dimen/_12sdp"
             android:orientation="vertical">
 
             <RelativeLayout
@@ -43,69 +43,112 @@
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_20sdp"
-                android:orientation="horizontal">
+                android:layout_marginTop="@dimen/_50sdp"
+                android:orientation="horizontal"
+                android:weightSum="4">
 
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:layout_width="wrap_content"
+                <RelativeLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:text="BusLocname"
-                    android:textSize="@dimen/_10ssp" />
+                    android:layout_weight="1">
 
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:layout_width="@dimen/_20sdp"
-                    android:layout_height="@dimen/_20sdp"
-                    android:layout_gravity="center"
-                    android:layout_marginStart="@dimen/_5sdp"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/breadcrumb" />
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_50sdp"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/breadcrumbs"
+                        android:tint="@color/blue" />
 
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:layout_width="wrap_content"
+                    <TextView
+                        android:id="@+id/busLocTV"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:fontFamily="@font/amiko"
+                        android:text="BusLoc"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/_8ssp"
+                        android:textStyle="bold" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:text="BusLocname"
-                    android:textSize="@dimen/_10ssp" />
+                    android:layout_weight="1">
 
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:layout_width="@dimen/_20sdp"
-                    android:layout_height="@dimen/_20sdp"
-                    android:layout_gravity="center"
-                    android:src="@drawable/breadcrumb" />
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_50sdp"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/breadcrumbs"
+                        android:tint="@color/light_blue" />
 
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:layout_width="wrap_content"
+                    <TextView
+                        android:id="@+id/whTV"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:fontFamily="@font/amiko"
+                        android:paddingStart="@dimen/_5sdp"
+                        android:text="Warehouse"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/_8ssp"
+                        android:textStyle="bold" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:text="BusLocname"
-                    android:textSize="@dimen/_10ssp" />
+                    android:layout_weight="1">
 
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:layout_width="@dimen/_20sdp"
-                    android:layout_height="@dimen/_20sdp"
-                    android:layout_gravity="center"
-                    android:src="@drawable/breadcrumb" />
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_50sdp"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/breadcrumbs"
+                        android:tint="@color/blue" />
 
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:layout_width="wrap_content"
+                    <TextView
+                        android:id="@+id/rackTV"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:fontFamily="@font/amiko"
+                        android:paddingStart="@dimen/_5sdp"
+                        android:text="Racks"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/_8ssp"
+                        android:textStyle="bold" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:text="BusLocname"
-                    android:textSize="@dimen/_10ssp" />
+                    android:layout_weight="1">
 
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:layout_width="@dimen/_20sdp"
-                    android:layout_height="@dimen/_20sdp"
-                    android:layout_gravity="center"
-                    android:src="@drawable/breadcrumb" />
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_50sdp"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/breadcrumbs"
+                        android:tint="@color/light_blue" />
 
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:text="BusLocnam"
-                    android:textSize="@dimen/_10ssp" />
+                    <TextView
+                        android:id="@+id/shelfTV"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:fontFamily="@font/amiko"
+                        android:paddingStart="@dimen/_5sdp"
+                        android:text="Shelf"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/_8ssp"
+                        android:textStyle="bold" />
+
+                </RelativeLayout>
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -114,7 +157,7 @@
                 android:layout_width="@dimen/_250sdp"
                 android:layout_height="@dimen/_250sdp"
                 android:layout_gravity="center"
-                android:layout_marginTop="@dimen/_20sdp"
+                android:layout_marginTop="@dimen/_50sdp"
                 android:background="@drawable/grey_stroke_white_rounded_bg"
                 android:src="@drawable/qr_code"
                 android:tint="@color/dark_grey"

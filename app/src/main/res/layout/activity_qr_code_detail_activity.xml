@@ -27,61 +27,81 @@
             android:src="@drawable/print_icon"
             android:tint="@color/white"/>
 
-        <androidx.appcompat.widget.LinearLayoutCompat
-            android:id="@+id/qrCont"
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
+            android:text="Qr code detail"
+            android:textSize="@dimen/_20ssp"
+            android:fontFamily="@font/amiko"
+            android:layout_marginTop="@dimen/_30sdp"
+            android:layout_marginStart="@dimen/_20sdp"
+            android:textColor="@color/black"/>
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/qrCont"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:padding="@dimen/_20sdp"
+            android:layout_marginStart="@dimen/_20sdp"
+            android:layout_marginEnd="@dimen/_20sdp"
+            android:layout_marginTop="@dimen/_100sdp"
             android:orientation="horizontal"
             android:layout_gravity="center"
+            android:background="@drawable/grey_stroke_white_rounded_bg"
             android:weightSum="2">
 
-            <androidx.appcompat.widget.LinearLayoutCompat
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_weight="1">
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1.8"
+                    android:layout_margin="@dimen/_2sdp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/qrCodeNameTV"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="text"
+                        android:textSize="@dimen/_15ssp"
+                        android:layout_marginTop="@dimen/_30sdp"
+                        android:layout_marginStart="@dimen/_20sdp"
+                        android:textStyle="bold"
+                        android:textColor="@color/black"/>
+
+                    <TextView
+                        android:id="@+id/qrCodeTV"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="text"
+                        android:textSize="@dimen/_15ssp"
+                        android:layout_marginStart="@dimen/_20sdp"
+                        android:layout_marginTop="@dimen/_8sdp"
+                        android:textStyle="bold"
+                        android:textColor="@color/black"/>
+
+                    <TextView
+                        android:id="@+id/qrCodeNoTV"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="text"
+                        android:textSize="@dimen/_15ssp"
+                        android:layout_marginTop="@dimen/_8sdp"
+                        android:layout_marginStart="@dimen/_20sdp"
+                        android:textStyle="bold"
+
+                        android:textColor="@color/black"/>
+                </androidx.appcompat.widget.LinearLayoutCompat>
 
                 <ImageView
                     android:id="@+id/qrImageView"
-                    android:layout_width="@dimen/_200sdp"
-                    android:layout_height="@dimen/_200sdp"
+                    android:layout_width="@dimen/_150sdp"
+                    android:layout_height="@dimen/_150sdp"
                     android:layout_alignParentTop="true"
                     android:layout_centerHorizontal="true"
-                    android:layout_gravity="center" />
-
-                <TextView
-                    android:id="@+id/qrCodeNameTV"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="text"
-                    android:textSize="@dimen/_18ssp"
-                    android:layout_marginTop="@dimen/_5sdp"
                     android:layout_gravity="center"
-                    android:textColor="@color/black"/>
-
-                <TextView
-                    android:id="@+id/qrCodeTV"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="text"
-                    android:textSize="@dimen/_18ssp"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="@dimen/_5sdp"
-                    android:textColor="@color/black"/>
-
-                <TextView
-                    android:id="@+id/qrCodeNoTV"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="text"
-                    android:textSize="@dimen/_18ssp"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="@dimen/_5sdp"
-                    android:textColor="@color/black"/>
-
-            </androidx.appcompat.widget.LinearLayoutCompat>
+                    android:layout_margin="@dimen/_2sdp"
+                    android:layout_weight=".2"/>
 
 
         </androidx.appcompat.widget.LinearLayoutCompat>

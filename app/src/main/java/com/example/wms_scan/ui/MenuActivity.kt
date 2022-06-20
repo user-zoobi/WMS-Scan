@@ -81,8 +81,8 @@ class MenuActivity : AppCompatActivity() {
                     if(it.data?.get(0)?.status == true)
                     {
                         dialog.dismiss()
-                        it.data?.get(0)?.busLocationName?.let { it1 -> Log.i("Response", it1) }
-                        it.data?.get(0)?.busLocationName?.let { it1 ->
+                        it.data[0].busLocationName?.let { it1 -> Log.i("Response", it1) }
+                        it.data[0].busLocationName?.let { it1 ->
                             LocalPreferences.put(this,orgBusLocNo, it1)
                         }
                     }else{

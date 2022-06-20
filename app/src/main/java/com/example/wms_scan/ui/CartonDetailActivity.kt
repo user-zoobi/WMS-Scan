@@ -4,27 +4,28 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.example.scanmate.extensions.click
 import com.example.scanmate.extensions.gotoActivity
 import com.example.scanmate.extensions.obtainViewModel
 import com.example.scanmate.extensions.setTransparentStatusBarColor
-import com.example.scanmate.util.CustomProgressDialog
 import com.example.scanmate.util.LocalPreferences
 import com.example.scanmate.viewModel.MainViewModel
 import com.example.wms_scan.R
 import com.example.wms_scan.databinding.ActivityCartonDetailBinding
+import com.example.wms_scan.utils.PermissionDialog
 
 
 class CartonDetailActivity : AppCompatActivity() {
     private lateinit var binding:ActivityCartonDetailBinding
     private lateinit var viewModel: MainViewModel
-    private lateinit var dialog: CustomProgressDialog
+    private lateinit var permissionDialog: PermissionDialog
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityCartonDetailBinding.inflate(layoutInflater)
         viewModel = obtainViewModel(MainViewModel::class.java)
         setContentView(binding.root)
-        dialog = CustomProgressDialog(this)
+        permissionDialog = PermissionDialog(this)
         initListener()
         initObserver()
         setupUi()
@@ -32,7 +33,9 @@ class CartonDetailActivity : AppCompatActivity() {
     }
 
     private fun initListener(){
-
+        binding.saveBtn.click {
+            permissionDialog.show()
+        }
     }
 
     private fun initObserver(){
@@ -41,7 +44,6 @@ class CartonDetailActivity : AppCompatActivity() {
 
     private fun setupUi(){
         supportActionBar?.hide()
-        dialog = CustomProgressDialog(this)
         setTransparentStatusBarColor(R.color.transparent)
     }
 
