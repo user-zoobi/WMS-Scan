@@ -1,6 +1,7 @@
 package com.example.wms_scan.ui
 
 import android.Manifest
+import android.R.string
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.Color
@@ -11,12 +12,15 @@ import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.scanmate.extensions.setTransparentStatusBarColor
+import com.example.wms_scan.data.response.GetPalletResponse
 import com.example.wms_scan.databinding.ActivityQrCodeDetailActivityBinding
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.qrcode.QRCodeWriter
 import com.itextpdf.text.Document
 import com.itextpdf.text.Image
 import com.itextpdf.text.Paragraph
+import com.itextpdf.text.pdf.PdfPCell
+import com.itextpdf.text.pdf.PdfPTable
 import com.itextpdf.text.pdf.PdfWriter
 import java.io.ByteArrayOutputStream
 import java.io.FileOutputStream
@@ -26,10 +30,8 @@ import java.util.*
 
 class QrCodeDetailActivity : AppCompatActivity() {
     lateinit var binding: ActivityQrCodeDetailActivityBinding
-    private var qRBit: Bitmap? = null
-    private var selectedPalletNo:String? = ""
-    private val REQUEST_EXTERNAL_STORAGe = 1
     private lateinit var bmp:Bitmap
+    private lateinit var palletList: ArrayList<GetPalletResponse>
 
 
     private val permissionstorage = arrayOf(
@@ -58,7 +60,6 @@ class QrCodeDetailActivity : AppCompatActivity() {
     private var STORAGE_CODE = 1001
 
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityQrCodeDetailActivityBinding.inflate(layoutInflater)
@@ -66,6 +67,7 @@ class QrCodeDetailActivity : AppCompatActivity() {
         supportActionBar?.hide()
         setTransparentStatusBarColor(com.example.wms_scan.R.color.transparent)
         generatePDF()
+        palletList = ArrayList()
 
         whCode = intent.extras?.getString("whQrCode")
         whNo = intent.extras?.getString("whNo")
@@ -129,12 +131,9 @@ class QrCodeDetailActivity : AppCompatActivity() {
                 }
             }
             binding.qrImageView.setImageBitmap(bmp)
-
+            binding.qrCodeNameTV.text = Paragraph("$palletCode").toString()
         }
-        catch (e:Exception)
-        {
-
-        }
+        catch (e:Exception) { }
     }
 
     private fun generatePDF(){
@@ -169,24 +168,30 @@ class QrCodeDetailActivity : AppCompatActivity() {
         //pdf file path
         val mFilePath = Environment.getExternalStorageDirectory().toString() + "/" + "QrGeneratedFile" +".pdf"
         try {
+
             val mDoc = Document()
             PdfWriter.getInstance(mDoc, FileOutputStream(mFilePath))
             mDoc.open()
-            for (i in 0..9){
-                val stream = ByteArrayOutputStream()
-                bmp.compress(Bitmap.CompressFormat.JPEG, 100, stream)
-                val myImg: Image = Image.getInstance(stream.toByteArray())
-                myImg.alignment = Image.MIDDLE
-                mDoc.add(myImg)
+
+            val stream = ByteArrayOutputStream()
+            bmp.compress(Bitmap.CompressFormat.JPEG, 100, stream)
+            val myImg: Image = Image.getInstance(stream.toByteArray())
+            myImg.scaleAbsolute(100f,100f)
+            myImg.setAbsolutePosition(100f,100f)
+
+            val pdfTable = PdfPTable(2)
+            for (i in 0 until 6){
+                pdfTable.addCell(myImg)
             }
-            val qrText = mDoc.add(Paragraph("$palletCode-$palletNo"))
-            binding.qrText.text = qrText.toString()
+            mDoc.add(pdfTable)
+
             mDoc.close()
 
             //show file saved message with file name and path
             Toast.makeText(this, "$mFileName.pdf\nis saved to\n$mFilePath", Toast.LENGTH_SHORT).show()
         }
-        catch (e: Exception){
+        catch (e: Exception)
+        {
             Log.i("pdfException","${e.message}")
             //if anything goes wrong causing exception, get and show exception message
             Toast.makeText(this, e.message, Toast.LENGTH_SHORT).show()
