@@ -79,7 +79,6 @@ class WarehouseDetailsActivity : AppCompatActivity() {
                 selectedBusLocName = intent.extras?.getString("addBusName")
                 selectedBusLocNo = intent.extras?.getString("addBusLocNo")
                 selectedWHNo = intent.extras?.getString("addWhNo")
-
                 binding.busLocTV.text = selectedBusLocName
                 binding.updateWarehouseET.text = selectedWhName?.toEditable()
                 Log.i("warehouseValues","THE KEYS ARE VALUES WITH selectedBusLocNo :$selectedBusLocNo\n $selectedBusLocName\n $selectedWHNo")
@@ -104,6 +103,7 @@ class WarehouseDetailsActivity : AppCompatActivity() {
     private fun initListener(){
 
         binding.addWarehouseBTN.click {
+
                 updatedWarehouseName = binding.updateWarehouseET.text.toString()
                 viewModel.addUpdateWarehouse(
                     "0",
@@ -131,12 +131,6 @@ class WarehouseDetailsActivity : AppCompatActivity() {
     }
 
     private fun initObserver(){
-
-        /**     GETTING DATA PORTION STARTED HERE
-         *  ------------------------------------------------------------------------------------------------------
-         */
-
-
 
         /**
          *       ADD WAREHOUSE OBSERVER
@@ -178,10 +172,6 @@ class WarehouseDetailsActivity : AppCompatActivity() {
             context.getSharedPreferences(LocalPreferences.AppLoginPreferences.PREF, Context.MODE_PRIVATE)
         settings.edit().clear().apply()
         onBackPressed()
-    }
-
-    private fun validate(){
-
     }
 
 

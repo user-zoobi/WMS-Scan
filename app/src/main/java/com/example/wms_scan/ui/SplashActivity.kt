@@ -18,6 +18,7 @@ import com.example.scanmate.util.LocalPreferences
 import com.example.scanmate.util.LocalPreferences.AppLoginPreferences.isLogin
 import com.example.wms_scan.R
 import com.example.wms_scan.databinding.ActivitySplashBinding
+import com.example.wms_scan.utils.TextureVideoView
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -59,7 +60,7 @@ class SplashActivity : AppCompatActivity() {
                         finish()
                     }
                 }
-            }, 3000)
+            }, 6000)
         }
     }
 
@@ -71,18 +72,25 @@ class SplashActivity : AppCompatActivity() {
 
     private fun configureVideoView() {
 
-        binding.videoSplash.setVideoURI(
-            Uri.parse(
-                "android.resource://"
-                        + packageName + "/" + R.raw.splash_white
-            )
-        )
+        binding.videoSplash.setScaleType(TextureVideoView.ScaleType.CENTER_CROP)
+        binding.videoSplash.setDataSource(this, Uri.parse("android.resource://" + packageName + "/" + R.raw.splash_black))
+        binding.videoSplash.setLooping(true)
 
-        binding.videoSplash.requestFocus()
+    }
 
-        binding.videoSplash.start()
+    override fun onResume() {
+        super.onResume()
+        binding.videoSplash.play()
+    }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        binding.videoSplash.stop()
+    }
 
+    override fun onPause() {
+        super.onPause()
+        binding.videoSplash.pause()
     }
 
 

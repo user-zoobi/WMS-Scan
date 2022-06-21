@@ -41,8 +41,12 @@ import com.example.wms_scan.data.response.GetPalletResponse
 import com.example.wms_scan.databinding.ActivityPalletsBinding
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.qrcode.QRCodeWriter
+import com.itextpdf.text.Chunk
 import com.itextpdf.text.Document
 import com.itextpdf.text.Image
+import com.itextpdf.text.Paragraph
+import com.itextpdf.text.pdf.PdfPCell
+import com.itextpdf.text.pdf.PdfPTable
 import com.itextpdf.text.pdf.PdfWriter
 import java.io.ByteArrayOutputStream
 import java.io.FileOutputStream
@@ -55,7 +59,7 @@ class PalletsActivity : AppCompatActivity() {
     private lateinit var palletAdapter: PalletsAdapter
     private lateinit var viewModel: MainViewModel
     private lateinit var dialog: CustomProgressDialog
-    private lateinit var palletList: ArrayList<GetPalletResponse>
+
     private var selectedBusLocNo = ""
     private var selectedWareHouseNo = ""
     private var selectedRackNo = ""
@@ -68,6 +72,7 @@ class PalletsActivity : AppCompatActivity() {
     private var shelfName = ""
     private val REQUEST_EXTERNAL_STORAGe = 1
     private lateinit var bmp:Bitmap
+    private val bmpList = mutableListOf<Bitmap>()
     private var STORAGE_CODE = 1001
 
     private var palletNo = ""
@@ -151,6 +156,18 @@ class PalletsActivity : AppCompatActivity() {
                 intent.putExtra("addShelfName",shelfName)
                 intent.putExtra("AddPalletKey",true)
                 startActivity(intent)
+            }
+
+        }
+
+        binding.printIV.click {
+            try
+            {
+                generatePDF()
+            }
+            catch (e:Exception)
+            {
+                Log.i("exception","${e.message}")
             }
 
         }
@@ -339,14 +356,22 @@ class PalletsActivity : AppCompatActivity() {
                             palletNo = it.data[0].pilotNo.toString()
 
                             Log.i(success,"Success")
-                            palletList = ArrayList()
-                            palletList = it.data as ArrayList<GetPalletResponse>
-                            palletAdapter = PalletsAdapter(this,palletList)
+
+                            palletAdapter = PalletsAdapter(this, it.data)
 
                             binding.palletsRV.apply {
                                 adapter = palletAdapter
                                 layoutManager = LinearLayoutManager(this@PalletsActivity)
                             }
+
+                            bmpList.clear()
+
+                            for (i in it.data)
+                            {
+                                Log.i("Codes","${i.pilotCode}-${i.pilotNo}")
+                                generateQRCode("${i.pilotCode}-${i.pilotNo}")
+                            }
+
                         }
                         else
                         {
@@ -571,6 +596,114 @@ class PalletsActivity : AppCompatActivity() {
                 Utils.getSimpleTextBody(selectedBusLocNo)
             )
 
+        }
+    }
+
+
+    private fun generateQRCode(text:String) {
+        val qrWriter = QRCodeWriter()
+        try
+        {
+            val bitMatrix = qrWriter.encode(text, BarcodeFormat.QR_CODE, 512,512)
+            val width = bitMatrix.width
+            val height = bitMatrix.height
+            bmp = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565)
+
+            bmpList.add(bmp)
+
+            for (x in 0 until width)
+            {
+                for(y in 0 until height)
+                {
+                    bmp.setPixel(x,y, if (bitMatrix[x,y]) Color.BLACK else Color.WHITE)
+                }
+            }
+            binding.qrImageView.setImageBitmap(bmp)
+        }
+        catch (e:Exception) { }
+    }
+
+    private fun generatePDF(){
+        //handle button click
+        //we need to handle runtime permission for devices with marshmallow and above
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.M){
+            //system OS >= Marshmallow(6.0), check permission is enabled or not
+            if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                == PackageManager.PERMISSION_DENIED){
+                //permission was not granted, request it
+                val permissions = arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                requestPermissions(permissions, STORAGE_CODE)
+            }
+            else{
+                //permission already granted, call savePdf() method
+                savePdf()
+            }
+        }
+        else{
+            //system OS < marshmallow, call savePdf() method
+            savePdf()
+        }
+    }
+
+    private fun savePdf() {
+        //create object of Document class
+
+        //pdf file name
+        val mFileName = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(System.currentTimeMillis())
+        //pdf file path
+        val mFilePath = Environment.getExternalStorageDirectory().toString() + "/" + "QrGeneratedFile" +".pdf"
+        try {
+
+            val mDoc = Document()
+            PdfWriter.getInstance(mDoc, FileOutputStream(mFilePath))
+            mDoc.open()
+
+            val pdfTable = PdfPTable(2)
+
+            for (i in bmpList.indices)
+            {
+                val stream = ByteArrayOutputStream()
+                bmpList[i].compress(Bitmap.CompressFormat.JPEG, 100, stream)
+                val myImg: Image = Image.getInstance(stream.toByteArray())
+                myImg.scaleAbsolute(100f,100f)
+                myImg.setAbsolutePosition(100f,100f)
+                val pdfcell = PdfPCell()
+                pdfcell.rowspan = 2
+                pdfcell.addElement(myImg)
+                val chunk = Chunk("text")
+                pdfcell.addElement(Paragraph(chunk))
+                pdfTable.addCell(pdfcell)
+            }
+
+            mDoc.add(pdfTable)
+
+            mDoc.close()
+
+            //show file saved message with file name and path
+            Toast.makeText(this, "$mFileName.pdf\nis saved to\n$mFilePath", Toast.LENGTH_SHORT).show()
+        }
+        catch (e: Exception)
+        {
+            Log.i("pdfException","${e.message}")
+            //if anything goes wrong causing exception, get and show exception message
+        }
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int, permissions: Array<out String>, grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        when(requestCode){
+            STORAGE_CODE -> {
+                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                    //permission from popup was granted, call savePdf() method
+                    savePdf()
+                }
+                else{
+                    //permission from popup was denied, show error message
+                    Toast.makeText(this, "Permission denied...!", Toast.LENGTH_SHORT).show()
+                }
+            }
         }
     }
 

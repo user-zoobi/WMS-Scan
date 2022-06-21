@@ -1,15 +1,22 @@
 package com.example.wms_scan.ui
 
+import android.Manifest
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.content.pm.PackageManager
+import android.graphics.Bitmap
+import android.graphics.Color
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Environment
 import android.util.Log
 import android.view.View
 import android.view.WindowManager
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.scanmate.data.callback.Status
@@ -28,13 +35,27 @@ import com.example.scanmate.viewModel.MainViewModel
 import com.example.wms_scan.R
 import com.example.wms_scan.adapter.shelf.ShelfAdapter
 import com.example.wms_scan.databinding.ActivityShelfBinding
+import com.google.zxing.BarcodeFormat
+import com.google.zxing.qrcode.QRCodeWriter
+import com.itextpdf.text.Chunk
+import com.itextpdf.text.Document
+import com.itextpdf.text.Image
+import com.itextpdf.text.Paragraph
+import com.itextpdf.text.pdf.PdfPCell
+import com.itextpdf.text.pdf.PdfPTable
+import com.itextpdf.text.pdf.PdfWriter
+import java.io.ByteArrayOutputStream
+import java.io.FileOutputStream
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
 class ShelfActivity : AppCompatActivity() {
     private lateinit var binding: ActivityShelfBinding
     private lateinit var shelfAdapter: ShelfAdapter
     private lateinit var viewModel: MainViewModel
     private lateinit var dialog: CustomProgressDialog
-    private lateinit var list: ArrayList<GetWarehouseResponse>
+    private val textList = mutableListOf<String>()
     private lateinit var shelfList: ArrayList<GetShelfResponse>
     private var selectedBusLocNo = ""
     private var selectedWareHouseNo = ""
@@ -43,8 +64,9 @@ class ShelfActivity : AppCompatActivity() {
     private var warehouseName = ""
     private var rackName = ""
     private var selectedShelveNo = ""
-    private lateinit var bottomSheet: QrCodeDetailActivity
-
+    private lateinit var bmp: Bitmap
+    private val bmpList = mutableListOf<Bitmap>()
+    private var STORAGE_CODE = 1001
     private var shelfNo = ""
     private var shelfName = ""
     private var shelfCode = ""
@@ -124,6 +146,10 @@ class ShelfActivity : AppCompatActivity() {
             {
                 toast(NoInternetFound)
             }
+        }
+
+        binding.printIV.click {
+            generatePDF()
         }
 
     }
@@ -304,6 +330,15 @@ class ShelfActivity : AppCompatActivity() {
                                     shelfList = ArrayList()
                                     shelfList = it.data as ArrayList<GetShelfResponse>
                                     shelfAdapter = ShelfAdapter(this, shelfList)
+
+                                    bmpList.clear()
+                                    textList.clear()
+
+                                    for (i in it.data)
+                                    {
+                                        generateQRCode("${i.shelfCode}-${i.shelfNo}")
+                                        textList.add(i.shelfCode!!)
+                                    }
 
                                     binding.shelfRV.apply {
                                         adapter = shelfAdapter
@@ -500,6 +535,118 @@ class ShelfActivity : AppCompatActivity() {
             context.getSharedPreferences(LocalPreferences.AppLoginPreferences.PREF, Context.MODE_PRIVATE)
         settings.edit().clear().apply()
         gotoActivity(LoginActivity::class.java)
+    }
+
+
+    private fun generateQRCode(text:String) {
+        val qrWriter = QRCodeWriter()
+        try
+        {
+            val bitMatrix = qrWriter.encode(text, BarcodeFormat.QR_CODE, 512,512)
+            val width = bitMatrix.width
+            val height = bitMatrix.height
+            bmp = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565)
+            bmpList.add(bmp)
+
+            bmpList.add(bmp)
+
+            for (x in 0 until width)
+            {
+                for(y in 0 until height)
+                {
+                    bmp.setPixel(x,y, if (bitMatrix[x,y]) Color.BLACK else Color.WHITE)
+                }
+            }
+            binding.qrImageView.setImageBitmap(bmp)
+        }
+        catch (e:Exception) { }
+    }
+
+    private fun generatePDF(){
+        //handle button click
+        //we need to handle runtime permission for devices with marshmallow and above
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.M){
+            //system OS >= Marshmallow(6.0), check permission is enabled or not
+            if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                == PackageManager.PERMISSION_DENIED){
+                //permission was not granted, request it
+                val permissions = arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                requestPermissions(permissions, STORAGE_CODE)
+            }
+            else{
+                //permission already granted, call savePdf() method
+                savePdf()
+            }
+        }
+        else{
+            //system OS < marshmallow, call savePdf() method
+            savePdf()
+        }
+    }
+
+    private fun savePdf() {
+        //create object of Document class
+
+        //pdf file name
+        val mFileName = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(System.currentTimeMillis())
+        //pdf file path
+        val mFilePath = Environment.getExternalStorageDirectory().toString() + "/" + "QrGeneratedFile" +".pdf"
+        try {
+
+            val mDoc = Document()
+            PdfWriter.getInstance(mDoc, FileOutputStream(mFilePath))
+            mDoc.open()
+
+            val pdfTable = PdfPTable(2)
+
+            for (i in bmpList.indices)
+            {
+                val stream = ByteArrayOutputStream()
+                bmpList[i].compress(Bitmap.CompressFormat.JPEG, 100, stream)
+                val myImg: Image = Image.getInstance(stream.toByteArray())
+                myImg.scaleAbsolute(100f,100f)
+                myImg.setAbsolutePosition(100f,100f)
+                val pdfcell = PdfPCell()
+                pdfcell.rowspan = 2
+                pdfcell.addElement(myImg)
+//                val text = textList[i]
+//                val chunk = Chunk(text)
+//                pdfcell.addElement(Paragraph(chunk))
+                pdfTable.addCell(pdfcell)
+            }
+
+            mDoc.add(pdfTable)
+
+            mDoc.close()
+
+            //show file saved message with file name and path
+            Toast.makeText(this, "$mFileName.pdf\nis saved to\n$mFilePath", Toast.LENGTH_SHORT).show()
+        }
+        catch (e: Exception)
+        {
+            Log.i("pdfException","${e.message}")
+            //if anything goes wrong causing exception, get and show exception message
+            Toast.makeText(this, e.message, Toast.LENGTH_SHORT).show()
+            Log.i("pdfException","${e.message}")
+        }
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int, permissions: Array<out String>, grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        when(requestCode){
+            STORAGE_CODE -> {
+                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                    //permission from popup was granted, call savePdf() method
+                    savePdf()
+                }
+                else{
+                    //permission from popup was denied, show error message
+                    Toast.makeText(this, "Permission denied...!", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
     }
 
 }

@@ -3,6 +3,7 @@ package com.example.wms_scan.utils
 import android.app.Dialog
 import android.content.Context
 import android.view.LayoutInflater
+import android.widget.Toast
 import com.example.scanmate.extensions.click
 import com.example.wms_scan.R
 import com.example.wms_scan.databinding.ActivityPermissionDialogBinding
@@ -16,6 +17,7 @@ class PermissionDialog(context: Context) : Dialog(context, R.style.customDialog)
         setOnCancelListener(null)
         binding.yesTV.click {
             dismiss()
+            Toast.makeText(this.context, "Data saved", Toast.LENGTH_SHORT).show()
         }
         binding.noTV.click {
             dismiss()

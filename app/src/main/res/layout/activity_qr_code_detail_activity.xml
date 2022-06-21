@@ -25,6 +25,7 @@
             android:layout_gravity="end"
             android:padding="@dimen/_8sdp"
             android:src="@drawable/print_icon"
+            android:visibility="gone"
             android:tint="@color/white"/>
 
         <TextView
@@ -63,7 +64,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="text"
-                        android:textSize="@dimen/_15ssp"
+                        android:textSize="@dimen/_12ssp"
                         android:layout_marginTop="@dimen/_30sdp"
                         android:layout_marginStart="@dimen/_20sdp"
                         android:textStyle="bold"
@@ -74,7 +75,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="text"
-                        android:textSize="@dimen/_15ssp"
+                        android:textSize="@dimen/_12ssp"
                         android:layout_marginStart="@dimen/_20sdp"
                         android:layout_marginTop="@dimen/_8sdp"
                         android:textStyle="bold"
@@ -85,7 +86,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="text"
-                        android:textSize="@dimen/_15ssp"
+                        android:textSize="@dimen/_12ssp"
                         android:layout_marginTop="@dimen/_8sdp"
                         android:layout_marginStart="@dimen/_20sdp"
                         android:textStyle="bold"
