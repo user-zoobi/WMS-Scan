@@ -5,9 +5,11 @@ import android.content.Context
 import android.net.ConnectivityManager
 import android.text.TextUtils
 import android.util.Patterns
+import com.pdfview.PDFView
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
+import java.io.File
 import java.text.DecimalFormat
 
 object Utils {
@@ -41,5 +43,7 @@ object Utils {
         val cm = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         return cm.activeNetworkInfo != null && cm.activeNetworkInfo!!.isConnectedOrConnecting
     }
+
+
 
 }

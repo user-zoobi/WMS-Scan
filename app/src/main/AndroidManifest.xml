@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.example.wms_scan">
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -21,10 +22,8 @@
         android:theme="@style/Theme.WMSScan">
         <activity
             android:name=".utils.PermissionDialog"
-            android:exported="false" />
-        <activity
-            android:name=".ui.TestActivity"
-            android:exported="false" />
+            android:exported="false"
+            tools:ignore="Instantiatable" />
         <activity
             android:name=".ui.CartonDetailActivity"
             android:exported="false"
@@ -119,6 +118,16 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/provider_paths" />
+        </provider>
     </application>
 
 </manifest>

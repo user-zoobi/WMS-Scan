@@ -35,10 +35,7 @@ import com.example.wms_scan.adapter.racks.RackAdapter
 import com.example.wms_scan.databinding.ActivityRacksBinding
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.qrcode.QRCodeWriter
-import com.itextpdf.text.Chunk
-import com.itextpdf.text.Document
-import com.itextpdf.text.Image
-import com.itextpdf.text.Paragraph
+import com.itextpdf.text.*
 import com.itextpdf.text.pdf.PdfPCell
 import com.itextpdf.text.pdf.PdfPTable
 import com.itextpdf.text.pdf.PdfWriter
@@ -333,6 +330,7 @@ class RacksActivity : AppCompatActivity() {
                                     {
                                         generateQRCode("${i.rackCode}-${i.rackNo}")
                                         textList.add(i.rackCode!!)
+                                        Log.i("rackList","${i.rackCode}-${i.rackNo}")
                                     }
 
                                     binding.racksRV.apply {
@@ -504,7 +502,6 @@ class RacksActivity : AppCompatActivity() {
         gotoActivity(LoginActivity::class.java)
     }
 
-
     private fun generateQRCode(text:String) {
         val qrWriter = QRCodeWriter()
         try
@@ -515,8 +512,6 @@ class RacksActivity : AppCompatActivity() {
             bmp = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565)
             bmpList.add(bmp)
 
-            bmpList.add(bmp)
-
             for (x in 0 until width)
             {
                 for(y in 0 until height)
@@ -524,7 +519,6 @@ class RacksActivity : AppCompatActivity() {
                     bmp.setPixel(x,y, if (bitMatrix[x,y]) Color.BLACK else Color.WHITE)
                 }
             }
-            binding.qrImageView.setImageBitmap(bmp)
         }
         catch (e:Exception) { }
     }
@@ -570,19 +564,31 @@ class RacksActivity : AppCompatActivity() {
             {
                 val stream = ByteArrayOutputStream()
                 bmpList[i].compress(Bitmap.CompressFormat.JPEG, 100, stream)
-                val myImg = Image.getInstance(stream.toByteArray())
+                val myImg: Image = Image.getInstance(stream.toByteArray())
                 myImg.scaleAbsolute(100f,100f)
                 myImg.setAbsolutePosition(100f,100f)
+                myImg.alignment = Element.ALIGN_CENTER
+
+                val headingPara = Paragraph(Chunk("Racks"))
+                headingPara.alignment = Element.ALIGN_CENTER
+
+                val rackCode = Paragraph(Chunk("1010-2"))
+                rackCode.alignment = Element.ALIGN_CENTER
+
                 val pdfcell = PdfPCell()
-                pdfcell.rowspan = 2
-                pdfcell.addElement(myImg)
-//                val text = textList[i]
-//                val chunk = Chunk(text)
-//                pdfcell.addElement(Paragraph(chunk))
+                with(pdfcell)
+                {
+                    rowspan = 2
+                    addElement(headingPara)
+                    addElement(myImg)
+                    addElement(rackCode)
+                    paddingBottom = 10f
+                }
+
                 pdfTable.addCell(pdfcell)
             }
-            mDoc.add(pdfTable)
 
+            mDoc.add(pdfTable)
             mDoc.close()
 
             //show file saved message with file name and path
@@ -612,7 +618,4 @@ class RacksActivity : AppCompatActivity() {
             }
         }
     }
-
-
-
 }

@@ -40,117 +40,86 @@
 
             </RelativeLayout>
 
-            <androidx.appcompat.widget.LinearLayoutCompat
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_50sdp"
-                android:orientation="horizontal"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:orientation="vertical"
                 android:weightSum="4">
 
-                <RelativeLayout
-                    android:layout_width="match_parent"
+                <TextView
+                    android:id="@+id/whTV"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1">
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:fontFamily="@font/amiko"
+                    android:paddingStart="@dimen/_10sdp"
+                    android:paddingTop="@dimen/_10sdp"
+                    android:paddingEnd="@dimen/_10sdp"
+                    android:paddingBottom="@dimen/_10sdp"
+                    android:text="Business location Name"
+                    android:textColor="@color/white"
+                    android:background="@color/royal_blue"
+                    android:textStyle="bold" />
 
-                    <androidx.appcompat.widget.AppCompatImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/_50sdp"
-                        android:scaleType="centerCrop"
-                        android:src="@drawable/breadcrumbs"
-                        android:tint="@color/blue" />
-
-                    <TextView
-                        android:id="@+id/busLocTV"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerInParent="true"
-                        android:fontFamily="@font/amiko"
-                        android:text="BusLoc"
-                        android:textColor="@color/white"
-                        android:textSize="@dimen/_8ssp"
-                        android:textStyle="bold" />
-
-                </RelativeLayout>
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
+                <LinearLayout
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1">
+                    android:orientation="vertical"
+                    android:layout_below="@id/whTV">
 
-                    <androidx.appcompat.widget.AppCompatImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/_50sdp"
-                        android:scaleType="centerCrop"
-                        android:src="@drawable/breadcrumbs"
-                        android:tint="@color/light_blue" />
+                    <View
+                        android:layout_width="@dimen/_2sdp"
+                        android:layout_height="@dimen/_40sdp"
+                        android:layout_marginStart="@dimen/_50sdp"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:background="@color/black" />
 
-                    <TextView
-                        android:id="@+id/whTV"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerInParent="true"
-                        android:fontFamily="@font/amiko"
-                        android:paddingStart="@dimen/_5sdp"
-                        android:text="Warehouse"
-                        android:textColor="@color/white"
-                        android:textSize="@dimen/_8ssp"
-                        android:textStyle="bold" />
+                    <View
+                        android:layout_width="@dimen/_50sdp"
+                        android:layout_height="@dimen/_2sdp"
+                        android:layout_marginStart="@dimen/_50sdp"
+                        android:background="@color/black" />
 
-                </RelativeLayout>
+                    <View
+                        android:layout_width="@dimen/_2sdp"
+                        android:layout_height="@dimen/_40sdp"
+                        android:layout_marginStart="@dimen/_50sdp"
+                        android:background="@color/black" />
 
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1">
+                    <View
+                        android:layout_width="@dimen/_50sdp"
+                        android:layout_height="@dimen/_2sdp"
+                        android:layout_marginStart="@dimen/_50sdp"
+                        android:background="@color/black" />
 
-                    <androidx.appcompat.widget.AppCompatImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/_50sdp"
-                        android:scaleType="centerCrop"
-                        android:src="@drawable/breadcrumbs"
-                        android:tint="@color/blue" />
+                    <View
+                        android:layout_width="@dimen/_2sdp"
+                        android:layout_height="@dimen/_30sdp"
+                        android:layout_marginStart="@dimen/_50sdp"
+                        android:background="@color/black" />
 
-                    <TextView
-                        android:id="@+id/rackTV"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerInParent="true"
-                        android:fontFamily="@font/amiko"
-                        android:paddingStart="@dimen/_5sdp"
-                        android:text="Racks"
-                        android:textColor="@color/white"
-                        android:textSize="@dimen/_8ssp"
-                        android:textStyle="bold" />
+                    <View
+                        android:layout_width="@dimen/_50sdp"
+                        android:layout_height="@dimen/_2sdp"
+                        android:layout_marginStart="@dimen/_50sdp"
+                        android:background="@color/black" />
 
-                </RelativeLayout>
+                    <View
+                        android:layout_width="@dimen/_2sdp"
+                        android:layout_height="@dimen/_30sdp"
+                        android:layout_marginStart="@dimen/_50sdp"
+                        android:background="@color/black" />
 
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1">
+                    <View
+                        android:layout_width="@dimen/_50sdp"
+                        android:layout_height="@dimen/_2sdp"
+                        android:layout_marginStart="@dimen/_50sdp"
+                        android:background="@color/black" />
 
-                    <androidx.appcompat.widget.AppCompatImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/_50sdp"
-                        android:scaleType="centerCrop"
-                        android:src="@drawable/breadcrumbs"
-                        android:tint="@color/light_blue" />
+                </LinearLayout>
 
-                    <TextView
-                        android:id="@+id/shelfTV"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerInParent="true"
-                        android:fontFamily="@font/amiko"
-                        android:paddingStart="@dimen/_5sdp"
-                        android:text="Shelf"
-                        android:textColor="@color/white"
-                        android:textSize="@dimen/_8ssp"
-                        android:textStyle="bold" />
-
-                </RelativeLayout>
-
-            </androidx.appcompat.widget.LinearLayoutCompat>
+            </RelativeLayout>
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/scanBtn"

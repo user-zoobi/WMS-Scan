@@ -1,6 +1,7 @@
 package com.example.wms_scan.ui
 
 import android.Manifest
+import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
@@ -16,6 +17,7 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.FileProvider
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.scanmate.data.callback.Status
@@ -39,10 +41,10 @@ import com.itextpdf.text.pdf.PdfPCell
 import com.itextpdf.text.pdf.PdfPTable
 import com.itextpdf.text.pdf.PdfWriter
 import java.io.ByteArrayOutputStream
+import java.io.File
 import java.io.FileOutputStream
-import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.collections.ArrayList
+
 
 class WarehouseActivity : AppCompatActivity() {
     private lateinit var binding: ActivityWarehouseBinding
@@ -323,9 +325,6 @@ class WarehouseActivity : AppCompatActivity() {
                     }
                 }
 
-//            bmpList.add(bmp)
-
-
         }
         catch (e:Exception) { }
     }
@@ -355,12 +354,13 @@ class WarehouseActivity : AppCompatActivity() {
     private fun savePdf() {
         //create object of Document class
 
+
         //pdf file name
-        val mFileName = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(System.currentTimeMillis())
+        //val mFileName = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(System.currentTimeMillis())
         //pdf file path
         val mFilePath = Environment.getExternalStorageDirectory().toString() + "/" + "QrGeneratedFile" +".pdf"
         try {
-
+            val file = File(mFilePath)
             val mDoc = Document()
             PdfWriter.getInstance(mDoc, FileOutputStream(mFilePath))
             mDoc.open()
@@ -374,21 +374,34 @@ class WarehouseActivity : AppCompatActivity() {
                 val myImg: Image = Image.getInstance(stream.toByteArray())
                 myImg.scaleAbsolute(100f,100f)
                 myImg.setAbsolutePosition(100f,100f)
+                myImg.alignment = Element.ALIGN_CENTER
+
+                val headingPara = Paragraph(Chunk("Ware House"))
+                headingPara.alignment = Element.ALIGN_CENTER
+
+                val paragraph = Paragraph(Chunk("Code: ${textList[i]}"))
+                paragraph.alignment = Element.ALIGN_CENTER
+
                 val pdfcell = PdfPCell()
-                pdfcell.rowspan = 2
-                pdfcell.addElement(myImg)
-                val text = textList[i]
-                val chunk = Chunk(text)
-                pdfcell.addElement(Paragraph(chunk))
+                with(pdfcell)
+                {
+                    rowspan = 2
+                    addElement(headingPara)
+                    addElement(myImg)
+                    addElement(paragraph)
+                    paddingBottom = 10f
+                }
+                //pdfcell.horizontalAlignment = Element.ALIGN_CENTER;
+                //pdfcell.verticalAlignment = Element.ALIGN_CENTER;
+                //pdfcell.isNoWrap = false
                 pdfTable.addCell(pdfcell)
             }
 
             mDoc.add(pdfTable)
-
             mDoc.close()
 
             //show file saved message with file name and path
-            Toast.makeText(this, "$mFileName.pdf\nis saved to\n$mFilePath", Toast.LENGTH_SHORT).show()
+            openPDF(file, "QrGeneratedFile.pdf\nis saved to\n$mFilePath")
         }
         catch (e: Exception)
         {
@@ -412,6 +425,28 @@ class WarehouseActivity : AppCompatActivity() {
                     Toast.makeText(this, "Permission denied...!", Toast.LENGTH_SHORT).show()
                 }
             }
+        }
+    }
+
+    private fun openPDF(file: File, text: String)
+    {
+        val path = FileProvider.getUriForFile(
+            this,
+            this.applicationContext.packageName.toString() + ".provider",
+            file
+        )
+        val pdfOpenIntent = Intent(Intent.ACTION_VIEW)
+        pdfOpenIntent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+        pdfOpenIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+        pdfOpenIntent.setDataAndType(path, "application/pdf")
+        try
+        {
+            startActivity(pdfOpenIntent)
+        }
+        catch (e: ActivityNotFoundException)
+        {
+            Log.i("openPDFException","${e.message}")
+            Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
         }
     }
 

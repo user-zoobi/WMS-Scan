@@ -8,7 +8,6 @@ import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.Color
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Environment
 import android.util.Log
@@ -17,6 +16,7 @@ import android.view.WindowManager
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.scanmate.data.callback.Status
@@ -37,18 +37,16 @@ import com.example.wms_scan.adapter.shelf.ShelfAdapter
 import com.example.wms_scan.databinding.ActivityShelfBinding
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.qrcode.QRCodeWriter
-import com.itextpdf.text.Chunk
-import com.itextpdf.text.Document
-import com.itextpdf.text.Image
-import com.itextpdf.text.Paragraph
+import com.itextpdf.text.*
 import com.itextpdf.text.pdf.PdfPCell
 import com.itextpdf.text.pdf.PdfPTable
+import com.itextpdf.text.pdf.PdfReader
 import com.itextpdf.text.pdf.PdfWriter
 import java.io.ByteArrayOutputStream
+import java.io.File
 import java.io.FileOutputStream
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.collections.ArrayList
 
 class ShelfActivity : AppCompatActivity() {
     private lateinit var binding: ActivityShelfBinding
@@ -338,6 +336,7 @@ class ShelfActivity : AppCompatActivity() {
                                     {
                                         generateQRCode("${i.shelfCode}-${i.shelfNo}")
                                         textList.add(i.shelfCode!!)
+                                        Log.i("shelfList","${i.shelfCode}-${i.shelfNo}")
                                     }
 
                                     binding.shelfRV.apply {
@@ -586,8 +585,8 @@ class ShelfActivity : AppCompatActivity() {
 
     private fun savePdf() {
         //create object of Document class
-
         //pdf file name
+        val file = File(Environment.getExternalStorageDirectory().toString() + "/" + "QrGeneratedFile" +".pdf")
         val mFileName = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(System.currentTimeMillis())
         //pdf file path
         val mFilePath = Environment.getExternalStorageDirectory().toString() + "/" + "QrGeneratedFile" +".pdf"
@@ -606,12 +605,28 @@ class ShelfActivity : AppCompatActivity() {
                 val myImg: Image = Image.getInstance(stream.toByteArray())
                 myImg.scaleAbsolute(100f,100f)
                 myImg.setAbsolutePosition(100f,100f)
+                myImg.alignment = Element.ALIGN_CENTER
+
+                val headingPara = Paragraph(Chunk("Shelf"))
+                headingPara.alignment = Element.ALIGN_CENTER
+
+                val shelfcode = Paragraph(Chunk("1001"))
+                shelfcode.alignment = Element.ALIGN_CENTER
+
+//                val rackcode = Paragraph(Chunk("${textList[i]}"))
+//                rackcode.alignment = Element.ALIGN_CENTER
+
+
                 val pdfcell = PdfPCell()
-                pdfcell.rowspan = 2
-                pdfcell.addElement(myImg)
-//                val text = textList[i]
-//                val chunk = Chunk(text)
-//                pdfcell.addElement(Paragraph(chunk))
+                with(pdfcell)
+                {
+                    rowspan = 2
+                    addElement(headingPara)
+                    addElement(myImg)
+                    addElement(shelfcode)
+                    paddingBottom = 10f
+                }
+
                 pdfTable.addCell(pdfcell)
             }
 

@@ -41,10 +41,7 @@ import com.example.wms_scan.data.response.GetPalletResponse
 import com.example.wms_scan.databinding.ActivityPalletsBinding
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.qrcode.QRCodeWriter
-import com.itextpdf.text.Chunk
-import com.itextpdf.text.Document
-import com.itextpdf.text.Image
-import com.itextpdf.text.Paragraph
+import com.itextpdf.text.*
 import com.itextpdf.text.pdf.PdfPCell
 import com.itextpdf.text.pdf.PdfPTable
 import com.itextpdf.text.pdf.PdfWriter
@@ -73,8 +70,8 @@ class PalletsActivity : AppCompatActivity() {
     private val REQUEST_EXTERNAL_STORAGe = 1
     private lateinit var bmp:Bitmap
     private val bmpList = mutableListOf<Bitmap>()
+    private val palletCodeList = mutableListOf<String>()
     private var STORAGE_CODE = 1001
-
     private var palletNo = ""
     private var palletName = ""
     private var palletCode = ""
@@ -350,11 +347,6 @@ class PalletsActivity : AppCompatActivity() {
                         LocalPreferences.put(this,isRefreshRequired, true)
                         if(it.data?.get(0)?.status == true)
                         {
-
-                            palletName = it.data[0].pilotName.toString()
-                            palletCode = it.data[0].pilotCode.toString()
-                            palletNo = it.data[0].pilotNo.toString()
-
                             Log.i(success,"Success")
 
                             palletAdapter = PalletsAdapter(this, it.data)
@@ -370,6 +362,8 @@ class PalletsActivity : AppCompatActivity() {
                             {
                                 Log.i("Codes","${i.pilotCode}-${i.pilotNo}")
                                 generateQRCode("${i.pilotCode}-${i.pilotNo}")
+                                palletCodeList.add("${i.pilotCode}-${i.pilotNo}")
+                                Log.i("PalletCodes","$palletCodeList")
                             }
 
                         }
@@ -667,11 +661,23 @@ class PalletsActivity : AppCompatActivity() {
                 val myImg: Image = Image.getInstance(stream.toByteArray())
                 myImg.scaleAbsolute(100f,100f)
                 myImg.setAbsolutePosition(100f,100f)
+                myImg.alignment = Element.ALIGN_CENTER
+
+                val headingPara = Paragraph(Chunk("Pallets"))
+                headingPara.alignment = Element.ALIGN_CENTER
+
+                val palletCode = Paragraph(Chunk(palletCodeList[i]))
+                palletCode.alignment = Element.ALIGN_CENTER
+
                 val pdfcell = PdfPCell()
-                pdfcell.rowspan = 2
-                pdfcell.addElement(myImg)
-                val chunk = Chunk("text")
-                pdfcell.addElement(Paragraph(chunk))
+                with(pdfcell)
+                {
+                    rowspan = 2
+                    addElement(headingPara)
+                    addElement(myImg)
+                    addElement(palletCode)
+                    paddingBottom = 10f
+                }
                 pdfTable.addCell(pdfcell)
             }
 
