@@ -18,9 +18,9 @@
             android:id="@+id/scanCont"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/_12sdp"
-            android:layout_marginTop="@dimen/_20sdp"
-            android:layout_marginEnd="@dimen/_12sdp"
+            android:layout_marginStart="@dimen/_20sdp"
+            android:layout_marginTop="@dimen/_30sdp"
+            android:layout_marginEnd="@dimen/_20sdp"
             android:orientation="vertical">
 
             <RelativeLayout
@@ -52,34 +52,22 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/_10sdp"
+                    android:background="@color/royal_blue"
                     android:fontFamily="@font/amiko"
                     android:paddingStart="@dimen/_10sdp"
                     android:paddingTop="@dimen/_10sdp"
                     android:paddingEnd="@dimen/_10sdp"
                     android:paddingBottom="@dimen/_10sdp"
-                    android:text="Business location Name"
+                    android:text="Business location"
                     android:textColor="@color/white"
-                    android:background="@color/royal_blue"
                     android:textStyle="bold" />
 
                 <LinearLayout
+                    android:id="@+id/treeView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_below="@id/whTV">
-
-                    <View
-                        android:layout_width="@dimen/_2sdp"
-                        android:layout_height="@dimen/_40sdp"
-                        android:layout_marginStart="@dimen/_50sdp"
-                        android:layout_marginTop="@dimen/_10sdp"
-                        android:background="@color/black" />
-
-                    <View
-                        android:layout_width="@dimen/_50sdp"
-                        android:layout_height="@dimen/_2sdp"
-                        android:layout_marginStart="@dimen/_50sdp"
-                        android:background="@color/black" />
+                    android:layout_below="@id/whTV"
+                    android:orientation="vertical">
 
                     <View
                         android:layout_width="@dimen/_2sdp"
@@ -95,7 +83,7 @@
 
                     <View
                         android:layout_width="@dimen/_2sdp"
-                        android:layout_height="@dimen/_30sdp"
+                        android:layout_height="@dimen/_40sdp"
                         android:layout_marginStart="@dimen/_50sdp"
                         android:background="@color/black" />
 
@@ -107,7 +95,19 @@
 
                     <View
                         android:layout_width="@dimen/_2sdp"
-                        android:layout_height="@dimen/_30sdp"
+                        android:layout_height="@dimen/_40sdp"
+                        android:layout_marginStart="@dimen/_50sdp"
+                        android:background="@color/black" />
+
+                    <View
+                        android:layout_width="@dimen/_50sdp"
+                        android:layout_height="@dimen/_2sdp"
+                        android:layout_marginStart="@dimen/_50sdp"
+                        android:background="@color/black" />
+
+                    <View
+                        android:layout_width="@dimen/_2sdp"
+                        android:layout_height="@dimen/_40sdp"
                         android:layout_marginStart="@dimen/_50sdp"
                         android:background="@color/black" />
 
@@ -118,6 +118,73 @@
                         android:background="@color/black" />
 
                 </LinearLayout>
+
+                <TextView
+                    android:id="@+id/warehouseTV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_60sdp"
+                    android:layout_toEndOf="@+id/treeView"
+                    android:background="@color/royal_blue"
+                    android:fontFamily="@font/amiko"
+                    android:paddingStart="@dimen/_10sdp"
+                    android:paddingTop="@dimen/_10sdp"
+                    android:paddingEnd="@dimen/_10sdp"
+                    android:paddingBottom="@dimen/_10sdp"
+                    android:text="Warehouse"
+                    android:textColor="@color/white"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/rackTV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/warehouseTV"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:layout_toEndOf="@+id/treeView"
+                    android:background="@color/royal_blue"
+                    android:fontFamily="@font/amiko"
+                    android:paddingStart="@dimen/_10sdp"
+                    android:paddingTop="@dimen/_10sdp"
+                    android:paddingEnd="@dimen/_10sdp"
+                    android:paddingBottom="@dimen/_10sdp"
+                    android:text="Rack"
+                    android:textColor="@color/white"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/shelfTV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/rackTV"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:layout_toEndOf="@+id/treeView"
+                    android:background="@color/royal_blue"
+                    android:fontFamily="@font/amiko"
+                    android:paddingStart="@dimen/_10sdp"
+                    android:paddingTop="@dimen/_10sdp"
+                    android:paddingEnd="@dimen/_10sdp"
+                    android:paddingBottom="@dimen/_10sdp"
+                    android:text="Shelf "
+                    android:textColor="@color/white"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/palletTV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/shelfTV"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:layout_toEndOf="@+id/treeView"
+                    android:background="@color/royal_blue"
+                    android:fontFamily="@font/amiko"
+                    android:paddingStart="@dimen/_10sdp"
+                    android:paddingTop="@dimen/_10sdp"
+                    android:paddingEnd="@dimen/_10sdp"
+                    android:paddingBottom="@dimen/_10sdp"
+                    android:text="Pallet"
+                    android:textColor="@color/white"
+                    android:textStyle="bold" />
 
             </RelativeLayout>
 
