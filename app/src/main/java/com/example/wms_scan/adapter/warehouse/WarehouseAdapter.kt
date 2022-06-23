@@ -14,6 +14,7 @@ import com.example.scanmate.util.Constants.Toast.NoInternetFound
 import com.example.scanmate.util.Utils.isNetworkConnected
 import com.example.wms_scan.R
 import com.example.wms_scan.databinding.WarehouseListViewBinding
+import com.example.wms_scan.ui.ScanCartonActivity
 import com.example.wms_scan.ui.WarehouseActivity
 import com.example.wms_scan.ui.WarehouseDetailsActivity
 
@@ -52,6 +53,7 @@ class WarehouseAdapter(
                         data.wHName.toString(),
                         data.wHNo.toString()
                     )
+                (context as ScanCartonActivity).hierarchy()
             }
         }
     }

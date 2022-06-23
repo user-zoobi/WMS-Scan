@@ -112,6 +112,7 @@ class CreateCartonActivity : AppCompatActivity() {
             binding.scannerCont.gone()
             binding.scanBtn.visible()
             binding.closeIV.gone()
+            cameraSource.stop()
         }
 
     }
