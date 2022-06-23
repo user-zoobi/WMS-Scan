@@ -6,6 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.scanmate.data.response.GetRackResponse
+import com.example.scanmate.extensions.gone
+import com.example.scanmate.util.LocalPreferences
 import com.example.wms_scan.R
 import com.example.wms_scan.databinding.RacksListViewBinding
 import com.example.wms_scan.ui.RacksActivity
@@ -39,6 +41,13 @@ class RackAdapter(
                     data.rackName.toString(),
                     data.rackNo.toString()
                 )
+            }
+
+            when{
+                LocalPreferences.getBoolean(context, "isHierarchy") ->{
+                    binding.showQRIV.gone()
+                    binding.editIV.gone()
+                }
             }
         }
     }

@@ -426,11 +426,6 @@ class ScanCartonActivity : AppCompatActivity() {
 
     }
 
-    fun hierarchy(){
-
-    }
-
-
     private fun setupControls() {
         barcodeDetector =
             BarcodeDetector.Builder(this).setBarcodeFormats(Barcode.ALL_FORMATS).build()

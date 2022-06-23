@@ -6,6 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.scanmate.data.response.GetShelfResponse
+import com.example.scanmate.extensions.gone
+import com.example.scanmate.util.LocalPreferences
 import com.example.wms_scan.R
 import com.example.wms_scan.databinding.ShelfListViewBinding
 import com.example.wms_scan.ui.ShelfActivity
@@ -29,6 +31,13 @@ class ShelfAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val data = list[position]
         with(holder){
+
+            when{
+                LocalPreferences.getBoolean(context, "isHierarchy") ->{
+                    binding.showQRIV.gone()
+                    binding.editIV.gone()
+                }
+            }
           //  binding.shelfTV.text = data.shelfName
             binding.shelfTV.text = data.shelfName
             binding.editIV.setOnClickListener {

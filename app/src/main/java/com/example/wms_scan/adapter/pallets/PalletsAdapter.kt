@@ -6,6 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.scanmate.extensions.click
+import com.example.scanmate.extensions.gone
+import com.example.scanmate.util.LocalPreferences
 import com.example.wms_scan.R
 import com.example.wms_scan.data.response.GetPalletResponse
 import com.example.wms_scan.databinding.PalletListViewBinding
@@ -42,6 +44,13 @@ class PalletsAdapter(
                     data.pilotName.toString(),
                     data.pilotNo.toString()
                 )
+            }
+
+            when{
+                LocalPreferences.getBoolean(context, "isHierarchy") ->{
+                    binding.showQRIV.gone()
+                    binding.editIV.gone()
+                }
             }
         }
     }

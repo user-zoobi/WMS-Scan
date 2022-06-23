@@ -8,9 +8,11 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.example.scanmate.data.response.GetWarehouseResponse
+import com.example.scanmate.extensions.gone
 import com.example.scanmate.extensions.toast
 import com.example.scanmate.util.Constants
 import com.example.scanmate.util.Constants.Toast.NoInternetFound
+import com.example.scanmate.util.LocalPreferences
 import com.example.scanmate.util.Utils.isNetworkConnected
 import com.example.wms_scan.R
 import com.example.wms_scan.databinding.WarehouseListViewBinding
@@ -53,7 +55,13 @@ class WarehouseAdapter(
                         data.wHName.toString(),
                         data.wHNo.toString()
                     )
-                (context as ScanCartonActivity).hierarchy()
+            }
+
+            when{
+                LocalPreferences.getBoolean(context, "isHierarchy") ->{
+                    binding.showQRIV.gone()
+                    binding.editIV.gone()
+                }
             }
         }
     }
