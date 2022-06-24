@@ -72,11 +72,6 @@ class CreateCartonActivity : AppCompatActivity() {
         } else {
             setupControls()
         }
-
-        viewModel.palletHierarchy(
-            Utils.getSimpleTextBody("101010101-2")
-        )
-
     }
 
     private fun setupUi(){
@@ -169,6 +164,10 @@ class CreateCartonActivity : AppCompatActivity() {
                     runOnUiThread {
                         cameraSource.stop()
                         Toast.makeText(this@CreateCartonActivity, "value- $scannedValue", Toast.LENGTH_SHORT).show()
+
+
+                        viewModel.palletHierarchy(Utils.getSimpleTextBody(scannedValue))
+
                         viewModel.palletHierarchy.observe(this@CreateCartonActivity, Observer{
                             when(it.status){
                                 Status.LOADING->{

@@ -87,7 +87,6 @@
                             android:id="@+id/busIV"
                             android:layout_width="@dimen/_20sdp"
                             android:layout_height="@dimen/_20sdp"
-                            android:src="@drawable/bus_loc_icon"
                             android:tint="@color/dark_grey" />
 
                         <TextView
@@ -235,7 +234,6 @@
                             android:id="@+id/shelfIV"
                             android:layout_width="@dimen/_20sdp"
                             android:layout_height="@dimen/_20sdp"
-                            android:src="@drawable/rack"
                             android:tint="@color/dark_grey" />
 
                         <TextView

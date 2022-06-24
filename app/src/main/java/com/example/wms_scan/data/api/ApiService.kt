@@ -15,6 +15,7 @@ import com.example.wms_scan.data.routes.Routes.EndPoint.userMenu
 import com.example.wms_scan.data.routes.Routes.EndPoint.addCarton
 import com.example.wms_scan.data.routes.Routes.EndPoint.addPallet
 import com.example.wms_scan.data.routes.Routes.EndPoint.getCarton
+import com.example.wms_scan.data.routes.Routes.EndPoint.getCartonDetails
 import com.example.wms_scan.data.routes.Routes.EndPoint.paletteHierarchy
 import okhttp3.RequestBody
 import retrofit2.http.*
@@ -156,4 +157,10 @@ interface ApiService {
     suspend fun palletHierarchy(
         @Part("PilotNo") PilotNo:RequestBody
     ):List<PaletteHierarchy>
+
+    @Multipart
+    @POST(getCartonDetails)
+    suspend fun getCartonDetail(
+        @Part("Analytical_No") Analytical_No:RequestBody
+    ):List<GetCartonDetailsResponse>
 }

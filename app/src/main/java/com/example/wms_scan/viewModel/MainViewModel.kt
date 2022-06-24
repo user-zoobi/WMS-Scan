@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.scanmate.data.callback.ApiResponseCallback
 import com.example.scanmate.data.response.*
+import com.example.scanmate.util.Constants.LogMessages.error
 import com.example.wms_scan.repository.GeneralRepository
 import com.example.scanmate.util.Constants.LogMessages.responseFound
 import com.example.scanmate.util.Constants.Logs.vmError
@@ -312,6 +313,27 @@ class MainViewModel : ViewModel() {
             {
                 _palletHierarchy.value = ApiResponseCallback.error("${e.message}",null)
                 Log.i("palletHierarchy","${e.message}")
+            }
+        }
+    }
+
+    private val _getCartonDetails = MutableLiveData<ApiResponseCallback<List<GetCartonDetailsResponse>>>()
+    val getCartonDetails : LiveData<ApiResponseCallback<List<GetCartonDetailsResponse>>>
+    get() = _getCartonDetails
+
+    fun getCartonDetails(Analytical_No:RequestBody){
+        viewModelScope.launch {
+            _getCartonDetails.value = ApiResponseCallback.loading()
+
+            try
+            {
+               _getCartonDetails.value = ApiResponseCallback.success(repository.getCartonDetails(Analytical_No))
+            }
+            catch (e:Exception)
+            {
+                _getCartonDetails.value = ApiResponseCallback.error("${e.message}",null)
+                Log.i(error,"${e.message}")
+                Log.i(error,"${e.stackTrace}")
             }
         }
     }

@@ -20,6 +20,7 @@ object Routes {
         const val getCarton = "CartonAPI/Get_Carton"
         const val addCarton = "CartonAPI/DML_Carton"
         const val paletteHierarchy = "PilotAPI/Get_Pilot_Hierarchy"
+        const val getCartonDetails = "PilotAPI/CartonAPI/Get_Carton_Detail"
 
     }
 

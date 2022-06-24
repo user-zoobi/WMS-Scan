@@ -1,6 +1,7 @@
 package com.example.wms_scan.ui
 
 import android.Manifest
+import android.R.attr
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.Color
@@ -10,13 +11,14 @@ import android.os.Environment
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.example.scanmate.extensions.click
 import com.example.scanmate.extensions.setTransparentStatusBarColor
 import com.example.wms_scan.data.response.GetPalletResponse
 import com.example.wms_scan.databinding.ActivityQrCodeDetailActivityBinding
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.qrcode.QRCodeWriter
 import com.itextpdf.text.*
+import com.itextpdf.text.pdf.PdfChunk
+import com.itextpdf.text.pdf.PdfPTable
 import com.itextpdf.text.pdf.PdfWriter
 import java.io.ByteArrayOutputStream
 import java.io.FileOutputStream
@@ -62,8 +64,8 @@ class QrCodeDetailActivity : AppCompatActivity() {
         setContentView(binding.root)
         supportActionBar?.hide()
         setTransparentStatusBarColor(com.example.wms_scan.R.color.transparent)
+        generatePDF()
         palletList = ArrayList()
-        initListener()
 
         whCode = intent.extras?.getString("whQrCode")
         whNo = intent.extras?.getString("whNo")
@@ -107,15 +109,8 @@ class QrCodeDetailActivity : AppCompatActivity() {
                 binding.qrCodeNoTV.text = "pallet no: $palletNo"
             }
         }
-
     }
 
-    private fun initListener()
-    {
-        binding.printIV.click{
-            generatePDF()
-        }
-    }
 
     private fun generateQRCode(text:String) {
         val qrWriter = QRCodeWriter()
@@ -179,11 +174,17 @@ class QrCodeDetailActivity : AppCompatActivity() {
             val stream = ByteArrayOutputStream()
             bmp.compress(Bitmap.CompressFormat.JPEG, 100, stream)
             val myImg: Image = Image.getInstance(stream.toByteArray())
-            myImg.scaleToFit(PageSize.A4.width, PageSize.A4.height)
-            val x: Float = (PageSize.A4.width - myImg.scaledWidth) / 2
-            val y: Float = (PageSize.A4.height - myImg.scaledHeight) / 2
-            myImg.setAbsolutePosition(x, y)
-            mDoc.add(myImg)
+            myImg.scaleAbsolute(100f,100f)
+            myImg.setAbsolutePosition(100f,100f)
+
+            val pdfTable = PdfPTable(2)
+            for (i in 0 until 6){
+                pdfTable.addCell(myImg)
+                val font = Font()
+                font.color = BaseColor.BLACK;
+            }
+            mDoc.add(pdfTable)
+
             mDoc.close()
 
             //show file saved message with file name and path

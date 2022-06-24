@@ -3,6 +3,7 @@ package com.example.wms_scan.ui
 import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.os.Build
@@ -483,7 +484,34 @@ class ScanCartonActivity : AppCompatActivity() {
                         Toast.makeText(this@ScanCartonActivity, "value- $scannedValue", Toast.LENGTH_SHORT).show()
                         when{
                             intent.extras?.getBoolean("scanCarton") == true -> {
-                                gotoActivity(CartonDetailActivity::class.java)
+                                viewModel.getCartonDetails(
+                                    Utils.getSimpleTextBody(scannedValue)
+                                )
+
+                                viewModel.getCartonDetails.observe(this@ScanCartonActivity, Observer {
+                                    when(it.status){
+                                        Status.LOADING ->{
+
+                                        }
+                                        Status.SUCCESS ->{
+
+                                            it.let {
+                                                if (it.data?.get(0)?.status == true){
+                                                    val intent = Intent(this@ScanCartonActivity, CartonDetailActivity::class.java )
+                                                    intent.putExtra("Analytical_No",it.data[0].analyticalNo)
+                                                    intent.putExtra("material_id",it.data[0].materialName)
+                                                    intent.putExtra("Material_name",it.data[0].materialId)
+                                                    startActivity(intent)
+                                                }
+                                            }
+
+                                        }
+                                        Status.ERROR ->{
+
+                                        }
+                                    }
+                                })
+
                                 cameraSource.stop()
                             }
                         }

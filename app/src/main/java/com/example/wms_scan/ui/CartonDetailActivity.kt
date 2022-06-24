@@ -45,6 +45,10 @@ class CartonDetailActivity : AppCompatActivity() {
     private fun setupUi(){
         supportActionBar?.hide()
         setTransparentStatusBarColor(R.color.transparent)
+
+        val analyticalNo = intent.extras?.getString("Analytical_No")
+        val materialId = intent.extras?.getString("material_id")
+        val materialName = intent.extras?.getString("Material_name")
     }
 
     private fun clearPreferences(context: Context){
