@@ -164,8 +164,6 @@ class WarehouseActivity : AppCompatActivity() {
                                     }
                                 }
 
-
-
                                 warehouseAdapter = WarehouseAdapter(this,
                                     it.data as ArrayList<GetWarehouseResponse>
                                 )

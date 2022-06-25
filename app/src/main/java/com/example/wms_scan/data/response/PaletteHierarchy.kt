@@ -3,27 +3,59 @@ import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
 class PaletteHierarchy {
+    @SerializedName("WH_No")
+    @Expose
+     val wHNo: Int? = null
+
+    @SerializedName("WH_Code")
+    @Expose
+     val wHCode: String? = null
+
     @SerializedName("WH_Name")
     @Expose
-    val wHName: Any? = null
+     val wHName: String? = null
+
+    @SerializedName("RackNo")
+    @Expose
+     val rackNo: Int? = null
+
+    @SerializedName("RackCode")
+    @Expose
+     val rackCode: String? = null
 
     @SerializedName("RackName")
     @Expose
-    val rackName: Any? = null
+     val rackName: String? = null
+
+    @SerializedName("ShelfNo")
+    @Expose
+     val shelfNo: Int? = null
+
+    @SerializedName("ShelfCode")
+    @Expose
+     val shelfCode: String? = null
 
     @SerializedName("ShelfName")
     @Expose
-    val shelfName: Any? = null
+     val shelfName: String? = null
+
+    @SerializedName("PilotNo")
+    @Expose
+     val pilotNo: Int? = null
+
+    @SerializedName("PilotCode")
+    @Expose
+     val pilotCode: String? = null
 
     @SerializedName("PilotName")
     @Expose
-    val pilotName: Any? = null
+     val pilotName: String? = null
 
     @SerializedName("Status")
     @Expose
-    val status: Boolean? = null
+     val status: Boolean? = null
 
     @SerializedName("Error")
     @Expose
-    val error: String? = null
+     val error: String? = null
 }

@@ -118,7 +118,7 @@ class MenuActivity : AppCompatActivity() {
 
     private fun initListeners() {
         binding.warehouseIV.setOnClickListener {
-            gotoActivity(WarehouseActivity::class.java)
+            gotoActivity(WarehouseActivity::class.java, "warehouseValues",false)
         }
         binding.racksIV.setOnClickListener {
             gotoActivity(RacksActivity::class.java)

@@ -4,11 +4,9 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.example.scanmate.extensions.click
-import com.example.scanmate.extensions.gotoActivity
-import com.example.scanmate.extensions.obtainViewModel
-import com.example.scanmate.extensions.setTransparentStatusBarColor
+import com.example.scanmate.extensions.*
 import com.example.scanmate.util.LocalPreferences
+import com.example.scanmate.util.Utils
 import com.example.scanmate.viewModel.MainViewModel
 import com.example.wms_scan.R
 import com.example.wms_scan.databinding.ActivityCartonDetailBinding
@@ -36,6 +34,7 @@ class CartonDetailActivity : AppCompatActivity() {
         binding.saveBtn.click {
             permissionDialog.show()
         }
+
     }
 
     private fun initObserver(){
@@ -49,6 +48,9 @@ class CartonDetailActivity : AppCompatActivity() {
         val analyticalNo = intent.extras?.getString("Analytical_No")
         val materialId = intent.extras?.getString("material_id")
         val materialName = intent.extras?.getString("Material_name")
+
+        binding.analyticalNumTV.text = analyticalNo
+        binding.materialNumTV.text = materialId
     }
 
     private fun clearPreferences(context: Context){

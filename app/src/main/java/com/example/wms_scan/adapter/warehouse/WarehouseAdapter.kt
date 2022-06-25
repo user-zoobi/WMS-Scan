@@ -56,13 +56,6 @@ class WarehouseAdapter(
                         data.wHNo.toString()
                     )
             }
-
-            when{
-                LocalPreferences.getBoolean(context, "isHierarchy") ->{
-                    binding.showQRIV.gone()
-                    binding.editIV.gone()
-                }
-            }
         }
     }
 

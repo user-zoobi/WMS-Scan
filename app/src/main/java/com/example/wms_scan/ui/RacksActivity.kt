@@ -1,6 +1,7 @@
 package com.example.wms_scan.ui
 
 import android.Manifest
+import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
@@ -16,6 +17,7 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.FileProvider
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.scanmate.data.callback.Status
@@ -40,6 +42,7 @@ import com.itextpdf.text.pdf.PdfPCell
 import com.itextpdf.text.pdf.PdfPTable
 import com.itextpdf.text.pdf.PdfWriter
 import java.io.ByteArrayOutputStream
+import java.io.File
 import java.io.FileOutputStream
 import java.text.SimpleDateFormat
 import java.util.*
@@ -554,6 +557,7 @@ class RacksActivity : AppCompatActivity() {
         val mFilePath = Environment.getExternalStorageDirectory().toString() + "/" + "QrGeneratedFile" +".pdf"
         try {
 
+            val file = File(mFilePath)
             val mDoc = Document()
             PdfWriter.getInstance(mDoc, FileOutputStream(mFilePath))
             mDoc.open()
@@ -591,6 +595,8 @@ class RacksActivity : AppCompatActivity() {
             mDoc.add(pdfTable)
             mDoc.close()
 
+            openPDF(file, "QrGeneratedFile.pdf\nis saved to\n$mFilePath")
+
             //show file saved message with file name and path
             Toast.makeText(this, "$mFileName.pdf\nis saved to\n$mFilePath", Toast.LENGTH_SHORT).show()
         }
@@ -616,6 +622,28 @@ class RacksActivity : AppCompatActivity() {
                     Toast.makeText(this, "Permission denied...!", Toast.LENGTH_SHORT).show()
                 }
             }
+        }
+    }
+
+    private fun openPDF(file: File, text: String)
+    {
+        val path = FileProvider.getUriForFile(
+            this,
+            this.applicationContext.packageName.toString() + ".provider",
+            file
+        )
+        val pdfOpenIntent = Intent(Intent.ACTION_VIEW)
+        pdfOpenIntent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+        pdfOpenIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+        pdfOpenIntent.setDataAndType(path, "application/pdf")
+        try
+        {
+            startActivity(pdfOpenIntent)
+        }
+        catch (e: ActivityNotFoundException)
+        {
+            Log.i("openPDFException","${e.message}")
+            Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
         }
     }
 }

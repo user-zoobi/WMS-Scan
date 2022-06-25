@@ -92,6 +92,6 @@ interface ApiHelper {
     ):List<PaletteHierarchy> = RetrofitClient.apiservice.palletHierarchy(PilotNo)
 
     suspend fun getCartonDetails(
-        Analytical_No:RequestBody
+        Analytical_No:String
     ):List<GetCartonDetailsResponse> = RetrofitClient.apiservice.getCartonDetail(Analytical_No)
 }

@@ -36,10 +36,16 @@ import com.example.scanmate.util.LocalPreferences.AppLoginPreferences.palletNo
 import com.example.scanmate.util.Utils
 import com.example.scanmate.viewModel.MainViewModel
 import com.example.wms_scan.R
+import com.example.wms_scan.adapter.carton.ScanCartonAdapter
 import com.example.wms_scan.adapter.pallets.PalletsAdapter
+import com.example.wms_scan.adapter.pallets.ScanPalletAdapter
 import com.example.wms_scan.adapter.racks.RackAdapter
+import com.example.wms_scan.adapter.racks.ScanRackAdapter
+import com.example.wms_scan.adapter.shelf.ScanShelfAdapter
 import com.example.wms_scan.adapter.shelf.ShelfAdapter
+import com.example.wms_scan.adapter.warehouse.ScanWarehouseAdapter
 import com.example.wms_scan.adapter.warehouse.WarehouseAdapter
+import com.example.wms_scan.data.response.GetCartonResponse
 import com.example.wms_scan.data.response.GetPalletResponse
 import com.example.wms_scan.databinding.ActivityScanCartonBinding
 import com.google.android.gms.vision.CameraSource
@@ -47,21 +53,20 @@ import com.google.android.gms.vision.Detector
 import com.google.android.gms.vision.barcode.Barcode
 import com.google.android.gms.vision.barcode.BarcodeDetector
 import java.io.IOException
+import java.util.ArrayList
 
 class ScanCartonActivity : AppCompatActivity() {
     private lateinit var binding: ActivityScanCartonBinding
     private lateinit var viewModel: MainViewModel
     private lateinit var dialog: CustomProgressDialog
-    private var selectedBusLocNo = ""
-    private var selectedPalletNo = ""
     private val requestCodeCameraPermission = 1001
     private lateinit var cameraSource: CameraSource
     private lateinit var barcodeDetector: BarcodeDetector
     private var scannedValue = ""
-    private lateinit var wrhAdapter : WarehouseAdapter
-    private lateinit var rackAdapter: RackAdapter
-    private lateinit var shelfAdapter : ShelfAdapter
-    private lateinit var palletAdapter : PalletsAdapter
+    private lateinit var scanCartonAdapter : ScanCartonAdapter
+    var Analytical_No = ""
+    var material_id = ""
+    var Material_name = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -81,6 +86,50 @@ class ScanCartonActivity : AppCompatActivity() {
             setupControls()
         }
 
+        viewModel.getCarton(
+            Utils.getSimpleTextBody("2"),
+            Utils.getSimpleTextBody("1")
+        )
+
+        viewModel.getCartonDetails("MK-0001-15")
+
+        viewModel.getCartonDetails.observe(this@ScanCartonActivity, Observer {
+            when(it.status){
+                Status.LOADING ->{
+
+                }
+                Status.SUCCESS ->{
+
+                    it.let {
+                        try
+                        {
+                            if (it.data?.get(0)?.status == true)
+                            {
+                                Log.i("analytical no",it.data[0].analyticalNo.toString())
+                                Analytical_No = it.data[0].analyticalNo.toString()
+                                Material_name = it.data[0].materialName.toString()
+                                material_id = it.data[0].materialId.toString()
+
+                            }
+                            else
+                            {
+                                Log.i("getCartonDetails","${Exception().message}")
+                            }
+                        }
+                        catch (e:Exception)
+                        {
+                            Log.i("getCartonDetails","${e.message}")
+                        }
+
+                    }
+                }
+
+                Status.ERROR ->{
+
+                }
+            }
+        })
+
     }
 
     private fun setupUi(){
@@ -88,10 +137,11 @@ class ScanCartonActivity : AppCompatActivity() {
         supportActionBar?.hide()
         setTransparentStatusBarColor(R.color.transparent)
 
-//        binding.busLocTV.text = intent.extras?.getString("whName")
-//        binding.whTV.text = intent.extras?.getString("rackName")
+
 //        binding.rackTV.text = intent.extras?.getString("shelfName")
-//        binding.shelfTV.text = intent.extras?.getString("palletName")
+        binding.palletNameTV.text = intent.extras?.getString("palletName")
+        binding.palletCodeTV.text = intent.extras?.getString("palletCode")
+
     }
 
     private fun clearPreferences(context: Context){
@@ -104,324 +154,81 @@ class ScanCartonActivity : AppCompatActivity() {
     private fun initListeners()
     {
 
-        binding.scanBtn.click {
-
-            binding.scanBtn.gone()
-            binding.scanCartonTV.gone()
-            binding.surfaceCont.visible()
-
+        binding.hierarchyTree.click {
+            binding.surfaceCont.gone()
+            binding.viewRV.visible()
+            binding.palletDetailCont.visible()
         }
+
+        binding.showQRIV.click {
+            binding.qrScanCont.visible()
+            binding.viewRV.gone()
+        }
+
+        binding.treeView.click {
+            binding.qrScanCont.gone()
+            binding.viewRV.visible()
+        }
+
+        binding.scanCont.click {
+            binding.qrScanCont.gone()
+            binding.surfaceCont.visible()
+        }
+
         binding.closeIV.click {
             binding.surfaceCont.gone()
-            binding.scanBtn.visible()
-            binding.scanCartonTV.visible()
+            binding.qrScanCont.visible()
             cameraSource.stop()
         }
 
-        binding.addBtn.click {
-            binding.view1.visible()
-            binding.view2.visible()
-            binding.whCont.visible()
-            binding.view3.visible()
-            binding.view4.visible()
-            binding.rackCont.visible()
-            binding.view5.visible()
-            binding.view6.visible()
-            binding.view7.visible()
-            binding.view8.visible()
-            binding.shelfCont.visible()
-            binding.palletCont.visible()
-            binding.minusBtn.visible()
+        binding.palletCont.click {
+            binding.surfaceCont.gone()
             binding.qrScanCont.gone()
             binding.viewRV.visible()
-            viewModel.getPallet(
-                Utils.getSimpleTextBody(""),
-                Utils.getSimpleTextBody("11"),
-                Utils.getSimpleTextBody("1"),
-            )
-            LocalPreferences.put(this,"isHierarchy",true)
-        }
-
-        binding.minusBtn.click {
-
-            binding.view1.gone()
-            binding.view2.gone()
-            binding.whCont.gone()
-            binding.view3.gone()
-            binding.view4.gone()
-            binding.rackCont.gone()
-            binding.view5.gone()
-            binding.view6.gone()
-            binding.view7.gone()
-            binding.view8.gone()
-            binding.shelfCont.gone()
-            binding.minusBtn.gone()
-            binding.palletCont.gone()
-            binding.addBtn.visible()
-            binding.qrScanCont.visible()
-            binding.viewRV.gone()
-
-        }
-        binding.WHTV2.click {
-            viewModel.getWarehouse(
-                "",
-                "2"
-            )
-            binding.viewRV.visible()
-            LocalPreferences.put(this,"isHierarchy",true)
-
-        }
-
-        binding.rackTV.click {
-            viewModel.getRack(
-                Utils.getSimpleTextBody(""),
-                Utils.getSimpleTextBody("8"),
-                Utils.getSimpleTextBody("2"),
-            )
-            binding.viewRV.visible()
-            LocalPreferences.put(this,"isHierarchy",true)
-        }
-
-        binding.shelfTV.click {
-            viewModel.getShelf(
-                Utils.getSimpleTextBody(""),
-                Utils.getSimpleTextBody("4"),
-                Utils.getSimpleTextBody("1"),
-            )
-            binding.viewRV.visible()
-            LocalPreferences.put(this,"isHierarchy",true)
-        }
-
-        binding.palletCont.click {
-            viewModel.getPallet(
-                Utils.getSimpleTextBody(""),
-                Utils.getSimpleTextBody("11"),
-                Utils.getSimpleTextBody("1"),
-            )
-            LocalPreferences.put(this,"isHierarchy",true)
+            binding.palletDetailCont.visible()
         }
 
     }
 
     private fun initObserver(){
 
-        /**
-         *      USER LOCATION OBSERVER
-         */
-
-        viewModel.userLocation(
-            Utils.getSimpleTextBody(
-                LocalPreferences.getInt(this,
-                    LocalPreferences.AppLoginPreferences.userNo
-                ).toString()
-            ))
-        viewModel.userLoc.observe(this, Observer {
-            when(it.status){
-                Status.LOADING->{
-                    dialog.show()
-                }
-                Status.SUCCESS ->{
-                    it.let {
-                        if(it.data?.get(0)?.status == true) {
-                            dialog.dismiss()
-
-                        }
-                        else
-                        {
-                            toast("no result found")
-                        }
-                    }
-                }
-                Status.ERROR ->{
-                    dialog.dismiss()
-                }
-            }
-        })
-
-        /**
-         *      GET WAREHOUSE OBSERVER
-         */
-
-        viewModel.getWarehouse.observe(this, Observer{
-            when(it.status){
-                Status.LOADING->{
-                }
-                Status.SUCCESS ->{
-
-                    try {
-                        if(it.data?.get(0)?.status == true)
-                        {
-                            it.data[0].wHName?.let { it1 -> Log.i("warehouseResponse", it1) }
-                            wrhAdapter = WarehouseAdapter(
-                                this,
-                                it.data as ArrayList<GetWarehouseResponse>
-                            )
-                            binding.viewRV.apply {
-                                layoutManager = LinearLayoutManager(this@ScanCartonActivity)
-                                adapter = wrhAdapter
-                            }
-                        }
-                        else
-                        {
-                            toast("no result found")
-                        }
-                    }
-                    catch(e:Exception){
-                        Log.i("rackAdapter","${e.message}")
-                        Log.i("rackAdapter","${e.stackTrace}")
-                    }
-                    //warehouseAdapter.addItems(list)
-                }
-                Status.ERROR ->{
-                    dialog.dismiss()
-                }
-            }
-        })
-
-        /**
-         *      GET RACK OBSERVER
-         */
-
-        viewModel.getRack.observe(this, Observer{
-            when(it.status){
-                Status.LOADING ->{
-                }
-                Status.SUCCESS ->{
-                    // Log.i("getRack",it.data?.get(0)?.rackNo.toString())
-                    try
-                    {
-                        if(it.data?.get(0)?.status == true)
-                        {
-                            rackAdapter = RackAdapter(
-                                this,
-                                it.data as ArrayList<GetRackResponse>
-                            )
-                            binding.viewRV.apply {
-                                layoutManager = LinearLayoutManager(this@ScanCartonActivity)
-                                adapter = rackAdapter
-                            }
-                        }
-                        else
-                        {
-                            toast("no result found")
-                        }
-                    }
-                    catch (e: Exception)
-                    {
-                        Log.i("RACK_OBSERVER","${e.message}")
-                        Log.i("RACK_OBSERVER","${e.stackTrace}")
-                    }
-                }
-                Status.ERROR ->{
-                    dialog.dismiss()
-                }
-            }
-        })
-
-
-        /**
-         *      GET SHELF OBSERVER
-         */
-
-        viewModel.getShelf.observe(this, Observer{
-            when(it.status){
-                Status.LOADING ->{
-                }
-                Status.SUCCESS ->{
-                    try {
-                        if(it.data?.get(0)?.status == true)
-                        {
-                            shelfAdapter = ShelfAdapter(
-                                this,
-                                it.data as ArrayList<GetShelfResponse>
-                            )
-                            binding.viewRV.apply {
-                                layoutManager = LinearLayoutManager(this@ScanCartonActivity)
-                                adapter = shelfAdapter
-                            }
-                        }
-                        else
-                        {
-                            toast("no result found")
-                        }
-                    }catch (e:Exception){
-                        Log.i("","${e.message}")
-                        Log.i("rackAdapter","${e.stackTrace}")
-                    }
-                }
-                Status.ERROR ->{
-
-                }
-            }
-        })
-
-        /**
-         *      GET PALLET OBSERVER
-         */
-
-        viewModel.getPallet.observe(this, Observer {
-            when(it.status){
-                Status.LOADING ->{
-                    Log.i(Constants.LogMessages.loading,"Success")
-                }
-                Status.SUCCESS ->{
-                    try
-                    {
-                        if(it.data?.get(0)?.status == true)
-                        {
-                            palletAdapter = PalletsAdapter(
-                                this,
-                                it.data as ArrayList<GetPalletResponse>
-                            )
-                            binding.viewRV.apply {
-                                layoutManager = LinearLayoutManager(this@ScanCartonActivity)
-                                adapter = palletAdapter
-                            }
-                        }
-                        else
-                        {
-                            toast("no result found")
-                        }
-                    }
-                    catch (e:Exception)
-                    {
-                        Log.i("","${e.message}")
-                        Log.i("rackAdapter","${e.stackTrace}")
-                    }
-
-                }
-                Status.ERROR ->{
-                    Log.i(Constants.LogMessages.error,"Success")
-                }
-            }
-        })
 
         //GET CARTON
-        viewModel.getCarton(
-            Utils.getSimpleTextBody(selectedPalletNo),
-            Utils.getSimpleTextBody(selectedBusLocNo)
-        )
-        viewModel.getCarton.observe(this, Observer {
-            when(it.status){
 
+        viewModel.getCarton.observe(this@ScanCartonActivity, Observer {
+            when(it.status){
                 Status.LOADING ->{
-                    Log.i(loading,"Loading")
+
                 }
                 Status.SUCCESS ->{
-                    try
-                    {
 
+                    it.let {
+                        try
+                        {
+                            if (it.data?.get(0)?.status == true)
+                            {
+                                Log.i("analytical no",it.data[0].analyticalNo.toString())
+                                scanCartonAdapter = ScanCartonAdapter(this,
+                                    it.data as ArrayList<GetCartonResponse>
+                                )
+                                binding.viewRV.apply {
+                                    layoutManager = LinearLayoutManager(this@ScanCartonActivity)
+                                    adapter = scanCartonAdapter
+                                }
+                            }
+                            else
+                            {
+                                Log.i("exception","${Exception().message}")
+                            }
+                        }
+                        catch (e:Exception)
+                        {
+                            Log.i("exception","${e.message}")
+                        }
                     }
-                    catch (e:Exception){
-                        Log.i("","${e.message}")
-                        Log.i("cartonException","${e.stackTrace}")
-                    }
-
-                }
-                Status.ERROR ->{
-                    Log.i(error,"Error")
                 }
 
+                Status.ERROR ->{ }
             }
         })
 
@@ -477,44 +284,18 @@ class ScanCartonActivity : AppCompatActivity() {
                 {
                     scannedValue = barcodes.valueAt(0).rawValue
 
-
                     //Don't forget to add this line printing value or finishing activity must run on main thread
                     runOnUiThread {
                         cameraSource.stop()
                         Toast.makeText(this@ScanCartonActivity, "value- $scannedValue", Toast.LENGTH_SHORT).show()
-                        when{
-                            intent.extras?.getBoolean("scanCarton") == true -> {
-                                viewModel.getCartonDetails(
-                                    Utils.getSimpleTextBody(scannedValue)
-                                )
+                        val intent = Intent(this@ScanCartonActivity, CartonDetailActivity::class.java)
+                        intent.putExtra("Analytical_No",Analytical_No)
+                        intent.putExtra("material_id",material_id)
+                        intent.putExtra("Material_name",Material_name)
+                        startActivity(intent)
 
-                                viewModel.getCartonDetails.observe(this@ScanCartonActivity, Observer {
-                                    when(it.status){
-                                        Status.LOADING ->{
+                        cameraSource.stop()
 
-                                        }
-                                        Status.SUCCESS ->{
-
-                                            it.let {
-                                                if (it.data?.get(0)?.status == true){
-                                                    val intent = Intent(this@ScanCartonActivity, CartonDetailActivity::class.java )
-                                                    intent.putExtra("Analytical_No",it.data[0].analyticalNo)
-                                                    intent.putExtra("material_id",it.data[0].materialName)
-                                                    intent.putExtra("Material_name",it.data[0].materialId)
-                                                    startActivity(intent)
-                                                }
-                                            }
-
-                                        }
-                                        Status.ERROR ->{
-
-                                        }
-                                    }
-                                })
-
-                                cameraSource.stop()
-                            }
-                        }
                     }
                 }
                 else

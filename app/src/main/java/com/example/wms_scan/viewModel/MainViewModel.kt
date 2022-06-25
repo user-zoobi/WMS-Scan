@@ -273,30 +273,6 @@ class MainViewModel : ViewModel() {
         }
     }
 
-    private val _addCarton = MutableLiveData<ApiResponseCallback<AddCartonResponse>>()
-    val addCarton : LiveData<ApiResponseCallback<AddCartonResponse>>
-    get() = _addCarton
-
-    fun addCarton(
-        CartonNo: RequestBody, CartonCode: RequestBody, ItemCode: RequestBody, PilotNo: RequestBody,
-        AnalyticalNo: RequestBody, Carton_SNo: RequestBody, TotCarton: RequestBody, LocationNo: RequestBody,
-        DMLUserNo: RequestBody, DMLPCName: RequestBody
-
-    ){
-        viewModelScope.launch {
-            _addCarton.value = ApiResponseCallback.loading()
-            try {
-                _addCarton.value = ApiResponseCallback.success(repository.addCarton(
-                    CartonNo, CartonCode, ItemCode, PilotNo, AnalyticalNo, Carton_SNo, TotCarton, LocationNo, DMLUserNo, DMLPCName
-                ))
-            }
-            catch (e:Exception){
-                _addCarton.value = ApiResponseCallback.error("${e.message}",null)
-            }
-        }
-    }
-
-
     private val _palletHierarchy = MutableLiveData<ApiResponseCallback<List<PaletteHierarchy>>>()
     val palletHierarchy : LiveData<ApiResponseCallback<List<PaletteHierarchy>>>
     get() = _palletHierarchy
@@ -321,19 +297,20 @@ class MainViewModel : ViewModel() {
     val getCartonDetails : LiveData<ApiResponseCallback<List<GetCartonDetailsResponse>>>
     get() = _getCartonDetails
 
-    fun getCartonDetails(Analytical_No:RequestBody){
+    fun getCartonDetails(Analytical_No:String){
         viewModelScope.launch {
             _getCartonDetails.value = ApiResponseCallback.loading()
 
             try
             {
                _getCartonDetails.value = ApiResponseCallback.success(repository.getCartonDetails(Analytical_No))
+                Log.i("getCartonDetails","response found")
             }
             catch (e:Exception)
             {
                 _getCartonDetails.value = ApiResponseCallback.error("${e.message}",null)
-                Log.i(error,"${e.message}")
-                Log.i(error,"${e.stackTrace}")
+                Log.i("getCartonDetails","${e.message}")
+                Log.i("getCartonDetails","${e.stackTrace}")
             }
         }
     }

@@ -6,25 +6,23 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.scanmate.data.response.GetShelfResponse
-import com.example.scanmate.extensions.gone
-import com.example.scanmate.util.LocalPreferences
 import com.example.wms_scan.R
+import com.example.wms_scan.databinding.ScanShelfListViewBinding
 import com.example.wms_scan.databinding.ShelfListViewBinding
 import com.example.wms_scan.ui.ShelfActivity
-import com.example.wms_scan.ui.WarehouseActivity
 
-class ShelfAdapter(
-    private val context:Context,
+class ScanShelfAdapter (
+    private val context: Context,
     private val list:ArrayList<GetShelfResponse>
-    )
-    : RecyclerView.Adapter<ShelfAdapter.ViewHolder>() {
+)
+    : RecyclerView.Adapter<ScanShelfAdapter.ViewHolder>() {
 
     inner class ViewHolder(view: View): RecyclerView.ViewHolder(view){
-        val binding = ShelfListViewBinding.bind(view)
+        val binding = ScanShelfListViewBinding.bind(view)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.shelf_list_view, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.scan_shelf_list_view, parent, false)
         return ViewHolder(view)
     }
 
@@ -32,20 +30,8 @@ class ShelfAdapter(
         val data = list[position]
         with(holder){
 
-          //  binding.shelfTV.text = data.shelfName
+            //  binding.shelfTV.text = data.shelfName
             binding.shelfTV.text = data.shelfName
-            binding.editIV.setOnClickListener {
-                (context as ShelfActivity).showAction(
-                    data.shelfName.toString(),data.shelfNo.toString()
-                )
-            }
-            binding.showQRIV.setOnClickListener {
-                (context as ShelfActivity).showQrCode(
-                    data.shelfCode.toString(),
-                    data.shelfName.toString(),
-                    data.shelfNo.toString()
-                )
-            }
         }
     }
 

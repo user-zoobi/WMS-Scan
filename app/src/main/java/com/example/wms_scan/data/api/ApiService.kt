@@ -158,9 +158,9 @@ interface ApiService {
         @Part("PilotNo") PilotNo:RequestBody
     ):List<PaletteHierarchy>
 
-    @Multipart
+    @FormUrlEncoded
     @POST(getCartonDetails)
     suspend fun getCartonDetail(
-        @Part("Analytical_No") Analytical_No:RequestBody
+        @Field("Analytical_No") Analytical_No:String
     ):List<GetCartonDetailsResponse>
 }

@@ -181,11 +181,13 @@ class CreateCartonActivity : AppCompatActivity() {
                                                 val rackName = it.data[0].rackName
                                                 val shelfName = it.data[0].shelfName
                                                 val palletName = it.data[0].pilotName
+                                                val palletCode = it.data[0].pilotCode
                                                 val intent = Intent(this@CreateCartonActivity, ScanCartonActivity::class.java)
                                                 intent.putExtra("whName",whName)
                                                 intent.putExtra("rackName",rackName)
                                                 intent.putExtra("shelfName",shelfName)
                                                 intent.putExtra("palletName",palletName)
+                                                intent.putExtra("palletCode",palletCode)
                                                 intent.putExtra("scanCarton",true)
                                                 startActivity(intent)
                                                 val error = it.data[0].error
