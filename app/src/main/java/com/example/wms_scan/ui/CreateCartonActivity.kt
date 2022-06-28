@@ -1,49 +1,38 @@
 package com.example.wms_scan.ui
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.content.Intent
-import android.content.SharedPreferences
 import android.content.pm.PackageManager
-import androidx.appcompat.app.AppCompatActivity
+import android.graphics.Path
+import android.os.Build
 import android.os.Bundle
+import android.transition.Fade
+import android.transition.Transition
 import android.util.Log
 import android.view.SurfaceHolder
 import android.view.View
-import android.view.animation.Animation
-import android.view.animation.AnimationUtils
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
+import android.view.animation.PathInterpolator
+import android.view.animation.TranslateAnimation
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.boschscan.extensions.putExtra
 import com.example.scanmate.data.callback.Status
-import com.example.scanmate.data.response.GetRackResponse
-import com.example.scanmate.data.response.GetShelfResponse
-import com.example.scanmate.data.response.GetWarehouseResponse
-import com.example.scanmate.data.response.UserLocationResponse
 import com.example.scanmate.extensions.*
-import com.example.scanmate.util.Constants
-import com.example.scanmate.util.Constants.LogMessages.success
 import com.example.scanmate.util.CustomProgressDialog
 import com.example.scanmate.util.LocalPreferences
 import com.example.scanmate.util.Utils
 import com.example.scanmate.viewModel.MainViewModel
 import com.example.wms_scan.R
-import com.example.wms_scan.adapter.carton.CartonAdapter
-import com.example.wms_scan.adapter.pallets.PalletsAdapter
-import com.example.wms_scan.adapter.shelf.ShelfAdapter
-import com.example.wms_scan.data.response.GetCartonResponse
-import com.example.wms_scan.data.response.GetPalletResponse
 import com.example.wms_scan.databinding.ActivityCreateCartonBinding
 import com.google.android.gms.vision.CameraSource
 import com.google.android.gms.vision.Detector
 import com.google.android.gms.vision.barcode.Barcode
 import com.google.android.gms.vision.barcode.BarcodeDetector
+import com.itextpdf.text.pdf.ColumnText.getWidth
 import java.io.IOException
+
 
 class CreateCartonActivity : AppCompatActivity() {
     private lateinit var binding: ActivityCreateCartonBinding
@@ -106,8 +95,13 @@ class CreateCartonActivity : AppCompatActivity() {
         binding.closeIV.click {
             binding.scannerCont.gone()
             binding.scanBtn.visible()
+            binding.clickHereTV.visible()
             binding.closeIV.gone()
             cameraSource.stop()
+        }
+
+        binding.backBtn.click {
+            onBackPressed()
         }
 
     }
@@ -189,6 +183,7 @@ class CreateCartonActivity : AppCompatActivity() {
                                                 intent.putExtra("palletName",palletName)
                                                 intent.putExtra("palletCode",palletCode)
                                                 intent.putExtra("scanCarton",true)
+                                                finish()
                                                 startActivity(intent)
                                                 val error = it.data[0].error
                                                 val status = it.data[0].status

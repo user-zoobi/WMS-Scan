@@ -157,6 +157,10 @@ class AddUpdatePalletDetails : AppCompatActivity() {
             finish()
         }
 
+        binding.backBtn.click {
+            onBackPressed()
+        }
+
 
     }
 
@@ -322,5 +326,9 @@ class AddUpdatePalletDetails : AppCompatActivity() {
                 }
             }
         })
+    }
+
+    override fun onBackPressed() {
+        finish()
     }
 }

@@ -31,8 +31,13 @@ class CartonDetailActivity : AppCompatActivity() {
     }
 
     private fun initListener(){
+
         binding.saveBtn.click {
             permissionDialog.show()
+        }
+
+        binding.logout.click {
+            clearPreferences(this)
         }
 
     }
@@ -47,10 +52,30 @@ class CartonDetailActivity : AppCompatActivity() {
 
         val analyticalNo = intent.extras?.getString("Analytical_No")
         val materialId = intent.extras?.getString("material_id")
-        val materialName = intent.extras?.getString("Material_name")
+        val stock = intent.extras?.getString("stock")
 
         binding.analyticalNumTV.text = analyticalNo
         binding.materialNumTV.text = materialId
+        binding.stockTV.text = stock
+
+        binding.userNameTV.text = LocalPreferences.getString(this,
+            LocalPreferences.AppLoginPreferences.userName
+        )
+        binding.userDesignTV.text = LocalPreferences.getString(this,
+            LocalPreferences.AppLoginPreferences.userDesignation
+        )
+        binding.loginTimeTV.text = LocalPreferences.getString(this,
+            LocalPreferences.AppLoginPreferences.loginTime
+        )
+
+        when
+        {
+            intent.extras?.getInt("isExist") == 1 ->{
+                binding.updateBtn.visible()
+                binding.saveBtn.gone()
+            }
+
+        }
     }
 
     private fun clearPreferences(context: Context){
@@ -58,6 +83,10 @@ class CartonDetailActivity : AppCompatActivity() {
             context.getSharedPreferences(LocalPreferences.AppLoginPreferences.PREF, Context.MODE_PRIVATE)
         settings.edit().clear().apply()
         gotoActivity(LoginActivity::class.java)
+    }
+
+    override fun onBackPressed() {
+        finish()
     }
 
 }

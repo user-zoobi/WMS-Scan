@@ -81,6 +81,10 @@ class AddUpdateRackDetails : AppCompatActivity() {
             )
             finish()
         }
+
+        binding.backBtn.click {
+            onBackPressed()
+        }
     }
 
     private fun setupUi(){
@@ -159,5 +163,9 @@ class AddUpdateRackDetails : AppCompatActivity() {
                 }
             }
         })
+    }
+
+    override fun onBackPressed() {
+        finish()
     }
 }

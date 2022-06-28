@@ -24,6 +24,7 @@ import com.example.scanmate.util.Utils
 import com.example.scanmate.viewModel.MainViewModel
 import com.example.wms_scan.R
 import com.example.wms_scan.databinding.ActivityMenuBinding
+import kotlin.system.exitProcess
 
 class MenuActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMenuBinding
@@ -39,15 +40,19 @@ class MenuActivity : AppCompatActivity() {
         initObserver()
     }
 
+    override fun onBackPressed() {
+        finishAffinity()
+        exitProcess(0)
+    }
+
     private fun setupUi() {
 
         supportActionBar?.hide()
         dialog = CustomProgressDialog(this)
         setTransparentStatusBarColor(R.color.transparent)
 
-        binding.toolbar.menu.findItem(R.id.logout).setOnMenuItemClickListener {
+        binding.toolbar.click {
             clearPreferences(this)
-            true
         }
         binding.userNameTV.text = LocalPreferences.getString(this,
             LocalPreferences.AppLoginPreferences.userName
@@ -135,6 +140,7 @@ class MenuActivity : AppCompatActivity() {
         binding.scanCartonIV.click {
             gotoActivity(ScannerActivity::class.java,scanCarton,true)
         }
+
     }
 
 
@@ -145,7 +151,5 @@ class MenuActivity : AppCompatActivity() {
         gotoActivity(LoginActivity::class.java)
     }
 
-    override fun onBackPressed() {
-       finish()
-    }
+
 }

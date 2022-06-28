@@ -192,4 +192,8 @@ class AddUpdateShelfDetails : AppCompatActivity() {
         })
     }
 
+    override fun onBackPressed() {
+        finish()
+    }
+
 }

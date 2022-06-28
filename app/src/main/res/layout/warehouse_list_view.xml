@@ -16,7 +16,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:background="@drawable/blue_stroke_white_rounded_bg">
+        android:background="@drawable/hollow_black_stroke_rounded_bg">
 
 
             <androidx.appcompat.widget.AppCompatTextView
@@ -39,7 +39,7 @@
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:layout_marginEnd="@dimen/_20sdp"
-            android:background="@drawable/blue_rounded_bg"
+            android:background="@drawable/hollow_black_rounded_bg"
             android:padding="@dimen/_8sdp"
             android:src="@drawable/qr_code_black"
             android:tint="@color/white" />
@@ -52,7 +52,7 @@
             android:layout_marginTop="@dimen/_20sdp"
             android:layout_marginEnd="@dimen/_30sdp"
             android:layout_toStartOf="@id/showQRIV"
-            android:background="@drawable/blue_rounded_bg"
+            android:background="@drawable/hollow_black_rounded_bg"
             android:padding="@dimen/_3sdp"
             android:src="@drawable/edit_icon"
             app:tint="@color/white" />

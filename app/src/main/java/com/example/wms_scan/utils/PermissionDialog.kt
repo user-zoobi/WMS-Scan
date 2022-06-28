@@ -22,6 +22,9 @@ class PermissionDialog(context: Context) : Dialog(context, R.style.customDialog)
         binding.noTV.click {
             dismiss()
         }
+        binding.closeIV.click {
+            dismiss()
+        }
         //window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         setContentView(binding.root)
     }

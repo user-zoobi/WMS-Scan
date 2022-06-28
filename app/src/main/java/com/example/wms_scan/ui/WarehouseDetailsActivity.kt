@@ -58,9 +58,8 @@ class WarehouseDetailsActivity : AppCompatActivity() {
         setTransparentStatusBarColor(R.color.transparent)
         dialog = CustomProgressDialog(this)
 
-        binding.toolbar.menu.findItem(R.id.logout).setOnMenuItemClickListener {
+        binding.toolbar.click {
             clearPreferences(this)
-            true
         }
 
         binding.userNameTV.text = LocalPreferences.getString(this,
@@ -127,6 +126,10 @@ class WarehouseDetailsActivity : AppCompatActivity() {
                     LocalPreferences.getInt(this, userNo).toString(),
                     "Test-PC"
                 )
+        }
+
+        binding.backBtn.click {
+            onBackPressed()
         }
     }
 

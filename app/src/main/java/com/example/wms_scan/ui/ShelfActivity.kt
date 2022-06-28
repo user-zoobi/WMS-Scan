@@ -101,9 +101,8 @@ class ShelfActivity : AppCompatActivity() {
 
     private fun initListener(){
 
-        binding.toolbar.menu.findItem(R.id.logout).setOnMenuItemClickListener {
+        binding.toolbar.click {
             clearPreferences(this)
-            true
         }
 
         binding.swipeRefresh.setOnRefreshListener {
@@ -150,6 +149,10 @@ class ShelfActivity : AppCompatActivity() {
 
         binding.printIV.click {
             generatePDF()
+        }
+
+        binding.backBtn.click {
+            onBackPressed()
         }
 
     }
@@ -689,6 +692,10 @@ class ShelfActivity : AppCompatActivity() {
             Log.i("openPDFException","${e.message}")
             Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
         }
+    }
+
+    override fun onBackPressed() {
+        finish()
     }
 
 }

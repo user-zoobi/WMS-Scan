@@ -1,6 +1,7 @@
 package com.example.wms_scan.ui
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
@@ -13,6 +14,9 @@ import android.os.Bundle
 import android.os.Environment
 import android.util.Log
 import android.view.View
+import android.view.ViewGroup
+import android.view.animation.AnimationUtils
+import android.view.animation.LayoutAnimationController
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
@@ -32,6 +36,7 @@ import com.example.scanmate.util.LocalPreferences.AppLoginPreferences.userNo
 import com.example.scanmate.util.Utils
 import com.example.scanmate.util.Utils.isNetworkConnected
 import com.example.scanmate.viewModel.MainViewModel
+import com.example.wms_scan.R
 import com.example.wms_scan.adapter.warehouse.WarehouseAdapter
 import com.example.wms_scan.databinding.ActivityWarehouseBinding
 import com.google.zxing.BarcodeFormat
@@ -58,6 +63,7 @@ class WarehouseActivity : AppCompatActivity() {
     private val bmpList = mutableListOf<Bitmap>()
     private val textList = mutableListOf<String>()
     private var STORAGE_CODE = 1001
+    lateinit var containerView: ViewGroup
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -69,11 +75,12 @@ class WarehouseActivity : AppCompatActivity() {
         initListeners()
     }
 
+    @SuppressLint("ResourceType")
     private fun setupUi(){
 
         dialog = CustomProgressDialog(this)
         supportActionBar?.hide()
-        setTransparentStatusBarColor(com.example.wms_scan.R.color.transparent)
+        setTransparentStatusBarColor(R.color.transparent)
 
 
         binding.userNameTV.text = LocalPreferences.getString(this,
@@ -198,9 +205,12 @@ class WarehouseActivity : AppCompatActivity() {
 
     private fun initListeners() {
 
-        binding.toolbar.menu.findItem(com.example.wms_scan.R.id.logout).setOnMenuItemClickListener {
+        binding.toolbar.click {
             clearPreferences(this)
-            true
+        }
+
+        binding.backBtn.click {
+            onBackPressed()
         }
 
         binding.swipeRefresh.setOnRefreshListener {
@@ -446,6 +456,10 @@ class WarehouseActivity : AppCompatActivity() {
             Log.i("openPDFException","${e.message}")
             Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
         }
+    }
+
+    override fun onBackPressed() {
+        finish()
     }
 
 }

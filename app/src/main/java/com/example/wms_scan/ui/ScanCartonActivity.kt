@@ -67,6 +67,8 @@ class ScanCartonActivity : AppCompatActivity() {
     var Analytical_No = ""
     var material_id = ""
     var Material_name = ""
+    var isExist = 0
+    var stock = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -91,6 +93,9 @@ class ScanCartonActivity : AppCompatActivity() {
             Utils.getSimpleTextBody("1")
         )
 
+
+        // CARTON DETAILS
+
         viewModel.getCartonDetails("MK-0001-15")
 
         viewModel.getCartonDetails.observe(this@ScanCartonActivity, Observer {
@@ -109,6 +114,8 @@ class ScanCartonActivity : AppCompatActivity() {
                                 Analytical_No = it.data[0].analyticalNo.toString()
                                 Material_name = it.data[0].materialName.toString()
                                 material_id = it.data[0].materialId.toString()
+                                isExist = it.data[0].isExist!!
+                                stock = it.data[0].matStock.toString()
 
                             }
                             else
@@ -142,6 +149,16 @@ class ScanCartonActivity : AppCompatActivity() {
         binding.palletNameTV.text = intent.extras?.getString("palletName")
         binding.palletCodeTV.text = intent.extras?.getString("palletCode")
 
+        binding.userNameTV.text = LocalPreferences.getString(this,
+            LocalPreferences.AppLoginPreferences.userName
+        )
+        binding.userDesignTV.text = LocalPreferences.getString(this,
+            LocalPreferences.AppLoginPreferences.userDesignation
+        )
+        binding.loginTimeTV.text = LocalPreferences.getString(this,
+            LocalPreferences.AppLoginPreferences.loginTime
+        )
+
     }
 
     private fun clearPreferences(context: Context){
@@ -173,6 +190,7 @@ class ScanCartonActivity : AppCompatActivity() {
         binding.scanCont.click {
             binding.qrScanCont.gone()
             binding.surfaceCont.visible()
+            binding.showQRIV.gone()
         }
 
         binding.closeIV.click {
@@ -186,6 +204,11 @@ class ScanCartonActivity : AppCompatActivity() {
             binding.qrScanCont.gone()
             binding.viewRV.visible()
             binding.palletDetailCont.visible()
+            binding.showQRIV.visible()
+        }
+
+        binding.backBtn.click {
+            onBackPressed()
         }
 
     }
@@ -292,8 +315,9 @@ class ScanCartonActivity : AppCompatActivity() {
                         intent.putExtra("Analytical_No",Analytical_No)
                         intent.putExtra("material_id",material_id)
                         intent.putExtra("Material_name",Material_name)
+                        intent.putExtra("isExist",isExist)
+                        intent.putExtra("stock",stock)
                         startActivity(intent)
-
                         cameraSource.stop()
 
                     }

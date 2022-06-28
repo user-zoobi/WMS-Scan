@@ -100,9 +100,8 @@ class RacksActivity : AppCompatActivity() {
 
     private fun initListeners(){
 
-        binding.toolbar.menu.findItem(R.id.logout).setOnMenuItemClickListener {
+        binding.toolbar.click {
             clearPreferences(this)
-            true
         }
         binding.rackAddBTN.click {
             if (isNetworkConnected(this))
@@ -148,6 +147,10 @@ class RacksActivity : AppCompatActivity() {
 
         binding.printIV.click {
             generatePDF()
+        }
+
+        binding.backBtn.click {
+            onBackPressed()
         }
 
     }
@@ -576,7 +579,7 @@ class RacksActivity : AppCompatActivity() {
                 val headingPara = Paragraph(Chunk("Racks"))
                 headingPara.alignment = Element.ALIGN_CENTER
 
-                val rackCode = Paragraph(Chunk("1010-2"))
+                val rackCode = Paragraph(Chunk(textList[i]))
                 rackCode.alignment = Element.ALIGN_CENTER
 
                 val pdfcell = PdfPCell()
@@ -645,5 +648,9 @@ class RacksActivity : AppCompatActivity() {
             Log.i("openPDFException","${e.message}")
             Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
         }
+    }
+
+    override fun onBackPressed() {
+        finish()
     }
 }

@@ -110,9 +110,8 @@ class PalletsActivity : AppCompatActivity() {
 
     private fun initListeners(){
 
-        binding.toolbar.menu.findItem(R.id.logout).setOnMenuItemClickListener {
+        binding.toolbar.click {
             clearPreferences(this)
-            true
         }
 
         binding.swipeRefresh.setOnRefreshListener {
@@ -170,6 +169,10 @@ class PalletsActivity : AppCompatActivity() {
                 Log.i("exception","${e.message}")
             }
 
+        }
+
+        binding.backBtn.click {
+            onBackPressed()
         }
 
     }
@@ -741,5 +744,8 @@ class PalletsActivity : AppCompatActivity() {
         }
     }
 
+    override fun onBackPressed() {
+        finish()
+    }
 
 }

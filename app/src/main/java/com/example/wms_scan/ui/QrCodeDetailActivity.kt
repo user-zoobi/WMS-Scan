@@ -11,7 +11,9 @@ import android.os.Environment
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.example.scanmate.extensions.click
 import com.example.scanmate.extensions.setTransparentStatusBarColor
+import com.example.scanmate.util.LocalPreferences
 import com.example.wms_scan.data.response.GetPalletResponse
 import com.example.wms_scan.databinding.ActivityQrCodeDetailActivityBinding
 import com.google.zxing.BarcodeFormat
@@ -64,6 +66,7 @@ class QrCodeDetailActivity : AppCompatActivity() {
         setContentView(binding.root)
         supportActionBar?.hide()
         setTransparentStatusBarColor(com.example.wms_scan.R.color.transparent)
+        setupUi()
         generatePDF()
         palletList = ArrayList()
 
@@ -108,6 +111,22 @@ class QrCodeDetailActivity : AppCompatActivity() {
                 binding.qrCodeTV.text = "pallet code: $palletCode"
                 binding.qrCodeNoTV.text = "pallet no: $palletNo"
             }
+        }
+    }
+
+    private fun setupUi(){
+        binding.userNameTV.text = LocalPreferences.getString(this,
+            LocalPreferences.AppLoginPreferences.userName
+        )
+        binding.userDesignTV.text = LocalPreferences.getString(this,
+            LocalPreferences.AppLoginPreferences.userDesignation
+        )
+        binding.loginTimeTV.text = LocalPreferences.getString(this,
+            LocalPreferences.AppLoginPreferences.loginTime
+        )
+        binding.backBtn.click {
+            onBackPressed()
+
         }
     }
 

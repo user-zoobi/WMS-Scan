@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/royal_blue"
+    android:background="@color/dark_hollow_black"
     tools:context=".ui.LoginActivity">
 
     <androidx.appcompat.widget.Toolbar
@@ -54,7 +54,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_marginTop="-10dp"
-        android:background="@drawable/top_rounded_white_bg"
+        android:background="@drawable/grey_rounded_bg"
         android:orientation="vertical">
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -74,16 +74,16 @@
             android:layout_marginStart="@dimen/_20sdp"
             android:layout_marginTop="@dimen/_20sdp"
             android:layout_marginEnd="@dimen/_20sdp"
-            app:cardElevation="@dimen/_5sdp">
+            app:cardElevation="@dimen/_10sdp">
 
             <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/userIdET"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_50sdp"
+                android:background="@color/white"
                 android:drawableStart="@drawable/person"
                 android:drawablePadding="@dimen/_10sdp"
                 android:fontFamily="@font/amiko"
-                android:background="@color/white"
                 android:hint="@string/enter_username"
                 android:paddingStart="@dimen/_20sdp"
                 android:textSize="@dimen/_15ssp"
@@ -97,21 +97,21 @@
             android:layout_marginStart="@dimen/_20sdp"
             android:layout_marginTop="@dimen/_20sdp"
             android:layout_marginEnd="@dimen/_20sdp"
-            app:cardElevation="@dimen/_5sdp">
+            app:cardElevation="@dimen/_10sdp">
 
             <androidx.appcompat.widget.AppCompatEditText
-            android:id="@+id/passwordET"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/_50sdp"
-            android:background="@color/white"
-            android:drawableStart="@drawable/password_icon"
-            android:drawablePadding="@dimen/_10sdp"
-            android:fontFamily="@font/amiko"
-            android:hint="@string/enter_password"
-            android:inputType="textPassword"
-            android:paddingStart="@dimen/_20sdp"
-            android:textSize="@dimen/_15ssp"
-            android:textStyle="bold" />
+                android:id="@+id/passwordET"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_50sdp"
+                android:background="@color/white"
+                android:drawableStart="@drawable/password_icon"
+                android:drawablePadding="@dimen/_10sdp"
+                android:fontFamily="@font/amiko"
+                android:hint="@string/enter_password"
+                android:inputType="textPassword"
+                android:paddingStart="@dimen/_20sdp"
+                android:textSize="@dimen/_15ssp"
+                android:textStyle="bold" />
 
         </com.google.android.material.card.MaterialCardView>
 
@@ -125,7 +125,7 @@
             android:layout_marginBottom="@dimen/_20sdp"
             android:fontFamily="@font/amiko"
             android:text="@string/forgot_password"
-            android:textColor="@color/royal_blue"
+            android:textColor="@color/dark_hollow_black"
             android:textSize="@dimen/_12ssp" />
 
         <com.google.android.material.card.MaterialCardView
@@ -141,7 +141,7 @@
                 android:id="@+id/loginBtn"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_50sdp"
-                android:background="@drawable/ripple_blue_bg_button"
+                android:background="@drawable/hollow_black_rounded_bg"
                 android:fontFamily="@font/amiko"
                 android:text="@string/login"
                 android:textAllCaps="false"
@@ -159,7 +159,7 @@
             android:padding="@dimen/_5sdp"
             android:scaleType="centerCrop"
             android:src="@drawable/fingerprint"
-            android:tint="@color/royal_blue" />
+            android:tint="@color/dark_hollow_black" />
 
         <TextView
             android:id="@+id/tv_fingerprint_title"
@@ -170,7 +170,7 @@
             android:layout_marginBottom="@dimen/_70sdp"
             android:fontFamily="@font/amiko"
             android:text="@string/unlockWithBiometricsTitleKey"
-            android:textColor="@color/royal_blue"
+            android:textColor="@color/dark_hollow_black"
             android:textSize="@dimen/_15ssp"
             android:textStyle="bold" />
 
