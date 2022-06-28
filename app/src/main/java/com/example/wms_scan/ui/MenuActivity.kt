@@ -38,7 +38,9 @@ class MenuActivity : AppCompatActivity() {
         viewModel = obtainViewModel(MainViewModel::class.java)
         setupUi()
         initObserver()
+        val hello = ""
     }
+
 
     override fun onBackPressed() {
         finishAffinity()
