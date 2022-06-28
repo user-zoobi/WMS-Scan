@@ -248,6 +248,34 @@ class MainViewModel : ViewModel() {
         }
     }
 
+    private val _addCarton = MutableLiveData<ApiResponseCallback<AddCartonResponse>>()
+    val addCarton : LiveData<ApiResponseCallback<AddCartonResponse>>
+    get() = _addCarton
+
+    fun addCarton(
+        CartonNo: RequestBody, CartonCode: RequestBody, ItemCode: RequestBody, PilotNo: RequestBody, AnalyticalNo: RequestBody,
+        Carton_SNo: RequestBody, TotCarton: RequestBody, LocationNo: RequestBody, DMLUserNo: RequestBody, DMLPCName: RequestBody
+    ){
+        viewModelScope.launch {
+            _addCarton.value = ApiResponseCallback.loading()
+            try
+            {
+                _addCarton.value = ApiResponseCallback.success(repository.addCarton(
+                    CartonNo, CartonCode, ItemCode, PilotNo, AnalyticalNo, Carton_SNo, TotCarton, LocationNo, DMLUserNo, DMLPCName
+                ))
+                Log.i("getCartonSuccess","Data responded")
+            }
+            catch (e:Exception)
+            {
+                _addCarton.value = ApiResponseCallback.error(
+                    "${e.message}",null
+                )
+                Log.i("getCartonViewModelExc","${e.message}")
+            }
+        }
+
+    }
+
     private val _getCarton = MutableLiveData<ApiResponseCallback<List<GetCartonResponse>>>()
     val getCarton : LiveData<ApiResponseCallback<List<GetCartonResponse>>>
     get() = _getCarton

@@ -1,6 +1,7 @@
 package com.example.wms_scan.ui
 
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -21,6 +22,7 @@ class CartonDetailActivity : AppCompatActivity() {
     private lateinit var binding:ActivityCartonDetailBinding
     private lateinit var viewModel: MainViewModel
     private lateinit var permissionDialog: PermissionDialog
+    private var analyticalNo = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,7 +39,8 @@ class CartonDetailActivity : AppCompatActivity() {
     private fun initListener(){
 
         binding.saveBtn.click {
-            permissionDialog.show()
+
+
         }
 
         binding.logout.click {
@@ -54,7 +57,7 @@ class CartonDetailActivity : AppCompatActivity() {
         supportActionBar?.hide()
         setTransparentStatusBarColor(R.color.transparent)
 
-        val analyticalNo = intent.extras?.getString("Analytical_No")
+        analyticalNo = intent.extras?.getString("Analytical_No").toString()
         val materialId = intent.extras?.getString("material_id")
         val stock = intent.extras?.getString("stock")
 
@@ -83,7 +86,6 @@ class CartonDetailActivity : AppCompatActivity() {
                 binding.updateBtn.visible()
                 binding.saveBtn.gone()
             }
-
         }
     }
 

@@ -92,47 +92,6 @@ class ScanCartonActivity : AppCompatActivity() {
 
         // CARTON DETAILS
 
-        viewModel.getCartonDetails(scannedValue)
-
-        viewModel.getCartonDetails.observe(this@ScanCartonActivity, Observer {
-            when(it.status){
-                Status.LOADING ->{
-
-                }
-                Status.SUCCESS ->{
-
-                    it.let {
-                        try
-                        {
-                            if (it.data?.get(0)?.status == true)
-                            {
-                                Log.i("analytical no",it.data[0].analyticalNo.toString())
-                                Analytical_No = it.data[0].analyticalNo.toString()
-                                Material_name = it.data[0].materialName.toString()
-                                material_id = it.data[0].materialId.toString()
-                                isExist = it.data[0].isExist!!
-                                stock = it.data[0].matStock.toString()
-
-                            }
-                            else
-                            {
-                                Log.i("getCartonDetails","${Exception().message}")
-                            }
-                        }
-                        catch (e:Exception)
-                        {
-                            Log.i("getCartonDetails","${e.message}")
-                        }
-
-                    }
-                }
-
-                Status.ERROR ->{
-
-                }
-            }
-        })
-
     }
 
     private fun setupUi(){
@@ -327,21 +286,60 @@ class ScanCartonActivity : AppCompatActivity() {
                     runOnUiThread {
                         cameraSource.stop()
                         Toast.makeText(this@ScanCartonActivity, "value- $scannedValue", Toast.LENGTH_SHORT).show()
-                        val intent = Intent(this@ScanCartonActivity, CartonDetailActivity::class.java)
-                        intent.putExtra("Analytical_No",Analytical_No)
-                        intent.putExtra("material_id",material_id)
-                        intent.putExtra("Material_name",Material_name)
-                        intent.putExtra("isExist",isExist)
-                        intent.putExtra("stock",stock)
-                        startActivity(intent)
-                        cameraSource.stop()
 
+                        viewModel.getCartonDetails(
+                            scannedValue
+                        )
+
+                        viewModel.getCartonDetails.observe(this@ScanCartonActivity, Observer {
+                            when(it.status){
+                                Status.LOADING ->{
+
+                                }
+                                Status.SUCCESS ->{
+
+                                    it.let {
+                                        try
+                                        {
+                                            if (it.data?.get(0)?.status == true)
+                                            {
+                                                Log.i("analytical no",it.data[0].analyticalNo.toString())
+                                                Analytical_No = it.data[0].analyticalNo.toString()
+                                                Material_name = it.data[0].materialName.toString()
+                                                material_id = it.data[0].materialId.toString()
+                                                isExist = it.data[0].isExist!!
+                                                stock = it.data[0].matStock.toString()
+                                                val intent = Intent(this@ScanCartonActivity, CartonDetailActivity::class.java)
+                                                intent.putExtra("Analytical_No",Analytical_No)
+                                                intent.putExtra("material_id",material_id)
+                                                intent.putExtra("Material_name",Material_name)
+                                                intent.putExtra("isExist",isExist)
+                                                intent.putExtra("stock",stock)
+                                                startActivity(intent)
+                                                cameraSource.stop()
+
+                                            }
+                                            else
+                                            {
+                                                Log.i("getCartonDetails","${Exception().message}")
+                                                toast("No record found")
+                                            }
+                                        }
+                                        catch (e:Exception)
+                                        {
+                                            Log.i("getCartonDetails","${e.message}")
+                                        }
+
+                                    }
+                                }
+
+                                Status.ERROR ->{ }
+
+                            }
+                        })
                     }
                 }
-                else
-                {
-
-                }
+                else { }
             }
         })
     }

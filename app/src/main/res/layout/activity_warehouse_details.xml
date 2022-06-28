@@ -77,126 +77,137 @@
         android:textColor="@color/white"
         android:textSize="@dimen/_12ssp" />
 
-    <androidx.appcompat.widget.LinearLayoutCompat
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/loginTimeTV"
-        android:layout_marginTop="14dp"
         android:background="@drawable/grey_rounded_bg"
-        android:orientation="vertical">
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/editDetailTV"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/_20sdp"
-            android:layout_marginTop="@dimen/_40sdp"
-            android:fontFamily="@font/amiko"
-            android:text="Add warehouse"
-            android:textColor="@color/black"
-            android:textSize="@dimen/_18ssp" />
+        android:layout_marginTop="14dp">
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:weightSum="2">
+            android:layout_height="match_parent"
+            android:layout_below="@+id/loginTimeTV"
+            android:layout_marginTop="14dp"
+            android:background="@drawable/grey_rounded_bg"
+            android:orientation="vertical">
 
             <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/editDetailTV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_20sdp"
-                android:layout_marginTop="@dimen/_20sdp"
-                android:layout_marginBottom="@dimen/_5sdp"
+                android:layout_marginTop="@dimen/_40sdp"
                 android:fontFamily="@font/amiko"
-                android:text="Business Location Name"
+                android:text="Add warehouse"
                 android:textColor="@color/black"
-                android:textSize="@dimen/_10ssp" />
+                android:textSize="@dimen/_18ssp" />
 
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/businessLocCont"
+            <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/_50sdp"
-                android:layout_marginStart="@dimen/_20sdp"
-
-                android:layout_marginEnd="@dimen/_20sdp"
-                android:layout_marginBottom="@dimen/_10sdp"
-                app:cardElevation="@dimen/_10sdp">
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:weightSum="2">
 
                 <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/busLocTV"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:background="@color/white"
-                    android:hint="business location name"
-                    android:paddingStart="@dimen/_20sdp"
-                    android:textSize="@dimen/_18ssp" />
+                    android:layout_marginStart="@dimen/_20sdp"
+                    android:layout_marginTop="@dimen/_20sdp"
+                    android:layout_marginBottom="@dimen/_5sdp"
+                    android:fontFamily="@font/amiko"
+                    android:text="Business Location Name"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_10ssp" />
 
-            </com.google.android.material.card.MaterialCardView>
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/businessLocCont"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_50sdp"
+                    android:layout_marginStart="@dimen/_20sdp"
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/_20sdp"
-                android:layout_marginTop="@dimen/_20sdp"
-                android:layout_marginBottom="@dimen/_5sdp"
-                android:fontFamily="@font/amiko"
-                android:text="Warehouse Name"
-                android:textColor="@color/black"
-                android:textSize="@dimen/_10ssp" />
+                    android:layout_marginEnd="@dimen/_20sdp"
+                    android:layout_marginBottom="@dimen/_10sdp"
+                    app:cardElevation="@dimen/_10sdp">
 
-            <com.google.android.material.card.MaterialCardView
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/busLocTV"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:background="@color/white"
+                        android:hint="business location name"
+                        android:paddingStart="@dimen/_20sdp"
+                        android:textSize="@dimen/_18ssp" />
+
+                </com.google.android.material.card.MaterialCardView>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_20sdp"
+                    android:layout_marginTop="@dimen/_20sdp"
+                    android:layout_marginBottom="@dimen/_5sdp"
+                    android:fontFamily="@font/amiko"
+                    android:text="Warehouse Name"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_10ssp" />
+
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_20sdp"
+                    android:layout_marginEnd="@dimen/_20sdp"
+                    android:layout_marginBottom="@dimen/_10sdp"
+                    app:cardElevation="@dimen/_10sdp">
+
+                    <androidx.appcompat.widget.AppCompatEditText
+                        android:id="@+id/updateWarehouseET"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_50sdp"
+                        android:background="@color/white"
+                        android:hint="Add warehouse"
+                        android:paddingStart="@dimen/_20sdp" />
+
+                </com.google.android.material.card.MaterialCardView>
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/addWarehouseBTN"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_20sdp"
+                android:layout_marginTop="@dimen/_40sdp"
                 android:layout_marginEnd="@dimen/_20sdp"
-                android:layout_marginBottom="@dimen/_10sdp"
-                app:cardElevation="@dimen/_10sdp">
+                android:background="@drawable/dark_green_rounded_bg"
+                android:fontFamily="@font/amiko"
+                android:text="Add"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_15ssp" />
 
-                <androidx.appcompat.widget.AppCompatEditText
-                    android:id="@+id/updateWarehouseET"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/_50sdp"
-                    android:background="@color/white"
-                    android:hint="Add warehouse"
-                    android:paddingStart="@dimen/_20sdp" />
-
-            </com.google.android.material.card.MaterialCardView>
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/updateWarehouseBtn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_20sdp"
+                android:layout_marginTop="@dimen/_40sdp"
+                android:layout_marginEnd="@dimen/_20sdp"
+                android:background="@drawable/dark_red_rounded_bg"
+                android:fontFamily="@font/amiko"
+                android:text="Update"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_15ssp"
+                android:visibility="gone" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
+    </androidx.core.widget.NestedScrollView>
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/addWarehouseBTN"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/_20sdp"
-            android:layout_marginTop="@dimen/_40sdp"
-            android:layout_marginEnd="@dimen/_20sdp"
-            android:background="@drawable/dark_green_rounded_bg"
-            android:fontFamily="@font/amiko"
-            android:text="Add"
-            android:textAllCaps="false"
-            android:textColor="@color/white"
-            android:textSize="@dimen/_15ssp" />
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/updateWarehouseBtn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/_20sdp"
-            android:layout_marginTop="@dimen/_40sdp"
-            android:layout_marginEnd="@dimen/_20sdp"
-            android:background="@drawable/dark_red_rounded_bg"
-            android:fontFamily="@font/amiko"
-            android:text="Update"
-            android:textAllCaps="false"
-            android:textColor="@color/white"
-            android:textSize="@dimen/_15ssp"
-            android:visibility="gone" />
-
-    </androidx.appcompat.widget.LinearLayoutCompat>
 
 
 </RelativeLayout>

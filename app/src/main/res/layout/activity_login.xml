@@ -7,12 +7,9 @@
     android:background="@color/dark_hollow_black"
     tools:context=".ui.LoginActivity">
 
-    <androidx.appcompat.widget.Toolbar
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:menu="@menu/drawer_menu"/>
 
     <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/loginText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
@@ -20,23 +17,22 @@
         android:layout_marginStart="@dimen/_20sdp"
         android:layout_marginTop="@dimen/_80sdp"
         android:layout_marginEnd="@dimen/_20sdp"
-        android:layout_toStartOf="@+id/splash_logo"
         android:fontFamily="@font/amiko"
         android:text="Warehouse\nScanner App"
         android:textColor="@color/white"
         android:textSize="@dimen/_20ssp" />
 
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/splash_logo"
-        android:layout_width="@dimen/_220sdp"
-        android:layout_height="@dimen/_300sdp"
-        android:layout_above="@+id/loginCont"
-        android:layout_alignParentEnd="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginStart="@dimen/_20sdp"
-        android:layout_marginTop="@dimen/_10sdp"
-        android:scaleType="fitEnd"
-        android:src="@drawable/qr_mobile" />
+<!--    <androidx.appcompat.widget.AppCompatImageView-->
+<!--        android:id="@+id/splash_logo"-->
+<!--        android:layout_width="@dimen/_220sdp"-->
+<!--        android:layout_height="@dimen/_350sdp"-->
+<!--        android:layout_above="@+id/loginCont"-->
+<!--        android:layout_alignParentEnd="true"-->
+<!--        android:layout_centerHorizontal="true"-->
+<!--        android:layout_marginStart="@dimen/_20sdp"-->
+<!--        android:layout_marginTop="@dimen/_10sdp"-->
+<!--        android:scaleType="fitEnd"-->
+<!--        android:src="@drawable/qr_mobile" />-->
 
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/progressDialog"
@@ -52,8 +48,9 @@
         android:id="@+id/loginCont"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/loginText"
         android:layout_alignParentBottom="true"
-        android:layout_marginTop="-10dp"
+        android:layout_marginTop="50dp"
         android:background="@drawable/grey_rounded_bg"
         android:orientation="vertical">
 
