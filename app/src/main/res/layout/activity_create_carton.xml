@@ -132,7 +132,7 @@
                 <SurfaceView
                     android:id="@+id/cameraSurfaceView"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/_300sdp"
+                    android:layout_height="@dimen/_350sdp"
                     android:layout_marginTop="@dimen/_20sdp"
                     android:visibility="visible" />
 

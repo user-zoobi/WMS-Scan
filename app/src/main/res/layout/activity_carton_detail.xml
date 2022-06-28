@@ -204,7 +204,7 @@
                             android:tint="@color/dark_grey" />
 
                         <TextView
-                            android:id="@+id/WHTV2"
+                            android:id="@+id/WHTV"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
@@ -363,7 +363,8 @@
                             android:background="@drawable/ripple_transparent_bg"
                             android:fontFamily="@font/amiko"
                             android:text="Pilot 11100"
-                            android:textColor="@color/black"
+                            android:textColor="@color/blue"
+                            android:textStyle="bold"
                             android:textSize="@dimen/_14ssp" />
 
                     </androidx.appcompat.widget.LinearLayoutCompat>

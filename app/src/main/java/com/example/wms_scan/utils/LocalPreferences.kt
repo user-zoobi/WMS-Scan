@@ -45,9 +45,6 @@ object LocalPreferences {
 
         const val PREF = "Pref"
         const val userNo = "userNo"
-        const val user_CategoryNo = "user_CategoryNo"
-        const val mobileNo = "mobileNo"
-        const val extensionNo = "extensionNo"
         const val isLogin = "isLogin"
         const val userDesignation = "userDesignation"
         const val loginTime = "loginTime"
@@ -57,11 +54,16 @@ object LocalPreferences {
         const val whNo = "whNo"
         const val rackNo = "rackNo"
         const val shelfNo = "shelfNo"
-        const val palletNo = "palletNo"
         const val isRefreshRequired = "isRefreshRequired"
         const val scanCarton = "scanCarton"
 
 
+        // save data from busLoc to pallet
+        const val busLoc = "busLocName"
+        const val warehouse = "whName"
+        const val rack = "rackName"
+        const val shelf = "shelfName"
+        const val pallets = "pallets"
     }
 
     object AppConstants{

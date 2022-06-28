@@ -38,12 +38,13 @@ class MenuActivity : AppCompatActivity() {
         viewModel = obtainViewModel(MainViewModel::class.java)
         setupUi()
         initObserver()
-        val hello = ""
+
     }
 
 
     override fun onBackPressed() {
         finishAffinity()
+        overridePendingTransition(R.anim.slide_bottom, R.anim.slide_up)
         exitProcess(0)
     }
 

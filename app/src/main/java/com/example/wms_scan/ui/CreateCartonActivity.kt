@@ -22,6 +22,10 @@ import com.example.scanmate.data.callback.Status
 import com.example.scanmate.extensions.*
 import com.example.scanmate.util.CustomProgressDialog
 import com.example.scanmate.util.LocalPreferences
+import com.example.scanmate.util.LocalPreferences.AppLoginPreferences.pallets
+import com.example.scanmate.util.LocalPreferences.AppLoginPreferences.rack
+import com.example.scanmate.util.LocalPreferences.AppLoginPreferences.shelf
+import com.example.scanmate.util.LocalPreferences.AppLoginPreferences.warehouse
 import com.example.scanmate.util.Utils
 import com.example.scanmate.viewModel.MainViewModel
 import com.example.wms_scan.R
@@ -178,11 +182,17 @@ class CreateCartonActivity : AppCompatActivity() {
                                                 val palletCode = it.data[0].pilotCode
                                                 val intent = Intent(this@CreateCartonActivity, ScanCartonActivity::class.java)
                                                 intent.putExtra("whName",whName)
+
                                                 intent.putExtra("rackName",rackName)
                                                 intent.putExtra("shelfName",shelfName)
                                                 intent.putExtra("palletName",palletName)
                                                 intent.putExtra("palletCode",palletCode)
                                                 intent.putExtra("scanCarton",true)
+
+                                                LocalPreferences.put(this@CreateCartonActivity, warehouse,whName.toString() )
+                                                LocalPreferences.put(this@CreateCartonActivity, rack,rackName.toString() )
+                                                LocalPreferences.put(this@CreateCartonActivity, shelf,shelfName.toString() )
+                                                LocalPreferences.put(this@CreateCartonActivity, pallets,palletName.toString() )
                                                 finish()
                                                 startActivity(intent)
                                                 val error = it.data[0].error

@@ -6,6 +6,10 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.example.scanmate.extensions.*
 import com.example.scanmate.util.LocalPreferences
+import com.example.scanmate.util.LocalPreferences.AppLoginPreferences.pallets
+import com.example.scanmate.util.LocalPreferences.AppLoginPreferences.rack
+import com.example.scanmate.util.LocalPreferences.AppLoginPreferences.shelf
+import com.example.scanmate.util.LocalPreferences.AppLoginPreferences.warehouse
 import com.example.scanmate.util.Utils
 import com.example.scanmate.viewModel.MainViewModel
 import com.example.wms_scan.R
@@ -67,6 +71,11 @@ class CartonDetailActivity : AppCompatActivity() {
         binding.loginTimeTV.text = LocalPreferences.getString(this,
             LocalPreferences.AppLoginPreferences.loginTime
         )
+
+        binding.WHTV.text = LocalPreferences.getString(this, warehouse)
+        binding.rackTV.text =  LocalPreferences.getString(this, rack)
+        binding.shelfTV.text =  LocalPreferences.getString(this, shelf)
+        binding.palletTV.text =  LocalPreferences.getString(this, pallets)
 
         when
         {

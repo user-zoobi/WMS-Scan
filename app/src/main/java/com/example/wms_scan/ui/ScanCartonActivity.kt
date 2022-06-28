@@ -32,7 +32,6 @@ import com.example.scanmate.util.Constants.LogMessages.loading
 import com.example.scanmate.util.Constants.Toast.NoInternetFound
 import com.example.scanmate.util.CustomProgressDialog
 import com.example.scanmate.util.LocalPreferences
-import com.example.scanmate.util.LocalPreferences.AppLoginPreferences.palletNo
 import com.example.scanmate.util.Utils
 import com.example.scanmate.viewModel.MainViewModel
 import com.example.wms_scan.R
@@ -159,6 +158,12 @@ class ScanCartonActivity : AppCompatActivity() {
             LocalPreferences.AppLoginPreferences.loginTime
         )
 
+        binding.WHTV.text = intent.extras?.getString("whName")
+        binding.rackTV.text = intent.extras?.getString("rackName")
+        binding.shelfTV.text = intent.extras?.getString("shelfName")
+        binding.palletTV.text = intent.extras?.getString("palletName")
+
+
     }
 
     private fun clearPreferences(context: Context){
@@ -168,6 +173,7 @@ class ScanCartonActivity : AppCompatActivity() {
         finish()
     }
 
+    @SuppressLint("MissingPermission")
     private fun initListeners()
     {
 
@@ -191,12 +197,19 @@ class ScanCartonActivity : AppCompatActivity() {
             binding.qrScanCont.gone()
             binding.surfaceCont.visible()
             binding.showQRIV.gone()
+            binding.palletCont.isEnabled = false
+            binding.palletDetailCont.isEnabled = false
+            binding.hierarchyTree.isEnabled = false
+            cameraSource.start()
         }
 
         binding.closeIV.click {
             binding.surfaceCont.gone()
             binding.qrScanCont.visible()
             cameraSource.stop()
+            binding.palletCont.isEnabled = true
+            binding.hierarchyTree.isEnabled = true
+            binding.palletDetailCont.isEnabled = false
         }
 
         binding.palletCont.click {
