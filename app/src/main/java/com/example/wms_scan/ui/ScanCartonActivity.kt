@@ -36,16 +36,7 @@ import com.example.scanmate.util.Utils
 import com.example.scanmate.viewModel.MainViewModel
 import com.example.wms_scan.R
 import com.example.wms_scan.adapter.carton.ScanCartonAdapter
-import com.example.wms_scan.adapter.pallets.PalletsAdapter
-import com.example.wms_scan.adapter.pallets.ScanPalletAdapter
-import com.example.wms_scan.adapter.racks.RackAdapter
-import com.example.wms_scan.adapter.racks.ScanRackAdapter
-import com.example.wms_scan.adapter.shelf.ScanShelfAdapter
-import com.example.wms_scan.adapter.shelf.ShelfAdapter
-import com.example.wms_scan.adapter.warehouse.ScanWarehouseAdapter
-import com.example.wms_scan.adapter.warehouse.WarehouseAdapter
 import com.example.wms_scan.data.response.GetCartonResponse
-import com.example.wms_scan.data.response.GetPalletResponse
 import com.example.wms_scan.databinding.ActivityScanCartonBinding
 import com.google.android.gms.vision.CameraSource
 import com.google.android.gms.vision.Detector
@@ -62,6 +53,9 @@ class ScanCartonActivity : AppCompatActivity() {
     private lateinit var cameraSource: CameraSource
     private lateinit var barcodeDetector: BarcodeDetector
     private var scannedValue = ""
+    private var materialCode = ""
+    private var analyticalNo = ""
+    private var totCarton = ""
     private lateinit var scanCartonAdapter : ScanCartonAdapter
     var Analytical_No = ""
     var material_id = ""
@@ -87,15 +81,18 @@ class ScanCartonActivity : AppCompatActivity() {
             setupControls()
         }
 
+        val palletNo = intent.extras?.getInt("palletNo")
+        val busLocNo = intent.extras?.getInt("locationNo")
+
         viewModel.getCarton(
-            Utils.getSimpleTextBody("2"),
-            Utils.getSimpleTextBody("1")
+            Utils.getSimpleTextBody(palletNo.toString()),
+            Utils.getSimpleTextBody(busLocNo.toString())
         )
 
 
         // CARTON DETAILS
 
-        viewModel.getCartonDetails("MK-0001-15")
+        viewModel.getCartonDetails(scannedValue)
 
         viewModel.getCartonDetails.observe(this@ScanCartonActivity, Observer {
             when(it.status){
@@ -162,6 +159,7 @@ class ScanCartonActivity : AppCompatActivity() {
         binding.rackTV.text = intent.extras?.getString("rackName")
         binding.shelfTV.text = intent.extras?.getString("shelfName")
         binding.palletTV.text = intent.extras?.getString("palletName")
+        binding.palletDetailCont.isEnabled = false
 
 
     }
@@ -191,6 +189,7 @@ class ScanCartonActivity : AppCompatActivity() {
         binding.treeView.click {
             binding.qrScanCont.gone()
             binding.viewRV.visible()
+            binding.palletDetailCont.isEnabled = false
         }
 
         binding.scanCont.click {
@@ -218,6 +217,7 @@ class ScanCartonActivity : AppCompatActivity() {
             binding.viewRV.visible()
             binding.palletDetailCont.visible()
             binding.showQRIV.visible()
+            binding.palletDetailCont.isEnabled = false
         }
 
         binding.backBtn.click {
@@ -227,7 +227,6 @@ class ScanCartonActivity : AppCompatActivity() {
     }
 
     private fun initObserver(){
-
 
         //GET CARTON
 
@@ -243,6 +242,10 @@ class ScanCartonActivity : AppCompatActivity() {
                         {
                             if (it.data?.get(0)?.status == true)
                             {
+                                materialCode = it.data[0].itemCode.toString()
+                                analyticalNo = it.data[0].analyticalNo.toString()
+                                totCarton = it.data[0].totCarton.toString()
+
                                 Log.i("analytical no",it.data[0].analyticalNo.toString())
                                 scanCartonAdapter = ScanCartonAdapter(this,
                                     it.data as ArrayList<GetCartonResponse>

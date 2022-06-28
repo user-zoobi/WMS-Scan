@@ -358,8 +358,8 @@
                                 android:fontFamily="@font/amiko"
                                 android:text="Pilot 11100"
                                 android:textColor="@color/blue"
-                                android:textStyle="bold"
-                                android:textSize="@dimen/_14ssp" />
+                                android:textSize="@dimen/_14ssp"
+                                android:textStyle="bold" />
 
                         </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -420,6 +420,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:layout_marginTop="@dimen/_30sdp"
                 android:background="@drawable/ripple_transparent_bg"
                 android:orientation="vertical"
                 android:visibility="visible">
@@ -429,7 +430,6 @@
                     android:layout_width="@dimen/_250sdp"
                     android:layout_height="@dimen/_250sdp"
                     android:layout_gravity="center"
-                    android:layout_marginTop="@dimen/_30sdp"
                     android:src="@drawable/qr_mob" />
 
                 <androidx.appcompat.widget.AppCompatTextView

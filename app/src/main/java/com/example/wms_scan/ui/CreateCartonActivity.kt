@@ -180,6 +180,8 @@ class CreateCartonActivity : AppCompatActivity() {
                                                 val shelfName = it.data[0].shelfName
                                                 val palletName = it.data[0].pilotName
                                                 val palletCode = it.data[0].pilotCode
+                                                val palletNo = it.data[0].pilotNo
+                                                val locationNo = it.data[0].locationNo
                                                 val intent = Intent(this@CreateCartonActivity, ScanCartonActivity::class.java)
                                                 intent.putExtra("whName",whName)
 
@@ -187,6 +189,8 @@ class CreateCartonActivity : AppCompatActivity() {
                                                 intent.putExtra("shelfName",shelfName)
                                                 intent.putExtra("palletName",palletName)
                                                 intent.putExtra("palletCode",palletCode)
+                                                intent.putExtra("palletNo",palletNo)
+                                                intent.putExtra("locationNo",locationNo)
                                                 intent.putExtra("scanCarton",true)
 
                                                 LocalPreferences.put(this@CreateCartonActivity, warehouse,whName.toString() )
