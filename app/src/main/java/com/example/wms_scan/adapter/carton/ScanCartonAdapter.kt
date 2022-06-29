@@ -28,7 +28,7 @@ class ScanCartonAdapter (
         with(holder){
             binding.analyticalNoTV.text = data.analyticalNo
             binding.materialCodeTV.text = data.itemCode
-            binding.cartonNo.text = data.totCarton.toString()
+            binding.cartonNo.text = data.cartonNo.toString()
         }
     }
 

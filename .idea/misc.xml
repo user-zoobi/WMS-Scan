@@ -10,6 +10,7 @@
         <entry key="..\:/Users/BI.IT-021/StudioProjects/WMS-Scan/app/src/main/res/drawable/dark_grey_rounded_bg.xml" value="0.2115" />
         <entry key="..\:/Users/BI.IT-021/StudioProjects/WMS-Scan/app/src/main/res/drawable/grey_rounded_bg.xml" value="0.1755" />
         <entry key="..\:/Users/BI.IT-021/StudioProjects/WMS-Scan/app/src/main/res/drawable/grey_stroke_white_rounded_bg.xml" value="0.1755" />
+        <entry key="..\:/Users/BI.IT-021/StudioProjects/WMS-Scan/app/src/main/res/drawable/grey_top_rounded_bg.xml" value="0.12" />
         <entry key="..\:/Users/BI.IT-021/StudioProjects/WMS-Scan/app/src/main/res/drawable/hollow_black_rounded_bg.xml" value="0.152" />
         <entry key="..\:/Users/BI.IT-021/StudioProjects/WMS-Scan/app/src/main/res/drawable/hollow_black_stroke_rounded_bg.xml" value="0.152" />
         <entry key="..\:/Users/BI.IT-021/StudioProjects/WMS-Scan/app/src/main/res/drawable/minus_icon.xml" value="0.1745" />
@@ -22,10 +23,10 @@
         <entry key="..\:/Users/BI.IT-021/StudioProjects/WMS-Scan/app/src/main/res/layout/activity_add_update_shelf_details.xml" value="0.22" />
         <entry key="..\:/Users/BI.IT-021/StudioProjects/WMS-Scan/app/src/main/res/layout/activity_add_warehouse.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/BI.IT-021/StudioProjects/WMS-Scan/app/src/main/res/layout/activity_business_location.xml" value="0.20416666666666666" />
-        <entry key="..\:/Users/BI.IT-021/StudioProjects/WMS-Scan/app/src/main/res/layout/activity_carton_detail.xml" value="0.22" />
+        <entry key="..\:/Users/BI.IT-021/StudioProjects/WMS-Scan/app/src/main/res/layout/activity_carton_detail.xml" value="0.25" />
         <entry key="..\:/Users/BI.IT-021/StudioProjects/WMS-Scan/app/src/main/res/layout/activity_create_carton.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/BI.IT-021/StudioProjects/WMS-Scan/app/src/main/res/layout/activity_login.xml" value="0.20416666666666666" />
-        <entry key="..\:/Users/BI.IT-021/StudioProjects/WMS-Scan/app/src/main/res/layout/activity_menu.xml" value="0.1" />
+        <entry key="..\:/Users/BI.IT-021/StudioProjects/WMS-Scan/app/src/main/res/layout/activity_menu.xml" value="0.22" />
         <entry key="..\:/Users/BI.IT-021/StudioProjects/WMS-Scan/app/src/main/res/layout/activity_pallets.xml" value="0.33" />
         <entry key="..\:/Users/BI.IT-021/StudioProjects/WMS-Scan/app/src/main/res/layout/activity_pdf_view.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/BI.IT-021/StudioProjects/WMS-Scan/app/src/main/res/layout/activity_pdflist_view.xml" value="0.20416666666666666" />

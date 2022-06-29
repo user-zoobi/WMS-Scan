@@ -53,15 +53,19 @@ class ScanCartonActivity : AppCompatActivity() {
     private lateinit var cameraSource: CameraSource
     private lateinit var barcodeDetector: BarcodeDetector
     private var scannedValue = ""
-    private var materialCode = ""
+    private var itemCode = ""
     private var analyticalNo = ""
     private var totCarton = ""
     private lateinit var scanCartonAdapter : ScanCartonAdapter
     var Analytical_No = ""
     var material_id = ""
     var Material_name = ""
+    var pilotNo = ""
+    var cartonSNo = ""
     var isExist = 0
     var stock = ""
+    var cartonCode = ""
+    var cartonNo = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -158,13 +162,11 @@ class ScanCartonActivity : AppCompatActivity() {
             binding.palletCont.isEnabled = false
             binding.palletDetailCont.isEnabled = false
             binding.hierarchyTree.isEnabled = false
-            cameraSource.start()
         }
 
         binding.closeIV.click {
             binding.surfaceCont.gone()
             binding.qrScanCont.visible()
-            cameraSource.stop()
             binding.palletCont.isEnabled = true
             binding.hierarchyTree.isEnabled = true
             binding.palletDetailCont.isEnabled = false
@@ -201,9 +203,13 @@ class ScanCartonActivity : AppCompatActivity() {
                         {
                             if (it.data?.get(0)?.status == true)
                             {
-                                materialCode = it.data[0].itemCode.toString()
+                                itemCode = it.data[0].itemCode.toString()
                                 analyticalNo = it.data[0].analyticalNo.toString()
                                 totCarton = it.data[0].totCarton.toString()
+                                pilotNo = it.data[0].pilotNo.toString()
+                                cartonSNo = it.data[0].cartonSNo.toString()
+                                cartonCode = it.data[0].cartonCode.toString()
+                                cartonNo = it.data[0].cartonNo.toString()
 
                                 Log.i("analytical no",it.data[0].analyticalNo.toString())
                                 scanCartonAdapter = ScanCartonAdapter(this,
@@ -227,6 +233,65 @@ class ScanCartonActivity : AppCompatActivity() {
                 }
 
                 Status.ERROR ->{ }
+            }
+        })
+
+        viewModel.getCartonDetails.observe(this@ScanCartonActivity, Observer {
+            when(it.status){
+                Status.LOADING ->{
+
+                }
+                Status.SUCCESS ->{
+
+                    it.let {
+                        try
+                        {
+                            if (it.data?.get(0)?.status == true)
+                            {
+                                Log.i("analytical no",it.data[0].analyticalNo.toString())
+                                Analytical_No = it.data[0].analyticalNo.toString()
+                                Material_name = it.data[0].materialName.toString()
+                                material_id = it.data[0].materialId.toString()
+                                isExist = it.data[0].isExist!!
+                                stock = it.data[0].matStock.toString()
+                                val intent = Intent(this@ScanCartonActivity, CartonDetailActivity::class.java)
+                                intent.putExtra("Analytical_No",Analytical_No) //
+                                intent.putExtra("material_id",material_id)
+                                intent.putExtra("Material_name",Material_name)
+                                intent.putExtra("isExist",isExist)
+                                intent.putExtra("itemCode",itemCode) //
+                                intent.putExtra("totCarton",totCarton) //
+                                intent.putExtra("pilotNo",pilotNo)
+                                intent.putExtra("cartonSNo",cartonSNo) //
+                                intent.putExtra("cartonCode",cartonCode) //
+                                intent.putExtra("cartonNo",cartonNo) //
+                                intent.putExtra("matStock",stock) //
+                                intent.putExtra("pilotNo",it.data[0].pilotNo) //
+                                intent.putExtra("pilotCode",it.data[0].pilotCode) //
+                                intent.putExtra("pilotName",it.data[0].pilotName) //
+                                startActivity(intent)
+                                cameraSource.stop()
+
+                            }
+                            else
+                            {
+                                Log.i("getCartonDetails","${Exception().message}")
+                                toast("No record found")
+                                binding.cameraSurfaceView.gone()
+                                cameraSource.stop()
+                                binding.scanBtn.visible()
+                            }
+                        }
+                        catch (e:Exception)
+                        {
+                            Log.i("getCartonDetails","${e.message}")
+                        }
+
+                    }
+                }
+
+                Status.ERROR ->{ }
+
             }
         })
 
@@ -287,56 +352,8 @@ class ScanCartonActivity : AppCompatActivity() {
                         cameraSource.stop()
                         Toast.makeText(this@ScanCartonActivity, "value- $scannedValue", Toast.LENGTH_SHORT).show()
 
-                        viewModel.getCartonDetails(
-                            scannedValue
-                        )
+                        viewModel.getCartonDetails(scannedValue)
 
-                        viewModel.getCartonDetails.observe(this@ScanCartonActivity, Observer {
-                            when(it.status){
-                                Status.LOADING ->{
-
-                                }
-                                Status.SUCCESS ->{
-
-                                    it.let {
-                                        try
-                                        {
-                                            if (it.data?.get(0)?.status == true)
-                                            {
-                                                Log.i("analytical no",it.data[0].analyticalNo.toString())
-                                                Analytical_No = it.data[0].analyticalNo.toString()
-                                                Material_name = it.data[0].materialName.toString()
-                                                material_id = it.data[0].materialId.toString()
-                                                isExist = it.data[0].isExist!!
-                                                stock = it.data[0].matStock.toString()
-                                                val intent = Intent(this@ScanCartonActivity, CartonDetailActivity::class.java)
-                                                intent.putExtra("Analytical_No",Analytical_No)
-                                                intent.putExtra("material_id",material_id)
-                                                intent.putExtra("Material_name",Material_name)
-                                                intent.putExtra("isExist",isExist)
-                                                intent.putExtra("stock",stock)
-                                                startActivity(intent)
-                                                cameraSource.stop()
-
-                                            }
-                                            else
-                                            {
-                                                Log.i("getCartonDetails","${Exception().message}")
-                                                toast("No record found")
-                                            }
-                                        }
-                                        catch (e:Exception)
-                                        {
-                                            Log.i("getCartonDetails","${e.message}")
-                                        }
-
-                                    }
-                                }
-
-                                Status.ERROR ->{ }
-
-                            }
-                        })
                     }
                 }
                 else { }

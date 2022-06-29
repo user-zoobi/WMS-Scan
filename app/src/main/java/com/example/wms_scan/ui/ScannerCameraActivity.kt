@@ -40,13 +40,15 @@ class ScannerCameraActivity : AppCompatActivity() {
             ) != PackageManager.PERMISSION_GRANTED
         ) {
             askForCameraPermission()
-        } else {
+        }
+        else
+        {
             setupControls()
         }
 
-        val aniSlide: Animation =
-            AnimationUtils.loadAnimation(this, R.anim.scanner_animation)
+        val aniSlide: Animation = AnimationUtils.loadAnimation(this, R.anim.scanner_animation)
         binding.barcodeLine.startAnimation(aniSlide)
+
     }
 
 

@@ -34,16 +34,6 @@
 <!--        android:scaleType="fitEnd"-->
 <!--        android:src="@drawable/qr_mobile" />-->
 
-    <com.airbnb.lottie.LottieAnimationView
-        android:id="@+id/progressDialog"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        app:lottie_rawRes="@raw/loading_anim"
-        android:layout_centerInParent="true"
-        app:lottie_autoPlay="true"
-        app:lottie_loop="true"
-        android:visibility="gone"/>
-
     <androidx.appcompat.widget.LinearLayoutCompat
         android:id="@+id/loginCont"
         android:layout_width="match_parent"

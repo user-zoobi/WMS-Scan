@@ -58,7 +58,6 @@ class LoginActivity : AppCompatActivity() {
                     }
                     Status.SUCCESS -> {
                         dialog.dismiss()
-                        binding.progressDialog.gone()
 
                         it.let {
 
@@ -90,7 +89,6 @@ class LoginActivity : AppCompatActivity() {
                         }
                     }
                     Status.ERROR -> {
-                        binding.progressDialog.gone()
                         toast("Something went wrong")
                     }
                 }

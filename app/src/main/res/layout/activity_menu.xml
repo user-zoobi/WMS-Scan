@@ -16,7 +16,7 @@
         android:layout_marginTop="@dimen/_35sdp"
         android:layout_marginEnd="@dimen/_20sdp"
         android:layout_marginBottom="@dimen/_5sdp"
-        android:background="@drawable/grey_rounded_bg"
+        android:background="@drawable/grey_top_rounded_bg"
         android:padding="@dimen/_5sdp"
         android:src="@drawable/logout" />
 
@@ -70,8 +70,9 @@
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/loginTimeTV">
+        android:layout_height="match_parent"
+        android:layout_below="@+id/loginTimeTV"
+        android:layout_alignParentBottom="true">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -94,7 +95,7 @@
 
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_below="@id/masterTV"
                 android:layout_centerHorizontal="true"
                 android:layout_marginStart="@dimen/_20sdp"
@@ -104,7 +105,7 @@
 
                 <RelativeLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:paddingBottom="@dimen/_40sdp">
 
                     <com.google.android.material.card.MaterialCardView
@@ -253,7 +254,6 @@
                         </androidx.appcompat.widget.LinearLayoutCompat>
 
                     </com.google.android.material.card.MaterialCardView>
-
 
                     <com.google.android.material.card.MaterialCardView
                         android:id="@+id/placeCartonIV"

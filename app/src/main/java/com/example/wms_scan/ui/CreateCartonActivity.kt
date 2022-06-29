@@ -212,6 +212,10 @@ class CreateCartonActivity : AppCompatActivity() {
                                 Status.ERROR ->{
                                     dialog.dismiss()
                                     Log.i("error","${Exception().message}")
+                                    binding.cameraSurfaceView.gone()
+                                    binding.scanBtn.visible()
+                                    binding.clickHereTV.visible()
+                                    cameraSource.stop()
                                 }
                             }
                         })
