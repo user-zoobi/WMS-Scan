@@ -452,6 +452,11 @@
                 android:layout_height="wrap_content"
                 android:visibility="gone">
 
+                <com.budiyev.android.codescanner.CodeScannerView
+                    android:id="@+id/scanner_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+
                 <SurfaceView
                     android:id="@+id/cameraSurfaceView"
                     android:layout_width="@dimen/_350sdp"

@@ -272,7 +272,7 @@ class PalletsActivity : AppCompatActivity() {
                         {
                             if(it.data?.get(0)?.status == true)
                             {
-                                showRackSpinner(it.data!!)
+                                showRackSpinner(it.data)
                             }
                             else
                             {

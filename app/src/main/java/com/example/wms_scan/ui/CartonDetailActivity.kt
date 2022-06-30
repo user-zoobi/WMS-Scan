@@ -5,10 +5,16 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
+import android.view.View
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.scanmate.data.callback.Status
+import com.example.scanmate.data.response.GetShelfResponse
 import com.example.scanmate.extensions.*
+import com.example.scanmate.util.Constants
 import com.example.scanmate.util.LocalPreferences
 import com.example.scanmate.util.LocalPreferences.AppLoginPreferences.pallets
 import com.example.scanmate.util.LocalPreferences.AppLoginPreferences.rack
@@ -17,6 +23,8 @@ import com.example.scanmate.util.LocalPreferences.AppLoginPreferences.warehouse
 import com.example.scanmate.util.Utils
 import com.example.scanmate.viewModel.MainViewModel
 import com.example.wms_scan.R
+import com.example.wms_scan.adapter.pallets.PalletsAdapter
+import com.example.wms_scan.data.response.GetPalletResponse
 import com.example.wms_scan.databinding.ActivityCartonDetailBinding
 import com.example.wms_scan.utils.PermissionDialog
 import java.lang.Exception
@@ -34,6 +42,7 @@ class CartonDetailActivity : AppCompatActivity() {
     private var cartonNo = ""
     private var itemCode = ""
     private var stock = ""
+    private var selectedPalletNo = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,13 +58,18 @@ class CartonDetailActivity : AppCompatActivity() {
 
     private fun initListener(){
 
+        binding.backBtn.click {
+            onBackPressed()
+        }
+
         binding.saveBtn.click {
             with(viewModel) {
+
                 this.addCarton(
                     CartonNo = Utils.getSimpleTextBody("0"),
                     CartonCode = Utils.getSimpleTextBody(cartonCode),
-                    ItemCode = Utils.getSimpleTextBody(itemCode), //
-                    PilotNo = Utils.getSimpleTextBody(pilotNo),
+                    ItemCode = Utils.getSimpleTextBody("TEST"), //
+                    PilotNo = Utils.getSimpleTextBody("2"),
                     AnalyticalNo = Utils.getSimpleTextBody(analyticalNo), //
                     Carton_SNo = Utils.getSimpleTextBody(cartonSNo), //
                     TotCarton = Utils.getSimpleTextBody(totCarton), //
@@ -63,29 +77,40 @@ class CartonDetailActivity : AppCompatActivity() {
                     DMLUserNo = Utils.getSimpleTextBody("2"),
                     DMLPCName = Utils.getSimpleTextBody("test")
                 )
+                Log.i("IntentSave","\n$cartonCode\n $cartonNo\n $cartonSNo\n $itemCode\n $pilotNo\n $analyticalNo\n $cartonSNo\n $totCarton")
 
-                Log.i("Intent","$cartonCode $cartonNo $cartonSNo $itemCode $pilotNo $analyticalNo $cartonSNo $totCarton")
             }
         }
 
         binding.updateBtn.click {
+
             viewModel.addCarton(
                 Utils.getSimpleTextBody(cartonNo),
-                Utils.getSimpleTextBody(cartonCode),
-                Utils.getSimpleTextBody(itemCode),
-                Utils.getSimpleTextBody(pilotNo),
-                Utils.getSimpleTextBody(analyticalNo),
-                Utils.getSimpleTextBody(cartonSNo),
-                Utils.getSimpleTextBody(totCarton),
-                Utils.getSimpleTextBody("1"),
-                Utils.getSimpleTextBody("2"),
-                Utils.getSimpleTextBody("test"),
+                CartonCode = Utils.getSimpleTextBody(cartonCode),
+                ItemCode = Utils.getSimpleTextBody("TEST"), //
+                PilotNo = Utils.getSimpleTextBody(selectedPalletNo),
+                AnalyticalNo = Utils.getSimpleTextBody(analyticalNo), //
+                Carton_SNo = Utils.getSimpleTextBody(cartonSNo), //
+                TotCarton = Utils.getSimpleTextBody(totCarton), //
+                LocationNo = Utils.getSimpleTextBody("1"),
+                DMLUserNo = Utils.getSimpleTextBody("2"),
+                DMLPCName = Utils.getSimpleTextBody("test"),
             )
-            Log.i("Intent","$cartonCode $cartonNo $cartonSNo $itemCode $pilotNo $analyticalNo $cartonSNo $totCarton")
+            Log.i("IntentUpdate","$cartonCode $cartonNo $cartonSNo $itemCode $pilotNo $analyticalNo $cartonSNo $totCarton")
         }
 
         binding.logout.click {
             clearPreferences(this)
+        }
+
+        binding.closeBtn.click {
+            binding.selectPalletCont.gone()
+            binding.palletValuesCont.visible()
+        }
+
+        binding.changeTV.click {
+            binding.palletValuesCont.gone()
+            binding.selectPalletCont.visible()
         }
 
     }
@@ -103,6 +128,7 @@ class CartonDetailActivity : AppCompatActivity() {
                         {
                             if(it.data?.status == true)
                             {
+                                Log.i("addCarton",it.data.status.toString())
                                 toast(it.data.error.toString())
                             }
                         }
@@ -114,6 +140,41 @@ class CartonDetailActivity : AppCompatActivity() {
                 }
                 Status.ERROR->{
 
+                }
+            }
+        })
+
+        viewModel.getPallet(
+            Utils.getSimpleTextBody(""),
+            Utils.getSimpleTextBody("11"),
+            Utils.getSimpleTextBody("1"),
+        )
+        viewModel.getPallet.observe(this, Observer {
+            when(it.status){
+                Status.LOADING ->{
+                    Log.i(Constants.LogMessages.loading,"Loading")
+                }
+                Status.SUCCESS ->{
+                    try
+                    {
+                        LocalPreferences.put(this,
+                            LocalPreferences.AppLoginPreferences.isRefreshRequired, true)
+                        if(it.data?.get(0)?.status == true)
+                        {
+                            Log.i(Constants.LogMessages.success,"Success")
+                            showPalletSpinner(it.data)
+                        }
+                        else { }
+                    }
+                    catch (e:Exception)
+                    {
+                        Log.i("exception","${e.message}")
+                        Log.i("rackAdapter","${e.stackTrace}")
+                    }
+
+                }
+                Status.ERROR ->{
+                    Log.i(Constants.LogMessages.error,"Success")
                 }
             }
         })
@@ -130,16 +191,19 @@ class CartonDetailActivity : AppCompatActivity() {
         stock = intent.extras?.getString("matStock").toString()
         itemCode = intent.extras?.getString("itemCode").toString()
         totCarton = intent.extras?.getString("totCarton").toString()
-        pilotNo = intent.extras?.getString("pilotNo").toString()
+        pilotNo = intent.extras?.getInt("pilotNo").toString()
         cartonSNo = intent.extras?.getString("cartonSNo").toString()
         cartonCode = intent.extras?.getString("cartonCode").toString()
-        cartonNo = intent.extras?.getString("cartonNo").toString()
+        cartonNo = intent.extras?.getInt("cartonNo").toString()
         val pilotName = intent.extras?.getString("pilotName").toString()
         val pilotCode = intent.extras?.getString("pilotCode").toString()
+
+        Log.i("pilotNo",pilotNo)
 
         binding.analyticalNumTV.text = analyticalNo
         binding.materialNumTV.text = materialId
         binding.stockTV.text = stock
+        binding.cartonNumTV.text = cartonNo
         binding.palletCode.text = "Pallet Code : $pilotCode"
         binding.palletName.text = "Pallet Name : $pilotName"
         binding.palletNo.text = "Pallet no : $pilotNo"
@@ -165,6 +229,46 @@ class CartonDetailActivity : AppCompatActivity() {
                 binding.updateBtn.visible()
                 binding.saveBtn.gone()
                 binding.palletNo.visible()
+
+            }
+            intent.extras?.getInt("isExist") == 0 ->{
+                binding.palletCode.gone()
+                binding.palletName.gone()
+                binding.palletNo.gone()
+                binding.palletView.gone()
+            }
+        }
+    }
+
+
+    private fun showPalletSpinner(data:List<GetPalletResponse>) {
+        //String array to store all the book names
+        val items = arrayOfNulls<String>(data.size)
+        val shelfResponse = binding.palletSpinner
+
+        //Traversing through the whole list to get all the names
+        for (i in data.indices) {
+            //Storing names to string array
+            items[i] = data[i].pilotName
+            val adapter: ArrayAdapter<String?> =
+                ArrayAdapter(this, android.R.layout.simple_list_item_1, items)
+            //setting adapter to spinner
+            shelfResponse.adapter = adapter
+            shelfResponse.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
+
+                override fun onItemSelected(adapter: AdapterView<*>?, view: View?, position: Int, long: Long) {
+                    if (Utils.isNetworkConnected(this@CartonDetailActivity))
+                    {
+                        Log.i("PalletNo","This is pallet pos ${adapter?.getItemAtPosition(position)}")
+                        selectedPalletNo = data[position].pilotNo.toString()
+                    }
+                    else
+                    {
+                        toast(Constants.Toast.NoInternetFound)
+                    }
+
+                }
+                override fun onNothingSelected(p0: AdapterView<*>?) {}
             }
         }
     }

@@ -98,7 +98,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="@dimen/_130sdp"
-            android:background="@drawable/grey_rounded_bg"
+            android:background="@drawable/top_rounded_grey_bg"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
@@ -388,7 +388,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_20sdp"
-                android:layout_marginTop="@dimen/_30sdp"
+                android:layout_marginTop="@dimen/_20sdp"
                 android:layout_marginEnd="@dimen/_20sdp"
                 android:layout_marginBottom="@dimen/_30sdp"
                 app:cardCornerRadius="@dimen/_20sdp"
@@ -541,18 +541,21 @@
                     </androidx.appcompat.widget.LinearLayoutCompat>
 
                     <View
+                        android:id="@+id/palletView"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/_1sdp"
-                        android:layout_marginBottom="@dimen/_20sdp"
-                        android:background="@color/light_blue"
-                        android:layout_marginTop="@dimen/_10sdp"
                         android:layout_marginStart="@dimen/_10sdp"
-                        android:layout_marginEnd="@dimen/_10sdp"/>
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:layout_marginEnd="@dimen/_10sdp"
+                        android:layout_marginBottom="@dimen/_20sdp"
+                        android:background="@color/royal_blue" />
 
                     <RelativeLayout
+                        android:id="@+id/palletValuesCont"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/_20sdp">
+                        android:layout_marginStart="@dimen/_20sdp"
+                        >
 
                         <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/palletCode"
@@ -577,6 +580,19 @@
                             android:textSize="@dimen/_15ssp" />
 
                         <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/changeTV"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentTop="true"
+                            android:layout_alignParentEnd="true"
+                            android:layout_marginEnd="@dimen/_20sdp"
+                            android:fontFamily="@font/amiko"
+                            android:text="Change"
+                            android:textColor="@color/royal_blue"
+                            android:textSize="@dimen/_16ssp"
+                            android:textStyle="bold" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/palletNo"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -592,18 +608,69 @@
 
                     </RelativeLayout>
 
+                    <RelativeLayout
+                        android:id="@+id/selectPalletCont"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_20sdp"
+                        android:layout_marginEnd="@dimen/_20sdp"
+                        android:orientation="vertical"
+                        android:visibility="gone">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/selectPalletTV"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/amiko"
+                            android:text="Select pallet"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/_15ssp" />
+
+                        <com.google.android.material.card.MaterialCardView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            app:cardElevation="@dimen/_10sdp"
+                            android:layout_below="@+id/selectPalletTV"
+                            android:layout_marginTop="@dimen/_15sdp">
+
+                            <androidx.appcompat.widget.AppCompatSpinner
+                                android:id="@+id/palletSpinner"
+                                android:layout_width="match_parent"
+                                android:layout_height="20dp"
+                                android:layout_marginTop="@dimen/_2sdp"
+                                android:layout_marginBottom="@dimen/_2sdp"
+                                android:maxLines="1"
+                                android:paddingStart="@dimen/_10sdp"
+                                android:spinnerMode="dialog"
+                                android:theme="@style/SpinnerScrollBar"
+                                android:visibility="visible" />
+
+                        </com.google.android.material.card.MaterialCardView>
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:id="@+id/closeBtn"
+                            android:layout_width="20dp"
+                            android:layout_height="@dimen/_20sdp"
+                            android:layout_alignParentEnd="true"
+                            android:background="@drawable/grey_circle_bg"
+                            android:padding="@dimen/_5sdp"
+                            android:src="@drawable/close_icon" />
+
+                    </RelativeLayout>
+
                     <androidx.appcompat.widget.AppCompatButton
                         android:id="@+id/saveBtn"
                         android:layout_width="@dimen/_150sdp"
                         android:layout_height="wrap_content"
+                        android:layout_below="@id/palletName"
                         android:layout_alignParentEnd="true"
-                        android:layout_marginTop="@dimen/_10sdp"
-                        android:layout_marginEnd="@dimen/_30sdp"
-                        android:background="@drawable/hollow_black_rounded_bg"
                         android:layout_gravity="end"
+                        android:layout_marginTop="@dimen/_20sdp"
+                        android:layout_marginEnd="@dimen/_30sdp"
+                        android:layout_marginBottom="@dimen/_20sdp"
+                        android:background="@drawable/hollow_black_rounded_bg"
                         android:fontFamily="@font/amiko"
                         android:text="Save"
-                        android:layout_below="@id/palletName"
                         android:textAllCaps="false"
                         android:textColor="@color/white"
                         android:textSize="@dimen/_15ssp" />
@@ -612,6 +679,7 @@
                         android:id="@+id/updateBtn"
                         android:layout_width="@dimen/_150sdp"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="end"
                         android:layout_marginTop="@dimen/_10sdp"
                         android:layout_marginEnd="@dimen/_30sdp"
                         android:layout_marginBottom="@dimen/_20sdp"
@@ -621,8 +689,7 @@
                         android:textAllCaps="false"
                         android:textColor="@color/white"
                         android:textSize="@dimen/_15ssp"
-                        android:visibility="gone"
-                        android:layout_gravity="end" />
+                        android:visibility="gone" />
 
 
                 </androidx.appcompat.widget.LinearLayoutCompat>

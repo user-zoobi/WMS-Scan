@@ -60,12 +60,12 @@ class ScanCartonActivity : AppCompatActivity() {
     var Analytical_No = ""
     var material_id = ""
     var Material_name = ""
-    var pilotNo = ""
+    var pilotNo = 0
     var cartonSNo = ""
     var isExist = 0
+    var pilotCode = ""
     var stock = ""
     var cartonCode = ""
-    var cartonNo = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -206,10 +206,11 @@ class ScanCartonActivity : AppCompatActivity() {
                                 itemCode = it.data[0].itemCode.toString()
                                 analyticalNo = it.data[0].analyticalNo.toString()
                                 totCarton = it.data[0].totCarton.toString()
-                                pilotNo = it.data[0].pilotNo.toString()
+                                pilotNo = it.data[0].pilotNo!!
                                 cartonSNo = it.data[0].cartonSNo.toString()
                                 cartonCode = it.data[0].cartonCode.toString()
-                                cartonNo = it.data[0].cartonNo.toString()
+
+                                Log.i("cartonNo",it.data[0].cartonNo.toString())
 
                                 Log.i("analytical no",it.data[0].analyticalNo.toString())
                                 scanCartonAdapter = ScanCartonAdapter(this,
@@ -259,12 +260,9 @@ class ScanCartonActivity : AppCompatActivity() {
                                 intent.putExtra("material_id",material_id)
                                 intent.putExtra("Material_name",Material_name)
                                 intent.putExtra("isExist",isExist)
-                                intent.putExtra("itemCode",itemCode) //
                                 intent.putExtra("totCarton",totCarton) //
-                                intent.putExtra("pilotNo",pilotNo)
                                 intent.putExtra("cartonSNo",cartonSNo) //
-                                intent.putExtra("cartonCode",cartonCode) //
-                                intent.putExtra("cartonNo",cartonNo) //
+                                intent.putExtra("cartonNo",it.data[0].cartonNo) //
                                 intent.putExtra("matStock",stock) //
                                 intent.putExtra("pilotNo",it.data[0].pilotNo) //
                                 intent.putExtra("pilotCode",it.data[0].pilotCode) //
