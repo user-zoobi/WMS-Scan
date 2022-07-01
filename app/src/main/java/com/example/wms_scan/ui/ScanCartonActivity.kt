@@ -367,11 +367,8 @@ class ScanCartonActivity : AppCompatActivity() {
         )
     }
 
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
-    ) {
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray)
+    {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == requestCodeCameraPermission && grantResults.isNotEmpty()) {
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
@@ -387,11 +384,8 @@ class ScanCartonActivity : AppCompatActivity() {
         cameraSource.stop()
     }
 
-
     override fun onBackPressed() {
         finish()
     }
-
-
 
 }

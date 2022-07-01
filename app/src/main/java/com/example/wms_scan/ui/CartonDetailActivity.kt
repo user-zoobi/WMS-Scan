@@ -43,6 +43,7 @@ class CartonDetailActivity : AppCompatActivity() {
     private var itemCode = ""
     private var stock = ""
     private var selectedPalletNo = ""
+    private var selectedPalletCode = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -69,7 +70,7 @@ class CartonDetailActivity : AppCompatActivity() {
                     CartonNo = Utils.getSimpleTextBody("0"),
                     CartonCode = Utils.getSimpleTextBody(cartonCode),
                     ItemCode = Utils.getSimpleTextBody("TEST"), //
-                    PilotNo = Utils.getSimpleTextBody("2"),
+                    PilotNo = Utils.getSimpleTextBody(pilotNo),
                     AnalyticalNo = Utils.getSimpleTextBody(analyticalNo), //
                     Carton_SNo = Utils.getSimpleTextBody(cartonSNo), //
                     TotCarton = Utils.getSimpleTextBody(totCarton), //
@@ -96,6 +97,11 @@ class CartonDetailActivity : AppCompatActivity() {
                 DMLUserNo = Utils.getSimpleTextBody("2"),
                 DMLPCName = Utils.getSimpleTextBody("test"),
             )
+
+            viewModel.palletHierarchy(
+                Utils.getSimpleTextBody("$selectedPalletCode-$selectedPalletNo")
+            )
+
             Log.i("IntentUpdate","$cartonCode $cartonNo $cartonSNo $itemCode $pilotNo $analyticalNo $cartonSNo $totCarton")
         }
 
@@ -106,11 +112,13 @@ class CartonDetailActivity : AppCompatActivity() {
         binding.closeBtn.click {
             binding.selectPalletCont.gone()
             binding.palletValuesCont.visible()
+            binding.updateBtn.gone()
         }
 
         binding.changeTV.click {
             binding.palletValuesCont.gone()
             binding.selectPalletCont.visible()
+            binding.updateBtn.visible()
         }
 
     }
@@ -130,6 +138,7 @@ class CartonDetailActivity : AppCompatActivity() {
                             {
                                 Log.i("addCarton",it.data.status.toString())
                                 toast(it.data.error.toString())
+
                             }
                         }
                         catch (e:Exception)
@@ -179,6 +188,29 @@ class CartonDetailActivity : AppCompatActivity() {
             }
         })
 
+        viewModel.palletHierarchy.observe(this, Observer {
+            when(it.status){
+                Status.LOADING ->{
+
+                }
+                Status.SUCCESS ->{
+
+                    val warehouse = it.data?.get(0)?.wHName.toString()
+                    val  racks = it.data?.get(0)?.rackName.toString()
+                    val shelf = it.data?.get(0)?.shelfName.toString()
+                    val pallet = it.data?.get(0)?.pilotName.toString()
+
+                    binding.WHTV.text = warehouse
+                    binding.rackTV.text = racks
+                    binding.shelfTV.text = shelf
+                    binding.palletTV.text = pallet
+                }
+                Status.ERROR ->{
+
+                }
+            }
+        })
+
     }
 
     private fun setupUi(){
@@ -218,15 +250,9 @@ class CartonDetailActivity : AppCompatActivity() {
             LocalPreferences.AppLoginPreferences.loginTime
         )
 
-        binding.WHTV.text = LocalPreferences.getString(this, warehouse)
-        binding.rackTV.text =  LocalPreferences.getString(this, rack)
-        binding.shelfTV.text =  LocalPreferences.getString(this, shelf)
-        binding.palletTV.text =  LocalPreferences.getString(this, pallets)
-
         when
         {
             intent.extras?.getInt("isExist") == 1 ->{
-                binding.updateBtn.visible()
                 binding.saveBtn.gone()
                 binding.palletNo.visible()
 
@@ -239,7 +265,6 @@ class CartonDetailActivity : AppCompatActivity() {
             }
         }
     }
-
 
     private fun showPalletSpinner(data:List<GetPalletResponse>) {
         //String array to store all the book names
@@ -261,6 +286,8 @@ class CartonDetailActivity : AppCompatActivity() {
                     {
                         Log.i("PalletNo","This is pallet pos ${adapter?.getItemAtPosition(position)}")
                         selectedPalletNo = data[position].pilotNo.toString()
+                        selectedPalletCode = data[position].pilotCode.toString()
+
                     }
                     else
                     {
