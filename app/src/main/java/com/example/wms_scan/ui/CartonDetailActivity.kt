@@ -45,6 +45,8 @@ class CartonDetailActivity : AppCompatActivity() {
     private var selectedPalletNo = ""
     private var selectedPalletCode = ""
 
+    //
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityCartonDetailBinding.inflate(layoutInflater)
