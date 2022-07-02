@@ -21,6 +21,7 @@ object Routes {
         const val addCarton = "CartonAPI/DML_Carton"
         const val paletteHierarchy = "PilotAPI/Get_Pilot_Hierarchy"
         const val getCartonDetails = "CartonAPI/Get_Carton_Detail"
+        const val scanAll = "Main/Get_All_Scaner"
 
     }
 

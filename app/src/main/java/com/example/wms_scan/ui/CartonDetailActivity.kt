@@ -309,8 +309,4 @@ class CartonDetailActivity : AppCompatActivity() {
         gotoActivity(LoginActivity::class.java)
     }
 
-    override fun onBackPressed() {
-        finish()
-    }
-
 }

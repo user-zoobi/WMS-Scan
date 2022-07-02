@@ -343,4 +343,27 @@ class MainViewModel : ViewModel() {
         }
     }
 
+    private val _scanAll = MutableLiveData<ApiResponseCallback<List<ScanAllResponse>>>()
+    val scanAll : LiveData<ApiResponseCallback<List<ScanAllResponse>>>
+    get() = _scanAll
+
+    fun scanAll(Search: String, LocationNo: String){
+        viewModelScope.launch {
+            _scanAll.value = ApiResponseCallback.loading()
+
+            try
+            {
+                _scanAll.value = ApiResponseCallback.success(
+                    repository.scanAll(
+                        Search, LocationNo
+                    )
+                )
+            }
+            catch (e:Exception)
+            {
+                //_scanAll.value = ApiResponseCallback.error("${e.message}",null)
+                Log.i("scanAll","error ${e.message}")
+            }
+        }
+    }
 }

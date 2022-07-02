@@ -120,4 +120,9 @@ class GeneralRepository : ApiHelper {
 
     override suspend fun getCartonDetails(Analytical_No: String): List<GetCartonDetailsResponse>
     = RetrofitClient.apiservice.getCartonDetail(Analytical_No)
+
+    override suspend fun scanAll(
+        Search: String, LocationNo: String
+    ): List<ScanAllResponse>
+    = RetrofitClient.apiservice.scanAll(Search, LocationNo)
 }

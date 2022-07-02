@@ -17,6 +17,7 @@ import com.example.wms_scan.data.routes.Routes.EndPoint.addPallet
 import com.example.wms_scan.data.routes.Routes.EndPoint.getCarton
 import com.example.wms_scan.data.routes.Routes.EndPoint.getCartonDetails
 import com.example.wms_scan.data.routes.Routes.EndPoint.paletteHierarchy
+import com.example.wms_scan.data.routes.Routes.EndPoint.scanAll
 import okhttp3.RequestBody
 import retrofit2.http.*
 
@@ -163,4 +164,11 @@ interface ApiService {
     suspend fun getCartonDetail(
         @Field("Analytical_No") Analytical_No:String
     ):List<GetCartonDetailsResponse>
+
+    @FormUrlEncoded
+    @POST(scanAll)
+    suspend fun scanAll(
+        @Field("Search") Search:String,
+        @Field("LocationNo") LocationNo:String,
+    ): List<ScanAllResponse>
 }

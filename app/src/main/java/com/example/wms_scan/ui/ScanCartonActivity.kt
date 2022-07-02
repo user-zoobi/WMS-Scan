@@ -93,9 +93,6 @@ class ScanCartonActivity : AppCompatActivity() {
             Utils.getSimpleTextBody(busLocNo.toString())
         )
 
-
-        // CARTON DETAILS
-
     }
 
     private fun setupUi(){

@@ -7,6 +7,8 @@ import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
+import android.os.Looper
+import android.util.Log
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.MediaController
@@ -36,13 +38,16 @@ class SplashActivity : AppCompatActivity() {
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         handler()
         configureVideoView()
+
+        val code = "ahsajhsk-2"
+        Log.i("Zohaib", "onCreate: ${code.substringBefore("-")}")
     }
 
     private fun handler(){
 
         CoroutineScope(Dispatchers.Main).launch {
 
-            Handler().postDelayed({
+            Handler(Looper.getMainLooper()).postDelayed({
                 if (LocalPreferences.getBoolean(this@SplashActivity, isLogin)){
                     if (isNetworkConnected(this@SplashActivity)){
                         gotoActivity(MenuActivity::class.java)

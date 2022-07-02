@@ -1,17 +1,25 @@
 package com.example.wms_scan.ui
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.SurfaceHolder
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.Observer
+import com.example.scanmate.data.callback.Status
 import com.example.scanmate.extensions.gotoActivity
+import com.example.scanmate.extensions.obtainViewModel
 import com.example.scanmate.extensions.setTransparentStatusBarColor
+import com.example.scanmate.util.CustomProgressDialog
+import com.example.scanmate.util.Utils
+import com.example.scanmate.viewModel.MainViewModel
 import com.example.wms_scan.R
 import com.example.wms_scan.databinding.ActivityScannerCameraBinding
 import com.google.android.gms.vision.CameraSource
@@ -25,6 +33,8 @@ class ScannerCameraActivity : AppCompatActivity() {
     private lateinit var cameraSource: CameraSource
     private lateinit var barcodeDetector: BarcodeDetector
     private var scannedValue = ""
+    private lateinit var dialog: CustomProgressDialog
+    private lateinit var viewModel: MainViewModel
     private lateinit var binding: ActivityScannerCameraBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -34,6 +44,7 @@ class ScannerCameraActivity : AppCompatActivity() {
         setContentView(view)
         supportActionBar?.hide()
         setTransparentStatusBarColor(R.color.transparent)
+        viewModel = obtainViewModel(MainViewModel::class.java)
 
         if (ContextCompat.checkSelfPermission(
                 this , android.Manifest.permission.CAMERA
@@ -48,6 +59,37 @@ class ScannerCameraActivity : AppCompatActivity() {
 
         val aniSlide: Animation = AnimationUtils.loadAnimation(this, R.anim.scanner_animation)
         binding.barcodeLine.startAnimation(aniSlide)
+        dialog = CustomProgressDialog(this)
+        initObserver()
+
+    }
+
+    private fun initObserver(){
+
+
+        viewModel.scanAll.observe(this, Observer {
+            when(it.status){
+                Status.LOADING ->{
+                    dialog.show()
+                }
+                Status.SUCCESS ->{
+                    try
+                    {
+                        dialog.dismiss()
+                        Log.i("scanAllResponse","${it.data?.get(0)?.analyticalNo}")
+
+                    }
+                    catch (e:Exception)
+                    {
+                        Log.i("scanAll","${e.message}")
+                    }
+
+                }
+                Status.ERROR ->{
+                    dialog.dismiss()
+                }
+            }
+        })
 
     }
 
@@ -105,12 +147,21 @@ class ScannerCameraActivity : AppCompatActivity() {
                     //Don't forget to add this line printing value or finishing activity must run on main thread
                     runOnUiThread {
                         cameraSource.stop()
-                        Toast.makeText(this@ScannerCameraActivity, "value- $scannedValue", Toast.LENGTH_SHORT).show()
+                        val subStringBefore = scannedValue.substringBefore("-")
+                        Log.i("subString", subStringBefore)
+//                        Toast.makeText(this@ScannerCameraActivity, "value- $scannedValue", Toast.LENGTH_SHORT).show()
+
+//                        Log.i("subString", "$scan")
+//                        viewModel.scanAll()
+                        viewModel.scanAll(subStringBefore, "0")
+                        val intent = Intent(this@ScannerCameraActivity, ScanAllHierarchy::class.java)
+                        intent.putExtra("subStringBefore",subStringBefore)
+                        startActivity(intent)
                         finish()
                     }
                 }else
                 {
-                    Toast.makeText(this@ScannerCameraActivity, "value- else", Toast.LENGTH_SHORT).show()
+                    //Toast.makeText(this@ScannerCameraActivity, "value- else", Toast.LENGTH_SHORT).show()
 
                 }
             }
