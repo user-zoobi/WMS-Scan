@@ -39,8 +39,43 @@ class SplashActivity : AppCompatActivity() {
         handler()
         configureVideoView()
 
-        val code = "ahsajhsk-2"
-        Log.i("Zohaib", "onCreate: ${code.substringBefore("-")}")
+        val code = "01L-01WH-01S-01R-01P"
+
+        if (code.contains("L"))
+        {
+            Log.i("Zohaib", "Location: ${code.substringBefore("L-")}L")
+        }
+
+        if (code.contains("WH"))
+        {
+            Log.i("Zohaib", "Warehouse: ${code.substringAfter("L-").substringBefore("WH")}WH")
+        }
+
+        if ( code.contains("R") ){
+            Log.i("Zohaib", "Rack: ${code.substringAfter("S-").substringBefore("R")}R")
+        }
+        if (code.contains("S"))
+        {
+            Log.i("Zohaib", "Rack: ${code.substringAfter("H-").substringBefore("S")}S")
+        }
+        if ( code.contains("P")){
+            Log.i("Zohaib", "Rack: ${code.substringAfter("R-").substringBefore("P")}P")
+        }
+
+
+////        when
+////        {
+////
+////
+////             ->
+////
+////             ->
+////                Log.i("Zohaib", "Shelve: ${code.substringAfter("WH-").substringBefore("S")}S")
+//
+////        }
+//
+//
+//        Log.i("Zohaib", "onCreate: ${code.substringBefore("-")}")
     }
 
     private fun handler(){

@@ -157,7 +157,7 @@ class CartonDetailActivity : AppCompatActivity() {
 
         viewModel.getPallet(
             Utils.getSimpleTextBody(""),
-            Utils.getSimpleTextBody("11"),
+            Utils.getSimpleTextBody("48"),
             Utils.getSimpleTextBody("1"),
         )
         viewModel.getPallet.observe(this, Observer {

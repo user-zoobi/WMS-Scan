@@ -164,7 +164,11 @@ class CreateCartonActivity : AppCompatActivity() {
                         Toast.makeText(this@CreateCartonActivity, "value- $scannedValue", Toast.LENGTH_SHORT).show()
 
 
-                        viewModel.palletHierarchy(Utils.getSimpleTextBody(scannedValue))
+                        val scannedData = scannedValue.substringAfter("SF")
+                        Log.i("PalletHierarchy", scannedData)
+
+
+                        viewModel.palletHierarchy(Utils.getSimpleTextBody("$scannedData-$palletNo"))
 
                         viewModel.palletHierarchy.observe(this@CreateCartonActivity, Observer{
                             when(it.status){
