@@ -21,7 +21,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.WMSScan">
         <activity
-            android:name=".ui.ScanAllHierarchy"
+            android:name=".ui.ShowAllHierarchy"
             android:exported="false"
             android:launchMode="singleInstance"/>
         <activity

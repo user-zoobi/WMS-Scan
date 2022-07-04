@@ -479,17 +479,21 @@
                             android:layout_weight="1"
                             android:orientation="vertical">
 
+
+
+
                             <androidx.appcompat.widget.AppCompatTextView
+                                android:id="@+id/changeTV"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginStart="@dimen/_20sdp"
-                                android:layout_marginTop="@dimen/_30sdp"
+                                android:layout_marginEnd="@dimen/_50sdp"
+                                android:layout_gravity="end"
                                 android:fontFamily="@font/amiko"
-                                android:textColor="@color/black"
-                                android:textSize="@dimen/_20ssp"
-                                android:textStyle="bold"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent" />
+                                android:text="Change"
+                                android:layout_marginTop="@dimen/_35sdp"
+                                android:textColor="@color/royal_blue"
+                                android:textSize="@dimen/_16ssp"
+                                android:textStyle="bold" />
 
                             <androidx.appcompat.widget.AppCompatTextView
                                 android:id="@+id/materialNumTV"
@@ -554,8 +558,7 @@
                         android:id="@+id/palletValuesCont"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/_20sdp"
-                        >
+                        android:layout_marginStart="@dimen/_20sdp">
 
                         <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/palletCode"
@@ -578,19 +581,6 @@
                             android:text="palletName"
                             android:textColor="@color/black"
                             android:textSize="@dimen/_15ssp" />
-
-                        <androidx.appcompat.widget.AppCompatTextView
-                            android:id="@+id/changeTV"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentTop="true"
-                            android:layout_alignParentEnd="true"
-                            android:layout_marginEnd="@dimen/_20sdp"
-                            android:fontFamily="@font/amiko"
-                            android:text="Change"
-                            android:textColor="@color/royal_blue"
-                            android:textSize="@dimen/_16ssp"
-                            android:textStyle="bold" />
 
                         <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/palletNo"
@@ -629,9 +619,9 @@
                         <com.google.android.material.card.MaterialCardView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            app:cardElevation="@dimen/_10sdp"
                             android:layout_below="@+id/selectPalletTV"
-                            android:layout_marginTop="@dimen/_15sdp">
+                            android:layout_marginTop="@dimen/_15sdp"
+                            app:cardElevation="@dimen/_10sdp">
 
                             <androidx.appcompat.widget.AppCompatSpinner
                                 android:id="@+id/palletSpinner"

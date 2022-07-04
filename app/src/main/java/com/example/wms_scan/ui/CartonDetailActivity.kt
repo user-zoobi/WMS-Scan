@@ -81,7 +81,8 @@ class CartonDetailActivity : AppCompatActivity() {
                     DMLPCName = Utils.getSimpleTextBody("test")
                 )
                 Log.i("IntentSave","\n$cartonCode\n $cartonNo\n $cartonSNo\n $itemCode\n $pilotNo\n $analyticalNo\n $cartonSNo\n $totCarton")
-
+                binding.saveBtn.gone()
+                binding.updateBtn.visible()
             }
         }
 
@@ -121,6 +122,7 @@ class CartonDetailActivity : AppCompatActivity() {
             binding.palletValuesCont.gone()
             binding.selectPalletCont.visible()
             binding.updateBtn.visible()
+            binding.saveBtn.gone()
         }
 
     }

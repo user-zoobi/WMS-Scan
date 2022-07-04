@@ -14,11 +14,9 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import com.example.scanmate.data.callback.Status
-import com.example.scanmate.extensions.gotoActivity
 import com.example.scanmate.extensions.obtainViewModel
 import com.example.scanmate.extensions.setTransparentStatusBarColor
 import com.example.scanmate.util.CustomProgressDialog
-import com.example.scanmate.util.Utils
 import com.example.scanmate.viewModel.MainViewModel
 import com.example.wms_scan.R
 import com.example.wms_scan.databinding.ActivityScannerCameraBinding
@@ -150,56 +148,57 @@ class ScannerCameraActivity : AppCompatActivity() {
                     //Don't forget to add this line printing value or finishing activity must run on main thread
                     runOnUiThread {
                         cameraSource.stop()
+
                         val scannedData = scannedValue
+
                         if (scannedData.contains("WH"))
                         {
                             val warehouse =  scannedData.substringAfter("L").substringBefore("WH")
                             viewModel.scanAll("${warehouse}WH", "0")
                             Log.i("LocCode",scannedData)
-                            val intent = Intent(this@ScannerCameraActivity, ScanAllHierarchy::class.java)
+
+                            val intent = Intent(this@ScannerCameraActivity, ShowAllHierarchy::class.java)
                             intent.putExtra("warehouseCode",warehouse)
 //                            intent.putExtra("busLoc",it.dat)
                             startActivity(intent)
                         }
+
                         if (scannedData.contains("RK"))
                         {
                             val rack = scannedData.substringAfter("WH").substringBefore("RK")
                             viewModel.scanAll("${rack}RK", "0")
                             Log.i("rackCode",scannedData)
-                            val intent = Intent(this@ScannerCameraActivity, ScanAllHierarchy::class.java)
-                            intent.putExtra("warehouseCode",rack)
+                            val intent = Intent(this@ScannerCameraActivity, ShowAllHierarchy::class.java)
+                            intent.putExtra("rackCode",rack)
                             startActivity(intent)
                         }
+
                         if (scannedData.contains("SF"))
                         {
                             val shelf = scannedData.substringAfter("RK").substringBefore("SF")
                             viewModel.scanAll("${shelf}SF", "0")
                             Log.i("shelfCode",scannedData)
-                            val intent = Intent(this@ScannerCameraActivity, ScanAllHierarchy::class.java)
-                            intent.putExtra("warehouseCode",shelf)
+                            val intent = Intent(this@ScannerCameraActivity, ShowAllHierarchy::class.java)
+                            intent.putExtra("shelfCode",shelf)
                             startActivity(intent)
                         }
+
                         if (scannedData.contains("PL"))
                         {
-                            scannedData.substringAfter("SF")
-                            Log.i("palletCode",scannedData)
+                            val palletCode = scannedData.substringAfter("SF")
+                            Log.i("palletCode",palletCode)
                             viewModel.scanAll("", "0")
-                            val intent = Intent(this@ScannerCameraActivity, ScanAllHierarchy::class.java)
+                            val intent = Intent(this@ScannerCameraActivity, ShowAllHierarchy::class.java)
+                            intent.putExtra("palletCode",palletCode)
                             startActivity(intent)
                         }
 //                        Toast.makeText(this@ScannerCameraActivity, "value- $scannedValue", Toast.LENGTH_SHORT).show()
 
-//                        Log.i("subString", "$scan")
-//                        viewModel.scanAll()
-
                         startActivity(intent)
                         finish()
                     }
-                }else
-                {
-                    //Toast.makeText(this@ScannerCameraActivity, "value- else", Toast.LENGTH_SHORT).show()
-
                 }
+                else { }
             }
         })
     }
