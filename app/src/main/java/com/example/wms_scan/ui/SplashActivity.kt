@@ -61,7 +61,6 @@ class SplashActivity : AppCompatActivity() {
         if ( code.contains("P")){
             Log.i("Zohaib", "Rack: ${code.substringAfter("R-").substringBefore("P")}P")
         }
-        val data = ""
 
 
 ////        when

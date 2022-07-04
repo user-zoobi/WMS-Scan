@@ -36,6 +36,7 @@ class ScannerCameraActivity : AppCompatActivity() {
     private lateinit var dialog: CustomProgressDialog
     private lateinit var viewModel: MainViewModel
     private lateinit var binding: ActivityScannerCameraBinding
+//    private lateinit var busLocNo = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -76,7 +77,9 @@ class ScannerCameraActivity : AppCompatActivity() {
                     try
                     {
                         dialog.dismiss()
-                        Log.i("scanAllResponse","${it.data?.get(0)?.analyticalNo}")
+                        Log.i("scanAllResponse","${it.data?.get(0)?.pilotCode}")
+
+
 
                     }
                     catch (e:Exception)
@@ -147,15 +150,48 @@ class ScannerCameraActivity : AppCompatActivity() {
                     //Don't forget to add this line printing value or finishing activity must run on main thread
                     runOnUiThread {
                         cameraSource.stop()
-                        val subStringBefore = scannedValue.substringBefore("-")
-                        Log.i("subString", subStringBefore)
+                        val scannedData = scannedValue
+                        if (scannedData.contains("WH"))
+                        {
+                            val warehouse =  scannedData.substringAfter("L").substringBefore("WH")
+                            viewModel.scanAll("${warehouse}WH", "0")
+                            Log.i("LocCode",scannedData)
+                            val intent = Intent(this@ScannerCameraActivity, ScanAllHierarchy::class.java)
+                            intent.putExtra("warehouseCode",warehouse)
+//                            intent.putExtra("busLoc",it.dat)
+                            startActivity(intent)
+                        }
+                        if (scannedData.contains("RK"))
+                        {
+                            val rack = scannedData.substringAfter("WH").substringBefore("RK")
+                            viewModel.scanAll("${rack}RK", "0")
+                            Log.i("rackCode",scannedData)
+                            val intent = Intent(this@ScannerCameraActivity, ScanAllHierarchy::class.java)
+                            intent.putExtra("warehouseCode",rack)
+                            startActivity(intent)
+                        }
+                        if (scannedData.contains("SF"))
+                        {
+                            val shelf = scannedData.substringAfter("RK").substringBefore("SF")
+                            viewModel.scanAll("${shelf}SF", "0")
+                            Log.i("shelfCode",scannedData)
+                            val intent = Intent(this@ScannerCameraActivity, ScanAllHierarchy::class.java)
+                            intent.putExtra("warehouseCode",shelf)
+                            startActivity(intent)
+                        }
+                        if (scannedData.contains("PL"))
+                        {
+                            scannedData.substringAfter("SF")
+                            Log.i("palletCode",scannedData)
+                            viewModel.scanAll("", "0")
+                            val intent = Intent(this@ScannerCameraActivity, ScanAllHierarchy::class.java)
+                            startActivity(intent)
+                        }
 //                        Toast.makeText(this@ScannerCameraActivity, "value- $scannedValue", Toast.LENGTH_SHORT).show()
 
 //                        Log.i("subString", "$scan")
 //                        viewModel.scanAll()
-                        viewModel.scanAll(subStringBefore, "0")
-                        val intent = Intent(this@ScannerCameraActivity, ScanAllHierarchy::class.java)
-                        intent.putExtra("subStringBefore",subStringBefore)
+
                         startActivity(intent)
                         finish()
                     }

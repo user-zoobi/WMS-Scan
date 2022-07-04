@@ -22,7 +22,8 @@
         android:theme="@style/Theme.WMSScan">
         <activity
             android:name=".ui.ScanAllHierarchy"
-            android:exported="false" />
+            android:exported="false"
+            android:launchMode="singleInstance"/>
         <activity
             android:name=".utils.PermissionDialog"
             android:exported="false"

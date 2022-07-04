@@ -1,5 +1,6 @@
 package com.example.wms_scan.ui
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -10,6 +11,7 @@ import com.example.scanmate.extensions.setTransparentStatusBarColor
 import com.example.scanmate.util.CustomProgressDialog
 import com.example.scanmate.util.LocalPreferences
 import com.example.scanmate.util.LocalPreferences.AppConstants.orgBusLocNo
+import com.example.scanmate.util.LocalPreferences.AppLoginPreferences.busLocNo
 import com.example.scanmate.util.LocalPreferences.AppLoginPreferences.userNo
 import com.example.scanmate.util.Utils
 import com.example.scanmate.viewModel.MainViewModel
@@ -38,11 +40,32 @@ class ScanAllHierarchy : AppCompatActivity() {
         scannedValue = intent.extras?.getString("subStringBefore").toString()
         Log.i("Scannedvalue",scannedValue)
 
+        if (scannedValue.contains("WH"))
+        {
+//            viewModel.getWarehouse()
+//            Log.i("LocCode",scannedData)
+        }
+        if (scannedValue.contains("RK"))
+        {
+
+//            Log.i("rackCode",scannedData)
+        }
+        if (scannedValue.contains("SF"))
+        {
+
+//            Log.i("shelfCode",scannedData)
+        }
+        if (scannedValue.contains("PL"))
+        {
+//
+//            Log.i("palletCode",scannedData)
+        }
+
     }
 
     private fun initObserver(){
 
-        val scannedValue = "1L01WH001RK001SF001PL"
+
 
         viewModel.scanAll("$scannedValue", "0")
         viewModel.scanAll.observe(this, Observer {
@@ -68,40 +91,6 @@ class ScanAllHierarchy : AppCompatActivity() {
                         binding.shelfTV.text = shelf
                         binding.palletTV.text = pallet
 
-                        val scannedData = scannedValue
-                        if (scannedData.contains("WH"))
-                        {
-                            scannedData.substringAfter("L").substringBefore("")
-                            viewModel.getWarehouse("", busLocNo)
-                        }
-                        if (scannedData.contains("RK"))
-                        {
-                            scannedData.substringAfter("WH")
-                            viewModel.getRack(
-                                Utils.getSimpleTextBody(""),
-                                Utils.getSimpleTextBody(whNo),
-                                Utils.getSimpleTextBody(busLocNo),
-                            )
-                        }
-                        if (scannedData.contains("SF"))
-                        {
-                            scannedData.substringAfter("RK").substringBefore("")
-                            viewModel.getShelf(
-                                Utils.getSimpleTextBody(""),
-                                Utils.getSimpleTextBody(rackNo),
-                                Utils.getSimpleTextBody(busLocNo)
-                            )
-                        }
-                        if (scannedData.contains("PL"))
-                        {
-                            scannedData.substringAfter("SF")
-                            Log.i("palletCode",scannedData)
-                            viewModel.getPallet(
-                                Utils.getSimpleTextBody(""),
-                                Utils.getSimpleTextBody(shelfNo),
-                                Utils.getSimpleTextBody(busLocNo)
-                            )
-                        }
                     }
                 }
                 Status.ERROR ->{ }
