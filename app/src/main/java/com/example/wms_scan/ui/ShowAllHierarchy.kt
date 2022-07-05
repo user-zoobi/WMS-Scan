@@ -57,6 +57,16 @@ class ShowAllHierarchy : AppCompatActivity() {
         viewModel = obtainViewModel(MainViewModel::class.java)
         Log.i("Scannedvalue",scannedValue)
 
+        binding.userNameTV.text = LocalPreferences.getString(this,
+            LocalPreferences.AppLoginPreferences.userName
+        )
+        binding.userDesignTV.text = LocalPreferences.getString(this,
+            LocalPreferences.AppLoginPreferences.userDesignation
+        )
+        binding.loginTimeTV.text = LocalPreferences.getString(this,
+            LocalPreferences.AppLoginPreferences.loginTime
+        )
+
     }
 
     private fun initObserver(){
@@ -70,14 +80,17 @@ class ShowAllHierarchy : AppCompatActivity() {
 
 
         Log.i("data","$warehouse")
-        Log.i("data","$location-$warehouse-$rack-$shelve-$pallete")
+        Log.i("data","$rack")
+        Log.i("data","$shelve")
+        Log.i("data","$pallete")
+//        Log.i("data","$location-$warehouse-$rack-$shelve-$pallete")
 
         when
         {
-            scannedValue.contains("P") -> viewModel.scanAll(pallete!!, "0")
-            scannedValue.contains("S") -> viewModel.scanAll(shelve!!, "0")
-            scannedValue.contains("R") -> viewModel.scanAll(rack!!, "0")
-            scannedValue.contains("W") -> viewModel.scanAll("$location$warehouse", "0")
+            scannedValue.contains("PL") -> viewModel.scanAll(pallete!!, "0")
+            scannedValue.contains("SF") -> viewModel.scanAll(shelve!!, "0")
+            scannedValue.contains("RK") -> viewModel.scanAll(rack!!, "0")
+            scannedValue.contains("WH") -> viewModel.scanAll("$warehouse", "0")
             scannedValue.contains("L") -> viewModel.scanAll(location!!, "0")
         }
 
@@ -107,39 +120,48 @@ class ShowAllHierarchy : AppCompatActivity() {
 
                             when
                             {
-                                scannedValue.contains("P") ->{
-                                    viewModel.getPallet(
+                                scannedValue.contains("PL") ->{
+                                    viewModel.getCarton(
                                         Utils.getSimpleTextBody(""),
-                                        Utils.getSimpleTextBody("48"),
-                                        Utils.getSimpleTextBody("1")
+                                        Utils.getSimpleTextBody("48")
                                     )
                                 }
 
-                                scannedValue.contains("S") ->{
-                                    viewModel.getShelf(
+                                scannedValue.contains("SF") ->{
+
+                                    viewModel.getPallet(
                                         Utils.getSimpleTextBody(""),
-                                        Utils.getSimpleTextBody("50"),
+                                        Utils.getSimpleTextBody("48"),
                                         Utils.getSimpleTextBody("1")
                                     )
                                     binding.view7.gone()
                                     binding.view8.gone()
                                     binding.palletCont.gone()
                                 }
-                                scannedValue.contains("R") ->{
-                                    viewModel.getRack(
+                                scannedValue.contains("RK") ->{
+
+                                    viewModel.getShelf(
                                         Utils.getSimpleTextBody(""),
-                                        Utils.getSimpleTextBody("60"),
+                                        Utils.getSimpleTextBody("50"),
                                         Utils.getSimpleTextBody("1")
                                     )
+
                                     binding.view5.gone()
                                     binding.view6.gone()
                                     binding.shelfCont.gone()
                                     binding.view7.gone()
                                     binding.view8.gone()
                                     binding.palletCont.gone()
+
                                 }
-                                scannedValue.contains("W") -> {
-                                    viewModel.getWarehouse("","1")
+                                scannedValue.contains("WH") -> {
+
+                                    viewModel.getRack(
+                                        Utils.getSimpleTextBody(""),
+                                        Utils.getSimpleTextBody("60"),
+                                        Utils.getSimpleTextBody("1")
+                                    )
+
                                     binding.view3.gone()
                                     binding.view4.gone()
                                     binding.rackCont.gone()
@@ -152,9 +174,7 @@ class ShowAllHierarchy : AppCompatActivity() {
                                 }
 
                                 scannedValue.contains("L") ->{
-                                    viewModel.userLocation(
-                                        Utils.getSimpleTextBody("2")
-                                    )
+                                    viewModel.getWarehouse("","1")
                                 }
                                 else -> { }
                             }

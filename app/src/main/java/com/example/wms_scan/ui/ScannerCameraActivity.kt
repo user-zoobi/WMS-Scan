@@ -78,8 +78,6 @@ class ScannerCameraActivity : AppCompatActivity() {
                         dialog.dismiss()
                         Log.i("scanAllResponse","${it.data?.get(0)?.pilotCode}")
 
-
-
                     }
                     catch (e:Exception)
                     {
@@ -163,28 +161,28 @@ class ScannerCameraActivity : AppCompatActivity() {
                             Log.i("LocCode","$location")
                         }
 
-                        if (scannedData.contains("W"))
+                        if (scannedData.contains("WH"))
                         {
                             warehouse = "${scannedData.substringAfter("L-").substringBefore("WH")}WH"
                             Log.i("whCode","${warehouse}")
                         }
 
-                        if (scannedData.contains("R"))
+                        if (scannedData.contains("RK"))
                         {
-                            rack = "${scannedData.substringAfter("S-").substringBefore("R")}RK"
+                            rack = "${scannedData.substringAfter("WH-").substringBefore("RK")}RK"
                             Log.i("rackCode","$rack")
                         }
 
-                        if (scannedData.contains("S"))
+                        if (scannedData.contains("SF"))
                         {
-                            shelve = "${scannedData.substringAfter("H-").substringBefore("S")}SF"
+                            shelve = "${scannedData.substringAfter("RK-").substringBefore("SF")}SF"
                             Log.i("shelfCode",shelve)
 
                         }
 
-                        if (scannedData.contains("P"))
+                        if (scannedData.contains("PL"))
                         {
-                            pallete = "${scannedData.substringAfter("R-").substringBefore("P")}PL"
+                            pallete = "${scannedData.substringAfter("SF-").substringBefore("PL")}PL"
                             Log.i("palletCode",pallete)
 
                         }

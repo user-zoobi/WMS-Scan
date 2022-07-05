@@ -5,8 +5,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/royal_blue"
+    android:background="@color/dark_hollow_black"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/backBtn"
@@ -25,7 +26,7 @@
         android:layout_marginTop="@dimen/_35sdp"
         android:layout_marginEnd="@dimen/_20sdp"
         android:layout_marginBottom="@dimen/_5sdp"
-        android:background="@drawable/grey_rounded_bg"
+        android:background="@drawable/grey_top_rounded_bg"
         android:padding="@dimen/_5sdp"
         android:src="@drawable/logout" />
 
@@ -36,22 +37,20 @@
         android:layout_below="@id/toolbar"
         android:layout_alignParentStart="true"
         android:layout_marginStart="@dimen/_20sdp"
-        android:layout_marginTop="@dimen/_5sdp"
         android:fontFamily="@font/amiko"
         android:text="User name"
         android:textColor="@color/white"
-        android:textSize="@dimen/_10ssp" />
+        android:textSize="@dimen/_15ssp" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/userDesignTV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/toolbar"
+        android:layout_below="@id/userNameTV"
+        android:layout_alignParentStart="true"
         android:layout_marginStart="@dimen/_20sdp"
-        android:layout_toEndOf="@id/userNameTV"
         android:fontFamily="@font/amiko"
         android:text="Dept name"
-        android:layout_marginTop="@dimen/_5sdp"
         android:textColor="@color/white"
         android:textSize="@dimen/_10ssp" />
 
@@ -60,123 +59,121 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/toolbar"
-        android:layout_marginEnd="@dimen/_20sdp"
-        android:layout_toStartOf="@id/loginTimeTV"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="19dp"
         android:fontFamily="@font/amiko"
         android:text="Login At"
-        android:layout_marginTop="@dimen/_5sdp"
         android:textColor="@color/white"
-        android:textSize="@dimen/_10ssp" />
+        android:textSize="@dimen/_15ssp" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/loginTimeTV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/toolbar"
         android:layout_alignParentEnd="true"
         android:layout_marginEnd="@dimen/_20sdp"
         android:fontFamily="@font/amiko"
+        android:layout_below="@+id/loginText"
         android:text="Time value"
-        android:layout_marginTop="@dimen/_5sdp"
         android:textColor="@color/white"
         android:textSize="@dimen/_12ssp" />
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@id/loginTimeTV"
         android:layout_marginTop="@dimen/_10sdp"
         android:background="@drawable/grey_rounded_bg"
-        android:layout_below="@id/loginTimeTV"
         android:orientation="vertical">
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/printIV"
             android:layout_width="@dimen/_40sdp"
             android:layout_height="@dimen/_40sdp"
+            android:layout_gravity="end"
             android:layout_marginTop="@dimen/_20sdp"
             android:layout_marginEnd="@dimen/_20sdp"
             android:background="@drawable/blue_rounded_bg"
-            android:layout_gravity="end"
             android:padding="@dimen/_8sdp"
             android:src="@drawable/print_icon"
-            android:visibility="gone"
-            android:tint="@color/white"/>
+            android:tint="@color/white"
+            android:visibility="gone" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Qr code detail"
-            android:textSize="@dimen/_20ssp"
-            android:fontFamily="@font/amiko"
-            android:layout_marginTop="@dimen/_30sdp"
             android:layout_marginStart="@dimen/_20sdp"
-            android:textColor="@color/black"/>
+            android:layout_marginTop="@dimen/_30sdp"
+            android:fontFamily="@font/amiko"
+            android:text="Qr code detail"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_20ssp" />
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:id="@+id/qrCont"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="@dimen/_20sdp"
-            android:layout_marginStart="@dimen/_20sdp"
-            android:layout_marginEnd="@dimen/_20sdp"
-            android:layout_marginTop="@dimen/_100sdp"
-            android:orientation="horizontal"
             android:layout_gravity="center"
+            android:layout_marginStart="@dimen/_20sdp"
+            android:layout_marginTop="@dimen/_100sdp"
+            android:layout_marginEnd="@dimen/_20sdp"
             android:background="@drawable/grey_stroke_white_rounded_bg"
+            android:orientation="horizontal"
+            android:padding="@dimen/_20sdp"
             android:weightSum="2">
 
 
-                <androidx.appcompat.widget.LinearLayoutCompat
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1.8"
-                    android:layout_margin="@dimen/_2sdp"
-                    android:orientation="vertical">
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="@dimen/_2sdp"
+                android:layout_weight="1.8"
+                android:orientation="vertical">
 
-                    <TextView
-                        android:id="@+id/qrCodeNameTV"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="text"
-                        android:textSize="@dimen/_12ssp"
-                        android:layout_marginTop="@dimen/_30sdp"
-                        android:layout_marginStart="@dimen/_20sdp"
-                        android:textStyle="bold"
-                        android:textColor="@color/black"/>
+                <TextView
+                    android:id="@+id/qrCodeNameTV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_20sdp"
+                    android:layout_marginTop="@dimen/_30sdp"
+                    android:text="text"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_12ssp"
+                    android:textStyle="bold" />
 
-                    <TextView
-                        android:id="@+id/qrCodeTV"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="text"
-                        android:textSize="@dimen/_12ssp"
-                        android:layout_marginStart="@dimen/_20sdp"
-                        android:layout_marginTop="@dimen/_8sdp"
-                        android:textStyle="bold"
-                        android:textColor="@color/black"/>
+                <TextView
+                    android:id="@+id/qrCodeTV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_20sdp"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    android:text="text"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_12ssp"
+                    android:textStyle="bold" />
 
-                    <TextView
-                        android:id="@+id/qrCodeNoTV"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="text"
-                        android:textSize="@dimen/_12ssp"
-                        android:layout_marginTop="@dimen/_8sdp"
-                        android:layout_marginStart="@dimen/_20sdp"
-                        android:textStyle="bold"
+                <TextView
+                    android:id="@+id/qrCodeNoTV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_20sdp"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    android:text="text"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_12ssp"
 
-                        android:textColor="@color/black"/>
-                </androidx.appcompat.widget.LinearLayoutCompat>
+                    android:textStyle="bold" />
+            </androidx.appcompat.widget.LinearLayoutCompat>
 
-                <ImageView
-                    android:id="@+id/qrImageView"
-                    android:layout_width="@dimen/_150sdp"
-                    android:layout_height="@dimen/_150sdp"
-                    android:layout_alignParentTop="true"
-                    android:layout_centerHorizontal="true"
-                    android:layout_gravity="center"
-                    android:layout_margin="@dimen/_2sdp"
-                    android:layout_weight=".2"/>
+            <ImageView
+                android:id="@+id/qrImageView"
+                android:layout_width="@dimen/_150sdp"
+                android:layout_height="@dimen/_150sdp"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center"
+                android:layout_margin="@dimen/_2sdp"
+                android:layout_weight=".2" />
 
 
         </androidx.appcompat.widget.LinearLayoutCompat>
