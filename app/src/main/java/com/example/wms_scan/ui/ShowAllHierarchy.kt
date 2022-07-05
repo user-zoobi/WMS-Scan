@@ -276,4 +276,28 @@ class ShowAllHierarchy : AppCompatActivity() {
             }
         })
     }
+
+    fun warehouseAction(whNo:String){
+        viewModel.getRack(
+            Utils.getSimpleTextBody(""),
+            Utils.getSimpleTextBody(whNo),
+            Utils.getSimpleTextBody("1")
+        )
+    }
+
+    fun rackAction(rackNo:String){
+        viewModel.getShelf(
+            Utils.getSimpleTextBody(""),
+            Utils.getSimpleTextBody(rackNo),
+            Utils.getSimpleTextBody("1"),
+        )
+    }
+
+    fun shelfAction(shelfNo:String){
+        viewModel.getPallet(
+            Utils.getSimpleTextBody(""),
+            Utils.getSimpleTextBody(shelfNo),
+            Utils.getSimpleTextBody("1"),
+        )
+    }
 }

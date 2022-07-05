@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.scanmate.data.response.GetWarehouseResponse
 import com.example.wms_scan.R
 import com.example.wms_scan.databinding.ScanWarehouseListViewBinding
+import com.example.wms_scan.ui.ShowAllHierarchy
 
 class ScanWarehouseAdapter (
     private val context: Context,
@@ -28,6 +29,7 @@ class ScanWarehouseAdapter (
         val data = list[position]
         with(holder){
             binding.wrhTV.text = data.wHName
+            (context as ShowAllHierarchy).warehouseAction(data.wHNo.toString())
         }
     }
 

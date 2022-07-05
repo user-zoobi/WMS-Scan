@@ -6,10 +6,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.scanmate.data.response.GetRackResponse
+import com.example.scanmate.extensions.click
 import com.example.wms_scan.R
 import com.example.wms_scan.databinding.RacksListViewBinding
 import com.example.wms_scan.databinding.ScanRacksListViewBinding
 import com.example.wms_scan.ui.RacksActivity
+import com.example.wms_scan.ui.ShowAllHierarchy
 
 class ScanRackAdapter (
     val context: Context,
@@ -29,6 +31,10 @@ class ScanRackAdapter (
         val data = list[position]
         with(holder){
             binding.rackTV.text = data.rackName
+
+            binding.rackCont.click {
+                (context as ShowAllHierarchy).rackAction(data.rackNo.toString())
+            }
         }
     }
 
