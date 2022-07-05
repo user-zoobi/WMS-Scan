@@ -39,7 +39,7 @@ class SplashActivity : AppCompatActivity() {
         handler()
         configureVideoView()
 
-        val code = "01L-01WH-01S-01R-01P"
+        val code = "1L-01WH-001S-001R-001P"
 
         if (code.contains("L"))
         {
@@ -61,21 +61,6 @@ class SplashActivity : AppCompatActivity() {
         if ( code.contains("P")){
             Log.i("Zohaib", "Rack: ${code.substringAfter("R-").substringBefore("P")}P")
         }
-
-
-////        when
-////        {
-////
-////
-////             ->
-////
-////             ->
-////                Log.i("Zohaib", "Shelve: ${code.substringAfter("WH-").substringBefore("S")}S")
-//
-////        }
-//
-//
-//        Log.i("Zohaib", "onCreate: ${code.substringBefore("-")}")
     }
 
     private fun handler(){

@@ -10,6 +10,7 @@ import com.example.scanmate.data.callback.Status
 import com.example.scanmate.data.response.GetRackResponse
 import com.example.scanmate.data.response.GetShelfResponse
 import com.example.scanmate.data.response.GetWarehouseResponse
+import com.example.scanmate.extensions.gone
 import com.example.scanmate.extensions.obtainViewModel
 import com.example.scanmate.extensions.setTransparentStatusBarColor
 import com.example.scanmate.util.CustomProgressDialog
@@ -54,51 +55,124 @@ class ShowAllHierarchy : AppCompatActivity() {
         supportActionBar?.hide()
         setTransparentStatusBarColor(R.color.transparent)
         viewModel = obtainViewModel(MainViewModel::class.java)
-        scannedValue = intent.extras?.getString("rackCode").toString()
         Log.i("Scannedvalue",scannedValue)
 
     }
 
     private fun initObserver(){
 
-        val rackCode = intent.extras?.getString("rackCode")
-        val shelfCode = intent.extras?.getString("shelfCode")
-        val palletCode = intent.extras?.getString("palletCode")
+        val location    = intent.extras?.getString("l")
+        val warehouse   = intent.extras?.getString("w")
+        val rack        = intent.extras?.getString("r")
+        val shelve      = intent.extras?.getString("s")
+        val pallete     = intent.extras?.getString("p")
+        scannedValue    = "$location-$warehouse-$rack-$shelve-$pallete"
 
-        if (scannedValue.contains("WH"))
+
+        Log.i("data","$warehouse")
+        Log.i("data","$location-$warehouse-$rack-$shelve-$pallete")
+
+        when
         {
-            viewModel.getWarehouse(
-                "",
-                "1"
-            )
+            scannedValue.contains("P") -> viewModel.scanAll(pallete!!, "0")
+            scannedValue.contains("S") -> viewModel.scanAll(shelve!!, "0")
+            scannedValue.contains("R") -> viewModel.scanAll(rack!!, "0")
+            scannedValue.contains("W") -> viewModel.scanAll("$location$warehouse", "0")
+            scannedValue.contains("L") -> viewModel.scanAll(location!!, "0")
         }
 
-        if (scannedValue.contains("RK"))
-        {
-            viewModel.getRack(
-                Utils.getSimpleTextBody(""),
-                Utils.getSimpleTextBody("60"),
-                Utils.getSimpleTextBody("1")
-            )
-        }
+        Log.i("scannedValue",scannedValue)
 
-        if (scannedValue.contains("SF"))
-        {
-            viewModel.getShelf(
-                Utils.getSimpleTextBody(""),
-                Utils.getSimpleTextBody("50"),
-                Utils.getSimpleTextBody("1"),
-            )
-        }
+        viewModel.scanAll.observe(this, Observer {
+            when(it.status){
 
-        if (scannedValue.contains("PL"))
-        {
-            viewModel.getPallet(
-                Utils.getSimpleTextBody(""),
-                Utils.getSimpleTextBody("48"),
-                Utils.getSimpleTextBody("1"),
-            )
-        }
+                Status.LOADING -> { }
+
+                Status.SUCCESS ->
+                {
+                    it.let {
+                        try
+                        {
+                            val whName = it.data?.get(0)?.wHName.toString()
+                            val rackName = it.data?.get(0)?.rackName.toString()
+                            val shelfName = it.data?.get(0)?.shelfName.toString()
+                            val palletName = it.data?.get(0)?.pilotName.toString()
+
+                            binding.WHTV.text = whName
+                            binding.rackTV.text = rackName
+                            binding.shelfTV.text = shelfName
+                            binding.palletTV.text = palletName
+
+                            Log.i("allHierarchy",it.data?.get(0)?.analyticalNo.toString())
+
+                            when
+                            {
+                                scannedValue.contains("P") ->{
+                                    viewModel.getPallet(
+                                        Utils.getSimpleTextBody(""),
+                                        Utils.getSimpleTextBody("48"),
+                                        Utils.getSimpleTextBody("1")
+                                    )
+                                }
+
+                                scannedValue.contains("S") ->{
+                                    viewModel.getShelf(
+                                        Utils.getSimpleTextBody(""),
+                                        Utils.getSimpleTextBody("50"),
+                                        Utils.getSimpleTextBody("1")
+                                    )
+                                    binding.view7.gone()
+                                    binding.view8.gone()
+                                    binding.palletCont.gone()
+                                }
+                                scannedValue.contains("R") ->{
+                                    viewModel.getRack(
+                                        Utils.getSimpleTextBody(""),
+                                        Utils.getSimpleTextBody("60"),
+                                        Utils.getSimpleTextBody("1")
+                                    )
+                                    binding.view5.gone()
+                                    binding.view6.gone()
+                                    binding.shelfCont.gone()
+                                    binding.view7.gone()
+                                    binding.view8.gone()
+                                    binding.palletCont.gone()
+                                }
+                                scannedValue.contains("W") -> {
+                                    viewModel.getWarehouse("","1")
+                                    binding.view3.gone()
+                                    binding.view4.gone()
+                                    binding.rackCont.gone()
+                                    binding.view5.gone()
+                                    binding.view6.gone()
+                                    binding.shelfCont.gone()
+                                    binding.view7.gone()
+                                    binding.view8.gone()
+                                    binding.palletCont.gone()
+                                }
+
+                                scannedValue.contains("L") ->{
+                                    viewModel.userLocation(
+                                        Utils.getSimpleTextBody("2")
+                                    )
+                                }
+                                else -> { }
+                            }
+                        }
+                        catch (e:Exception)
+                        {
+                            Log.i("scanAllHierarchy","${e.message}")
+                        }
+
+                    }
+                }
+
+                Status.ERROR ->
+                {
+                    Log.i("scanAllHierarchy","${Exception().message}")
+                }
+            }
+        })
 
         viewModel.getWarehouse.observe(this, Observer {
             when(it.status){
@@ -113,6 +187,7 @@ class ShowAllHierarchy : AppCompatActivity() {
                         layoutManager = LinearLayoutManager(this@ShowAllHierarchy)
                         adapter = warehouseAdapter
                     }
+                    Log.i("warehouseCode", it.data[0].wHName.toString())
                 }
                 Status.ERROR ->{
 
@@ -133,13 +208,13 @@ class ShowAllHierarchy : AppCompatActivity() {
                         layoutManager = LinearLayoutManager(this@ShowAllHierarchy)
                         adapter = racksAdapter
                     }
+                    Log.i("warehouseCode", it.data[0].wHName.toString())
                 }
                 Status.ERROR ->{
 
                 }
             }
         })
-
 
         viewModel.getShelf.observe(this, Observer {
             when(it.status){
@@ -161,7 +236,6 @@ class ShowAllHierarchy : AppCompatActivity() {
             }
         })
 
-
         viewModel.getPallet.observe(this, Observer {
             when(it.status){
                 Status.LOADING ->{
@@ -181,7 +255,5 @@ class ShowAllHierarchy : AppCompatActivity() {
                 }
             }
         })
-
-
     }
 }

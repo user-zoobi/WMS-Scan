@@ -14,6 +14,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import com.example.scanmate.data.callback.Status
+import com.example.scanmate.extensions.gotoActivity
 import com.example.scanmate.extensions.obtainViewModel
 import com.example.scanmate.extensions.setTransparentStatusBarColor
 import com.example.scanmate.util.CustomProgressDialog
@@ -150,52 +151,54 @@ class ScannerCameraActivity : AppCompatActivity() {
                         cameraSource.stop()
 
                         val scannedData = scannedValue
+                        var location    = ""
+                        var warehouse   = ""
+                        var rack        = ""
+                        var shelve      = ""
+                        var pallete     = ""
 
-                        if (scannedData.contains("WH"))
+                        if (scannedData.contains("L"))
                         {
-                            val warehouse =  scannedData.substringAfter("L").substringBefore("WH")
-                            viewModel.scanAll("${warehouse}WH", "0")
-                            Log.i("LocCode",scannedData)
-
-                            val intent = Intent(this@ScannerCameraActivity, ShowAllHierarchy::class.java)
-                            intent.putExtra("warehouseCode",warehouse)
-//                            intent.putExtra("busLoc",it.dat)
-                            startActivity(intent)
+                            location = "${scannedData.substringBefore("L-")}L"
+                            Log.i("LocCode","$location")
                         }
 
-                        if (scannedData.contains("RK"))
+                        if (scannedData.contains("W"))
                         {
-                            val rack = scannedData.substringAfter("WH").substringBefore("RK")
-                            viewModel.scanAll("${rack}RK", "0")
-                            Log.i("rackCode",scannedData)
-                            val intent = Intent(this@ScannerCameraActivity, ShowAllHierarchy::class.java)
-                            intent.putExtra("rackCode",rack)
-                            startActivity(intent)
+                            warehouse = "${scannedData.substringAfter("L-").substringBefore("WH")}WH"
+                            Log.i("whCode","${warehouse}")
                         }
 
-                        if (scannedData.contains("SF"))
+                        if (scannedData.contains("R"))
                         {
-                            val shelf = scannedData.substringAfter("RK").substringBefore("SF")
-                            viewModel.scanAll("${shelf}SF", "0")
-                            Log.i("shelfCode",scannedData)
-                            val intent = Intent(this@ScannerCameraActivity, ShowAllHierarchy::class.java)
-                            intent.putExtra("shelfCode",shelf)
-                            startActivity(intent)
+                            rack = "${scannedData.substringAfter("S-").substringBefore("R")}RK"
+                            Log.i("rackCode","$rack")
                         }
 
-                        if (scannedData.contains("PL"))
+                        if (scannedData.contains("S"))
                         {
-                            val palletCode = scannedData.substringAfter("SF")
-                            Log.i("palletCode",palletCode)
-                            viewModel.scanAll("", "0")
-                            val intent = Intent(this@ScannerCameraActivity, ShowAllHierarchy::class.java)
-                            intent.putExtra("palletCode",palletCode)
-                            startActivity(intent)
-                        }
-//                        Toast.makeText(this@ScannerCameraActivity, "value- $scannedValue", Toast.LENGTH_SHORT).show()
+                            shelve = "${scannedData.substringAfter("H-").substringBefore("S")}SF"
+                            Log.i("shelfCode",shelve)
 
+                        }
+
+                        if (scannedData.contains("P"))
+                        {
+                            pallete = "${scannedData.substringAfter("R-").substringBefore("P")}PL"
+                            Log.i("palletCode",pallete)
+
+                        }
+
+                        val intent =  Intent(this@ScannerCameraActivity, ShowAllHierarchy::class.java)
+                        intent.putExtra("l",location)
+                        intent.putExtra("w",warehouse)
+                        intent.putExtra("r",rack)
+                        intent.putExtra("s",shelve)
+                        intent.putExtra("p",pallete)
                         startActivity(intent)
+
                         finish()
+
                     }
                 }
                 else { }
