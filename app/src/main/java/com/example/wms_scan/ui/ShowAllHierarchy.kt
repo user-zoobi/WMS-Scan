@@ -13,6 +13,7 @@ import com.example.scanmate.data.response.GetWarehouseResponse
 import com.example.scanmate.extensions.gone
 import com.example.scanmate.extensions.obtainViewModel
 import com.example.scanmate.extensions.setTransparentStatusBarColor
+import com.example.scanmate.extensions.visible
 import com.example.scanmate.util.CustomProgressDialog
 import com.example.scanmate.util.LocalPreferences
 import com.example.scanmate.util.LocalPreferences.AppConstants.orgBusLocNo
@@ -21,6 +22,7 @@ import com.example.scanmate.util.LocalPreferences.AppLoginPreferences.userNo
 import com.example.scanmate.util.Utils
 import com.example.scanmate.viewModel.MainViewModel
 import com.example.wms_scan.R
+import com.example.wms_scan.adapter.carton.ScanCartonAdapter
 import com.example.wms_scan.adapter.pallets.PalletsAdapter
 import com.example.wms_scan.adapter.pallets.ScanPalletAdapter
 import com.example.wms_scan.adapter.racks.RackAdapter
@@ -29,6 +31,7 @@ import com.example.wms_scan.adapter.shelf.ScanShelfAdapter
 import com.example.wms_scan.adapter.shelf.ShelfAdapter
 import com.example.wms_scan.adapter.warehouse.ScanWarehouseAdapter
 import com.example.wms_scan.adapter.warehouse.WarehouseAdapter
+import com.example.wms_scan.data.response.GetCartonResponse
 import com.example.wms_scan.data.response.GetPalletResponse
 import com.example.wms_scan.databinding.ActivityScanAllHierarchyBinding
 import java.util.ArrayList
@@ -40,6 +43,7 @@ class ShowAllHierarchy : AppCompatActivity() {
     private lateinit var racksAdapter: ScanRackAdapter
     private lateinit var shelfAdapter: ScanShelfAdapter
     private lateinit var palletAdapter: ScanPalletAdapter
+    private lateinit var cartonAdapter: ScanCartonAdapter
     private var scannedValue = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -122,8 +126,8 @@ class ShowAllHierarchy : AppCompatActivity() {
                             {
                                 scannedValue.contains("PL") ->{
                                     viewModel.getCarton(
-                                        Utils.getSimpleTextBody(""),
-                                        Utils.getSimpleTextBody("48")
+                                        Utils.getSimpleTextBody("48"),
+                                        Utils.getSimpleTextBody("1")
                                     )
                                 }
 
@@ -275,6 +279,26 @@ class ShowAllHierarchy : AppCompatActivity() {
                 }
             }
         })
+
+        viewModel.getCarton.observe(this, Observer {
+            when(it.status){
+                Status.LOADING ->{
+
+                }
+                Status.SUCCESS ->{
+                    cartonAdapter = ScanCartonAdapter(this,
+                        it.data as ArrayList<GetCartonResponse>
+                    )
+                    binding.showAllRV.apply {
+                        layoutManager = LinearLayoutManager(this@ShowAllHierarchy)
+                        adapter = cartonAdapter
+                    }
+                }
+                Status.ERROR ->{
+
+                }
+            }
+        })
     }
 
     fun warehouseAction(whNo:String){
@@ -285,6 +309,7 @@ class ShowAllHierarchy : AppCompatActivity() {
         )
     }
 
+
     fun rackAction(rackNo:String){
         viewModel.getShelf(
             Utils.getSimpleTextBody(""),
@@ -293,11 +318,19 @@ class ShowAllHierarchy : AppCompatActivity() {
         )
     }
 
+
     fun shelfAction(shelfNo:String){
         viewModel.getPallet(
             Utils.getSimpleTextBody(""),
             Utils.getSimpleTextBody(shelfNo),
             Utils.getSimpleTextBody("1"),
+        )
+    }
+
+    fun palletAction(palletNo:String){
+        viewModel.getCarton(
+            Utils.getSimpleTextBody("48"),
+            Utils.getSimpleTextBody("1")
         )
     }
 }

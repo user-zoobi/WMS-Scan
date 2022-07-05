@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.scanmate.extensions.click
 import com.example.scanmate.extensions.gone
 import com.example.scanmate.util.LocalPreferences
 import com.example.wms_scan.R
@@ -12,6 +13,7 @@ import com.example.wms_scan.data.response.GetPalletResponse
 import com.example.wms_scan.databinding.PalletListViewBinding
 import com.example.wms_scan.databinding.ScanPalletListViewBinding
 import com.example.wms_scan.ui.PalletsActivity
+import com.example.wms_scan.ui.ShowAllHierarchy
 
 class ScanPalletAdapter (
     private val context: Context,
@@ -31,6 +33,9 @@ class ScanPalletAdapter (
         val data= list[position]
         with(holder){
             binding.palletTV.text = data.pilotName
+            binding.palletCont.click {
+                (context as ShowAllHierarchy).palletAction(data.pilotNo.toString())
+            }
         }
     }
 
