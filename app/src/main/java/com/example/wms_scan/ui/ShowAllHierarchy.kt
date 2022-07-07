@@ -39,7 +39,7 @@ class ShowAllHierarchy : AppCompatActivity() {
     private lateinit var palletAdapter: ScanPalletAdapter
     private lateinit var cartonAdapter: ScanCartonAdapter
     private var scannedValue = ""
-
+//
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityScanAllHierarchyBinding.inflate(layoutInflater)
