@@ -70,6 +70,9 @@ class ShelfActivity : AppCompatActivity() {
     private var shelfNo = ""
     private var shelfName = ""
     private var shelfCode = ""
+    private var rackCode = ""
+    private var whCode = ""
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -337,11 +340,12 @@ class ShelfActivity : AppCompatActivity() {
                                     bmpList.clear()
                                     textList.clear()
 
-                                    for (i in it.data)
+                                    for (i in it.data.indices)
                                     {
-                                        generateQRCode("${i.shelfCode}-${i.shelfNo}")
-                                        textList.add(i.shelfCode!!)
-                                        Log.i("shelfList","${i.shelfCode}-${i.shelfNo}")
+                                        generateQRCode("${selectedBusLocNo}L-${whCode}-${rackCode}-${it.data[i].shelfCode}")
+                                        Log.i("ShelfName",it.data[i].shelfName.toString())
+                                        textList.add("${it.data[i].shelfName}")
+                                        Log.i("shelfArrayList","$textList")
                                     }
 
                                     binding.shelfRV.apply {
@@ -353,8 +357,7 @@ class ShelfActivity : AppCompatActivity() {
                                 }
                             }
                             catch (e:Exception){
-                                Log.i("","${e.message}")
-                                Log.i("rackAdapter","${e.stackTrace}")
+                                Log.i("shelfException","${e.message}")
                             }
                         }
                         else
@@ -429,6 +432,7 @@ class ShelfActivity : AppCompatActivity() {
                 {
                     selectedWareHouseNo = data[position].wHNo.toString()
                     warehouseName = data[position].wHName.toString()
+                    whCode = data[position].wHCode.toString()
                     viewModel.getRack(
                         Utils.getSimpleTextBody(""),
                         Utils.getSimpleTextBody(selectedWareHouseNo),
@@ -469,6 +473,7 @@ class ShelfActivity : AppCompatActivity() {
                 {
                     selectedRackNo = data[position].rackNo.toString()
                     rackName = data[position].rackName.toString()
+                    rackCode = data[position].rackCode.toString()
                     viewModel.getShelf(
                         Utils.getSimpleTextBody(""),
                         Utils.getSimpleTextBody(selectedRackNo),
@@ -552,8 +557,6 @@ class ShelfActivity : AppCompatActivity() {
             bmp = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565)
             bmpList.add(bmp)
 
-            bmpList.add(bmp)
-
             for (x in 0 until width)
             {
                 for(y in 0 until height)
@@ -616,7 +619,7 @@ class ShelfActivity : AppCompatActivity() {
                 val headingPara = Paragraph(Chunk("Shelf"))
                 headingPara.alignment = Element.ALIGN_CENTER
 
-                val shelfcode = Paragraph(Chunk("1001"))
+                val shelfcode = Paragraph(Chunk(textList[i]))
                 shelfcode.alignment = Element.ALIGN_CENTER
 
 //                val rackcode = Paragraph(Chunk("${textList[i]}"))
@@ -635,6 +638,7 @@ class ShelfActivity : AppCompatActivity() {
 
                 pdfTable.addCell(pdfcell)
             }
+            pdfTable.completeRow()
 
             mDoc.add(pdfTable)
 
@@ -647,10 +651,11 @@ class ShelfActivity : AppCompatActivity() {
         }
         catch (e: Exception)
         {
-            Log.i("pdfException","${e.message}")
+
+            Log.i("1 pdfException","${e.message}")
             //if anything goes wrong causing exception, get and show exception message
-            Toast.makeText(this, e.message, Toast.LENGTH_SHORT).show()
-            Log.i("pdfException","${e.message}")
+
+
         }
     }
 
@@ -689,7 +694,7 @@ class ShelfActivity : AppCompatActivity() {
         }
         catch (e: ActivityNotFoundException)
         {
-            Log.i("openPDFException","${e.message}")
+            Log.i("openPDFException 1","${e.message}")
             Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
         }
     }

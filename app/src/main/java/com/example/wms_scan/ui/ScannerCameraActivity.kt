@@ -35,6 +35,7 @@ class ScannerCameraActivity : AppCompatActivity() {
     private lateinit var dialog: CustomProgressDialog
     private lateinit var viewModel: MainViewModel
     private lateinit var binding: ActivityScannerCameraBinding
+    private var palleteCode = ""
 //    private lateinit var busLocNo = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -143,12 +144,13 @@ class ScannerCameraActivity : AppCompatActivity() {
                 if (barcodes.size() == 1) {
                     scannedValue = barcodes.valueAt(0).rawValue
 
-
                     //Don't forget to add this line printing value or finishing activity must run on main thread
                     runOnUiThread {
                         cameraSource.stop()
 
                         val scannedData = scannedValue
+                        Log.i("scannedQR",scannedValue)
+
                         var location    = ""
                         var warehouse   = ""
                         var rack        = ""
@@ -177,14 +179,13 @@ class ScannerCameraActivity : AppCompatActivity() {
                         {
                             shelve = "${scannedData.substringAfter("RK-").substringBefore("SF")}SF"
                             Log.i("shelfCode",shelve)
-
                         }
 
                         if (scannedData.contains("PL"))
                         {
                             pallete = "${scannedData.substringAfter("SF-").substringBefore("PL")}PL"
+                            palleteCode = pallete
                             Log.i("palletCode",pallete)
-
                         }
 
                         val intent =  Intent(this@ScannerCameraActivity, ShowAllHierarchy::class.java)
@@ -226,6 +227,7 @@ class ScannerCameraActivity : AppCompatActivity() {
             }
         }
     }
+
 
     override fun onDestroy() {
         super.onDestroy()

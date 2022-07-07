@@ -162,10 +162,13 @@ class CreateCartonActivity : AppCompatActivity() {
                     runOnUiThread {
                         cameraSource.stop()
                         Toast.makeText(this@CreateCartonActivity, "value- $scannedValue", Toast.LENGTH_SHORT).show()
+                        Log.i("scannedPalletData",scannedValue)
 
-
-                        val scannedData = scannedValue.substringAfter("SF")
+                        val scannedData = scannedValue.substringAfter("SF-")
+                        val scannedLoc = scannedValue.substringBefore("L")
                         Log.i("PalletHierarchy", scannedData)
+                        Log.i("scanLoc", scannedLoc)
+                        Log.i("PalletHierarchyApiValue", "$scannedData-$scannedLoc")
 
 
                         viewModel.palletHierarchy(Utils.getSimpleTextBody("$scannedData-$palletNo"))

@@ -144,6 +144,7 @@ class WarehouseDetailsActivity : AppCompatActivity() {
                 when(it.status){
                     Status.LOADING ->{
                         dialog.show()
+                        dialog.setCanceledOnTouchOutside(true)
                     }
                     Status.SUCCESS ->{
                         dataStatus = it.data?.status.toString()

@@ -159,8 +159,8 @@ class WarehouseActivity : AppCompatActivity() {
                                     {
                                         for (i in it.data)
                                         {
-                                            generateQRCode("${i.wHCode}-${i.wHNo}")
-                                            textList.add(i.wHCode!!)
+                                            generateQRCode("${selectedBusLocNo}L-${i.wHCode}")
+                                            textList.add("${i.wHName}")
                                         }
 
                                         generatePDF()
@@ -262,6 +262,7 @@ class WarehouseActivity : AppCompatActivity() {
         intent.putExtra("whQrCode",warehouseCode)
         intent.putExtra("whNo",whNo)
         intent.putExtra("whName",whName)
+        intent.putExtra("busLoc","${selectedBusLocNo}L")
         startActivity(intent)
     }
 
@@ -384,10 +385,10 @@ class WarehouseActivity : AppCompatActivity() {
                 myImg.setAbsolutePosition(100f,100f)
                 myImg.alignment = Element.ALIGN_CENTER
 
-                val headingPara = Paragraph(Chunk("Ware House"))
+                val headingPara = Paragraph(Chunk("Warehouse"))
                 headingPara.alignment = Element.ALIGN_CENTER
 
-                val paragraph = Paragraph(Chunk("Code: ${textList[i]}"))
+                val paragraph = Paragraph(Chunk(textList[i]))
                 paragraph.alignment = Element.ALIGN_CENTER
 
                 val pdfcell = PdfPCell()
@@ -404,6 +405,8 @@ class WarehouseActivity : AppCompatActivity() {
                 //pdfcell.isNoWrap = false
                 pdfTable.addCell(pdfcell)
             }
+
+            pdfTable.completeRow()
 
             mDoc.add(pdfTable)
             mDoc.close()

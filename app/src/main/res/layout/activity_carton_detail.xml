@@ -436,7 +436,7 @@
                                 android:layout_marginStart="@dimen/_20sdp"
                                 android:layout_marginTop="@dimen/_20sdp"
                                 android:fontFamily="@font/amiko"
-                                android:text="Material Number"
+                                android:text="Material "
                                 android:textColor="@color/black"
                                 android:textSize="@dimen/_15ssp" />
 

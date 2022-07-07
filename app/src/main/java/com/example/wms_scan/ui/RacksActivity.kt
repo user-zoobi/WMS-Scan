@@ -66,6 +66,7 @@ class RacksActivity : AppCompatActivity() {
     private lateinit var bmp:Bitmap
     private val bmpList = mutableListOf<Bitmap>()
     private var STORAGE_CODE = 1001
+    private var whCode = ""
     private val textList = mutableListOf<String>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -147,6 +148,7 @@ class RacksActivity : AppCompatActivity() {
 
         binding.printIV.click {
             generatePDF()
+
         }
 
         binding.backBtn.click {
@@ -334,9 +336,10 @@ class RacksActivity : AppCompatActivity() {
 
                                     for (i in it.data)
                                     {
-                                        generateQRCode("${i.rackCode}-${i.rackNo}")
-                                        textList.add(i.rackCode!!)
-                                        Log.i("rackList","${i.rackCode}-${i.rackNo}")
+                                        generateQRCode("${selectedBusLocNo}L-${whCode}-${i.rackCode}")
+                                        textList.add("${selectedBusLocNo}L-${whCode}-${i.rackCode}")
+                                        Log.i("rackList","${selectedBusLocNo}L-${whCode}-${i.rackCode}")
+                                        Log.i("rackList","${i.rackCode}")
                                     }
 
                                     binding.racksRV.apply {
@@ -359,10 +362,8 @@ class RacksActivity : AppCompatActivity() {
                         }
                     }
                 }
-
             }
         })
-
     }
 
     private fun showBusLocSpinner(data:List<UserLocationResponse>) {
@@ -427,6 +428,8 @@ class RacksActivity : AppCompatActivity() {
                         Utils.getSimpleTextBody(selectedBusLocNo)
                     )
                     warehouseName = data[position].wHName.toString()
+                    whCode = data[position].wHCode.toString()
+
                     Log.i("LocBus","This is warehouse name is ${adapter?.getItemAtPosition(position)}")
                     Log.i("LocBus","This is warehouse pos is ${data[position].wHNo}")
                 }
@@ -594,10 +597,11 @@ class RacksActivity : AppCompatActivity() {
 
                 pdfTable.addCell(pdfcell)
             }
+            pdfTable.completeRow()
 
             mDoc.add(pdfTable)
-            mDoc.close()
 
+            mDoc.close()
             openPDF(file, "QrGeneratedFile.pdf\nis saved to\n$mFilePath")
 
             //show file saved message with file name and path
@@ -619,6 +623,7 @@ class RacksActivity : AppCompatActivity() {
                 if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED){
                     //permission from popup was granted, call savePdf() method
                     savePdf()
+
                 }
                 else{
                     //permission from popup was denied, show error message

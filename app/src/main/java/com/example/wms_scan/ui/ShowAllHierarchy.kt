@@ -10,15 +10,9 @@ import com.example.scanmate.data.callback.Status
 import com.example.scanmate.data.response.GetRackResponse
 import com.example.scanmate.data.response.GetShelfResponse
 import com.example.scanmate.data.response.GetWarehouseResponse
-import com.example.scanmate.extensions.gone
-import com.example.scanmate.extensions.obtainViewModel
-import com.example.scanmate.extensions.setTransparentStatusBarColor
-import com.example.scanmate.extensions.visible
+import com.example.scanmate.extensions.*
 import com.example.scanmate.util.CustomProgressDialog
 import com.example.scanmate.util.LocalPreferences
-import com.example.scanmate.util.LocalPreferences.AppConstants.orgBusLocNo
-import com.example.scanmate.util.LocalPreferences.AppLoginPreferences.busLocNo
-import com.example.scanmate.util.LocalPreferences.AppLoginPreferences.userNo
 import com.example.scanmate.util.Utils
 import com.example.scanmate.viewModel.MainViewModel
 import com.example.wms_scan.R
@@ -71,6 +65,10 @@ class ShowAllHierarchy : AppCompatActivity() {
             LocalPreferences.AppLoginPreferences.loginTime
         )
 
+        binding.backBtn.click {
+            onBackPressed()
+        }
+
     }
 
     private fun initObserver(){
@@ -81,21 +79,28 @@ class ShowAllHierarchy : AppCompatActivity() {
         val shelve      = intent.extras?.getString("s")
         val pallete     = intent.extras?.getString("p")
         scannedValue    = "$location-$warehouse-$rack-$shelve-$pallete"
+        Log.i("palletLoc",scannedValue)
+        Log.i("palletLoc",location.toString())
+        Log.i("palletLoc",rack.toString())
+        Log.i("palletLoc",warehouse.toString())
+        Log.i("palletLoc",shelve.toString())
+        val scannedLoc = scannedValue.substringBefore("-L")
+
+        Log.i("palletLoc",scannedLoc)
 
 
         Log.i("data","$warehouse")
         Log.i("data","$rack")
         Log.i("data","$shelve")
         Log.i("data","$pallete")
-//        Log.i("data","$location-$warehouse-$rack-$shelve-$pallete")
 
         when
         {
-            scannedValue.contains("PL") -> viewModel.scanAll(pallete!!, "0")
-            scannedValue.contains("SF") -> viewModel.scanAll(shelve!!, "0")
-            scannedValue.contains("RK") -> viewModel.scanAll(rack!!, "0")
-            scannedValue.contains("WH") -> viewModel.scanAll("$warehouse", "0")
-            scannedValue.contains("L") -> viewModel.scanAll(location!!, "0")
+            scannedValue.contains("PL") -> viewModel.scanAll(pallete!!, scannedLoc)
+            scannedValue.contains("SF") -> viewModel.scanAll(shelve!!, scannedLoc)
+            scannedValue.contains("RK") -> viewModel.scanAll(rack!!, scannedLoc)
+            scannedValue.contains("WH") -> viewModel.scanAll("$warehouse", scannedLoc)
+            scannedValue.contains("L") -> viewModel.scanAll(location!!, scannedLoc)
         }
 
         Log.i("scannedValue",scannedValue)
@@ -129,6 +134,7 @@ class ShowAllHierarchy : AppCompatActivity() {
                                         Utils.getSimpleTextBody("48"),
                                         Utils.getSimpleTextBody("1")
                                     )
+                                    Log.i("palLoc","${it.data?.get(0)?.pilotCode}")
                                 }
 
                                 scannedValue.contains("SF") ->{
@@ -211,6 +217,7 @@ class ShowAllHierarchy : AppCompatActivity() {
                         layoutManager = LinearLayoutManager(this@ShowAllHierarchy)
                         adapter = warehouseAdapter
                     }
+                    binding.itemTV.text = it.data[0].wHName
                     Log.i("warehouseCode", it.data[0].wHName.toString())
                 }
                 Status.ERROR ->{
@@ -232,6 +239,7 @@ class ShowAllHierarchy : AppCompatActivity() {
                         layoutManager = LinearLayoutManager(this@ShowAllHierarchy)
                         adapter = racksAdapter
                     }
+                    binding.itemTV.text = it.data[0].wHName
                     Log.i("warehouseCode", it.data[0].wHName.toString())
                 }
                 Status.ERROR ->{
@@ -253,6 +261,7 @@ class ShowAllHierarchy : AppCompatActivity() {
                         layoutManager = LinearLayoutManager(this@ShowAllHierarchy)
                         adapter = shelfAdapter
                     }
+                    binding.itemTV.text = it.data[0].rackName
                 }
                 Status.ERROR ->{
 
@@ -273,6 +282,7 @@ class ShowAllHierarchy : AppCompatActivity() {
                         layoutManager = LinearLayoutManager(this@ShowAllHierarchy)
                         adapter = palletAdapter
                     }
+                    binding.itemTV.text = it.data[0].shelfName
                 }
                 Status.ERROR ->{
 
@@ -316,6 +326,9 @@ class ShowAllHierarchy : AppCompatActivity() {
             Utils.getSimpleTextBody(rackNo),
             Utils.getSimpleTextBody("1"),
         )
+        binding.view3.visible()
+        binding.view4.visible()
+        binding.rackCont.visible()
     }
 
 
@@ -325,12 +338,25 @@ class ShowAllHierarchy : AppCompatActivity() {
             Utils.getSimpleTextBody(shelfNo),
             Utils.getSimpleTextBody("1"),
         )
+        binding.view5.visible()
+        binding.view6.visible()
+        binding.shelfCont.visible()
+        binding.shelfTV.visible()
     }
 
     fun palletAction(palletNo:String){
         viewModel.getCarton(
-            Utils.getSimpleTextBody("48"),
+            Utils.getSimpleTextBody(palletNo),
             Utils.getSimpleTextBody("1")
         )
+        binding.view7.visible()
+        binding.view8.visible()
+        binding.palletCont.visible()
+        binding.palletTV.visible()
     }
+
+    override fun onBackPressed() {
+        finish()
+    }
+
 }

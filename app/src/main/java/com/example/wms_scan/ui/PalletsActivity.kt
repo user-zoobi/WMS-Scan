@@ -64,20 +64,17 @@ class PalletsActivity : AppCompatActivity() {
     private var selectedWareHouseNo = ""
     private var selectedRackNo = ""
     private var selectedShelveNo = ""
-    private var selectedPalletNo = ""
-    private var selectedPalletName = ""
     private var busLocName = ""
     private var warehouseName = ""
     private var rackName = ""
     private var shelfName = ""
-    private val REQUEST_EXTERNAL_STORAGe = 1
     private lateinit var bmp:Bitmap
     private val bmpList = mutableListOf<Bitmap>()
     private val palletCodeList = mutableListOf<String>()
     private var STORAGE_CODE = 1001
-    private var palletNo = ""
-    private var palletName = ""
-    private var palletCode = ""
+    private var shelfCode = ""
+    private var rackCode = ""
+    private var whCode = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -201,9 +198,7 @@ class PalletsActivity : AppCompatActivity() {
                                 dialog.dismiss()
                                 showBusLocSpinner(it.data!!)
                             }
-                            else
-                            {
-                            }
+                            else { }
                         }
                     }
                     else
@@ -262,7 +257,8 @@ class PalletsActivity : AppCompatActivity() {
          */
 
         viewModel.getRack.observe(this, Observer{
-            when(it.status){
+            when(it.status)
+            {
                 Status.LOADING ->{
                 }
                 Status.SUCCESS ->{
@@ -366,10 +362,16 @@ class PalletsActivity : AppCompatActivity() {
 
                             for (i in it.data)
                             {
-                                Log.i("Codes","${i.pilotCode}-${i.pilotNo}")
-                                generateQRCode("${i.pilotCode}-${i.pilotNo}")
-                                palletCodeList.add("${i.pilotCode}-${i.pilotNo}")
-                                Log.i("PalletCodes","$palletCodeList")
+                                Log.i("WarehouseCodeName","${whCode}")
+                                Log.i("RackCodeName","${rackCode}")
+                                Log.i("ShelfCodeName","${shelfCode}")
+                                Log.i("PalletCodeName","${palletCodeList}")
+
+                                generateQRCode("${selectedBusLocNo}L-${whCode}-${rackCode}-${shelfCode}-${i.pilotCode}")
+                                Log.i("palletCode","${selectedBusLocNo}L-${whCode}-${rackCode}-${shelfCode}-${i.pilotCode}")
+
+                                palletCodeList.add("${i.pilotName}")
+//                                Log.i("PalletCodes","$palletCodeList")
                             }
 
                         }
@@ -383,8 +385,8 @@ class PalletsActivity : AppCompatActivity() {
                         Log.i("","${e.message}")
                         Log.i("rackAdapter","${e.stackTrace}")
                     }
-
                 }
+
                 Status.ERROR ->{
                     Log.i(error,"Success")
                 }
@@ -477,6 +479,8 @@ class PalletsActivity : AppCompatActivity() {
                 {
                     selectedWareHouseNo = data[position].wHNo.toString()
                     warehouseName = data[position].wHName.toString()
+                    whCode = data[position].wHCode.toString()
+
                     viewModel.getRack(
                         Utils.getSimpleTextBody(""),
                         Utils.getSimpleTextBody(selectedWareHouseNo),
@@ -516,6 +520,7 @@ class PalletsActivity : AppCompatActivity() {
                 if (isNetworkConnected(this@PalletsActivity))
                 {
                     selectedRackNo = data[position].rackNo.toString()
+                    rackCode = data[position].rackCode.toString()
                     rackName = data[position].rackName.toString()
                     viewModel.getShelf(
                         Utils.getSimpleTextBody(""),
@@ -557,6 +562,7 @@ class PalletsActivity : AppCompatActivity() {
                         Log.i("LocBus","This is shelf pos ${adapter?.getItemAtPosition(position)}")
                         selectedShelveNo = data[position].shelfNo.toString()
                         shelfName = data[position].shelfName.toString()
+                        shelfCode = data[position].shelfCode.toString()
                         viewModel.getPallet(
                             Utils.getSimpleTextBody(""),
                             Utils.getSimpleTextBody(selectedShelveNo),
@@ -687,6 +693,7 @@ class PalletsActivity : AppCompatActivity() {
                 }
                 pdfTable.addCell(pdfcell)
             }
+            pdfTable.completeRow()
 
             mDoc.add(pdfTable)
 

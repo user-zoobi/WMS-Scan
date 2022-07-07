@@ -169,6 +169,7 @@ class AddUpdateShelfDetails : AppCompatActivity() {
             when(it.status){
                 Status.LOADING ->{
                     dialog.show()
+                    dialog.setCanceledOnTouchOutside(true)
                 }
                 Status.SUCCESS ->{
 

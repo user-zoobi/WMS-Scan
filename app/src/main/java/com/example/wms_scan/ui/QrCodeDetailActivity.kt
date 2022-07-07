@@ -39,6 +39,8 @@ class QrCodeDetailActivity : AppCompatActivity() {
         Manifest.permission.READ_EXTERNAL_STORAGE
     )
 
+    private var busLocNo = ""
+
     private var whName:String? = ""
     private var whNo:String? = ""
     private var whCode:String? = ""
@@ -73,6 +75,7 @@ class QrCodeDetailActivity : AppCompatActivity() {
         whCode = intent.extras?.getString("whQrCode")
         whNo = intent.extras?.getString("whNo")
         whName = intent.extras?.getString("whName")
+        busLocNo = intent.extras?.getString("busLoc").toString()
 
         rackCode = intent.extras?.getString("rackQrCode")
         rackNo = intent.extras?.getString("rackQrNo")
@@ -86,30 +89,28 @@ class QrCodeDetailActivity : AppCompatActivity() {
         palletNo  = intent.extras?.getString("palletQrNo")
         palletName = intent.extras?.getString("palletQrName")
 
-        when{
-            intent.extras?.getBoolean("warehouseKey") == true->{
-                generateQRCode("$whCode-$whName")
-                binding.qrCodeNameTV.text = "warehouse: $whName"
-                binding.qrCodeTV.text = "warehouse code: $whCode"
-                binding.qrCodeNoTV.text = "warehouse number: $whNo"
+        when
+        {
+            intent.extras?.getBoolean("warehouseKey") == true->
+            {
+                generateQRCode("${busLocNo}-${whCode}")
+                binding.qrCodeNameTV.text = whName
             }
-            intent.extras?.getBoolean("rackKey") == true->{
-                generateQRCode("$rackCode-$rackNo")
-                binding.qrCodeNameTV.text = "rack code: $rackName"
-                binding.qrCodeTV.text = "rack code: $rackCode"
-                binding.qrCodeNoTV.text = "rack no: $rackNo"
+            intent.extras?.getBoolean("rackKey") == true->
+            {
+                generateQRCode("${busLocNo}-${whCode}-$rackCode")
+                binding.qrCodeNameTV.text = rackName
             }
-            intent.extras?.getBoolean("shelfKey") == true->{
-                generateQRCode("$shelfCode-$shelfNo")
-                binding.qrCodeNameTV.text = "shelf name: $shelfName"
-                binding.qrCodeTV.text = "shelf code:$shelfCode"
-                binding.qrCodeNoTV.text = "shelf no: $shelfNo"
+            intent.extras?.getBoolean("shelfKey") == true->
+            {
+                generateQRCode("${busLocNo}-${whCode}-${rackCode}-${shelfCode}")
+                binding.qrCodeNameTV.text = shelfName
             }
-            intent.extras?.getBoolean("palletKey") == true->{
-                generateQRCode("$palletCode-$palletNo")
-                binding.qrCodeNameTV.text = "pallet name: $palletNo"
-                binding.qrCodeTV.text = "pallet code: $palletCode"
-                binding.qrCodeNoTV.text = "pallet no: $palletNo"
+            intent.extras?.getBoolean("palletKey") == true->
+            {
+                generateQRCode("${busLocNo}-${whCode}-${rackCode}-${shelfCode}-${palletCode}")
+                binding.qrCodeNameTV.text = palletNo
+
             }
         }
     }
