@@ -65,6 +65,24 @@ class CreateCartonActivity : AppCompatActivity() {
         } else {
             setupControls()
         }
+
+        Log.i("scannedQr","$scannedValue")
+
+        viewModel.palletHierarchy.observe(this, Observer {
+
+            when(it.status){
+                Status.LOADING ->{
+
+                }
+                Status.SUCCESS ->{
+                    Log.i("palletCode","${it.data?.get(0)?.pilotCode}")
+                }
+                Status.ERROR->{
+
+                }
+            }
+
+        })
     }
 
     private fun setupUi(){
@@ -119,7 +137,7 @@ class CreateCartonActivity : AppCompatActivity() {
             .setAutoFocusEnabled(true) //you should add this feature
             .build()
 
-        binding.cameraSurfaceView.holder.addCallback(object : SurfaceHolder.Callback {
+        binding.cameraSurfaceView.getHolder().addCallback(object : SurfaceHolder.Callback {
             @SuppressLint("MissingPermission")
             override fun surfaceCreated(holder: SurfaceHolder) {
                 try {
@@ -132,8 +150,10 @@ class CreateCartonActivity : AppCompatActivity() {
 
             @SuppressLint("MissingPermission")
             override fun surfaceChanged(
-                holder: SurfaceHolder, format: Int,
-                width: Int, height: Int
+                holder: SurfaceHolder,
+                format: Int,
+                width: Int,
+                height: Int
             ) {
                 try {
                     cameraSource.start(holder)
@@ -147,9 +167,9 @@ class CreateCartonActivity : AppCompatActivity() {
             }
         })
 
+
         barcodeDetector.setProcessor(object : Detector.Processor<Barcode> {
-            override fun release()
-            {
+            override fun release() {
                 Toast.makeText(applicationContext, "Scanner has been closed", Toast.LENGTH_SHORT)
                     .show()
             }
@@ -158,77 +178,27 @@ class CreateCartonActivity : AppCompatActivity() {
                 val barcodes = detections.detectedItems
                 if (barcodes.size() == 1) {
                     scannedValue = barcodes.valueAt(0).rawValue
+
+
                     //Don't forget to add this line printing value or finishing activity must run on main thread
                     runOnUiThread {
                         cameraSource.stop()
                         Toast.makeText(this@CreateCartonActivity, "value- $scannedValue", Toast.LENGTH_SHORT).show()
-                        Log.i("scannedPalletData",scannedValue)
+                        Log.i("scannedValue", scannedValue)
+                        val palletCode = scannedValue.substringAfter("SF-")
+                        viewModel.palletHierarchy(
+                            Utils.getSimpleTextBody(palletCode)
+                        )
+                        Log.i("palletCode", palletCode)
 
-                        val scannedData = scannedValue.substringAfter("SF-")
-                        val scannedLoc = scannedValue.substringBefore("L")
-                        Log.i("PalletHierarchy", scannedData)
-                        Log.i("scanLoc", scannedLoc)
-                        Log.i("PalletHierarchyApiValue", "$scannedData-$scannedLoc")
 
-
-                        viewModel.palletHierarchy(Utils.getSimpleTextBody("$scannedData-$palletNo"))
-
-                        viewModel.palletHierarchy.observe(this@CreateCartonActivity, Observer{
-                            when(it.status){
-                                Status.LOADING->{
-                                }
-                                Status.SUCCESS ->{
-                                    if (Utils.isNetworkConnected(this@CreateCartonActivity)){
-                                        it.let {
-                                            if(it.data?.get(0)?.status == true) {
-//                                                gotoActivity(ScanCartonActivity::class.java, "scanCarton", true)
-                                                val whName = it.data[0].wHName
-                                                val rackName = it.data[0].rackName
-                                                val shelfName = it.data[0].shelfName
-                                                val palletName = it.data[0].pilotName
-                                                val palletCode = it.data[0].pilotCode
-                                                val palletNo = it.data[0].pilotNo
-                                                val locationNo = it.data[0].locationNo
-                                                val intent = Intent(this@CreateCartonActivity, ScanCartonActivity::class.java)
-                                                intent.putExtra("whName",whName)
-
-                                                intent.putExtra("rackName",rackName)
-                                                intent.putExtra("shelfName",shelfName)
-                                                intent.putExtra("palletName",palletName)
-                                                intent.putExtra("palletCode",palletCode)
-                                                intent.putExtra("palletNo",palletNo)
-                                                intent.putExtra("locationNo",locationNo)
-                                                intent.putExtra("scanCarton",true)
-
-                                                LocalPreferences.put(this@CreateCartonActivity, warehouse,whName.toString() )
-                                                LocalPreferences.put(this@CreateCartonActivity, rack,rackName.toString() )
-                                                LocalPreferences.put(this@CreateCartonActivity, shelf,shelfName.toString() )
-                                                LocalPreferences.put(this@CreateCartonActivity, pallets,palletName.toString() )
-                                                finish()
-                                                startActivity(intent)
-                                                val error = it.data[0].error
-                                                val status = it.data[0].status
-
-                                                Log.i("palletHierarchy","whName :$whName rackName $rackName shelfName $shelfName $palletName\n $error $status")
-                                            }
-                                            else { }
-                                        }
-                                    }
-                                    else { }
-                                }
-                                Status.ERROR ->{
-                                    dialog.dismiss()
-                                    Log.i("error","${Exception().message}")
-                                    binding.cameraSurfaceView.gone()
-                                    binding.scanBtn.visible()
-                                    binding.clickHereTV.visible()
-                                    cameraSource.stop()
-                                }
-                            }
-                        })
+                        finish()
                     }
+                }else
+                {
+                    Toast.makeText(this@CreateCartonActivity, "value- else", Toast.LENGTH_SHORT).show()
+
                 }
-                else { }
             }
         })
     }
@@ -245,16 +215,12 @@ class CreateCartonActivity : AppCompatActivity() {
         requestCode: Int,
         permissions: Array<out String>,
         grantResults: IntArray
-    )
-    {
+    ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == requestCodeCameraPermission && grantResults.isNotEmpty()) {
-            if (grantResults[0] == PackageManager.PERMISSION_GRANTED)
-            {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 setupControls()
-            }
-            else
-            {
+            } else {
                 Toast.makeText(applicationContext, "Permission Denied", Toast.LENGTH_SHORT).show()
             }
         }
@@ -264,9 +230,4 @@ class CreateCartonActivity : AppCompatActivity() {
         super.onDestroy()
         cameraSource.stop()
     }
-
-    override fun onBackPressed() {
-        finish()
-    }
-
 }
