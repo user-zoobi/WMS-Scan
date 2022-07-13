@@ -57,6 +57,87 @@ class CartonDetailActivity : AppCompatActivity() {
         initObserver()
         setupUi()
 
+        val scannedValue =  intent.extras?.getString("scannedValue")
+        val palletNo = scannedValue?.substringAfter("SF-")
+        Log.i("qrcode", scannedValue.toString())
+        Log.i("palletNo", palletNo.toString())
+
+        /**
+         *  PALLET HIERARCHY API
+         */
+
+        viewModel.palletHierarchy(
+            Utils.getSimpleTextBody("$palletNo-27")
+        )
+        viewModel.palletHierarchy.observe(this, Observer {
+
+            when(it.status){
+
+                Status.LOADING ->{
+
+                }
+                Status.SUCCESS ->{
+                    Log.i("palletCode","${it.data?.get(0)?.pilotCode}")
+
+                    binding.palletCode.text = "Pallet Code : ${it.data?.get(0)?.pilotCode}"
+                    binding.palletName.text = "Pallet Name : ${it.data?.get(0)?.pilotName}"
+                    binding.palletNo.text = "Pallet no : ${it.data?.get(0)?.pilotNo}"
+                }
+                Status.ERROR ->{
+
+                }
+
+            }
+        })
+
+
+        val analyticalNum =  intent.extras?.getString("scanAnalyticalNum")
+        Log.i("analyticalNum", analyticalNum.toString())
+
+        /**
+         *  CARTON DETAIL API
+         */
+
+        viewModel.getCartonDetails(
+            "$analyticalNum"
+        )
+        viewModel.getCartonDetails.observe(this, Observer{
+
+            when(it.status){
+
+                Status.LOADING ->{
+
+                }
+                Status.SUCCESS ->{
+                    binding.materialNumTV.text = it.data?.get(0)?.materialName
+                    binding.analyticalNumTV.text = it.data?.get(0)?.analyticalNo
+                    binding.cartonNumTV.text = it.data?.get(0)?.cartonNo.toString()
+                    binding.stockTV.text = it.data?.get(0)?.matStock.toString()
+                }
+                Status.ERROR ->{
+
+                }
+
+            }
+
+        })
+
+        viewModel.addCarton.observe(this, Observer {
+            when(it.status){
+
+                Status.LOADING ->{
+
+                }
+                Status.SUCCESS ->{
+
+                }
+                Status.ERROR ->{
+
+                }
+
+            }
+        })
+
     }
 
     private fun initListener(){
@@ -215,33 +296,34 @@ class CartonDetailActivity : AppCompatActivity() {
             }
         })
 
+        viewModel.getCartonDetails.observe(this, Observer {
+            when(it.status){
+                Status.LOADING ->{
+
+                }
+                Status.SUCCESS ->{
+
+                }
+                Status.ERROR ->{
+
+                }
+            }
+        })
+
     }
 
     private fun setupUi(){
 
         supportActionBar?.hide()
         setTransparentStatusBarColor(R.color.transparent)
-
-        analyticalNo = intent.extras?.getString("Analytical_No").toString()
-        val materialId = intent.extras?.getString("material_id")
-        stock = intent.extras?.getString("matStock").toString()
-        itemCode = intent.extras?.getString("itemCode").toString()
-        totCarton = intent.extras?.getString("totCarton").toString()
-        pilotNo = intent.extras?.getInt("pilotNo").toString()
-        cartonSNo = intent.extras?.getString("cartonSNo").toString()
-        cartonCode = intent.extras?.getString("cartonCode").toString()
-        cartonNo = intent.extras?.getInt("cartonNo").toString()
-        val pilotName = intent.extras?.getString("pilotName").toString()
-        val pilotCode = intent.extras?.getString("pilotCode").toString()
-
         Log.i("pilotNo",pilotNo)
 
         binding.analyticalNumTV.text = analyticalNo
-        binding.materialNumTV.text = materialId
+//        binding.materialNumTV.text = materialId
         binding.stockTV.text = stock
         binding.cartonNumTV.text = cartonNo
-        binding.palletCode.text = "Pallet Code : $pilotCode"
-        binding.palletName.text = "Pallet Name : $pilotName"
+//        binding.palletCode.text = "Pallet Code : $pilotCode"
+//        binding.palletName.text = "Pallet Name : $pilotName"
         binding.palletNo.text = "Pallet no : $pilotNo"
 
         binding.userNameTV.text = LocalPreferences.getString(this,
@@ -261,6 +343,7 @@ class CartonDetailActivity : AppCompatActivity() {
                 binding.palletNo.visible()
 
             }
+
             intent.extras?.getInt("isExist") == 0 ->{
                 binding.palletCode.gone()
                 binding.palletName.gone()
@@ -303,6 +386,8 @@ class CartonDetailActivity : AppCompatActivity() {
             }
         }
     }
+
+
 
     private fun clearPreferences(context: Context){
         val settings: SharedPreferences =

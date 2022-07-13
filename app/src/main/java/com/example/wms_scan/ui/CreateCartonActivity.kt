@@ -76,6 +76,7 @@ class CreateCartonActivity : AppCompatActivity() {
                 }
                 Status.SUCCESS ->{
                     Log.i("palletCode","${it.data?.get(0)?.pilotCode}")
+                    gotoActivity(ScanCartonActivity::class.java, "scannedValue",scannedValue)
                 }
                 Status.ERROR->{
 
@@ -97,8 +98,6 @@ class CreateCartonActivity : AppCompatActivity() {
         binding.loginTimeTV.text = LocalPreferences.getString(this,
             LocalPreferences.AppLoginPreferences.loginTime
         )
-        palletCode = intent.extras?.getString("palletQrCode").toString()
-        palletNo = intent.extras?.getString("palletQrNo").toString()
 
         supportActionBar?.hide()
         setTransparentStatusBarColor(R.color.transparent)
@@ -187,7 +186,7 @@ class CreateCartonActivity : AppCompatActivity() {
                         Log.i("scannedValue", scannedValue)
                         val palletCode = scannedValue.substringAfter("SF-")
                         viewModel.palletHierarchy(
-                            Utils.getSimpleTextBody(palletCode)
+                            Utils.getSimpleTextBody("$palletCode-27")
                         )
                         Log.i("palletCode", palletCode)
 

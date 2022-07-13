@@ -93,17 +93,46 @@ class ScanCartonActivity : AppCompatActivity() {
             Utils.getSimpleTextBody(busLocNo.toString())
         )
 
+        viewModel.palletHierarchy(
+            Utils.getSimpleTextBody("$palletNo-27")
+        )
+        viewModel.palletHierarchy.observe(this, Observer {
+
+            when(it.status){
+
+                Status.LOADING ->{
+
+                }
+                Status.SUCCESS ->{
+                    Log.i("palletCode","${it.data?.get(0)?.pilotCode}")
+
+                    val warehouse = it.data?.get(0)?.wHName.toString()
+                    val  racks = it.data?.get(0)?.rackName.toString()
+                    val shelf = it.data?.get(0)?.shelfName.toString()
+                    val pallet = it.data?.get(0)?.pilotName.toString()
+                    val palletCode = it.data?.get(0)?.pilotCode.toString()
+
+                    binding.WHTV.text = warehouse
+                    binding.rackTV.text = racks
+                    binding.shelfTV.text = shelf
+                    binding.palletTV.text = pallet
+                    binding.palletNameTV.text = pallet
+                    binding.palletCodeTV.text = palletCode
+
+                }
+                Status.ERROR ->{
+
+                }
+
+            }
+        })
+
     }
 
     private fun setupUi(){
         dialog = CustomProgressDialog(this)
         supportActionBar?.hide()
         setTransparentStatusBarColor(R.color.transparent)
-
-
-//        binding.rackTV.text = intent.extras?.getString("shelfName")
-        binding.palletNameTV.text = intent.extras?.getString("palletName")
-        binding.palletCodeTV.text = intent.extras?.getString("palletCode")
 
         binding.userNameTV.text = LocalPreferences.getString(this,
             LocalPreferences.AppLoginPreferences.userName
@@ -115,10 +144,6 @@ class ScanCartonActivity : AppCompatActivity() {
             LocalPreferences.AppLoginPreferences.loginTime
         )
 
-        binding.WHTV.text = intent.extras?.getString("whName")
-        binding.rackTV.text = intent.extras?.getString("rackName")
-        binding.shelfTV.text = intent.extras?.getString("shelfName")
-        binding.palletTV.text = intent.extras?.getString("palletName")
         binding.palletDetailCont.isEnabled = false
 
 
@@ -188,52 +213,6 @@ class ScanCartonActivity : AppCompatActivity() {
 
         //GET CARTON
 
-        viewModel.getCarton.observe(this@ScanCartonActivity, Observer {
-            when(it.status){
-                Status.LOADING ->{
-
-                }
-                Status.SUCCESS ->{
-
-                    it.let {
-                        try
-                        {
-                            if (it.data?.get(0)?.status == true)
-                            {
-                                itemCode = it.data[0].itemCode.toString()
-                                analyticalNo = it.data[0].analyticalNo.toString()
-                                totCarton = it.data[0].totCarton.toString()
-                                pilotNo = it.data[0].pilotNo!!
-                                cartonSNo = it.data[0].cartonSNo.toString()
-                                cartonCode = it.data[0].cartonCode.toString()
-
-                                Log.i("cartonNo",it.data[0].cartonNo.toString())
-
-                                Log.i("analytical no",it.data[0].analyticalNo.toString())
-                                scanCartonAdapter = ScanCartonAdapter(this,
-                                    it.data as ArrayList<GetCartonResponse>
-                                )
-                                binding.viewRV.apply {
-                                    layoutManager = LinearLayoutManager(this@ScanCartonActivity)
-                                    adapter = scanCartonAdapter
-                                }
-                            }
-                            else
-                            {
-                                Log.i("exception","${Exception().message}")
-                            }
-                        }
-                        catch (e:Exception)
-                        {
-                            Log.i("exception","${e.message}")
-                        }
-                    }
-                }
-
-                Status.ERROR ->{ }
-            }
-        })
-
         viewModel.getCartonDetails.observe(this@ScanCartonActivity, Observer {
             when(it.status){
                 Status.LOADING ->{
@@ -246,27 +225,8 @@ class ScanCartonActivity : AppCompatActivity() {
                         {
                             if (it.data?.get(0)?.status == true)
                             {
-                                Log.i("analytical no",it.data[0].analyticalNo.toString())
-                                Analytical_No = it.data[0].analyticalNo.toString()
-                                Material_name = it.data[0].materialName.toString()
-                                material_id = it.data[0].materialId.toString()
-                                isExist = it.data[0].isExist!!
-                                stock = it.data[0].matStock.toString()
-                                val intent = Intent(this@ScanCartonActivity, CartonDetailActivity::class.java)
-                                intent.putExtra("Analytical_No",Analytical_No) //
-                                intent.putExtra("material_id",material_id)
-                                intent.putExtra("Material_name",Material_name)
-                                intent.putExtra("isExist",isExist)
-                                intent.putExtra("totCarton",totCarton) //
-                                intent.putExtra("cartonSNo",cartonSNo) //
-                                intent.putExtra("cartonNo",it.data[0].cartonNo) //
-                                intent.putExtra("matStock",stock) //
-                                intent.putExtra("pilotNo",it.data[0].pilotNo) //
-                                intent.putExtra("pilotCode",it.data[0].pilotCode) //
-                                intent.putExtra("pilotName",it.data[0].pilotName) //
-                                startActivity(intent)
+                                gotoActivity(CartonDetailActivity::class.java, "scanAnalyticalNum", scannedValue)
                                 cameraSource.stop()
-
                             }
                             else
                             {
@@ -281,7 +241,6 @@ class ScanCartonActivity : AppCompatActivity() {
                         {
                             Log.i("getCartonDetails","${e.message}")
                         }
-
                     }
                 }
 
