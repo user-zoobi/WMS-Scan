@@ -46,8 +46,6 @@ class CreateCartonActivity : AppCompatActivity() {
     private lateinit var cameraSource: CameraSource
     private lateinit var barcodeDetector: BarcodeDetector
     private var scannedValue = ""
-    private var palletCode = ""
-    private var palletNo = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -66,7 +64,6 @@ class CreateCartonActivity : AppCompatActivity() {
             setupControls()
         }
 
-        Log.i("scannedQr","$scannedValue")
 
         viewModel.palletHierarchy.observe(this, Observer {
 
@@ -81,7 +78,8 @@ class CreateCartonActivity : AppCompatActivity() {
                     {
 //                        gotoActivity(ScanCartonActivity::class.java, "scannedValue",scannedValue)
                         val intent = Intent(this, ScanCartonActivity::class.java)
-                        intent.putExtra("scannedValue",scannedValue)
+                        val palletCode = scannedValue.substringAfter("SF-")
+                        intent.putExtra("subPalletCode",palletCode)
                         intent.putExtra("palletNo", it.data?.get(0)?.pilotNo)
                         startActivity(intent)
                     }
@@ -145,7 +143,7 @@ class CreateCartonActivity : AppCompatActivity() {
             .setAutoFocusEnabled(true) //you should add this feature
             .build()
 
-        binding.cameraSurfaceView.getHolder().addCallback(object : SurfaceHolder.Callback {
+        binding.cameraSurfaceView.holder.addCallback(object : SurfaceHolder.Callback {
             @SuppressLint("MissingPermission")
             override fun surfaceCreated(holder: SurfaceHolder) {
                 try {

@@ -197,7 +197,6 @@ class ShowAllHierarchy : AppCompatActivity() {
                         {
                             Log.i("scanAllHierarchy","${e.message}")
                         }
-
                     }
                 }
 

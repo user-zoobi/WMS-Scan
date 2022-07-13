@@ -86,7 +86,7 @@ class ScanCartonActivity : AppCompatActivity() {
         }
 
 
-        val palletCode  = intent.extras?.getString("scannedValue")
+        val palletCode  = intent.extras?.getString("subPalletCode")
         val palletNo  = intent.extras?.getInt("palletNo")
         val subPalletValue = palletCode?.substringAfter("SF-")
         Log.i("palletSubString",subPalletValue.toString())
