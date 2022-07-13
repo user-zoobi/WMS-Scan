@@ -132,13 +132,20 @@ class ShowAllHierarchy : AppCompatActivity() {
                             when
                             {
                                 pallete!!.contains("PL") ->{
-                                    viewModel.getWarehouse("","1")
+                                    viewModel.getCarton(
+                                        Utils.getSimpleTextBody("26"),
+                                        Utils.getSimpleTextBody("1")
+                                    )
                                     Log.i("palLoc","${it.data?.get(0)?.pilotCode}")
                                 }
 
                                 shelve!!.contains("SF") ->{
 
-                                    viewModel.getWarehouse("","1")
+                                    viewModel.getPallet(
+                                        Utils.getSimpleTextBody(""),
+                                        Utils.getSimpleTextBody("56"),
+                                        Utils.getSimpleTextBody("1"),
+                                    )
                                     binding.view7.gone()
                                     binding.view8.gone()
                                     binding.palletCont.gone()
@@ -146,7 +153,11 @@ class ShowAllHierarchy : AppCompatActivity() {
 
                                 rack!!.contains("RK") ->{
 
-                                    viewModel.getWarehouse("","1")
+                                    viewModel.getShelf(
+                                        Utils.getSimpleTextBody(""),
+                                        Utils.getSimpleTextBody("57"),
+                                        Utils.getSimpleTextBody("1"),
+                                    )
 
                                     binding.view5.gone()
                                     binding.view6.gone()
@@ -159,7 +170,11 @@ class ShowAllHierarchy : AppCompatActivity() {
 
                                 warehouse!!.contains("WH") -> {
 
-                                    viewModel.getWarehouse("","1")
+                                    viewModel.getRack(
+                                        Utils.getSimpleTextBody(""),
+                                        Utils.getSimpleTextBody("75"),
+                                        Utils.getSimpleTextBody("1")
+                                    )
 
                                     binding.view3.gone()
                                     binding.view4.gone()
@@ -292,6 +307,7 @@ class ShowAllHierarchy : AppCompatActivity() {
                         layoutManager = LinearLayoutManager(this@ShowAllHierarchy)
                         adapter = cartonAdapter
                     }
+                    binding.itemTV.text = it.data[0].itemCode
                 }
                 Status.ERROR ->{
 
@@ -308,7 +324,6 @@ class ShowAllHierarchy : AppCompatActivity() {
         )
     }
 
-
     fun rackAction(rackNo:String){
         viewModel.getShelf(
             Utils.getSimpleTextBody(""),
@@ -319,7 +334,6 @@ class ShowAllHierarchy : AppCompatActivity() {
         binding.view4.visible()
         binding.rackCont.visible()
     }
-
 
     fun shelfAction(shelfNo:String){
         viewModel.getPallet(

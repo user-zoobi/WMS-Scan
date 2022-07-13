@@ -44,6 +44,7 @@ class CartonDetailActivity : AppCompatActivity() {
     private var stock = ""
     private var selectedPalletNo = ""
     private var selectedPalletCode = ""
+    private var selectedPalletName = ""
 
     //
 
@@ -61,6 +62,29 @@ class CartonDetailActivity : AppCompatActivity() {
         val palletNo = scannedValue?.substringAfter("SF-")
         Log.i("qrcode", scannedValue.toString())
         Log.i("palletNo", palletNo.toString())
+
+
+        /**
+         *  GET PALLET API
+         */
+
+        viewModel.getPallet.observe(this, Observer{
+            when(it.status){
+                Status.LOADING ->{
+
+                }
+
+                Status.SUCCESS ->{
+
+                }
+
+                Status.ERROR ->{
+
+                }
+
+            }
+        })
+
 
         /**
          *  PALLET HIERARCHY API
@@ -82,6 +106,7 @@ class CartonDetailActivity : AppCompatActivity() {
                     binding.palletCode.text = "Pallet Code : ${it.data?.get(0)?.pilotCode}"
                     binding.palletName.text = "Pallet Name : ${it.data?.get(0)?.pilotName}"
                     binding.palletNo.text = "Pallet no : ${it.data?.get(0)?.pilotNo}"
+                    selectedPalletNo = it.data?.get(0)?.pilotNo.toString()
                 }
                 Status.ERROR ->{
 
@@ -95,12 +120,67 @@ class CartonDetailActivity : AppCompatActivity() {
         Log.i("analyticalNum", analyticalNum.toString())
 
         /**
+         *  ADD CARTON API
+         */
+
+        viewModel.addCarton.observe(this, Observer {
+            when(it.status){
+
+                Status.LOADING ->{
+
+                }
+                Status.SUCCESS ->{
+                    Log.i("IntentSave","${it.data?.error}")
+                }
+                Status.ERROR ->{
+
+                }
+
+            }
+        })
+
+
+        /**
+         *  GET CARTON API
+         */
+
+        viewModel.getCarton(
+            Utils.getSimpleTextBody(selectedPalletNo),
+            Utils.getSimpleTextBody("1")
+        )
+
+
+        viewModel.getCarton.observe(this, Observer {
+            when(it.status){
+
+                Status.LOADING ->{
+
+                }
+                Status.SUCCESS ->{
+                    cartonNo = it.data?.get(0)?.cartonNo.toString()
+                    pilotNo = it.data?.get(0)?.pilotNo.toString()
+                    analyticalNo = it.data?.get(0)?.analyticalNo.toString()
+                    totCarton = it.data?.get(0)?.totCarton.toString()
+                    cartonSNo = it.data?.get(0)?.cartonSNo.toString()
+                    cartonCode = it.data?.get(0)?.cartonCode.toString()
+                    itemCode = it.data?.get(0)?.itemCode.toString()
+                }
+                Status.ERROR ->{
+
+                }
+
+            }
+        })
+
+
+        /**
          *  CARTON DETAIL API
          */
 
         viewModel.getCartonDetails(
             "$analyticalNum"
         )
+
         viewModel.getCartonDetails.observe(this, Observer{
 
             when(it.status){
@@ -113,22 +193,6 @@ class CartonDetailActivity : AppCompatActivity() {
                     binding.analyticalNumTV.text = it.data?.get(0)?.analyticalNo
                     binding.cartonNumTV.text = it.data?.get(0)?.cartonNo.toString()
                     binding.stockTV.text = it.data?.get(0)?.matStock.toString()
-                }
-                Status.ERROR ->{
-
-                }
-
-            }
-
-        })
-
-        viewModel.addCarton.observe(this, Observer {
-            when(it.status){
-
-                Status.LOADING ->{
-
-                }
-                Status.SUCCESS ->{
 
                 }
                 Status.ERROR ->{
@@ -136,6 +200,7 @@ class CartonDetailActivity : AppCompatActivity() {
                 }
 
             }
+
         })
 
     }
@@ -152,7 +217,7 @@ class CartonDetailActivity : AppCompatActivity() {
                 this.addCarton(
                     CartonNo = Utils.getSimpleTextBody("0"),
                     CartonCode = Utils.getSimpleTextBody(cartonCode),
-                    ItemCode = Utils.getSimpleTextBody("TEST"), //
+                    ItemCode = Utils.getSimpleTextBody(itemCode), //
                     PilotNo = Utils.getSimpleTextBody(pilotNo),
                     AnalyticalNo = Utils.getSimpleTextBody(analyticalNo), //
                     Carton_SNo = Utils.getSimpleTextBody(cartonSNo), //
@@ -161,10 +226,9 @@ class CartonDetailActivity : AppCompatActivity() {
                     DMLUserNo = Utils.getSimpleTextBody("2"),
                     DMLPCName = Utils.getSimpleTextBody("test")
                 )
-                Log.i("IntentSave","\n$cartonCode\n $cartonNo\n $cartonSNo\n $itemCode\n $pilotNo\n $analyticalNo\n $cartonSNo\n $totCarton")
                 binding.saveBtn.gone()
-                binding.updateBtn.visible()
             }
+            toast("data saved")
         }
 
         binding.updateBtn.click {
@@ -172,7 +236,7 @@ class CartonDetailActivity : AppCompatActivity() {
             viewModel.addCarton(
                 Utils.getSimpleTextBody(cartonNo),
                 CartonCode = Utils.getSimpleTextBody(cartonCode),
-                ItemCode = Utils.getSimpleTextBody("TEST"), //
+                ItemCode = Utils.getSimpleTextBody(itemCode), //
                 PilotNo = Utils.getSimpleTextBody(selectedPalletNo),
                 AnalyticalNo = Utils.getSimpleTextBody(analyticalNo), //
                 Carton_SNo = Utils.getSimpleTextBody(cartonSNo), //
@@ -181,7 +245,7 @@ class CartonDetailActivity : AppCompatActivity() {
                 DMLUserNo = Utils.getSimpleTextBody("2"),
                 DMLPCName = Utils.getSimpleTextBody("test"),
             )
-
+            toast("data updated")
             viewModel.palletHierarchy(
                 Utils.getSimpleTextBody("$selectedPalletCode-$selectedPalletNo")
             )
@@ -204,6 +268,12 @@ class CartonDetailActivity : AppCompatActivity() {
             binding.selectPalletCont.visible()
             binding.updateBtn.visible()
             binding.saveBtn.gone()
+
+            viewModel.getPallet(
+                Utils.getSimpleTextBody(selectedPalletName),
+                Utils.getSimpleTextBody(""),
+                Utils.getSimpleTextBody("1"),
+            )
         }
 
     }
@@ -374,6 +444,7 @@ class CartonDetailActivity : AppCompatActivity() {
                         Log.i("PalletNo","This is pallet pos ${adapter?.getItemAtPosition(position)}")
                         selectedPalletNo = data[position].pilotNo.toString()
                         selectedPalletCode = data[position].pilotCode.toString()
+                        selectedPalletName = data[position].pilotName.toString()
 
                     }
                     else
@@ -386,7 +457,6 @@ class CartonDetailActivity : AppCompatActivity() {
             }
         }
     }
-
 
 
     private fun clearPreferences(context: Context){

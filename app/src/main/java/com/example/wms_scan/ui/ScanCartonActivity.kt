@@ -85,16 +85,14 @@ class ScanCartonActivity : AppCompatActivity() {
             setupControls()
         }
 
-        val palletNo = intent.extras?.getInt("palletNo")
-        val busLocNo = intent.extras?.getInt("locationNo")
 
-        viewModel.getCarton(
-            Utils.getSimpleTextBody(palletNo.toString()),
-            Utils.getSimpleTextBody(busLocNo.toString())
-        )
+        val palletCode  = intent.extras?.getString("scannedValue")
+        val palletNo  = intent.extras?.getInt("palletNo")
+        val subPalletValue = palletCode?.substringAfter("SF-")
+        Log.i("palletSubString",subPalletValue.toString())
 
         viewModel.palletHierarchy(
-            Utils.getSimpleTextBody("$palletNo-27")
+            Utils.getSimpleTextBody("$subPalletValue-$palletNo")
         )
         viewModel.palletHierarchy.observe(this, Observer {
 
@@ -323,8 +321,7 @@ class ScanCartonActivity : AppCompatActivity() {
         )
     }
 
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray)
-    {
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == requestCodeCameraPermission && grantResults.isNotEmpty()) {
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {

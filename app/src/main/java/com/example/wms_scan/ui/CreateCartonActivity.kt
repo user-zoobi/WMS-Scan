@@ -75,8 +75,17 @@ class CreateCartonActivity : AppCompatActivity() {
 
                 }
                 Status.SUCCESS ->{
+
                     Log.i("palletCode","${it.data?.get(0)?.pilotCode}")
-                    gotoActivity(ScanCartonActivity::class.java, "scannedValue",scannedValue)
+                    if (scannedValue.contains("PL"))
+                    {
+//                        gotoActivity(ScanCartonActivity::class.java, "scannedValue",scannedValue)
+                        val intent = Intent(this, ScanCartonActivity::class.java)
+                        intent.putExtra("scannedValue",scannedValue)
+                        intent.putExtra("palletNo", it.data?.get(0)?.pilotNo)
+                        startActivity(intent)
+                    }
+
                 }
                 Status.ERROR->{
 
@@ -182,15 +191,22 @@ class CreateCartonActivity : AppCompatActivity() {
                     //Don't forget to add this line printing value or finishing activity must run on main thread
                     runOnUiThread {
                         cameraSource.stop()
-                        Toast.makeText(this@CreateCartonActivity, "value- $scannedValue", Toast.LENGTH_SHORT).show()
+
+//                        Toast.makeText(this@CreateCartonActivity, "value- $scannedValue", Toast.LENGTH_SHORT).show()
+
                         Log.i("scannedValue", scannedValue)
                         val palletCode = scannedValue.substringAfter("SF-")
-                        viewModel.palletHierarchy(
-                            Utils.getSimpleTextBody("$palletCode-27")
-                        )
-                        Log.i("palletCode", palletCode)
+                        if (palletCode.contains("PL")){
+                            viewModel.palletHierarchy(
+                                Utils.getSimpleTextBody("$palletCode-27")
+                            )
+                            Log.i("palletCode", palletCode)
 
-
+                        }
+                        else
+                        {
+                            toast("Scan pallet please")
+                        }
                         finish()
                     }
                 }else
