@@ -63,6 +63,27 @@ class CartonDetailActivity : AppCompatActivity() {
         Log.i("analyticalNum", analyticalNum.toString())
         Log.i("palletCode", palletCode.toString())
 
+        /**
+         *  GET PALLET API
+         */
+
+
+        viewModel.getPallet.observe(this, Observer {
+            when(it.status){
+                Status.LOADING ->{
+
+                }
+                Status.SUCCESS ->{
+                    it.let {
+                        showPalletSpinner(it.data!!)
+                    }
+                }
+                Status.ERROR ->{
+
+                }
+            }
+        })
+
 
         /**
          *  PALLET HIERARCHY API
@@ -85,6 +106,8 @@ class CartonDetailActivity : AppCompatActivity() {
                     val warehouse = it.data?.get(0)?.wHName.toString()
                     val  racks = it.data?.get(0)?.rackName.toString()
                     val shelf = it.data?.get(0)?.shelfName.toString()
+                    val shelfNo = it.data?.get(0)?.shelfNo.toString()
+                    Log.i("shelfNoCarton",shelfNo)
                     val pallet = it.data?.get(0)?.pilotName.toString()
 
                     binding.WHTV.text = warehouse
@@ -97,6 +120,12 @@ class CartonDetailActivity : AppCompatActivity() {
                     binding.palletNo.text = "Pallet no : ${it.data?.get(0)?.pilotNo}"
 
                     hierarchyPilotNo = it.data?.get(0)?.pilotNo.toString()
+
+                    viewModel.getPallet(
+                        Utils.getSimpleTextBody(""),
+                        Utils.getSimpleTextBody(shelfNo),
+                        Utils.getSimpleTextBody("1"),
+                    )
                     Log.i("hierarchyPilotNo",hierarchyPilotNo)
 
                 }
@@ -226,7 +255,7 @@ class CartonDetailActivity : AppCompatActivity() {
                 Utils.getSimpleTextBody("$cartonNo"),
                 Utils.getSimpleTextBody("$cartonCode"),
                 Utils.getSimpleTextBody("$itemCode"),
-                Utils.getSimpleTextBody("$pilotNo"),
+                Utils.getSimpleTextBody("$selectedPalletNo"),
                 Utils.getSimpleTextBody("$analyticalNo"),
                 Utils.getSimpleTextBody("$cartonSNo"),
                 Utils.getSimpleTextBody("$totCarton"),
@@ -319,7 +348,6 @@ class CartonDetailActivity : AppCompatActivity() {
                         selectedPalletNo = data[position].pilotNo.toString()
                         selectedPalletCode = data[position].pilotCode.toString()
                         selectedPalletName = data[position].pilotName.toString()
-
                     }
                     else
                     {
