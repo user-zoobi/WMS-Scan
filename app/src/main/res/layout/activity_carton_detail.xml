@@ -432,15 +432,29 @@
                         android:textStyle="bold" />
 
                     <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/gapTV"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/cartonViewHeader"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginStart="@dimen/_10sdp"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:layout_marginEnd="@dimen/_20sdp"
+                        android:fontFamily="@font/amiko"
+                        android:text=""
+                        android:textColor="@color/dark_grey"
+                        android:textSize="@dimen/_12ssp" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/materialNumTV"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_below="@+id/changeTV"
+                        android:layout_below="@+id/gapTV"
                         android:layout_alignParentEnd="true"
                         android:layout_marginStart="@dimen/_10sdp"
-                        android:layout_marginTop="@dimen/_22sdp"
                         android:layout_marginEnd="@dimen/_20sdp"
                         android:fontFamily="@font/amiko"
+
                         android:text="Carton Details"
                         android:textColor="@color/dark_grey"
                         android:textSize="@dimen/_12ssp" />
@@ -496,54 +510,36 @@
                         android:layout_marginStart="@dimen/_10sdp"
                         android:layout_marginTop="@dimen/_10sdp"
                         android:layout_marginEnd="@dimen/_10sdp"
-                        android:layout_marginBottom="@dimen/_20sdp"
                         android:background="@color/royal_blue" />
 
-                    <RelativeLayout
-                        android:id="@+id/palletValuesCont"
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/palletCode"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/palletView"
+                        android:layout_alignParentStart="true"
                         android:layout_marginStart="@dimen/_20sdp"
-                        android:visibility="visible">
+                        android:layout_marginTop="@dimen/_20sdp"
+                        android:fontFamily="@font/amiko"
+                        android:text="palletCode"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_12ssp"
+                        android:visibility="gone" />
 
-                        <androidx.appcompat.widget.AppCompatTextView
-                            android:id="@+id/palletCode"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentStart="true"
-                            android:fontFamily="@font/amiko"
-                            android:text="palletCode"
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/_12ssp" />
-
-                        <androidx.appcompat.widget.AppCompatTextView
-                            android:id="@+id/palletName"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@id/palletCode"
-                            android:layout_alignParentStart="true"
-                            android:layout_marginTop="@dimen/_10sdp"
-                            android:fontFamily="@font/amiko"
-                            android:text="palletName"
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/_12ssp" />
-
-                        <androidx.appcompat.widget.AppCompatTextView
-                            android:id="@+id/palletNo"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@id/palletName"
-                            android:layout_alignParentStart="true"
-                            android:layout_marginTop="@dimen/_10sdp"
-                            android:layout_marginBottom="@dimen/_20sdp"
-                            android:fontFamily="@font/amiko"
-                            android:text="palletNo"
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/_15ssp"
-                            android:visibility="gone" />
-
-                    </RelativeLayout>
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/palletName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/palletCode"
+                        android:layout_alignParentStart="true"
+                        android:layout_marginStart="@dimen/_20sdp"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:layout_marginBottom="@dimen/_20sdp"
+                        android:fontFamily="@font/amiko"
+                        android:text="palletName"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_12ssp"
+                        android:visibility="gone" />
 
                     <RelativeLayout
                         android:id="@+id/selectPalletCont"
@@ -551,8 +547,8 @@
                         android:layout_height="wrap_content"
                         android:layout_below="@id/palletView"
                         android:layout_marginStart="@dimen/_20sdp"
+                        android:layout_marginTop="20dp"
                         android:layout_marginEnd="@dimen/_20sdp"
-                        android:layout_marginTop="@dimen/_20sdp"
                         android:orientation="vertical"
                         android:visibility="gone">
 
@@ -601,10 +597,10 @@
                         android:id="@+id/saveBtn"
                         android:layout_width="@dimen/_150sdp"
                         android:layout_height="wrap_content"
-                        android:layout_below="@id/palletValuesCont"
+                        android:layout_below="@+id/palletName"
                         android:layout_alignParentEnd="true"
                         android:layout_gravity="end"
-                        android:layout_marginTop="@dimen/_20sdp"
+                        android:layout_marginTop="@dimen/_10sdp"
                         android:layout_marginEnd="@dimen/_30sdp"
                         android:layout_marginBottom="@dimen/_20sdp"
                         android:background="@drawable/hollow_black_rounded_bg"
@@ -612,7 +608,8 @@
                         android:text="Save"
                         android:textAllCaps="false"
                         android:textColor="@color/white"
-                        android:textSize="@dimen/_15ssp" />
+                        android:textSize="@dimen/_15ssp"
+                        android:visibility="visible" />
 
                     <androidx.appcompat.widget.AppCompatButton
                         android:id="@+id/updateBtn"
@@ -622,7 +619,7 @@
                         android:layout_alignParentEnd="true"
                         android:layout_gravity="end"
                         android:layout_marginTop="@dimen/_20sdp"
-                        android:layout_marginEnd="@dimen/_30sdp"
+                        android:layout_marginEnd="@dimen/_20sdp"
                         android:layout_marginBottom="@dimen/_20sdp"
                         android:background="@drawable/hollow_black_rounded_bg"
                         android:fontFamily="@font/amiko"
