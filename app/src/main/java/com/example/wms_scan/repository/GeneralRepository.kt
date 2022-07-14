@@ -115,8 +115,8 @@ class GeneralRepository : ApiHelper {
             AnalyticalNo, Carton_SNo, TotCarton, LocationNo, DMLUserNo, DMLPCName
         )
 
-    override suspend fun palletHierarchy(PilotNo: RequestBody): List<PaletteHierarchy>
-    = RetrofitClient.apiservice.palletHierarchy(PilotNo)
+    override suspend fun palletHierarchy(PilotNo:RequestBody, LocationNo:RequestBody): List<PaletteHierarchy>
+    = RetrofitClient.apiservice.palletHierarchy(PilotNo, LocationNo)
 
     override suspend fun getCartonDetails(Analytical_No: String): List<GetCartonDetailsResponse>
     = RetrofitClient.apiservice.getCartonDetail(Analytical_No)

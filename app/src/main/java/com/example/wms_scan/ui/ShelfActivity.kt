@@ -342,7 +342,7 @@ class ShelfActivity : AppCompatActivity() {
 
                                     for (i in it.data.indices)
                                     {
-                                        generateQRCode("${selectedBusLocNo}L-${whCode}-${rackCode}-${it.data[i].shelfCode}")
+                                        generateQRCode("${it.data[i].shelfCode}")
                                         Log.i("ShelfName",it.data[i].shelfName.toString())
                                         textList.add("${it.data[i].shelfName}")
                                         Log.i("shelfArrayList","$textList")

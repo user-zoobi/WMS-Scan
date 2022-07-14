@@ -336,8 +336,8 @@ class RacksActivity : AppCompatActivity() {
 
                                     for (i in it.data)
                                     {
-                                        generateQRCode("${selectedBusLocNo}L-${whCode}-${i.rackCode}")
-                                        textList.add("${selectedBusLocNo}L-${whCode}-${i.rackCode}")
+                                        generateQRCode("${i.rackCode}")
+                                        textList.add("${i.rackName}")
                                         Log.i("rackList","${selectedBusLocNo}L-${whCode}-${i.rackCode}")
                                         Log.i("rackList","${i.rackCode}")
                                     }

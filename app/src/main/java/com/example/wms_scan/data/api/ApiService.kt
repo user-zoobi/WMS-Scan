@@ -156,7 +156,8 @@ interface ApiService {
     @Multipart
     @POST(paletteHierarchy)
     suspend fun palletHierarchy(
-        @Part("PilotNo") PilotNo:RequestBody
+        @Part("PilotNo") PilotNo:RequestBody,
+        @Part("LocationNo") LocationNo:RequestBody
     ):List<PaletteHierarchy>
 
     @FormUrlEncoded

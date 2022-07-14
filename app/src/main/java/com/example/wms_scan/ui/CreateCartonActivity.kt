@@ -67,7 +67,8 @@ class CreateCartonActivity : AppCompatActivity() {
 
         viewModel.palletHierarchy.observe(this, Observer {
 
-            when(it.status){
+            when(it.status)
+            {
                 Status.LOADING ->{
 
                 }
@@ -76,12 +77,9 @@ class CreateCartonActivity : AppCompatActivity() {
                     Log.i("palletCode","${it.data?.get(0)?.pilotCode}")
                     if (scannedValue.contains("PL"))
                     {
-//                        gotoActivity(ScanCartonActivity::class.java, "scannedValue",scannedValue)
-                        val intent = Intent(this, ScanCartonActivity::class.java)
-                        val palletCode = scannedValue.substringAfter("SF-")
-                        intent.putExtra("subPalletCode",palletCode)
-                        intent.putExtra("palletNo", it.data?.get(0)?.pilotNo)
-                        startActivity(intent)
+                        gotoActivity(ScanCartonActivity::class.java, "scannedValue",scannedValue)
+                        Log.i("palletHierarchyCode",scannedValue)
+
                     }
 
                 }
@@ -192,14 +190,12 @@ class CreateCartonActivity : AppCompatActivity() {
 
 //                        Toast.makeText(this@CreateCartonActivity, "value- $scannedValue", Toast.LENGTH_SHORT).show()
 
-                        Log.i("scannedValue", scannedValue)
-                        val palletCode = scannedValue.substringAfter("SF-")
-                        if (palletCode.contains("PL")){
+                        if (scannedValue.contains("PL")){
                             viewModel.palletHierarchy(
-                                Utils.getSimpleTextBody("$palletCode-27")
+                                Utils.getSimpleTextBody(scannedValue),
+                                Utils.getSimpleTextBody("0")
                             )
-                            Log.i("palletCode", palletCode)
-
+                            Log.i("palletCode", scannedValue)
                         }
                         else
                         {

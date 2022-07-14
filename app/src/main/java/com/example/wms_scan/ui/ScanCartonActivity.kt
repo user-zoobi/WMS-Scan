@@ -61,9 +61,9 @@ class ScanCartonActivity : AppCompatActivity() {
     var material_id = ""
     var Material_name = ""
     var pilotNo = 0
+    var scannedPalletCode = ""
     var cartonSNo = ""
     var isExist = 0
-    var pilotCode = ""
     var stock = ""
     var cartonCode = ""
 
@@ -86,29 +86,34 @@ class ScanCartonActivity : AppCompatActivity() {
         }
 
 
-        val palletCode  = intent.extras?.getString("subPalletCode")
-        val palletNo  = intent.extras?.getInt("palletNo")
-        val subPalletValue = palletCode?.substringAfter("SF-")
-        Log.i("palletSubString",subPalletValue.toString())
+        /**
+         *  scanned qr code intent from { create qr code }
+         */
+
+        var palletCode  = intent.extras?.getString("scannedValue")
+        Log.i("scannedCode","$palletCode")
 
         viewModel.palletHierarchy(
-            Utils.getSimpleTextBody("$subPalletValue-$palletNo")
+            Utils.getSimpleTextBody("$palletCode"),
+            Utils.getSimpleTextBody("0")
         )
         viewModel.palletHierarchy.observe(this, Observer {
 
             when(it.status){
 
-                Status.LOADING ->{
+                Status.LOADING ->
+                {
 
                 }
-                Status.SUCCESS ->{
+                Status.SUCCESS ->
+                {
                     Log.i("palletCode","${it.data?.get(0)?.pilotCode}")
 
                     val warehouse = it.data?.get(0)?.wHName.toString()
                     val  racks = it.data?.get(0)?.rackName.toString()
                     val shelf = it.data?.get(0)?.shelfName.toString()
                     val pallet = it.data?.get(0)?.pilotName.toString()
-                    val palletCode = it.data?.get(0)?.pilotCode.toString()
+                    scannedPalletCode = it.data?.get(0)?.pilotCode.toString()
 
                     binding.WHTV.text = warehouse
                     binding.rackTV.text = racks
@@ -118,7 +123,8 @@ class ScanCartonActivity : AppCompatActivity() {
                     binding.palletCodeTV.text = palletCode
 
                 }
-                Status.ERROR ->{
+                Status.ERROR ->
+                {
 
                 }
 
@@ -223,16 +229,15 @@ class ScanCartonActivity : AppCompatActivity() {
                         {
                             if (it.data?.get(0)?.status == true)
                             {
-                                gotoActivity(CartonDetailActivity::class.java, "scanAnalyticalNum", scannedValue)
-                                cameraSource.stop()
+                                val intent = Intent(this, CartonDetailActivity::class.java)
+                                intent.putExtra("scanAnalyticalNum",scannedValue)
+                                intent.putExtra("palletCode",scannedPalletCode)
+                                startActivity(intent)
                             }
                             else
                             {
                                 Log.i("getCartonDetails","${Exception().message}")
                                 toast("No record found")
-                                binding.cameraSurfaceView.gone()
-                                cameraSource.stop()
-                                binding.scanBtn.visible()
                             }
                         }
                         catch (e:Exception)

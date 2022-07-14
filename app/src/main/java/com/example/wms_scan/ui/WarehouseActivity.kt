@@ -159,7 +159,7 @@ class WarehouseActivity : AppCompatActivity() {
                                     {
                                         for (i in it.data)
                                         {
-                                            generateQRCode("${selectedBusLocNo}L-${i.wHCode}")
+                                            generateQRCode("${i.wHCode}")
                                             textList.add("${i.wHName}")
                                         }
 

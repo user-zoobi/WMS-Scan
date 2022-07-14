@@ -305,13 +305,13 @@ class MainViewModel : ViewModel() {
     val palletHierarchy : LiveData<ApiResponseCallback<List<PaletteHierarchy>>>
     get() = _palletHierarchy
     fun palletHierarchy(
-        PilotNo: RequestBody
+        PilotNo:RequestBody, LocationNo:RequestBody
     ){
         viewModelScope.launch {
             _palletHierarchy.value = ApiResponseCallback.loading()
             try
             {
-                _palletHierarchy.value = ApiResponseCallback.success(repository.palletHierarchy(PilotNo))
+                _palletHierarchy.value = ApiResponseCallback.success(repository.palletHierarchy(PilotNo, LocationNo))
             }
             catch (e:Exception)
             {

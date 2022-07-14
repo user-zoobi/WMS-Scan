@@ -118,37 +118,10 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/_10sdp"
-                        android:layout_marginTop="@dimen/_20sdp"
+                        android:layout_marginTop="@dimen/_10sdp"
                         android:layout_marginBottom="@dimen/_20sdp"
                         android:orientation="vertical">
 
-                        <androidx.appcompat.widget.LinearLayoutCompat
-                            android:id="@+id/busLocCont"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/_10sdp"
-                            android:orientation="horizontal">
-
-                            <androidx.appcompat.widget.AppCompatImageView
-                                android:id="@+id/busIV"
-                                android:layout_width="@dimen/_20sdp"
-                                android:layout_height="@dimen/_20sdp"
-                                android:src="@drawable/bus_loc_icon"
-                                android:tint="@color/dark_grey" />
-
-                            <TextView
-                                android:id="@+id/busTV1"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:layout_marginStart="@dimen/_10sdp"
-                                android:background="@drawable/ripple_transparent_bg"
-                                android:fontFamily="@font/amiko"
-                                android:text="Bosch Plant 1"
-                                android:textColor="@color/black"
-                                android:textSize="@dimen/_15ssp" />
-
-                        </androidx.appcompat.widget.LinearLayoutCompat>
 
                         <androidx.appcompat.widget.AppCompatImageView
                             android:id="@+id/showQRIV"
@@ -162,31 +135,12 @@
                             android:tint="@color/white"
                             android:visibility="gone" />
 
-                        <View
-                            android:id="@+id/view1"
-                            android:layout_width="@dimen/_2sdp"
-                            android:layout_height="@dimen/_20sdp"
-                            android:layout_below="@id/busLocCont"
-                            android:layout_marginStart="@dimen/_20sdp"
-                            android:background="@color/grey_light"
-                            android:visibility="visible" />
-
-                        <View
-                            android:id="@+id/view2"
-                            android:layout_width="@dimen/_10sdp"
-                            android:layout_height="@dimen/_2sdp"
-                            android:layout_below="@id/view1"
-                            android:layout_toEndOf="@id/view1"
-                            android:background="@color/grey_light"
-                            android:visibility="visible" />
 
                         <androidx.appcompat.widget.LinearLayoutCompat
                             android:id="@+id/whCont"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_below="@id/busLocCont"
                             android:layout_marginTop="@dimen/_10sdp"
-                            android:layout_toEndOf="@id/view2"
                             android:orientation="horizontal"
                             android:visibility="visible">
 
@@ -205,7 +159,7 @@
                                 android:layout_marginStart="@dimen/_10sdp"
                                 android:background="@drawable/ripple_transparent_bg"
                                 android:fontFamily="@font/amiko"
-                                android:text="Warehouse 2"
+                                android:text=""
                                 android:textColor="@color/black"
                                 android:textSize="@dimen/_14ssp"
                                 android:tint="@color/dark_grey" />
@@ -218,7 +172,7 @@
                             android:layout_height="@dimen/_20sdp"
                             android:layout_below="@id/whCont"
                             android:layout_marginStart="@dimen/_10sdp"
-                            android:layout_toEndOf="@id/view2"
+
                             android:background="@color/grey_light"
                             android:visibility="visible" />
 
@@ -256,7 +210,7 @@
                                 android:layout_marginStart="@dimen/_10sdp"
                                 android:background="@drawable/ripple_transparent_bg"
                                 android:fontFamily="@font/amiko"
-                                android:text="Rack 2"
+                                android:text=""
                                 android:textColor="@color/black"
                                 android:textSize="@dimen/_14ssp" />
 
@@ -306,7 +260,7 @@
                                 android:layout_marginStart="@dimen/_10sdp"
                                 android:background="@drawable/ripple_transparent_bg"
                                 android:fontFamily="@font/amiko"
-                                android:text="Shelf 1001"
+                                android:text=""
                                 android:textColor="@color/black"
                                 android:textSize="@dimen/_14ssp" />
 
@@ -356,7 +310,7 @@
                                 android:layout_marginStart="@dimen/_10sdp"
                                 android:background="@drawable/ripple_transparent_bg"
                                 android:fontFamily="@font/amiko"
-                                android:text="Pilot 11100"
+                                android:text=""
                                 android:textColor="@color/blue"
                                 android:textSize="@dimen/_14ssp"
                                 android:textStyle="bold" />
@@ -384,25 +338,16 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/_5sdp"
                     android:fontFamily="@font/amiko"
-                    android:text="Pallet"
-                    android:textSize="@dimen/_15ssp" />
+                    android:text=""
+                    android:textSize="@dimen/_14ssp" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/_10sdp"
                     android:fontFamily="@font/amiko"
-                    android:text="/"
+                    android:text="|"
                     android:textSize="@dimen/_18ssp" />
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/_10sdp"
-                    android:fontFamily="@font/amiko"
-                    android:text="Pallet code:"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/_15ssp" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/palletCodeTV"
@@ -410,8 +355,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/_5sdp"
                     android:fontFamily="@font/amiko"
-                    android:text="Pallet"
-                    android:textSize="@dimen/_15ssp" />
+                    android:text=""
+                    android:textSize="@dimen/_14ssp" />
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -455,7 +400,7 @@
                 <com.budiyev.android.codescanner.CodeScannerView
                     android:id="@+id/scanner_view"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"/>
+                    android:layout_height="match_parent" />
 
                 <SurfaceView
                     android:id="@+id/cameraSurfaceView"

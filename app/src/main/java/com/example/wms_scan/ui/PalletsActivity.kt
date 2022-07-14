@@ -367,7 +367,7 @@ class PalletsActivity : AppCompatActivity() {
                                 Log.i("ShelfCodeName","${shelfCode}")
                                 Log.i("PalletCodeName","${palletCodeList}")
 
-                                generateQRCode("${selectedBusLocNo}L-${whCode}-${rackCode}-${shelfCode}-${i.pilotCode}")
+                                generateQRCode("${i.pilotCode}")
                                 Log.i("palletCode","${selectedBusLocNo}L-${whCode}-${rackCode}-${shelfCode}-${i.pilotCode}")
 
                                 palletCodeList.add("${i.pilotName}")
