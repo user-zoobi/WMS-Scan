@@ -19,6 +19,7 @@ import com.example.scanmate.util.LocalPreferences
 import com.example.scanmate.util.LocalPreferences.AppLoginPreferences.pallets
 import com.example.scanmate.util.LocalPreferences.AppLoginPreferences.rack
 import com.example.scanmate.util.LocalPreferences.AppLoginPreferences.shelf
+import com.example.scanmate.util.LocalPreferences.AppLoginPreferences.userNo
 import com.example.scanmate.util.LocalPreferences.AppLoginPreferences.warehouse
 import com.example.scanmate.util.Utils
 import com.example.scanmate.viewModel.MainViewModel
@@ -245,7 +246,7 @@ class CartonDetailActivity : AppCompatActivity() {
                 Utils.getSimpleTextBody("$cartonSNo"),
                 Utils.getSimpleTextBody("$totCarton"),
                 Utils.getSimpleTextBody("1"),
-                Utils.getSimpleTextBody("2"),
+                Utils.getSimpleTextBody(LocalPreferences.getInt(this,userNo).toString()),
                 Utils.getSimpleTextBody("test")
             )
             Log.i("saveCarton","$cartonCode $itemCode $pilotNo $analyticalNo $cartonSNo $totCarton")
@@ -263,7 +264,7 @@ class CartonDetailActivity : AppCompatActivity() {
                 Utils.getSimpleTextBody("$cartonSNo"),
                 Utils.getSimpleTextBody("$totCarton"),
                 Utils.getSimpleTextBody("1"),
-                Utils.getSimpleTextBody("2"),
+                Utils.getSimpleTextBody(LocalPreferences.getInt(this,userNo).toString()),
                 Utils.getSimpleTextBody("test")
             )
         }

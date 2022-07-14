@@ -121,6 +121,12 @@ class ShowAllHierarchy : AppCompatActivity() {
                             val rackName = it.data?.get(0)?.rackName.toString()
                             val shelfName = it.data?.get(0)?.shelfName.toString()
                             val palletName = it.data?.get(0)?.pilotName.toString()
+                            val whNo = it.data?.get(0)?.wHNo.toString()
+                            val rackNo = it.data?.get(0)?.rackNo.toString()
+                            val shelfNo = it.data?.get(0)?.shelfNo.toString()
+                            val palletNo = it.data?.get(0)?.pilotNo.toString()
+                            val busLocNo = it.data?.get(0)?.locationNo.toString()
+                            val cartonNo = it.data?.get(0)?.cartonNo.toString()
 
                             binding.WHTV.text = whName
                             binding.rackTV.text = rackName
@@ -133,8 +139,10 @@ class ShowAllHierarchy : AppCompatActivity() {
                             {
                                 pallete!!.contains("PL") ->{
                                     viewModel.getCarton(
-                                        Utils.getSimpleTextBody("26"),
-                                        Utils.getSimpleTextBody("1")
+                                        Utils.getSimpleTextBody(palletNo),
+                                        Utils.getSimpleTextBody(LocalPreferences.getInt(this,
+                                            LocalPreferences.AppLoginPreferences.userNo
+                                        ).toString())
                                     )
                                     Log.i("palLoc","${it.data?.get(0)?.pilotCode}")
                                 }
@@ -143,8 +151,8 @@ class ShowAllHierarchy : AppCompatActivity() {
 
                                     viewModel.getPallet(
                                         Utils.getSimpleTextBody(""),
-                                        Utils.getSimpleTextBody("56"),
-                                        Utils.getSimpleTextBody("1"),
+                                        Utils.getSimpleTextBody(shelfNo),
+                                        Utils.getSimpleTextBody(busLocNo),
                                     )
                                     binding.view7.gone()
                                     binding.view8.gone()
@@ -155,8 +163,8 @@ class ShowAllHierarchy : AppCompatActivity() {
 
                                     viewModel.getShelf(
                                         Utils.getSimpleTextBody(""),
-                                        Utils.getSimpleTextBody("57"),
-                                        Utils.getSimpleTextBody("1"),
+                                        Utils.getSimpleTextBody(rackNo),
+                                        Utils.getSimpleTextBody(busLocNo),
                                     )
 
                                     binding.view5.gone()
@@ -172,8 +180,8 @@ class ShowAllHierarchy : AppCompatActivity() {
 
                                     viewModel.getRack(
                                         Utils.getSimpleTextBody(""),
-                                        Utils.getSimpleTextBody("75"),
-                                        Utils.getSimpleTextBody("1")
+                                        Utils.getSimpleTextBody(whNo),
+                                        Utils.getSimpleTextBody(busLocNo)
                                     )
 
                                     binding.view3.gone()
@@ -188,7 +196,7 @@ class ShowAllHierarchy : AppCompatActivity() {
                                 }
 
                                 location!!.contains("L") ->{
-                                    viewModel.getWarehouse("","1")
+                                    viewModel.getWarehouse("",busLocNo)
                                 }
                                 else -> { }
                             }

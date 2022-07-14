@@ -52,6 +52,7 @@ import java.util.*
 
 
 class WarehouseActivity : AppCompatActivity() {
+
     private lateinit var binding: ActivityWarehouseBinding
     private lateinit var warehouseAdapter: WarehouseAdapter
     private lateinit var viewModel: MainViewModel
