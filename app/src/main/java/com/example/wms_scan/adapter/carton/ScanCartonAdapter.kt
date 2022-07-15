@@ -25,7 +25,8 @@ class ScanCartonAdapter (
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val data= list[position]
-        with(holder){
+        with(holder)
+        {
             binding.analyticalNoTV.text = data.analyticalNo
             binding.materialCodeTV.text = data.itemCode
             binding.cartonNo.text = data.cartonNo.toString()

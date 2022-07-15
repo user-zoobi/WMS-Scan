@@ -22,6 +22,7 @@ import com.example.scanmate.util.LocalPreferences.AppLoginPreferences.shelf
 import com.example.scanmate.util.LocalPreferences.AppLoginPreferences.userNo
 import com.example.scanmate.util.LocalPreferences.AppLoginPreferences.warehouse
 import com.example.scanmate.util.Utils
+import com.example.scanmate.util.Utils.isNetworkConnected
 import com.example.scanmate.viewModel.MainViewModel
 import com.example.wms_scan.R
 import com.example.wms_scan.adapter.pallets.PalletsAdapter
@@ -59,12 +60,12 @@ class CartonDetailActivity : AppCompatActivity() {
         initListener()
         setupUi()
 
-        val palletCode =  intent.extras?.getString("palletCode")
+        val palletCode =  intent.extras?.getString("palletCode").toString()
         val analyticalNum =  intent.extras?.getString("scanAnalyticalNum")
         Log.i("analyticalNum", analyticalNum.toString())
         Log.i("palletCode", palletCode.toString())
-        binding.palletName.visible()
-        binding.palletCode.visible()
+//        binding.palletName.visible()
+//        binding.palletCode.visible()
 
         /**
          *  GET PALLET API
@@ -79,8 +80,8 @@ class CartonDetailActivity : AppCompatActivity() {
                 Status.SUCCESS ->{
                     it.let {
                         showPalletSpinner(it.data!!)
-                        binding.palletCode.text = "Pallet Code : ${it.data.get(0).pilotCode}"
-                        binding.palletName.text = "Pallet Name : ${it.data.get(0).pilotName}"
+//                        binding.palletCode.text = "Pallet Code : ${it.data.get(0).pilotCode}"
+//                        binding.palletName.text = "Pallet Name : ${it.data.get(0).pilotName}"
 
                     }
                 }
@@ -153,12 +154,16 @@ class CartonDetailActivity : AppCompatActivity() {
 
                 }
                 Status.SUCCESS ->{
-                    binding.materialNumTV.text = it.data?.get(0)?.materialName
-                    binding.analyticalNumTV.text = it.data?.get(0)?.analyticalNo
-                    binding.cartonNumTV.text = it.data?.get(0)?.cartonNo.toString()
-                    binding.stockTV.text = it.data?.get(0)?.matStock.toString()
+                    it.let {
+                        if(isNetworkConnected(this)){
+                            binding.materialNumTV.text = it.data?.get(0)?.materialName
+                            binding.analyticalNumTV.text = it.data?.get(0)?.analyticalNo
+                            binding.cartonNumTV.text = it.data?.get(0)?.cartonNo.toString()
+                            binding.stockTV.text = it.data?.get(0)?.matStock.toString()
 
-                    analyticalNo = it.data?.get(0)?.analyticalNo.toString()
+                            analyticalNo = it.data?.get(0)?.analyticalNo.toString()
+                        }
+                    }
 
                 }
                 Status.ERROR ->{
@@ -179,13 +184,13 @@ class CartonDetailActivity : AppCompatActivity() {
         )
         viewModel.getCarton.observe(this, Observer {
             when(it.status){
-                Status.LOADING->{
 
-                }
+                Status.LOADING->{ }
 
                 Status.SUCCESS ->
                 {
                     it.let {
+                        if(isNetworkConnected(this)){
                         cartonNo = it.data?.get(0)?.cartonNo.toString()
                         cartonCode = it.data?.get(0)?.cartonCode.toString()
                         itemCode = it.data?.get(0)?.itemCode.toString()
@@ -193,6 +198,8 @@ class CartonDetailActivity : AppCompatActivity() {
                         cartonSNo = it.data?.get(0)?.cartonSNo.toString()
                         totCarton = it.data?.get(0)?.totCarton.toString()
                     }
+                    }
+                    
                     Log.i("cartonDetails",it.data?.get(0)?.cartonNo.toString())
                 }
 
@@ -213,9 +220,13 @@ class CartonDetailActivity : AppCompatActivity() {
 
                 Status.SUCCESS ->
                 {
-                    Log.i("IntentSave","${it.data?.error}")
-                    toast("${it.data?.error}")
-
+                    it.let {
+                        if(isNetworkConnected(this))
+                        {
+                            Log.i("IntentSave","${it.data?.error}")
+                            toast("${it.data?.error}")
+                        }
+                    }
                 }
 
                 Status.ERROR ->{ }
@@ -267,6 +278,18 @@ class CartonDetailActivity : AppCompatActivity() {
                 Utils.getSimpleTextBody(LocalPreferences.getInt(this,userNo).toString()),
                 Utils.getSimpleTextBody("test")
             )
+
+            viewModel.palletHierarchy(
+                Utils.getSimpleTextBody("$selectedPalletCode"),
+                Utils.getSimpleTextBody("0")
+            )
+
+            binding.updateBtn.gone()
+//            binding.palletName.gone()
+//            binding.palletCode.gone()
+            binding.selectPalletCont.gone()
+            binding.changeTV.visible()
+
         }
 
 //        binding.logout.click {
@@ -275,20 +298,21 @@ class CartonDetailActivity : AppCompatActivity() {
 
         binding.closeBtn.click{
             binding.selectPalletCont.gone()
-            binding.palletName.visible()
-            binding.palletCode.visible()
-            binding.updateBtn.gone()
-            binding.saveBtn.visible()
+//            binding.palletName.visible()
+//            binding.palletCode.visible()
             binding.changeTV.visible()
+            binding.selectPalletCont.gone()
+            binding.updateBtn.gone()
+            binding.palletView.gone()
         }
 
         binding.changeTV.click {
-            binding.palletName.gone()
-            binding.palletCode.gone()
+//            binding.palletName.gone()
+//            binding.palletCode.gone()
             binding.selectPalletCont.visible()
             binding.updateBtn.visible()
-            binding.saveBtn.gone()
             binding.changeTV.gone()
+            binding.palletView.visible()
         }
 
     }
@@ -314,18 +338,18 @@ class CartonDetailActivity : AppCompatActivity() {
             LocalPreferences.AppLoginPreferences.loginTime
         )
 
+        Log.i("isExist",intent.extras?.getInt("isExist").toString())
         when
         {
             intent.extras?.getInt("isExist") == 1 ->{
-                binding.saveBtn.gone()
-
+                binding.changeTV.visible()
             }
 
             intent.extras?.getInt("isExist") == 0 ->{
-                binding.palletCode.gone()
-                binding.palletName.gone()
-                binding.palletView.gone()
+                binding.changeTV.gone()
+                binding.saveBtn.visible()
             }
+
         }
     }
 

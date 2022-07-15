@@ -83,6 +83,7 @@
         android:layout_marginTop="@dimen/_10sdp"
         android:background="@drawable/grey_rounded_bg">
 
+
         <androidx.appcompat.widget.LinearLayoutCompat
             android:id="@+id/scanCont"
             android:layout_width="match_parent"
@@ -91,6 +92,18 @@
             android:orientation="vertical"
             android:paddingStart="@dimen/_10sdp"
             android:paddingEnd="@dimen/_10sdp">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/scanIV"
+                android:layout_width="@dimen/_25sdp"
+                android:layout_height="@dimen/_25sdp"
+                android:layout_gravity="end"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="@dimen/_20sdp"
+                android:background="@drawable/hollow_black_rounded_bg"
+                android:padding="@dimen/_8sdp"
+                android:src="@drawable/qr_code_black"
+                android:tint="@color/white" />
 
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
@@ -337,7 +350,8 @@
                 android:layout_height="match_parent"
                 android:layout_marginStart="@dimen/_10sdp"
                 android:layout_marginTop="@dimen/_20sdp"
-                android:layout_marginEnd="@dimen/_10sdp" />
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:layout_marginBottom="@dimen/_20sdp" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 

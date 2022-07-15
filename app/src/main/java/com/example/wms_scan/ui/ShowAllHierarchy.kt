@@ -13,6 +13,7 @@ import com.example.scanmate.data.response.GetWarehouseResponse
 import com.example.scanmate.extensions.*
 import com.example.scanmate.util.CustomProgressDialog
 import com.example.scanmate.util.LocalPreferences
+import com.example.scanmate.util.LocalPreferences.AppLoginPreferences.userNo
 import com.example.scanmate.util.Utils
 import com.example.scanmate.viewModel.MainViewModel
 import com.example.wms_scan.R
@@ -50,6 +51,7 @@ class ShowAllHierarchy : AppCompatActivity() {
         setContentView(binding.root)
         setupUi()
         initObserver()
+        initListener()
 
         location    = intent.extras?.getString("l")
         warehouse   = intent.extras?.getString("w")
@@ -59,12 +61,6 @@ class ShowAllHierarchy : AppCompatActivity() {
 
         val locationNo = location?.substringBefore("L")
         Log.i("locationNo",locationNo.toString())
-
-        viewModel.scanAll("$location", "$locationNo")
-        viewModel.scanAll("$rack", "$locationNo")
-        viewModel.scanAll("$warehouse", "$locationNo")
-        viewModel.scanAll("$shelve", "$locationNo")
-        viewModel.scanAll("$pallete", "$locationNo")
 
     when
         {
@@ -126,7 +122,6 @@ class ShowAllHierarchy : AppCompatActivity() {
                             val shelfNo = it.data?.get(0)?.shelfNo.toString()
                             val palletNo = it.data?.get(0)?.pilotNo.toString()
                             val busLocNo = it.data?.get(0)?.locationNo.toString()
-                            val cartonNo = it.data?.get(0)?.cartonNo.toString()
 
                             binding.WHTV.text = whName
                             binding.rackTV.text = rackName
@@ -137,14 +132,14 @@ class ShowAllHierarchy : AppCompatActivity() {
 
                             when
                             {
+
                                 pallete!!.contains("PL") ->{
                                     viewModel.getCarton(
                                         Utils.getSimpleTextBody(palletNo),
-                                        Utils.getSimpleTextBody(LocalPreferences.getInt(this,
-                                            LocalPreferences.AppLoginPreferences.userNo
-                                        ).toString())
+                                        Utils.getSimpleTextBody(busLocNo)
                                     )
                                     Log.i("palLoc","${it.data?.get(0)?.pilotCode}")
+                                    Log.i("palletNoScan",palletNo)
                                 }
 
                                 shelve!!.contains("SF") ->{
@@ -193,6 +188,7 @@ class ShowAllHierarchy : AppCompatActivity() {
                                     binding.view7.gone()
                                     binding.view8.gone()
                                     binding.palletCont.gone()
+
                                 }
 
                                 location!!.contains("L") ->{
@@ -273,6 +269,7 @@ class ShowAllHierarchy : AppCompatActivity() {
                         adapter = shelfAdapter
                     }
                     binding.itemTV.text = it.data[0].rackName
+                    Log.i("shelfData", it.data[0].shelfName.toString())
                 }
                 Status.ERROR ->{
 
@@ -315,12 +312,19 @@ class ShowAllHierarchy : AppCompatActivity() {
                         adapter = cartonAdapter
                     }
                     binding.itemTV.text = it.data[0].itemCode
-                }
-                Status.ERROR ->{
 
+                    Log.i("getCartonData", it.data[0].toString())
                 }
+
+                Status.ERROR ->{}
             }
         })
+    }
+
+    private fun initListener(){
+        binding.scanIV.click {
+            finish()
+        }
     }
 
     fun warehouseAction(whNo:String){

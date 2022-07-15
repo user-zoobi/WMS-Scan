@@ -74,14 +74,18 @@ class CreateCartonActivity : AppCompatActivity() {
                 }
                 Status.SUCCESS ->{
 
-                    Log.i("palletCode","${it.data?.get(0)?.pilotCode}")
-                    if (scannedValue.contains("PL"))
-                    {
-                        gotoActivity(ScanCartonActivity::class.java, "scannedValue",scannedValue)
-                        Log.i("palletHierarchyCode",scannedValue)
+                    it.let {
+                        if(Utils.isNetworkConnected(this))
+                        {
+                            Log.i("palletCode","${it.data?.get(0)?.pilotCode}")
+                            if (scannedValue.contains("PL"))
+                            {
+                                gotoActivity(ScanCartonActivity::class.java, "scannedValue",scannedValue)
+                                Log.i("palletHierarchyCode",scannedValue)
 
+                            }
+                        }
                     }
-
                 }
                 Status.ERROR->{
 

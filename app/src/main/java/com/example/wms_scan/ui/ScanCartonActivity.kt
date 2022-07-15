@@ -66,6 +66,7 @@ class ScanCartonActivity : AppCompatActivity() {
     var isExist = 0
     var stock = ""
     var cartonCode = ""
+    var status = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -225,24 +226,30 @@ class ScanCartonActivity : AppCompatActivity() {
                 Status.SUCCESS ->{
 
                     it.let {
-                        try
+                        if(Utils.isNetworkConnected(this))
                         {
-                            if (it.data?.get(0)?.status == true)
+                            try
                             {
-                                val intent = Intent(this, CartonDetailActivity::class.java)
-                                intent.putExtra("scanAnalyticalNum",scannedValue)
-                                intent.putExtra("palletCode",scannedPalletCode)
-                                startActivity(intent)
+                                if (it.data?.get(0)?.status == true)
+                                {
+                                    status = it.data[0].status.toString()
+                                    val intent = Intent(this, CartonDetailActivity::class.java)
+                                    intent.putExtra("scanAnalyticalNum",scannedValue)
+                                    intent.putExtra("palletCode",scannedPalletCode)
+                                    intent.putExtra("isExist",it.data[0].isExist)
+                                    startActivity(intent)
+                                }
+                                else
+                                {
+                                    Log.i("getCartonDetails","${Exception().message}")
+                                    toast("No record found")
+                                    finish()
+                                }
                             }
-                            else
+                            catch (e:Exception)
                             {
-                                Log.i("getCartonDetails","${Exception().message}")
-                                toast("No record found")
+                                Log.i("getCartonDetails","${e.message}")
                             }
-                        }
-                        catch (e:Exception)
-                        {
-                            Log.i("getCartonDetails","${e.message}")
                         }
                     }
                 }
@@ -307,7 +314,6 @@ class ScanCartonActivity : AppCompatActivity() {
                     //Don't forget to add this line printing value or finishing activity must run on main thread
                     runOnUiThread {
                         cameraSource.stop()
-                        Toast.makeText(this@ScanCartonActivity, "value- $scannedValue", Toast.LENGTH_SHORT).show()
 
                         viewModel.getCartonDetails(scannedValue)
 
