@@ -2,6 +2,7 @@ package com.example.wms_scan.ui
 
 import android.content.Context
 import android.content.Intent
+
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
@@ -30,6 +31,7 @@ import com.example.wms_scan.data.response.GetPalletResponse
 import com.example.wms_scan.databinding.ActivityCartonDetailBinding
 import com.example.wms_scan.utils.PermissionDialog
 import java.lang.Exception
+import java.util.*
 
 
 class CartonDetailActivity : AppCompatActivity() {
@@ -47,6 +49,8 @@ class CartonDetailActivity : AppCompatActivity() {
     private var selectedPalletNo = ""
     private var selectedPalletCode = ""
     private var selectedPalletName = ""
+    private var hierarchyLoc = ""
+    private var deviceId = ""
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -103,11 +107,15 @@ class CartonDetailActivity : AppCompatActivity() {
                     Log.i("palletCode","${it.data?.get(0)?.pilotCode}")
 
                     val warehouse = it.data?.get(0)?.wHName.toString()
-                    val  racks = it.data?.get(0)?.rackName.toString()
+                    val whNo = it.data?.get(0)?.wHNo.toString()
+                    val racks = it.data?.get(0)?.rackName.toString()
+                    val rackNo = it.data?.get(0)?.rackNo.toString()
                     val shelf = it.data?.get(0)?.shelfName.toString()
                     val shelfNo = it.data?.get(0)?.shelfNo.toString()
                     val pallet = it.data?.get(0)?.pilotName.toString()
+                    val palletNo = it.data?.get(0)?.pilotNo.toString()
                     val busLoc = it.data?.get(0)?.locationNo.toString()
+                    hierarchyLoc = it.data?.get(0)?.locationNo.toString()
                     Log.i("shelfNoCarton",shelfNo)
 
                     binding.WHTV.text = warehouse
@@ -161,8 +169,18 @@ class CartonDetailActivity : AppCompatActivity() {
                             binding.analyticalNumTV.text = it.data?.get(0)?.analyticalNo
                             binding.cartonNumTV.text = it.data?.get(0)?.cartonNo.toString()
                             binding.stockTV.text = it.data?.get(0)?.matStock.toString()
-
+                            binding.palletName.text = it.data?.get(0)?.pilotName.toString()
                             analyticalNo = it.data?.get(0)?.analyticalNo.toString()
+
+                            if (it.data?.get(0)?.matStock.toString() == "0.0")
+                            {
+                                binding.stockTV.setTextColor(R.color.red)
+                            }
+                            else
+                            {
+                                binding.stockTV.setTextColor(R.color.green)
+                            }
+
                         }
                     }
 
@@ -231,10 +249,6 @@ class CartonDetailActivity : AppCompatActivity() {
             }
         })
 
-        /**
-         *  ADD CARTON API
-         */
-
     }
 
     private fun initListener(){
@@ -253,9 +267,9 @@ class CartonDetailActivity : AppCompatActivity() {
                 Utils.getSimpleTextBody("$analyticalNo"),
                 Utils.getSimpleTextBody("$cartonSNo"),
                 Utils.getSimpleTextBody("$totCarton"),
-                Utils.getSimpleTextBody("1"),
+                Utils.getSimpleTextBody(hierarchyLoc),
                 Utils.getSimpleTextBody(LocalPreferences.getInt(this,userNo).toString()),
-                Utils.getSimpleTextBody("")
+                Utils.getSimpleTextBody(deviceId)
             )
             Log.i("saveCarton","$cartonCode $itemCode $pilotNo $analyticalNo $cartonSNo $totCarton")
 
@@ -271,9 +285,9 @@ class CartonDetailActivity : AppCompatActivity() {
                 Utils.getSimpleTextBody("$analyticalNo"),
                 Utils.getSimpleTextBody("$cartonSNo"),
                 Utils.getSimpleTextBody("$totCarton"),
-                Utils.getSimpleTextBody("1"),
+                Utils.getSimpleTextBody(hierarchyLoc),
                 Utils.getSimpleTextBody(LocalPreferences.getInt(this,userNo).toString()),
-                Utils.getSimpleTextBody("test")
+                Utils.getSimpleTextBody(deviceId)
             )
 
             viewModel.palletHierarchy(
@@ -329,6 +343,9 @@ class CartonDetailActivity : AppCompatActivity() {
             LocalPreferences.AppLoginPreferences.loginTime
         )
 
+        deviceId = UUID.randomUUID().toString()
+        Log.i("deviceId",deviceId)
+
         Log.i("isExist",intent.extras?.getInt("isExist").toString())
         when
         {
@@ -339,6 +356,8 @@ class CartonDetailActivity : AppCompatActivity() {
             intent.extras?.getInt("isExist") == 0 ->{
                 binding.changeTV.gone()
                 binding.saveBtn.visible()
+                binding.palletName.gone()
+                binding.palletNameTV.gone()
             }
 
         }
@@ -360,7 +379,7 @@ class CartonDetailActivity : AppCompatActivity() {
             shelfResponse.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
 
                 override fun onItemSelected(adapter: AdapterView<*>?, view: View?, position: Int, long: Long) {
-                    if (Utils.isNetworkConnected(this@CartonDetailActivity))
+                    if (isNetworkConnected(this@CartonDetailActivity))
                     {
                         Log.i("PalletNo","This is pallet pos ${adapter?.getItemAtPosition(position)}")
                         selectedPalletNo = data[position].pilotNo.toString()

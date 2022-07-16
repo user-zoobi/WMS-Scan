@@ -11,6 +11,7 @@ import com.example.scanmate.data.response.GetRackResponse
 import com.example.scanmate.data.response.GetShelfResponse
 import com.example.scanmate.data.response.GetWarehouseResponse
 import com.example.scanmate.extensions.*
+import com.example.scanmate.util.Constants.Toast.noRecordFound
 import com.example.scanmate.util.CustomProgressDialog
 import com.example.scanmate.util.LocalPreferences
 import com.example.scanmate.util.LocalPreferences.AppLoginPreferences.userNo
@@ -196,6 +197,37 @@ class ShowAllHierarchy : AppCompatActivity() {
                                 }
                                 else -> { }
                             }
+
+                            binding.WHTV.click {
+                                viewModel.getRack(
+                                    Utils.getSimpleTextBody(""),
+                                    Utils.getSimpleTextBody(whNo),
+                                    Utils.getSimpleTextBody(busLocNo),
+                                )
+                            }
+
+                            binding.rackTV.click {
+                                viewModel.getShelf(
+                                    Utils.getSimpleTextBody(""),
+                                    Utils.getSimpleTextBody(rackNo),
+                                    Utils.getSimpleTextBody(busLocNo)
+                                )
+                            }
+
+                            binding.shelfTV.click {
+                                viewModel.getPallet(
+                                    Utils.getSimpleTextBody(""),
+                                    Utils.getSimpleTextBody(shelfNo),
+                                    Utils.getSimpleTextBody(busLocNo)
+                                )
+                            }
+
+                            binding.palletTV.click {
+                                viewModel.getCarton(
+                                    Utils.getSimpleTextBody(palletNo),
+                                    Utils.getSimpleTextBody(busLocNo),
+                                )
+                            }
                         }
                         catch (e:Exception)
                         {
@@ -216,13 +248,20 @@ class ShowAllHierarchy : AppCompatActivity() {
                 Status.LOADING ->{
 
                 }
-                Status.SUCCESS ->{
+                Status.SUCCESS ->
+                {
                     warehouseAdapter = ScanWarehouseAdapter(this,
                         it.data as ArrayList<GetWarehouseResponse>
                     )
-                    binding.showAllRV.apply {
+                    binding.showAllRV.apply{
                         layoutManager = LinearLayoutManager(this@ShowAllHierarchy)
                         adapter = warehouseAdapter
+
+                        if (it.data[0].wHNo.toString() == "0")
+                        {
+                            adapter = null
+                            toast(noRecordFound)
+                        }
                     }
                     binding.itemTV.text = it.data[0].wHName
                     Log.i("warehouseCode", it.data[0].wHName.toString())
@@ -235,31 +274,34 @@ class ShowAllHierarchy : AppCompatActivity() {
 
         viewModel.getRack.observe(this, Observer {
             when(it.status){
-                Status.LOADING ->{
+                Status.LOADING ->{}
 
-                }
-                Status.SUCCESS ->{
+                Status.SUCCESS ->
+                {
                     racksAdapter = ScanRackAdapter(this,
                         it.data as ArrayList<GetRackResponse>
                     )
                     binding.showAllRV.apply {
                         layoutManager = LinearLayoutManager(this@ShowAllHierarchy)
                         adapter = racksAdapter
+
+                        if (it.data[0].rackNo.toString() == "0")
+                        {
+                            adapter = null
+                            toast(noRecordFound)
+                        }
                     }
                     binding.itemTV.text = it.data[0].wHName
                     Log.i("warehouseCode", it.data[0].wHName.toString())
                 }
-                Status.ERROR ->{
-
-                }
+                Status.ERROR -> {}
             }
         })
 
         viewModel.getShelf.observe(this, Observer {
             when(it.status){
-                Status.LOADING ->{
+                Status.LOADING ->{}
 
-                }
                 Status.SUCCESS ->{
                     shelfAdapter = ScanShelfAdapter(this,
                         it.data as ArrayList<GetShelfResponse>
@@ -267,6 +309,12 @@ class ShowAllHierarchy : AppCompatActivity() {
                     binding.showAllRV.apply {
                         layoutManager = LinearLayoutManager(this@ShowAllHierarchy)
                         adapter = shelfAdapter
+
+                        if (it.data[0].shelfNo.toString() == "0")
+                        {
+                            adapter = null
+                            toast(noRecordFound)
+                        }
                     }
                     binding.itemTV.text = it.data[0].rackName
                     Log.i("shelfData", it.data[0].shelfName.toString())
@@ -289,6 +337,12 @@ class ShowAllHierarchy : AppCompatActivity() {
                     binding.showAllRV.apply {
                         layoutManager = LinearLayoutManager(this@ShowAllHierarchy)
                         adapter = palletAdapter
+
+                        if (it.data[0].pilotNo.toString() == "0")
+                        {
+                            adapter = null
+                            toast(noRecordFound)
+                        }
                     }
                     binding.itemTV.text = it.data[0].shelfName
                 }
@@ -310,8 +364,15 @@ class ShowAllHierarchy : AppCompatActivity() {
                     binding.showAllRV.apply {
                         layoutManager = LinearLayoutManager(this@ShowAllHierarchy)
                         adapter = cartonAdapter
+
+                        if (it.data[0].cartonNo.toString() == "0")
+                        {
+                            adapter = null
+                            toast(noRecordFound)
+                        }
                     }
-                    binding.itemTV.text = it.data[0].itemCode
+
+                    binding.itemTV.text = it.data[0].pilotName
 
                     Log.i("getCartonData", it.data[0].toString())
                 }
@@ -369,7 +430,8 @@ class ShowAllHierarchy : AppCompatActivity() {
         binding.palletTV.visible()
     }
 
-    override fun onBackPressed() {
+    override fun onBackPressed()
+    {
         finish()
     }
 

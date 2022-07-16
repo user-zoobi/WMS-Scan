@@ -11,9 +11,9 @@
 
     <com.example.wms_scan.utils.TextureVideoView
         android:id="@+id/video_splash"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:layout_centerInParent="true"/>
+        android:layout_centerInParent="true" />
 
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/scanBtn"

@@ -373,13 +373,26 @@
                         android:fontFamily="@font/amiko"
                         android:text="Material "
                         android:textColor="@color/black"
-                        android:textSize="@dimen/_15ssp" />
+                        android:textSize="@dimen/_12ssp" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/palletNameTV"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/material"
+                        android:layout_alignParentStart="true"
+                        android:layout_marginStart="@dimen/_20sdp"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:fontFamily="@font/amiko"
+                        android:text="Pallet Name"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_12ssp" />
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/analyticalNumber"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_below="@+id/material"
+                        android:layout_below="@+id/palletNameTV"
                         android:layout_alignParentStart="true"
                         android:layout_marginStart="@dimen/_20sdp"
                         android:layout_marginTop="@dimen/_10sdp"
@@ -460,7 +473,20 @@
                         android:paddingStart="@dimen/_5sdp"
                         android:scrollHorizontally="true"
                         android:singleLine="true"
+                        android:text="Carton Details"
+                        android:textColor="@color/dark_grey"
+                        android:textSize="@dimen/_12ssp" />
 
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/palletName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/materialNumTV"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginStart="@dimen/_10sdp"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:layout_marginEnd="@dimen/_20sdp"
+                        android:fontFamily="@font/amiko"
                         android:text="Carton Details"
                         android:textColor="@color/dark_grey"
                         android:textSize="@dimen/_12ssp" />
@@ -469,7 +495,7 @@
                         android:id="@+id/analyticalNumTV"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_below="@+id/materialNumTV"
+                        android:layout_below="@+id/palletName"
                         android:layout_alignParentEnd="true"
                         android:layout_marginStart="@dimen/_10sdp"
                         android:layout_marginTop="@dimen/_10sdp"
@@ -493,6 +519,7 @@
                         android:textColor="@color/dark_grey"
                         android:textSize="@dimen/_12ssp" />
 
+
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/stockTV"
                         android:layout_width="wrap_content"
@@ -505,7 +532,7 @@
                         android:layout_marginBottom="@dimen/_10sdp"
                         android:fontFamily="@font/amiko"
                         android:text="Carton Details"
-                        android:textColor="@color/dark_grey"
+                        android:textColor="@color/red"
                         android:textSize="@dimen/_12ssp" />
 
                     <View
@@ -517,36 +544,36 @@
                         android:layout_marginTop="@dimen/_10sdp"
                         android:layout_marginEnd="@dimen/_10sdp"
                         android:background="@color/royal_blue"
-                        android:visibility="gone"/>
+                        android:visibility="gone" />
 
-<!--                    <androidx.appcompat.widget.AppCompatTextView-->
-<!--                        android:id="@+id/palletCode"-->
-<!--                        android:layout_width="wrap_content"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:layout_below="@id/palletView"-->
-<!--                        android:layout_alignParentStart="true"-->
-<!--                        android:layout_marginStart="@dimen/_20sdp"-->
-<!--                        android:layout_marginTop="@dimen/_20sdp"-->
-<!--                        android:fontFamily="@font/amiko"-->
-<!--                        android:text="palletCode"-->
-<!--                        android:textColor="@color/black"-->
-<!--                        android:textSize="@dimen/_12ssp"-->
-<!--                        android:visibility="gone" />-->
+                    <!--                    <androidx.appcompat.widget.AppCompatTextView-->
+                    <!--                        android:id="@+id/palletCode"-->
+                    <!--                        android:layout_width="wrap_content"-->
+                    <!--                        android:layout_height="wrap_content"-->
+                    <!--                        android:layout_below="@id/palletView"-->
+                    <!--                        android:layout_alignParentStart="true"-->
+                    <!--                        android:layout_marginStart="@dimen/_20sdp"-->
+                    <!--                        android:layout_marginTop="@dimen/_20sdp"-->
+                    <!--                        android:fontFamily="@font/amiko"-->
+                    <!--                        android:text="palletCode"-->
+                    <!--                        android:textColor="@color/black"-->
+                    <!--                        android:textSize="@dimen/_12ssp"-->
+                    <!--                        android:visibility="gone" />-->
 
-<!--                    <androidx.appcompat.widget.AppCompatTextView-->
-<!--                        android:id="@+id/palletName"-->
-<!--                        android:layout_width="wrap_content"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:layout_below="@id/palletCode"-->
-<!--                        android:layout_alignParentStart="true"-->
-<!--                        android:layout_marginStart="@dimen/_20sdp"-->
-<!--                        android:layout_marginTop="@dimen/_10sdp"-->
-<!--                        android:layout_marginBottom="@dimen/_20sdp"-->
-<!--                        android:fontFamily="@font/amiko"-->
-<!--                        android:text="palletName"-->
-<!--                        android:textColor="@color/black"-->
-<!--                        android:textSize="@dimen/_12ssp"-->
-<!--                        android:visibility="gone" />-->
+                    <!--                    <androidx.appcompat.widget.AppCompatTextView-->
+                    <!--                        android:id="@+id/palletName"-->
+                    <!--                        android:layout_width="wrap_content"-->
+                    <!--                        android:layout_height="wrap_content"-->
+                    <!--                        android:layout_below="@id/palletCode"-->
+                    <!--                        android:layout_alignParentStart="true"-->
+                    <!--                        android:layout_marginStart="@dimen/_20sdp"-->
+                    <!--                        android:layout_marginTop="@dimen/_10sdp"-->
+                    <!--                        android:layout_marginBottom="@dimen/_20sdp"-->
+                    <!--                        android:fontFamily="@font/amiko"-->
+                    <!--                        android:text="palletName"-->
+                    <!--                        android:textColor="@color/black"-->
+                    <!--                        android:textSize="@dimen/_12ssp"-->
+                    <!--                        android:visibility="gone" />-->
 
                     <RelativeLayout
                         android:id="@+id/selectPalletCont"

@@ -97,7 +97,6 @@ class SplashActivity : AppCompatActivity() {
 
     private fun configureVideoView() {
 
-        binding.videoSplash.setScaleType(TextureVideoView.ScaleType.CENTER_CROP)
         binding.videoSplash.setDataSource(this, Uri.parse("android.resource://" + packageName + "/" + R.raw.warehouse_splash))
         binding.videoSplash.setLooping(true)
 

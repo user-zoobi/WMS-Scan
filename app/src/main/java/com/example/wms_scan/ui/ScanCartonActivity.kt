@@ -80,9 +80,12 @@ class ScanCartonActivity : AppCompatActivity() {
         if (ContextCompat.checkSelfPermission(
                 this , android.Manifest.permission.CAMERA
             ) != PackageManager.PERMISSION_GRANTED
-        ) {
+        )
+        {
             askForCameraPermission()
-        } else {
+        }
+        else
+        {
             setupControls()
         }
 
@@ -102,10 +105,8 @@ class ScanCartonActivity : AppCompatActivity() {
 
             when(it.status){
 
-                Status.LOADING ->
-                {
+                Status.LOADING -> {}
 
-                }
                 Status.SUCCESS ->
                 {
                     Log.i("palletCode","${it.data?.get(0)?.pilotCode}")
@@ -124,17 +125,16 @@ class ScanCartonActivity : AppCompatActivity() {
                     binding.palletCodeTV.text = palletCode
 
                 }
-                Status.ERROR ->
-                {
-
-                }
+                Status.ERROR -> {}
 
             }
         })
 
     }
 
-    private fun setupUi(){
+    private fun setupUi()
+    {
+
         dialog = CustomProgressDialog(this)
         supportActionBar?.hide()
         setTransparentStatusBarColor(R.color.transparent)
@@ -151,10 +151,10 @@ class ScanCartonActivity : AppCompatActivity() {
 
         binding.palletDetailCont.isEnabled = false
 
-
     }
 
-    private fun clearPreferences(context: Context){
+    private fun clearPreferences(context: Context)
+    {
         val settings: SharedPreferences =
             context.getSharedPreferences(LocalPreferences.AppLoginPreferences.PREF, Context.MODE_PRIVATE)
         settings.edit().clear().apply()
@@ -164,7 +164,6 @@ class ScanCartonActivity : AppCompatActivity() {
     @SuppressLint("MissingPermission")
     private fun initListeners()
     {
-
         binding.hierarchyTree.click {
             binding.surfaceCont.gone()
             binding.viewRV.visible()
@@ -214,8 +213,8 @@ class ScanCartonActivity : AppCompatActivity() {
 
     }
 
-    private fun initObserver(){
-
+    private fun initObserver()
+    {
         //GET CARTON
 
         viewModel.getCartonDetails.observe(this@ScanCartonActivity, Observer {
@@ -262,7 +261,8 @@ class ScanCartonActivity : AppCompatActivity() {
 
     }
 
-    private fun setupControls() {
+    private fun setupControls()
+    {
         barcodeDetector =
             BarcodeDetector.Builder(this).setBarcodeFormats(Barcode.ALL_FORMATS).build()
 
@@ -359,7 +359,8 @@ class ScanCartonActivity : AppCompatActivity() {
         })
     }
 
-    private fun askForCameraPermission() {
+    private fun askForCameraPermission()
+    {
         ActivityCompat.requestPermissions(
             this,
             arrayOf(android.Manifest.permission.CAMERA),
@@ -367,7 +368,8 @@ class ScanCartonActivity : AppCompatActivity() {
         )
     }
 
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray)
+    {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == requestCodeCameraPermission && grantResults.isNotEmpty()) {
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
@@ -378,12 +380,14 @@ class ScanCartonActivity : AppCompatActivity() {
         }
     }
 
-    override fun onDestroy() {
+    override fun onDestroy()
+    {
         super.onDestroy()
         cameraSource.stop()
     }
 
-    override fun onBackPressed() {
+    override fun onBackPressed()
+    {
         finish()
     }
 

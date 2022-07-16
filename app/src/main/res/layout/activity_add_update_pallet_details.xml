@@ -79,10 +79,11 @@
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_below="@+id/loginTimeTV"
+        android:layout_marginTop="14dp"
         android:background="@drawable/grey_rounded_bg"
-        android:layout_marginTop="14dp">
+        android:layout_alignParentBottom="true">
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
@@ -292,6 +293,7 @@
                 android:layout_marginStart="@dimen/_20sdp"
                 android:layout_marginTop="@dimen/_20sdp"
                 android:layout_marginEnd="@dimen/_20sdp"
+                android:layout_marginBottom="@dimen/_20sdp"
                 android:background="@drawable/dark_red_rounded_bg"
                 android:fontFamily="@font/amiko"
                 android:text="Update"

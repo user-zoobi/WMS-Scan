@@ -81,6 +81,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/loginTimeTV"
+        android:layout_alignParentBottom="true"
         android:layout_marginTop="14dp"
         android:background="@drawable/grey_rounded_bg">
 
@@ -89,7 +90,6 @@
             android:layout_height="match_parent"
             android:layout_below="@+id/loginTimeTV"
             android:layout_marginTop="14dp"
-
             android:orientation="vertical">
 
             <androidx.appcompat.widget.AppCompatTextView
@@ -105,7 +105,7 @@
 
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:orientation="vertical"
                 android:weightSum="2">
 
@@ -326,7 +326,7 @@
 
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_marginStart="@dimen/_20sdp"
                 android:layout_marginTop="@dimen/_30sdp"
                 android:layout_marginEnd="@dimen/_20sdp"
@@ -337,14 +337,14 @@
                     android:id="@+id/addShelfBtn"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/_40sdp"
                     android:background="@drawable/dark_green_rounded_bg"
                     android:fontFamily="@font/amiko"
                     android:text="Add"
                     android:textAllCaps="false"
                     android:textColor="@color/white"
                     android:textSize="@dimen/_15ssp"
-                    android:visibility="visible"
-                    android:layout_marginBottom="@dimen/_40sdp"/>
+                    android:visibility="visible" />
 
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/updateShelfBtn"
