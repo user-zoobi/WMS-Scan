@@ -70,7 +70,7 @@ class ShowAllHierarchy : AppCompatActivity() {
         warehouse!!.contains("WH") -> viewModel.scanAll("$warehouse", "$locationNo")
         location!!.contains("L") -> viewModel.scanAll("$location", "$locationNo")
         }
-
+//
         Log.i("location",location.toString())
         Log.i("rack",rack.toString())
         Log.i("warehouse",warehouse.toString())
