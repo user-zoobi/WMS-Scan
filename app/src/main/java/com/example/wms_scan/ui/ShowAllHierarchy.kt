@@ -380,6 +380,20 @@ class ShowAllHierarchy : AppCompatActivity() {
                 Status.ERROR ->{}
             }
         })
+
+        viewModel.getCartonQnWise.observe(this, Observer{
+            when(it.status){
+                Status.LOADING ->{
+
+                }
+                Status.SUCCESS ->{
+
+                }
+                Status.ERROR ->{
+
+                }
+            }
+        })
     }
 
     private fun initListener(){
@@ -428,6 +442,10 @@ class ShowAllHierarchy : AppCompatActivity() {
         binding.view8.visible()
         binding.palletCont.visible()
         binding.palletTV.visible()
+    }
+
+    fun analyticalNoAction(analyticalNo:String){
+        viewModel.getCartonQnWise(analyticalNo)
     }
 
     override fun onBackPressed()
