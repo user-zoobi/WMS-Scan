@@ -205,7 +205,6 @@ class PalletsActivity : AppCompatActivity() {
                     {
                         binding.palletsRV.adapter = null
                     }
-
                 }
                 Status.ERROR ->{
                     dialog.dismiss()
@@ -231,7 +230,6 @@ class PalletsActivity : AppCompatActivity() {
                             }
                             else
                             {
-
                                 binding.palletsRV.adapter = null
                             }
                         }
@@ -308,7 +306,7 @@ class PalletsActivity : AppCompatActivity() {
                         try {
                             if(it.data?.get(0)?.status == true)
                             {
-                                showShelfSpinner(it.data!!)
+                                showShelfSpinner(it.data)
                             }
                             else
                             {

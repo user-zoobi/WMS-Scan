@@ -1,5 +1,6 @@
 package com.example.wms_scan.ui
 
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
@@ -19,6 +20,7 @@ import com.example.scanmate.util.Utils
 import com.example.scanmate.viewModel.MainViewModel
 import com.example.wms_scan.R
 import com.example.wms_scan.databinding.ActivityLoginBinding
+import com.example.wms_scan.utils.TextureVideoView
 
 class LoginActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
@@ -32,7 +34,6 @@ class LoginActivity : AppCompatActivity() {
         viewModel = obtainViewModel(MainViewModel::class.java)
         setupUi()
         initObservers()
-//        showBiometricPrompt()
 
     }
 

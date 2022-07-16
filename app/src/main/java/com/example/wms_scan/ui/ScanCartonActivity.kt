@@ -238,12 +238,13 @@ class ScanCartonActivity : AppCompatActivity() {
                                     intent.putExtra("palletCode",scannedPalletCode)
                                     intent.putExtra("isExist",it.data[0].isExist)
                                     startActivity(intent)
+
+
                                 }
                                 else
                                 {
                                     Log.i("getCartonDetails","${Exception().message}")
-                                    toast("No record found")
-                                    finish()
+                                    toast(it.data?.get(0)?.error.toString())
                                 }
                             }
                             catch (e:Exception)
@@ -305,7 +306,8 @@ class ScanCartonActivity : AppCompatActivity() {
                     .show()
             }
 
-            override fun receiveDetections(detections: Detector.Detections<Barcode>) {
+            override fun receiveDetections(detections: Detector.Detections<Barcode>)
+            {
                 val barcodes = detections.detectedItems
                 if (barcodes.size() == 1)
                 {
@@ -314,9 +316,42 @@ class ScanCartonActivity : AppCompatActivity() {
                     //Don't forget to add this line printing value or finishing activity must run on main thread
                     runOnUiThread {
                         cameraSource.stop()
-
-                        viewModel.getCartonDetails(scannedValue)
-
+                        when
+                        {
+                            scannedValue.contains("L") ->
+                            {
+                                toast("No record found")
+                                finish()
+                            }
+                            scannedValue.contains("WH") ->
+                            {
+                                toast("No record found")
+                                finish()
+                            }
+                            scannedValue.contains("RK") ->
+                            {
+                                toast("No record found")
+                                finish()
+                            }
+                            scannedValue.contains("SF") ->
+                            {
+                                toast("No record found")
+                                finish()
+                            }
+                            scannedValue.contains("PL") ->
+                            {
+                                toast("No record found")
+                                finish()
+                            }
+                            status.equals(false) ->
+                            {
+                                toast("No record found")
+                                finish()
+                            }
+                            else ->{
+                                viewModel.getCartonDetails(scannedValue)
+                            }
+                        }
                     }
                 }
                 else { }
