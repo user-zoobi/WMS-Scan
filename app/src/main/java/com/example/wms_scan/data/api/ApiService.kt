@@ -16,6 +16,7 @@ import com.example.wms_scan.data.routes.Routes.EndPoint.addCarton
 import com.example.wms_scan.data.routes.Routes.EndPoint.addPallet
 import com.example.wms_scan.data.routes.Routes.EndPoint.getCarton
 import com.example.wms_scan.data.routes.Routes.EndPoint.getCartonDetails
+import com.example.wms_scan.data.routes.Routes.EndPoint.getCartonQCNWise
 import com.example.wms_scan.data.routes.Routes.EndPoint.paletteHierarchy
 import com.example.wms_scan.data.routes.Routes.EndPoint.scanAll
 import okhttp3.RequestBody
@@ -172,4 +173,10 @@ interface ApiService {
         @Field("Search") Search:String,
         @Field("LocationNo") LocationNo:String,
     ): List<ScanAllResponse>
+
+    @FormUrlEncoded
+    @POST(getCartonQCNWise)
+    suspend fun getCartonQNWise(
+        @Field("Analytical_No") AnalyticalNo: String
+    ) :List<GetCartonQnWiseResponse>
 }

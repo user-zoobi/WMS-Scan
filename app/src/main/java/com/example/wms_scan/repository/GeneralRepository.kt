@@ -125,4 +125,10 @@ class GeneralRepository : ApiHelper {
         Search: String, LocationNo: String
     ): List<ScanAllResponse>
     = RetrofitClient.apiservice.scanAll(Search, LocationNo)
+
+    override suspend fun getCartonQNWise(
+        Analytical_No: String
+    ): List<GetCartonQnWiseResponse>
+        = RetrofitClient.apiservice.getCartonQNWise(Analytical_No)
+
 }

@@ -22,6 +22,7 @@ object Routes {
         const val paletteHierarchy = "PilotAPI/Get_Pilot_Hierarchy"
         const val getCartonDetails = "CartonAPI/Get_Carton_Detail"
         const val scanAll = "Main/Get_All_Scaner"
+        const val getCartonQCNWise = "CartonAPI/Get_Carton_QCNWise"
 
     }
 

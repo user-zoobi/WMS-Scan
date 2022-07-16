@@ -366,4 +366,23 @@ class MainViewModel : ViewModel() {
             }
         }
     }
+
+    private val _getCartonQnWise = MutableLiveData<ApiResponseCallback<List<GetCartonQnWiseResponse>>>()
+    val getCartonQnWise : LiveData<ApiResponseCallback<List<GetCartonQnWiseResponse>>>
+    get() = _getCartonQnWise
+
+    fun getCartonQnWise(Analytical_No: String){
+        viewModelScope.launch {
+            _getCartonQnWise.value = ApiResponseCallback.loading()
+
+            try
+            {
+                _getCartonQnWise.value = ApiResponseCallback.success(repository.getCartonQNWise(Analytical_No))
+            }
+            catch (e:Exception)
+            {
+                _getCartonQnWise.value = ApiResponseCallback.error("${e.message}",null)
+            }
+        }
+    }
 }

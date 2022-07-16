@@ -98,4 +98,8 @@ interface ApiHelper {
    suspend fun scanAll(
        Search:String, LocationNo:String
    ):List<ScanAllResponse>
+
+    suspend fun getCartonQNWise(
+        Analytical_No:String
+    ):List<GetCartonQnWiseResponse> = RetrofitClient.apiservice.getCartonQNWise(Analytical_No)
 }
