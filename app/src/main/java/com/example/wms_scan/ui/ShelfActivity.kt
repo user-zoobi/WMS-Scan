@@ -67,9 +67,6 @@ class ShelfActivity : AppCompatActivity() {
     private lateinit var bmp: Bitmap
     private val bmpList = mutableListOf<Bitmap>()
     private var STORAGE_CODE = 1001
-    private var shelfNo = ""
-    private var shelfName = ""
-    private var shelfCode = ""
     private var rackCode = ""
     private var whCode = ""
 
@@ -213,14 +210,16 @@ class ShelfActivity : AppCompatActivity() {
                                 dialog.dismiss()
                                 showBusLocSpinner(it.data)
                             }
+
                             else
                             {
                                 binding.shelfRV.adapter = null
+                                binding.warehouseSpinnerCont.gone()
+                                binding.rackSpinnerCont.gone()
+
                                 binding.printIV.click {
                                     toast("Nothing to print!")
                                 }
-                                binding.warehouseSpinnerCont.gone()
-                                binding.rackSpinnerCont.gone()
                             }
                         }
                         catch (e:Exception) { }
@@ -255,16 +254,15 @@ class ShelfActivity : AppCompatActivity() {
                                 binding.warehouseSpinnerCont.visible()
                                 binding.rackSpinnerCont.visible()
                                 showWarehouseSpinner(it.data)
+                                binding.shelfAddBTN.isEnabled = true
                             }
                             else
                             {
                                 binding.shelfRV.adapter = null
+                                binding.shelfAddBTN.isEnabled = false
                                 binding.printIV.click {
                                     toast("Nothing to print!")
                                 }
-                                binding.rackSpinnerCont.gone()
-                                binding.warehouseSpinnerCont.gone()
-                                binding.shelfAddBTN.isEnabled = false
                             }
                         }
 
@@ -288,8 +286,9 @@ class ShelfActivity : AppCompatActivity() {
 
         viewModel.getRack.observe(this, Observer{
             when(it.status){
-                Status.LOADING ->{
-                }
+
+                Status.LOADING ->{}
+
                 Status.SUCCESS ->{
                     if (isNetworkConnected(this)){
                         try
@@ -297,16 +296,17 @@ class ShelfActivity : AppCompatActivity() {
                             if(it.data?.get(0)?.status == true)
                             {
                                 showRackSpinner(it.data)
+                                binding.shelfAddBTN.isEnabled = true
                             }
                             else
                             {
                                 binding.shelfRV.adapter = null
+                                binding.shelfAddBTN.isEnabled = false
+                                binding.rackSpinnerCont.gone()
+
                                 binding.printIV.click {
                                     toast("Nothing to print!")
                                 }
-                                binding.rackSpinnerCont.gone()
-                                binding.warehouseSpinnerCont.gone()
-                                binding.shelfAddBTN.isEnabled = false
 
                             }
                         }
@@ -317,9 +317,11 @@ class ShelfActivity : AppCompatActivity() {
                         }
                     }
                 }
+
                 Status.ERROR ->{
                     dialog.dismiss()
                 }
+
             }
         })
 
@@ -366,6 +368,7 @@ class ShelfActivity : AppCompatActivity() {
                                         adapter = shelfAdapter
                                         layoutManager = LinearLayoutManager(this@ShelfActivity)
                                     }
+                                    binding.shelfAddBTN.isEnabled = true
                                 }
                                 else
                                 {
@@ -373,8 +376,6 @@ class ShelfActivity : AppCompatActivity() {
                                     binding.printIV.click { btn ->
                                         toast("Nothing to print!")
                                     }
-                                    binding.rackSpinnerCont.gone()
-                                    binding.warehouseSpinnerCont.gone()
                                     binding.shelfAddBTN.isEnabled = false
                                 }
                             }

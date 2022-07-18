@@ -199,6 +199,7 @@ class RacksActivity : AppCompatActivity() {
                             {
                                 dialog.dismiss()
                                 showBusLocSpinner(it.data)
+                                binding.rackAddBTN.isEnabled = true
                             }
                             else
                             {
@@ -241,6 +242,7 @@ class RacksActivity : AppCompatActivity() {
                                     binding.warehouseSpinnerCont.visible()
                                     binding.availableRacks.visible()
                                     showWarehouseSpinner(it.data)
+                                    binding.rackAddBTN.isEnabled = true
                                 }
                                 else
                                 {
@@ -306,8 +308,10 @@ class RacksActivity : AppCompatActivity() {
                                         layoutManager = LinearLayoutManager(this@RacksActivity)
                                         adapter = racksAdapter
                                     }
+                                    binding.rackAddBTN.isEnabled = true
                                 }
-                                else{
+                                else
+                                {
                                     binding.racksRV.adapter = null
                                     binding.printIV.click { btn ->
                                         toast("Nothing to print!")

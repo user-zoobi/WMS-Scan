@@ -198,6 +198,7 @@ class PalletsActivity : AppCompatActivity() {
                             {
                                 dialog.dismiss()
                                 showBusLocSpinner(it.data!!)
+                                binding.palletAddBTN.isEnabled = true
                             }
                             else
                             { }
@@ -232,13 +233,11 @@ class PalletsActivity : AppCompatActivity() {
                                 binding.rackSpinnerCont.visible()
                                 binding.warehouseSpinnerCont.visible()
                                 binding.shelfSpinnerCont.visible()
+                                binding.palletAddBTN.isEnabled = true
                             }
                             else
                             {
                                 binding.palletsRV.adapter = null
-                                binding.rackSpinnerCont.gone()
-                                binding.warehouseSpinnerCont.gone()
-                                binding.shelfSpinnerCont.gone()
                                 binding.printIV.click {
                                     toast("Nothing to print!")
                                 }
@@ -279,16 +278,11 @@ class PalletsActivity : AppCompatActivity() {
                             if(it.data?.get(0)?.status == true)
                             {
                                 showRackSpinner(it.data)
-                                binding.rackSpinnerCont.visible()
-                                binding.warehouseSpinnerCont.visible()
-                                binding.shelfSpinnerCont.visible()
+                                binding.palletAddBTN.isEnabled = true
                             }
                             else
                             {
                                 binding.palletsRV.adapter = null
-                                binding.rackSpinnerCont.gone()
-                                binding.warehouseSpinnerCont.gone()
-                                binding.shelfSpinnerCont.gone()
                                 binding.printIV.click {
                                     toast("Nothing to print!")
                                 }
@@ -332,12 +326,11 @@ class PalletsActivity : AppCompatActivity() {
                                 binding.rackSpinnerCont.visible()
                                 binding.warehouseSpinnerCont.visible()
                                 binding.shelfSpinnerCont.visible()
+                                binding.palletAddBTN.isEnabled = true
                             }
                             else
                             {
                                 binding.palletsRV.adapter = null
-                                binding.rackSpinnerCont.gone()
-                                binding.warehouseSpinnerCont.gone()
                                 binding.shelfSpinnerCont.gone()
                                 binding.printIV.click {
                                     toast("Nothing to print!")
@@ -405,6 +398,7 @@ class PalletsActivity : AppCompatActivity() {
                                 adapter = palletAdapter
                                 layoutManager = LinearLayoutManager(this@PalletsActivity)
                             }
+                            binding.palletAddBTN.isEnabled = true
                         }
                         else
                         {
@@ -642,7 +636,6 @@ class PalletsActivity : AppCompatActivity() {
 
         }
     }
-
 
     private fun generateQRCode(text:String) {
         val qrWriter = QRCodeWriter()

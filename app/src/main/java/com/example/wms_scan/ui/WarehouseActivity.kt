@@ -115,10 +115,12 @@ class WarehouseActivity : AppCompatActivity() {
                 }
                 Status.SUCCESS ->{
                     binding.swipeRefresh.isRefreshing = false
+
                     if(it.data?.get(0)?.status == true)
                     {
-                    dialog.dismiss()
-                    showBusLocSpinner(it.data)
+                        dialog.dismiss()
+                        showBusLocSpinner(it.data)
+                        binding.whAddBTN.isEnabled = true
                     }
                     else
                     {
@@ -182,6 +184,7 @@ class WarehouseActivity : AppCompatActivity() {
                                     layoutManager = LinearLayoutManager(this@WarehouseActivity)
                                     adapter = warehouseAdapter
                                 }
+                                binding.whAddBTN.isEnabled = true
                             }
                             else{
                                 binding.warehouseRV.adapter = null
