@@ -378,10 +378,12 @@ class MainViewModel : ViewModel() {
             try
             {
                 _getCartonQnWise.value = ApiResponseCallback.success(repository.getCartonQNWise(Analytical_No))
+                Log.i("cartonQnWise","cartonQNSuccess")
             }
             catch (e:Exception)
             {
                 _getCartonQnWise.value = ApiResponseCallback.error("${e.message}",null)
+                Log.i("cartonQnWise","${e.message}")
             }
         }
     }

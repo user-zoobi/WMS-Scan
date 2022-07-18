@@ -18,6 +18,7 @@ import com.example.scanmate.util.LocalPreferences.AppLoginPreferences.userNo
 import com.example.scanmate.util.Utils
 import com.example.scanmate.viewModel.MainViewModel
 import com.example.wms_scan.R
+import com.example.wms_scan.adapter.carton.CartonDetailAdapter
 import com.example.wms_scan.adapter.carton.ScanCartonAdapter
 import com.example.wms_scan.adapter.pallets.PalletsAdapter
 import com.example.wms_scan.adapter.pallets.ScanPalletAdapter
@@ -27,6 +28,7 @@ import com.example.wms_scan.adapter.shelf.ScanShelfAdapter
 import com.example.wms_scan.adapter.shelf.ShelfAdapter
 import com.example.wms_scan.adapter.warehouse.ScanWarehouseAdapter
 import com.example.wms_scan.adapter.warehouse.WarehouseAdapter
+import com.example.wms_scan.data.response.GetCartonQnWiseResponse
 import com.example.wms_scan.data.response.GetCartonResponse
 import com.example.wms_scan.data.response.GetPalletResponse
 import com.example.wms_scan.databinding.ActivityScanAllHierarchyBinding
@@ -40,6 +42,7 @@ class ShowAllHierarchy : AppCompatActivity() {
     private lateinit var shelfAdapter: ScanShelfAdapter
     private lateinit var palletAdapter: ScanPalletAdapter
     private lateinit var cartonAdapter: ScanCartonAdapter
+    private lateinit var cartonQnWiseAdapter: CartonDetailAdapter
     private var location:String? = ""
     private var warehouse:String?  = ""
     private var rack:String?  = ""
@@ -382,16 +385,33 @@ class ShowAllHierarchy : AppCompatActivity() {
         })
 
         viewModel.getCartonQnWise.observe(this, Observer{
+
             when(it.status){
                 Status.LOADING ->{
 
                 }
                 Status.SUCCESS ->{
+                    cartonQnWiseAdapter = CartonDetailAdapter(this,
+                        it.data as ArrayList<GetCartonQnWiseResponse>
+                    )
+                    binding.showAllRV.apply {
+                        layoutManager = LinearLayoutManager(this@ShowAllHierarchy)
+                        adapter = cartonQnWiseAdapter
+                        Log.i("analyticalNo",it.data?.get(0)?.analyticalNo.toString())
+                        binding.itemCode.visible()
+                        binding.slash.visible()
 
-                }
-                Status.ERROR ->{
+                        if (it.data?.get(0)?.cartonNo.toString() == "0")
+                        {
+                            adapter = null
+                            toast(noRecordFound)
+                        }
 
+                        binding.itemTV.text = it.data?.get(0)?.analyticalNo.toString()
+                        binding.itemCode.text = it.data?.get(0)?.itemCode.toString()
+                    }
                 }
+                Status.ERROR -> {}
             }
         })
     }
@@ -445,6 +465,7 @@ class ShowAllHierarchy : AppCompatActivity() {
     }
 
     fun analyticalNoAction(analyticalNo:String){
+        Log.i("analyticalNo",analyticalNo)
         viewModel.getCartonQnWise(analyticalNo)
     }
 

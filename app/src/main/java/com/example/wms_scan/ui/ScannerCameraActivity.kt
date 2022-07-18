@@ -3,18 +3,17 @@ package com.example.wms_scan.ui
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.pm.PackageManager
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.SurfaceHolder
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import com.example.scanmate.data.callback.Status
-import com.example.scanmate.extensions.gotoActivity
 import com.example.scanmate.extensions.obtainViewModel
 import com.example.scanmate.extensions.setTransparentStatusBarColor
 import com.example.scanmate.util.CustomProgressDialog
@@ -228,9 +227,20 @@ class ScannerCameraActivity : AppCompatActivity() {
         }
     }
 
+    override fun onPause() {
+        super.onPause()
+        supportActionBar!!.hide()
+        cameraSource.release()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        supportActionBar!!.hide()
+    }
 
     override fun onDestroy() {
         super.onDestroy()
         cameraSource.stop()
+        setupControls()
     }
 }
