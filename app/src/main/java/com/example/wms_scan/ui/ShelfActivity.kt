@@ -150,10 +150,6 @@ class ShelfActivity : AppCompatActivity() {
             }
         }
 
-        binding.printIV.click {
-            generatePDF()
-        }
-
         binding.backBtn.click {
             onBackPressed()
         }
@@ -220,12 +216,14 @@ class ShelfActivity : AppCompatActivity() {
                             else
                             {
                                 binding.shelfRV.adapter = null
+                                binding.printIV.click {
+                                    toast("Nothing to print!")
+                                }
+                                binding.warehouseSpinnerCont.gone()
+                                binding.rackSpinnerCont.gone()
                             }
                         }
-                        catch (e:Exception)
-                        {
-
-                        }
+                        catch (e:Exception) { }
                     }
                     else
                     {
@@ -254,11 +252,19 @@ class ShelfActivity : AppCompatActivity() {
                             if(it.data?.get(0)?.status == true)
                             {
                                 it.data[0].wHName?.let { it1 -> Log.i("warehouseResponse", it1) }
+                                binding.warehouseSpinnerCont.visible()
+                                binding.rackSpinnerCont.visible()
                                 showWarehouseSpinner(it.data)
                             }
                             else
                             {
                                 binding.shelfRV.adapter = null
+                                binding.printIV.click {
+                                    toast("Nothing to print!")
+                                }
+                                binding.rackSpinnerCont.gone()
+                                binding.warehouseSpinnerCont.gone()
+                                binding.shelfAddBTN.isEnabled = false
                             }
                         }
 
@@ -295,6 +301,13 @@ class ShelfActivity : AppCompatActivity() {
                             else
                             {
                                 binding.shelfRV.adapter = null
+                                binding.printIV.click {
+                                    toast("Nothing to print!")
+                                }
+                                binding.rackSpinnerCont.gone()
+                                binding.warehouseSpinnerCont.gone()
+                                binding.shelfAddBTN.isEnabled = false
+
                             }
                         }
                         catch (e: Exception)
@@ -328,32 +341,41 @@ class ShelfActivity : AppCompatActivity() {
                             try {
                                 if(it.data?.get(0)?.status == true) {
 
-                                    shelfName = it.data[0].shelfName.toString()
-                                    shelfNo = it.data[0].shelfNo.toString()
-                                    shelfCode = it.data[0].shelfCode.toString()
-
                                     showShelfSpinner(it.data)
                                     shelfList = ArrayList()
-                                    shelfList = it.data as ArrayList<GetShelfResponse>
-                                    shelfAdapter = ShelfAdapter(this, shelfList)
+                                    binding.warehouseSpinnerCont.visible()
+                                    binding.rackSpinnerCont.visible()
+                                    shelfAdapter = ShelfAdapter(this,  it.data as ArrayList<GetShelfResponse>)
 
                                     bmpList.clear()
                                     textList.clear()
 
-                                    for (i in it.data.indices)
-                                    {
-                                        generateQRCode("${it.data[i].shelfCode}")
-                                        Log.i("ShelfName",it.data[i].shelfName.toString())
-                                        textList.add("${it.data[i].shelfName}")
-                                        Log.i("shelfArrayList","$textList")
+                                    binding.printIV.click { btn ->
+
+                                        for (i in it.data.indices)
+                                        {
+                                            generateQRCode("${it.data[i].shelfCode}")
+                                            Log.i("ShelfName",it.data[i].shelfName.toString())
+                                            textList.add("${it.data[i].shelfName}")
+                                            Log.i("shelfArrayList","$textList")
+                                        }
+                                        generatePDF()
                                     }
 
                                     binding.shelfRV.apply {
                                         adapter = shelfAdapter
                                         layoutManager = LinearLayoutManager(this@ShelfActivity)
                                     }
-                                }else{
+                                }
+                                else
+                                {
                                     binding.shelfRV.adapter = null
+                                    binding.printIV.click { btn ->
+                                        toast("Nothing to print!")
+                                    }
+                                    binding.rackSpinnerCont.gone()
+                                    binding.warehouseSpinnerCont.gone()
+                                    binding.shelfAddBTN.isEnabled = false
                                 }
                             }
                             catch (e:Exception){

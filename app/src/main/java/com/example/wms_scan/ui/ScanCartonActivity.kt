@@ -19,6 +19,10 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.budiyev.android.codescanner.AutoFocusMode
+import com.budiyev.android.codescanner.CodeScanner
+import com.budiyev.android.codescanner.DecodeCallback
+import com.budiyev.android.codescanner.ScanMode
 import com.bumptech.glide.util.Util
 import com.example.scanmate.data.callback.Status
 import com.example.scanmate.data.response.GetRackResponse
@@ -49,22 +53,10 @@ class ScanCartonActivity : AppCompatActivity() {
     private lateinit var binding: ActivityScanCartonBinding
     private lateinit var viewModel: MainViewModel
     private lateinit var dialog: CustomProgressDialog
-    private val requestCodeCameraPermission = 1001
-    private lateinit var cameraSource: CameraSource
-    private lateinit var barcodeDetector: BarcodeDetector
     private var scannedValue = ""
-    private var itemCode = ""
-    private var analyticalNo = ""
-    private var totCarton = ""
-    private lateinit var scanCartonAdapter : ScanCartonAdapter
-    var Analytical_No = ""
-    var material_id = ""
-    var Material_name = ""
+    private lateinit var codeScanner: CodeScanner
     var pilotNo = 0
     var scannedPalletCode = ""
-    var cartonSNo = ""
-    var isExist = 0
-    var stock = ""
     var cartonCode = ""
     var status = ""
 
@@ -82,11 +74,11 @@ class ScanCartonActivity : AppCompatActivity() {
             ) != PackageManager.PERMISSION_GRANTED
         )
         {
-            askForCameraPermission()
+            codeScannerCamera()
         }
         else
         {
-            setupControls()
+            codeScannerCamera()
         }
 
 
@@ -138,7 +130,7 @@ class ScanCartonActivity : AppCompatActivity() {
         dialog = CustomProgressDialog(this)
         supportActionBar?.hide()
         setTransparentStatusBarColor(R.color.transparent)
-
+        codeScanner = CodeScanner(this,binding.cameraSurfaceView)
         binding.userNameTV.text = LocalPreferences.getString(this,
             LocalPreferences.AppLoginPreferences.userName
         )
@@ -261,134 +253,74 @@ class ScanCartonActivity : AppCompatActivity() {
 
     }
 
-    private fun setupControls()
-    {
-        barcodeDetector =
-            BarcodeDetector.Builder(this).setBarcodeFormats(Barcode.ALL_FORMATS).build()
 
-        cameraSource = CameraSource.Builder(this, barcodeDetector)
-            .setRequestedPreviewSize(1920, 1080)
-            .setAutoFocusEnabled(true) //you should add this feature
-            .build()
+    private fun codeScannerCamera() {
 
-        binding.cameraSurfaceView.holder.addCallback(object : SurfaceHolder.Callback {
-            @SuppressLint("MissingPermission")
-            override fun surfaceCreated(holder: SurfaceHolder) {
-                try {
-                    //Start preview after 1s delay
-                    cameraSource.start(holder)
-                } catch (e: IOException) {
-                    e.printStackTrace()
-                }
-            }
+            // Parameters (default values)
+        codeScanner.camera = CodeScanner.CAMERA_BACK // or CAMERA_FRONT or specific camera id
+        codeScanner.formats = CodeScanner.ALL_FORMATS // list of type BarcodeFormat,
+        // ex. listOf(BarcodeFormat.QR_CODE)
+        codeScanner.autoFocusMode = AutoFocusMode.SAFE // or CONTINUOUS
+        codeScanner.scanMode = ScanMode.SINGLE // or CONTINUOUS or PREVIEW
 
-            @SuppressLint("MissingPermission")
-            override fun surfaceChanged(
-                holder: SurfaceHolder, format: Int,
-                width: Int, height: Int
-            ) {
-                try {
-                    cameraSource.start(holder)
-                } catch (e: IOException) {
-                    e.printStackTrace()
-                }
-            }
+        // Callbacks
+        codeScanner.decodeCallback = DecodeCallback {
 
-            override fun surfaceDestroyed(holder: SurfaceHolder) {
-                cameraSource.stop()
-            }
-        })
+            runOnUiThread {
+                    scannedValue = it.text
 
-
-        barcodeDetector.setProcessor(object : Detector.Processor<Barcode> {
-            override fun release() {
-                Toast.makeText(applicationContext, "Scanner has been closed", Toast.LENGTH_SHORT)
-                    .show()
-            }
-
-            override fun receiveDetections(detections: Detector.Detections<Barcode>)
-            {
-                val barcodes = detections.detectedItems
-                if (barcodes.size() == 1)
-                {
-                    scannedValue = barcodes.valueAt(0).rawValue
+                    Toast.makeText(this, "Scan result: ${it.text}", Toast.LENGTH_LONG).show()
 
                     //Don't forget to add this line printing value or finishing activity must run on main thread
                     runOnUiThread {
-                        cameraSource.stop()
-                        when
-                        {
-                            scannedValue.contains("L") ->
-                            {
+
+                        when {
+                            scannedValue.contains("L") -> {
                                 toast("No record found")
                                 finish()
                             }
-                            scannedValue.contains("WH") ->
-                            {
+                            scannedValue.contains("WH") -> {
                                 toast("No record found")
                                 finish()
                             }
-                            scannedValue.contains("RK") ->
-                            {
+                            scannedValue.contains("RK") -> {
                                 toast("No record found")
                                 finish()
                             }
-                            scannedValue.contains("SF") ->
-                            {
+                            scannedValue.contains("SF") -> {
                                 toast("No record found")
                                 finish()
                             }
-                            scannedValue.contains("PL") ->
-                            {
+                            scannedValue.contains("PL") -> {
                                 toast("No record found")
                                 finish()
                             }
-                            status.equals(false) ->
-                            {
+                            status.equals(false) -> {
                                 toast("No record found")
                                 finish()
                             }
-                            else ->{
+                            else -> {
                                 viewModel.getCartonDetails(scannedValue)
                             }
                         }
                     }
                 }
-                else { }
-            }
-        })
-    }
 
-    private fun askForCameraPermission()
-    {
-        ActivityCompat.requestPermissions(
-            this,
-            arrayOf(android.Manifest.permission.CAMERA),
-            requestCodeCameraPermission
-        )
-    }
-
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray)
-    {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (requestCode == requestCodeCameraPermission && grantResults.isNotEmpty()) {
-            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                setupControls()
-            } else {
-                Toast.makeText(applicationContext, "Permission Denied", Toast.LENGTH_SHORT).show()
+            binding.cameraSurfaceView.setOnClickListener {
+                codeScanner.startPreview()
             }
+
         }
+
     }
 
-    override fun onDestroy()
-    {
-        super.onDestroy()
-        cameraSource.stop()
+    override fun onResume() {
+        super.onResume()
+        codeScanner.startPreview()
     }
 
-    override fun onBackPressed()
-    {
-        finish()
+    override fun onPause() {
+        codeScanner.releaseResources()
+        super.onPause()
     }
-
 }

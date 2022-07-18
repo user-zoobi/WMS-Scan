@@ -29,6 +29,7 @@ import com.example.scanmate.data.response.GetWarehouseResponse
 import com.example.scanmate.data.response.UserLocationResponse
 import com.example.scanmate.extensions.*
 import com.example.scanmate.util.Constants.Toast.NoInternetFound
+import com.example.scanmate.util.Constants.Toast.noRecordFound
 import com.example.scanmate.util.CustomProgressDialog
 import com.example.scanmate.util.LocalPreferences
 import com.example.scanmate.util.LocalPreferences.AppLoginPreferences.isRefreshRequired
@@ -122,6 +123,7 @@ class WarehouseActivity : AppCompatActivity() {
                     else
                     {
                         toast("No result found")
+                        binding.whAddBTN.isEnabled = false
                     }
                 }
                 Status.ERROR ->{
@@ -156,6 +158,7 @@ class WarehouseActivity : AppCompatActivity() {
                                 textList.clear()
 
                                 binding.printIV.click { btn ->
+
                                     try
                                     {
                                         for (i in it.data)
@@ -163,13 +166,13 @@ class WarehouseActivity : AppCompatActivity() {
                                             generateQRCode("${i.wHCode}")
                                             textList.add("${i.wHName}")
                                         }
-
                                         generatePDF()
                                     }
                                     catch (e:Exception)
                                     {
                                         Log.i("exception","${e.message}")
                                     }
+
                                 }
 
                                 warehouseAdapter = WarehouseAdapter(this,
@@ -182,6 +185,10 @@ class WarehouseActivity : AppCompatActivity() {
                             }
                             else{
                                 binding.warehouseRV.adapter = null
+                                binding.printIV.click { btn ->
+                                    toast("Nothing to print!")
+                                }
+                                binding.whAddBTN.isEnabled = false
                             }
                         }
                         else

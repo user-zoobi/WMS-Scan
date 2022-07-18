@@ -146,11 +146,6 @@ class RacksActivity : AppCompatActivity() {
             }
         }
 
-        binding.printIV.click {
-            generatePDF()
-
-        }
-
         binding.backBtn.click {
             onBackPressed()
         }
@@ -207,8 +202,9 @@ class RacksActivity : AppCompatActivity() {
                             }
                             else
                             {
-
                                 binding.racksRV.adapter = null
+                                toast("${R.string.addWH}")
+                                binding.rackAddBTN.isEnabled = false
                             }
                         }
                         Status.ERROR ->{
@@ -216,10 +212,7 @@ class RacksActivity : AppCompatActivity() {
                         }
                     }
                 }
-                else
-                {
-
-                }
+                else { }
 
             }
         })
@@ -233,48 +226,9 @@ class RacksActivity : AppCompatActivity() {
                 if(isNetworkConnected(this))
                 {
                     when(it.status){
-                        Status.LOADING->{
-                        }
-                        Status.SUCCESS ->{
 
-                            try {
-                                if(it.data?.get(0)?.status == true)
-                                {
-                                    it.data[0].wHName?.let { it1 -> Log.i("warehouseResponse", it1) }
-                                    showWarehouseSpinner(it.data)
-                                }
-                                else
-                                {
-                                    toast("No record found")
-                                    binding.racksRV.adapter = null
-                                }
-                            }
-                            catch(e:Exception){
-                                Log.i("rackAdapter","${e.message}")
-                                Log.i("rackAdapter","${e.stackTrace}")
-                            }
-                            //warehouseAdapter.addItems(list)
-                        }
-                        Status.ERROR ->{
-                            dialog.dismiss()
-                        }
-                    }
-                }
+                        Status.LOADING->{}
 
-            }
-        })
-
-        /**
-         *      GET WAREHOUSE OBSERVER
-         */
-
-        viewModel.getWarehouse.observe(this, Observer{
-            it.let {
-                if(isNetworkConnected(this))
-                {
-                    when(it.status){
-                        Status.LOADING->{
-                        }
                         Status.SUCCESS ->{
                             binding.swipeRefresh.isRefreshing = false
 
@@ -284,12 +238,19 @@ class RacksActivity : AppCompatActivity() {
                                 if(it.data?.get(0)?.status == true)
                                 {
                                     it.data[0].wHName?.let { it1 -> Log.i("warehouseResponse", it1) }
+                                    binding.warehouseSpinnerCont.visible()
+                                    binding.availableRacks.visible()
                                     showWarehouseSpinner(it.data)
-
                                 }
                                 else
                                 {
                                     binding.racksRV.adapter = null
+                                    binding.warehouseSpinnerCont.gone()
+                                    binding.printIV.click {
+                                        toast("Nothing to print!")
+                                    }
+                                    binding.availableRacks.gone()
+                                    binding.rackAddBTN.isEnabled = false
                                 }
                             }
                             catch(e:Exception){
@@ -324,31 +285,34 @@ class RacksActivity : AppCompatActivity() {
                             {
                                 if(it.data?.get(0)?.status == true)
                                 {
-                                    rackName = it.data[0].rackName.toString()
-                                    rackNo = it.data[0].rackNo.toString()
-                                    rackCode = it.data[0].rackCode.toString()
-
                                     showRackSpinner(it.data)
                                     racksAdapter = RackAdapter(this,it.data as ArrayList<GetRackResponse>)
 
                                     bmpList.clear()
                                     textList.clear()
 
-                                    for (i in it.data)
-                                    {
-                                        generateQRCode("${i.rackCode}")
-                                        textList.add("${i.rackName}")
-                                        Log.i("rackList","${selectedBusLocNo}L-${whCode}-${i.rackCode}")
-                                        Log.i("rackList","${i.rackCode}")
+                                    binding.printIV.click { btn->
+                                        for (i in it.data)
+                                        {
+                                            generateQRCode("${i.rackCode}")
+                                            textList.add("${i.rackName}")
+                                            Log.i("rackList","${selectedBusLocNo}L-${whCode}-${i.rackCode}")
+                                            Log.i("rackList","${i.rackCode}")
+                                        }
+                                        generatePDF()
                                     }
 
                                     binding.racksRV.apply {
-
                                         layoutManager = LinearLayoutManager(this@RacksActivity)
                                         adapter = racksAdapter
                                     }
-                                }else{
+                                }
+                                else{
                                     binding.racksRV.adapter = null
+                                    binding.printIV.click { btn ->
+                                        toast("Nothing to print!")
+                                    }
+                                    binding.rackAddBTN.isEnabled = false
                                 }
                             }
                             catch (e: Exception)

@@ -398,11 +398,6 @@
                 android:visibility="gone">
 
                 <com.budiyev.android.codescanner.CodeScannerView
-                    android:id="@+id/scanner_view"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
-
-                <SurfaceView
                     android:id="@+id/cameraSurfaceView"
                     android:layout_width="@dimen/_350sdp"
                     android:layout_height="@dimen/_300sdp"
@@ -412,6 +407,8 @@
                     android:layout_marginEnd="@dimen/_20sdp"
                     android:layout_marginBottom="@dimen/_50sdp"
                     android:visibility="visible"
+                    app:autoFocusButtonVisible="false"
+                    app:flashButtonVisible="false"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
@@ -424,7 +421,7 @@
                     android:layout_alignParentEnd="true"
                     android:layout_marginTop="@dimen/_40sdp"
                     android:layout_marginEnd="@dimen/_40sdp"
-                    android:background="@drawable/grey_rounded_bg"
+                    android:background="@drawable/grey_circle_bg"
                     android:padding="@dimen/_5sdp"
                     android:src="@drawable/close_icon"
                     app:layout_constraintEnd_toEndOf="parent"

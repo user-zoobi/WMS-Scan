@@ -194,11 +194,13 @@ class PalletsActivity : AppCompatActivity() {
                 Status.SUCCESS ->{
                     if (isNetworkConnected(this)){
                         it.let {
-                            if(it.data?.get(0)?.status == true) {
+                            if(it.data?.get(0)?.status == true)
+                            {
                                 dialog.dismiss()
                                 showBusLocSpinner(it.data!!)
                             }
-                            else { }
+                            else
+                            { }
                         }
                     }
                     else
@@ -227,10 +229,20 @@ class PalletsActivity : AppCompatActivity() {
                             {
                                 it.data[0].wHName?.let { it1 -> Log.i("warehouseResponse", it1) }
                                 showWarehouseSpinner(it.data)
+                                binding.rackSpinnerCont.visible()
+                                binding.warehouseSpinnerCont.visible()
+                                binding.shelfSpinnerCont.visible()
                             }
                             else
                             {
                                 binding.palletsRV.adapter = null
+                                binding.rackSpinnerCont.gone()
+                                binding.warehouseSpinnerCont.gone()
+                                binding.shelfSpinnerCont.gone()
+                                binding.printIV.click {
+                                    toast("Nothing to print!")
+                                }
+                                binding.palletAddBTN.isEnabled = false
                             }
                         }
                         catch(e:Exception){
@@ -267,10 +279,20 @@ class PalletsActivity : AppCompatActivity() {
                             if(it.data?.get(0)?.status == true)
                             {
                                 showRackSpinner(it.data)
+                                binding.rackSpinnerCont.visible()
+                                binding.warehouseSpinnerCont.visible()
+                                binding.shelfSpinnerCont.visible()
                             }
                             else
                             {
                                 binding.palletsRV.adapter = null
+                                binding.rackSpinnerCont.gone()
+                                binding.warehouseSpinnerCont.gone()
+                                binding.shelfSpinnerCont.gone()
+                                binding.printIV.click {
+                                    toast("Nothing to print!")
+                                }
+                                binding.palletAddBTN.isEnabled = false
                             }
                         }
                         catch (e: Exception)
@@ -307,10 +329,20 @@ class PalletsActivity : AppCompatActivity() {
                             if(it.data?.get(0)?.status == true)
                             {
                                 showShelfSpinner(it.data)
+                                binding.rackSpinnerCont.visible()
+                                binding.warehouseSpinnerCont.visible()
+                                binding.shelfSpinnerCont.visible()
                             }
                             else
                             {
                                 binding.palletsRV.adapter = null
+                                binding.rackSpinnerCont.gone()
+                                binding.warehouseSpinnerCont.gone()
+                                binding.shelfSpinnerCont.gone()
+                                binding.printIV.click {
+                                    toast("Nothing to print!")
+                                }
+                                binding.palletAddBTN.isEnabled = false
                             }
                         }
                         catch (e:Exception){
@@ -324,9 +356,7 @@ class PalletsActivity : AppCompatActivity() {
                     }
 
                 }
-                Status.ERROR ->{
-
-                }
+                Status.ERROR ->{}
             }
         })
 
@@ -348,34 +378,44 @@ class PalletsActivity : AppCompatActivity() {
                         if(it.data?.get(0)?.status == true)
                         {
                             Log.i(success,"Success")
-
                             palletAdapter = PalletsAdapter(this, it.data)
+
+                            bmpList.clear()
+                            binding.rackSpinnerCont.visible()
+                            binding.warehouseSpinnerCont.visible()
+                            binding.shelfSpinnerCont.visible()
+                            binding.printIV.click { btn ->
+                                for (i in it.data)
+                                {
+                                    Log.i("WarehouseCodeName","${whCode}")
+                                    Log.i("RackCodeName","${rackCode}")
+                                    Log.i("ShelfCodeName","${shelfCode}")
+                                    Log.i("PalletCodeName","${palletCodeList}")
+
+                                    generateQRCode("${i.pilotCode}")
+                                    Log.i("palletCode","${selectedBusLocNo}L-${whCode}-${rackCode}-${shelfCode}-${i.pilotCode}")
+
+                                    palletCodeList.add("${i.pilotName}")
+//                                Log.i("PalletCodes","$palletCodeList")
+                                }
+                                generatePDF()
+                            }
 
                             binding.palletsRV.apply {
                                 adapter = palletAdapter
                                 layoutManager = LinearLayoutManager(this@PalletsActivity)
                             }
-
-                            bmpList.clear()
-
-                            for (i in it.data)
-                            {
-                                Log.i("WarehouseCodeName","${whCode}")
-                                Log.i("RackCodeName","${rackCode}")
-                                Log.i("ShelfCodeName","${shelfCode}")
-                                Log.i("PalletCodeName","${palletCodeList}")
-
-                                generateQRCode("${i.pilotCode}")
-                                Log.i("palletCode","${selectedBusLocNo}L-${whCode}-${rackCode}-${shelfCode}-${i.pilotCode}")
-
-                                palletCodeList.add("${i.pilotName}")
-//                                Log.i("PalletCodes","$palletCodeList")
-                            }
-
                         }
                         else
                         {
                             binding.palletsRV.adapter = null
+                            binding.printIV.click { btn ->
+                                toast("Nothing to print!")
+                            }
+                            binding.rackSpinnerCont.gone()
+                            binding.warehouseSpinnerCont.gone()
+                            binding.shelfSpinnerCont.gone()
+                            binding.palletAddBTN.isEnabled = false
                         }
                     }
                     catch (e:Exception)

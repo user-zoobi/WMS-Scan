@@ -6,14 +6,16 @@
     android:layout_height="match_parent"
     tools:context=".ui.ScannerCameraActivity">
 
-    <SurfaceView
+    <com.budiyev.android.codescanner.CodeScannerView
         android:id="@+id/cameraSurfaceView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:autoFocusButtonVisible="false"
+        app:flashButtonVisible="false"/>
 
     <View
         android:id="@+id/barcode_line"
