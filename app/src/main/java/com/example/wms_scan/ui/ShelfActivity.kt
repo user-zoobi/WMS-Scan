@@ -302,7 +302,6 @@ class ShelfActivity : AppCompatActivity() {
                             {
                                 binding.shelfRV.adapter = null
                                 binding.shelfAddBTN.isEnabled = false
-                                binding.rackSpinnerCont.gone()
 
                                 binding.printIV.click {
                                     toast("Nothing to print!")
@@ -373,10 +372,11 @@ class ShelfActivity : AppCompatActivity() {
                                 else
                                 {
                                     binding.shelfRV.adapter = null
+                                    binding.shelfAddBTN.isEnabled = false
+                                    binding.rackSpinnerCont.gone()
                                     binding.printIV.click { btn ->
                                         toast("Nothing to print!")
                                     }
-                                    binding.shelfAddBTN.isEnabled = false
                                 }
                             }
                             catch (e:Exception){

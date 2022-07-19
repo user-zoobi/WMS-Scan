@@ -65,7 +65,6 @@ class WarehouseActivity : AppCompatActivity() {
     private val bmpList = mutableListOf<Bitmap>()
     private val textList = mutableListOf<String>()
     private var STORAGE_CODE = 1001
-    lateinit var containerView: ViewGroup
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -188,6 +187,8 @@ class WarehouseActivity : AppCompatActivity() {
                             }
                             else{
                                 binding.warehouseRV.adapter = null
+                                binding.availableWHTV.gone()
+                                toast("No record found")
                                 binding.printIV.click { btn ->
                                     toast("Nothing to print!")
                                 }
