@@ -59,9 +59,7 @@ class RacksActivity : AppCompatActivity() {
     private var selectedRackName = ""
     private var businessLocName = ""
     private var warehouseName = ""
-
-    private var rackNo = ""
-    private var rackName = ""
+    private var capacity = ""
     private var rackCode = ""
     private lateinit var bmp:Bitmap
     private val bmpList = mutableListOf<Bitmap>()
@@ -114,6 +112,8 @@ class RacksActivity : AppCompatActivity() {
                 intent.putExtra("addWHName",warehouseName)
                 intent.putExtra("addRackNo",selectedRackNo)
                 intent.putExtra("addRackName",selectedRackName)
+                intent.putExtra("addRackCode",rackCode)
+                intent.putExtra("addRackCap",capacity)
                 intent.putExtra("AddRackKey",true)
                 startActivity(intent)
             }
@@ -152,7 +152,7 @@ class RacksActivity : AppCompatActivity() {
 
     }
 
-    fun openActivity(rackName: String?, rackNo: String){
+    fun openActivity(rackName: String?, rackNo: String, rackCode: String){
 
         if (isNetworkConnected(this))
         {
@@ -164,6 +164,8 @@ class RacksActivity : AppCompatActivity() {
             intent.putExtra("updateWhName",warehouseName)
             intent.putExtra("updateRackName",rackName)
             intent.putExtra("updateRackNo",rackNo)
+            intent.putExtra("updateRackCode",rackCode)
+            intent.putExtra("updateRackCap",capacity)
             intent.putExtra("updateRackKey",true)
             startActivity(intent)
         }
@@ -252,7 +254,6 @@ class RacksActivity : AppCompatActivity() {
                                         toast("Nothing to print!")
                                     }
                                     binding.availableRacks.gone()
-                                    binding.rackAddBTN.isEnabled = false
                                 }
                             }
                             catch(e:Exception){
@@ -292,31 +293,42 @@ class RacksActivity : AppCompatActivity() {
 
                                     bmpList.clear()
                                     textList.clear()
-
+                                    binding.warehouseSpinnerCont.visible()
                                     binding.printIV.click { btn->
-                                        for (i in it.data)
+                                        if (isNetworkConnected(this))
                                         {
-                                            generateQRCode("${i.rackCode}")
-                                            textList.add("${i.rackName}")
-                                            Log.i("rackList","${selectedBusLocNo}L-${whCode}-${i.rackCode}")
-                                            Log.i("rackList","${i.rackCode}")
+                                            for (i in it.data)
+                                            {
+                                                generateQRCode("${i.rackCode}")
+                                                textList.add("${i.rackName}")
+                                                Log.i("rackList","${selectedBusLocNo}L-${whCode}-${i.rackCode}")
+                                                Log.i("rackList","${i.rackCode}")
+                                            }
+                                            generatePDF()
                                         }
-                                        generatePDF()
-                                    }
+                                        else
+                                        {
+                                            toast(NoInternetFound)
+                                        }
 
+                                    }
                                     binding.racksRV.apply {
                                         layoutManager = LinearLayoutManager(this@RacksActivity)
                                         adapter = racksAdapter
                                     }
-                                    binding.rackAddBTN.isEnabled = true
+                                    rackCode = it.data[0].rackCode.toString()
+                                    capacity = it.data[0].capacity.toString()
+                                    binding.availableRacks.visible()
                                 }
                                 else
                                 {
                                     binding.racksRV.adapter = null
+                                    binding.warehouseSpinnerCont.gone()
+                                    binding.availableRacks.gone()
                                     binding.printIV.click { btn ->
                                         toast("Nothing to print!")
                                     }
-                                    binding.rackAddBTN.isEnabled = false
+                                    intent.removeExtra("key")
                                 }
                             }
                             catch (e: Exception)
@@ -329,6 +341,10 @@ class RacksActivity : AppCompatActivity() {
                             dialog.dismiss()
                         }
                     }
+                }
+                else
+                {
+                    binding.rackAddBTN.isEnabled = false
                 }
             }
         })

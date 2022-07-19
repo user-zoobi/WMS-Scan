@@ -32,7 +32,7 @@ class RackAdapter(
         with(holder){
             binding.rackTV.text = data.rackName
             binding.editIV.setOnClickListener {
-                (context as RacksActivity).openActivity(data.rackName,data.rackNo.toString())
+                (context as RacksActivity).openActivity(data.rackName,data.rackNo.toString(),data.rackCode.toString())
             }
 
             binding.showQRIV.setOnClickListener {

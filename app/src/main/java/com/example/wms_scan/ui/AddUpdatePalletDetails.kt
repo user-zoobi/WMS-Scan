@@ -23,6 +23,7 @@ import com.example.wms_scan.R
 import com.example.wms_scan.data.response.GetPalletResponse
 import com.example.wms_scan.databinding.ActivityAddUpdatePalletDetailsBinding
 import com.example.wms_scan.databinding.ActivityAddUpdateShelfDetailsBinding
+import java.util.*
 
 class AddUpdatePalletDetails : AppCompatActivity() {
     private lateinit var viewModel: MainViewModel
@@ -36,8 +37,6 @@ class AddUpdatePalletDetails : AppCompatActivity() {
     private var selectedWHName:String?  = ""
     private var selectedRackName:String?  = ""
     private var selectedShelfName:String?  = ""
-    private var selectedPalletName:String?  = ""
-    private var selectedPalletNo:String?  = ""
     private var updatedBusLocNo:String?  = ""
     private var updatedBusLocName:String?  = ""
     private var updatedWarehouseName:String?  = ""
@@ -49,6 +48,9 @@ class AddUpdatePalletDetails : AppCompatActivity() {
     private var updatedPalletNo:String?  = ""
     private var updatedPalletName:String?  = ""
     private var palletName = ""
+    private var palletCap = ""
+    private var palletCode = ""
+    private var deviceId = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -75,6 +77,7 @@ class AddUpdatePalletDetails : AppCompatActivity() {
         binding.loginTimeTV.text = LocalPreferences.getString(this,
             LocalPreferences.AppLoginPreferences.loginTime
         )
+        deviceId = UUID.randomUUID().toString()
 
         when{
             intent.extras?.getBoolean("UpdatePalletKey") == true -> {
@@ -110,6 +113,8 @@ class AddUpdatePalletDetails : AppCompatActivity() {
                 selectedWHName = intent.extras?.getString("addWHName")
                 selectedRackName = intent.extras?.getString("addRackName")
                 selectedShelfName = intent.extras?.getString("addShelfName")
+                palletCap = intent.extras?.getString("palletCap").toString()
+                palletCode = intent.extras?.getString("palletCode").toString()
 
                 binding.businessTV.text = selectedBusLocName
                 binding.warehouseTV.text = selectedWHName
@@ -130,12 +135,12 @@ class AddUpdatePalletDetails : AppCompatActivity() {
             viewModel.addPallet(
                 Utils.getSimpleTextBody("0"),
                 Utils.getSimpleTextBody(palletName),
-                Utils.getSimpleTextBody("P-1"),
+                Utils.getSimpleTextBody(palletCode),
                 Utils.getSimpleTextBody("$selectedShelveNo"),
-                Utils.getSimpleTextBody("20"),
+                Utils.getSimpleTextBody(palletCap),
                 Utils.getSimpleTextBody("$selectedBusLocNo"),
                 Utils.getSimpleTextBody("${LocalPreferences.getInt(this, userNo)}"),
-                Utils.getSimpleTextBody("TEST"),
+                Utils.getSimpleTextBody(deviceId),
             )
             finish()
 
@@ -147,12 +152,12 @@ class AddUpdatePalletDetails : AppCompatActivity() {
             viewModel.addPallet(
                 Utils.getSimpleTextBody("$updatedPalletNo"),
                 Utils.getSimpleTextBody(palletName),
-                Utils.getSimpleTextBody("P-1"),
+                Utils.getSimpleTextBody(palletCode),
                 Utils.getSimpleTextBody("$updatedShelfNo"),
-                Utils.getSimpleTextBody("20"),
+                Utils.getSimpleTextBody(palletCap),
                 Utils.getSimpleTextBody("$updatedBusLocNo"),
                 Utils.getSimpleTextBody("${LocalPreferences.getInt(this, userNo)}"),
-                Utils.getSimpleTextBody("TEST"),
+                Utils.getSimpleTextBody(deviceId),
             )
             finish()
         }

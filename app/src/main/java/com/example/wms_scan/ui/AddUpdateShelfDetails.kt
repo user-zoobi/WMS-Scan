@@ -21,6 +21,7 @@ import com.example.scanmate.viewModel.MainViewModel
 import com.example.wms_scan.R
 import com.example.wms_scan.adapter.shelf.ShelfAdapter
 import com.example.wms_scan.databinding.ActivityAddUpdateShelfDetailsBinding
+import java.util.*
 
 class AddUpdateShelfDetails : AppCompatActivity() {
     private lateinit var viewModel: MainViewModel
@@ -43,6 +44,11 @@ class AddUpdateShelfDetails : AppCompatActivity() {
     private var updatedShelfNo:String? = ""
     private var updatedShelfName:String? = ""
     private var shelfNameInput = ""
+    private var shelveCapacity = ""
+    private var updatedShelveCode = ""
+    private var updatedShelveCapacity = ""
+    private var shelveCode = ""
+    private var deviceId = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,6 +65,7 @@ class AddUpdateShelfDetails : AppCompatActivity() {
         supportActionBar?.hide()
         setTransparentStatusBarColor(R.color.transparent)
         dialog = CustomProgressDialog(this)
+        deviceId = UUID.randomUUID().toString()
 
         binding.userNameTV.text = LocalPreferences.getString(this,
             LocalPreferences.AppLoginPreferences.userName
@@ -81,6 +88,8 @@ class AddUpdateShelfDetails : AppCompatActivity() {
                 selectedRackNo = intent.extras?.getString("addRackNo")
                 selectedShelveName = intent.extras?.getString("addShelfName")
                 selectedShelveNo = intent.extras?.getString("addShelfNo")
+                shelveCapacity = intent.extras?.getString("shelfCap").toString()
+                shelveCode = intent.extras?.getString("shelfCode").toString()
 
                 binding.busLocTV.text = selectedBusLocName
                 binding.warehouseTV.text = selectedWareHouseName
@@ -103,6 +112,8 @@ class AddUpdateShelfDetails : AppCompatActivity() {
                 updatedRackNo = intent.extras?.getString("updateRackNo")
                 updatedShelfName = intent.extras?.getString("updateShelfName")
                 updatedShelfNo = intent.extras?.getString("updateShelfNo")
+                updatedShelveCode = intent.extras?.getString("updatedShelfCode").toString()
+                updatedShelveCapacity = intent.extras?.getString("updatedShelfCap").toString()
 
                 binding.busLocTV.text = updatedBusName
                 binding.warehouseTV.text = updatedWhName
@@ -128,13 +139,13 @@ class AddUpdateShelfDetails : AppCompatActivity() {
                 Utils.getSimpleTextBody("0"),
                 Utils.getSimpleTextBody("$selectedRackNo"),
                 Utils.getSimpleTextBody(shelfNameInput),
-                Utils.getSimpleTextBody("S-1"),
-                Utils.getSimpleTextBody("10"),
+                Utils.getSimpleTextBody(shelveCode),
+                Utils.getSimpleTextBody(shelveCapacity),
                 Utils.getSimpleTextBody("$selectedBusLocNo"),
                 Utils.getSimpleTextBody(
                     LocalPreferences.getInt(this, LocalPreferences.AppLoginPreferences.userNo).toString()
                 ),
-                Utils.getSimpleTextBody("TEST"),
+                Utils.getSimpleTextBody(deviceId),
             )
             Log.i("shelfValues","THE KEYS ARE VALUES WITH selectedBusLocNo :$selectedBusLocNo\n $selectedBusLocName\n")
             finish()
@@ -146,13 +157,13 @@ class AddUpdateShelfDetails : AppCompatActivity() {
                 Utils.getSimpleTextBody("$updatedShelfNo"),
                 Utils.getSimpleTextBody("$updatedRackNo"),
                 Utils.getSimpleTextBody(shelfNameInput),
-                Utils.getSimpleTextBody("S-1"),
-                Utils.getSimpleTextBody("10"),
+                Utils.getSimpleTextBody(updatedShelveCode),
+                Utils.getSimpleTextBody(updatedShelveCapacity),
                 Utils.getSimpleTextBody("$updatedBusLocNo"),
                 Utils.getSimpleTextBody(
                     LocalPreferences.getInt(this, LocalPreferences.AppLoginPreferences.userNo).toString()
                 ),
-                Utils.getSimpleTextBody("TEST"),
+                Utils.getSimpleTextBody(deviceId)
             )
             finish()
 

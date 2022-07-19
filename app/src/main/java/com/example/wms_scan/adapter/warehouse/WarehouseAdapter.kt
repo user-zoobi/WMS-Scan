@@ -41,7 +41,9 @@ class WarehouseAdapter(
 
             binding.editIV.setOnClickListener {
                 if (isNetworkConnected(context)){
-                    (context as WarehouseActivity).performAction(data.wHName, data.wHNo.toString())
+                    (context as WarehouseActivity).performAction(
+                        data.wHName, data.wHNo.toString(),data.wHCode.toString()
+                    )
                 }
                 else
                 {

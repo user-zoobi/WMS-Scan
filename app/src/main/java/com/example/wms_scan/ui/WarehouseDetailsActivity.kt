@@ -26,6 +26,7 @@ import com.example.wms_scan.R
 import com.example.wms_scan.adapter.shelf.ShelfAdapter
 import com.example.wms_scan.adapter.warehouse.WarehouseAdapter
 import com.example.wms_scan.databinding.ActivityWarehouseDetailsBinding
+import java.util.*
 
 class WarehouseDetailsActivity : AppCompatActivity() {
     private lateinit var binding: ActivityWarehouseDetailsBinding
@@ -38,7 +39,10 @@ class WarehouseDetailsActivity : AppCompatActivity() {
     private var selectedWhName:String? = ""
     private var updatedBusLocNo:String? = ""
     private var updatedBusLocName:String? = ""
+    private var addWhCode:String? = ""
     private var dataStatus:String = ""
+    private var deviceId = ""
+    private var updatedwhCode = ""
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -57,7 +61,7 @@ class WarehouseDetailsActivity : AppCompatActivity() {
         supportActionBar?.hide()
         setTransparentStatusBarColor(R.color.transparent)
         dialog = CustomProgressDialog(this)
-
+        deviceId = UUID.randomUUID().toString()
         binding.toolbar.click {
             clearPreferences(this)
         }
@@ -78,6 +82,7 @@ class WarehouseDetailsActivity : AppCompatActivity() {
                 selectedBusLocName = intent.extras?.getString("addBusName")
                 selectedBusLocNo = intent.extras?.getString("addBusLocNo")
                 selectedWHNo = intent.extras?.getString("addWhNo")
+                addWhCode = intent.extras?.getString("addWhCode")
                 binding.busLocTV.text = selectedBusLocName
                 binding.updateWarehouseET.text = selectedWhName?.toEditable()
                 Log.i("warehouseValues","THE KEYS ARE VALUES WITH selectedBusLocNo :$selectedBusLocNo\n $selectedBusLocName\n $selectedWHNo")
@@ -88,6 +93,7 @@ class WarehouseDetailsActivity : AppCompatActivity() {
                 updatedBusLocNo = intent.extras?.getString("updateBusLocNo")
                 selectedWHNo = intent.extras?.getString("updateWhNo")
                 selectedWhName = intent.extras?.getString("updateWhName")
+                updatedwhCode = intent.extras?.getString("updateWhCode").toString()
                 binding.editDetailTV.text = "Update to"
                 binding.busLocTV.text = updatedBusLocName
                 binding.updateWarehouseET.text = selectedWhName?.toEditable()
@@ -107,10 +113,10 @@ class WarehouseDetailsActivity : AppCompatActivity() {
                 viewModel.addUpdateWarehouse(
                     "0",
                     updatedWarehouseName,
-                    "WH-1",
+                    "$addWhCode",
                     "$selectedBusLocNo",
                     LocalPreferences.getInt(this, userNo).toString(),
-                    "Test-PC"
+                    "$deviceId"
                 )
                 LocalPreferences.put(this, isRefreshRequired, true)
                 finish()
@@ -121,10 +127,10 @@ class WarehouseDetailsActivity : AppCompatActivity() {
                 viewModel.addUpdateWarehouse(
                     "$selectedWHNo",
                     "$updatedWarehouseName",
-                    "WH-1",
+                    "$updatedwhCode",
                     "$updatedBusLocNo",
                     LocalPreferences.getInt(this, userNo).toString(),
-                    "Test-PC"
+                    "$deviceId"
                 )
         }
 

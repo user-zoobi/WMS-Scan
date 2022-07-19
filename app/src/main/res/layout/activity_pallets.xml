@@ -24,7 +24,7 @@
         android:layout_marginTop="@dimen/_35sdp"
         android:layout_marginEnd="@dimen/_20sdp"
         android:layout_marginBottom="@dimen/_5sdp"
-        android:background="@drawable/grey_rounded_bg"
+        android:background="@drawable/grey_circle_bg"
         android:padding="@dimen/_5sdp"
         android:src="@drawable/logout" />
 
@@ -81,7 +81,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/loginTimeTV"
-        android:layout_marginTop="@dimen/_20sdp">
+        android:layout_marginTop="25dp">
 
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
@@ -230,29 +230,8 @@
 
                 </com.google.android.material.card.MaterialCardView>
 
-
-                <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/palletSpinnerCont"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/_5sdp"
-                    android:layout_marginTop="@dimen/_10sdp"
-                    android:layout_marginEnd="@dimen/_5sdp"
-                    android:layout_marginBottom="@dimen/_5sdp"
-                    android:visibility="gone"
-                    app:cardElevation="@dimen/_5sdp">
-
-                    <androidx.appcompat.widget.AppCompatSpinner
-                        android:id="@+id/palletSpinner"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:maxLines="1"
-                        android:paddingStart="@dimen/_20sdp"
-                        android:spinnerMode="dropdown" />
-
-                </com.google.android.material.card.MaterialCardView>
-
                 <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/availablePallets"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_20sdp"

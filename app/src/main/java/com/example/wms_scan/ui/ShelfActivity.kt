@@ -68,7 +68,9 @@ class ShelfActivity : AppCompatActivity() {
     private val bmpList = mutableListOf<Bitmap>()
     private var STORAGE_CODE = 1001
     private var rackCode = ""
+    private var shelfCapacity = ""
     private var whCode = ""
+    private var shelfCode = ""
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -138,6 +140,8 @@ class ShelfActivity : AppCompatActivity() {
                 intent.putExtra("addBusLocName",busLocName)
                 intent.putExtra("addWHName",warehouseName)
                 intent.putExtra("addRackName",rackName)
+                intent.putExtra("shelfCap",shelfCapacity)
+                intent.putExtra("shelfCode",shelfCode)
                 intent.putExtra("AddShelfKey",true)
                 startActivity(intent)
             }
@@ -153,8 +157,8 @@ class ShelfActivity : AppCompatActivity() {
 
     }
 
-    fun showAction(shelfName:String,shelfNo:String){
-        if (Utils.isNetworkConnected(this))
+    fun showAction(shelfName:String,shelfNo:String,shelfCode:String){
+        if (isNetworkConnected(this))
         {
             val intent = Intent(this, AddUpdateShelfDetails::class.java)
 
@@ -166,6 +170,8 @@ class ShelfActivity : AppCompatActivity() {
             intent.putExtra("updateWHName",warehouseName)
             intent.putExtra("updateRackName",rackName)
             intent.putExtra("updateShelfName",shelfName)
+            intent.putExtra("updatedShelfCode",shelfCode)
+            intent.putExtra("updatedShelfCap",shelfCapacity)
             intent.putExtra("UpdateShelfKey",true)
             startActivity(intent)
         }
@@ -216,7 +222,6 @@ class ShelfActivity : AppCompatActivity() {
                                 binding.shelfRV.adapter = null
                                 binding.warehouseSpinnerCont.gone()
                                 binding.rackSpinnerCont.gone()
-
                                 binding.printIV.click {
                                     toast("Nothing to print!")
                                 }
@@ -254,12 +259,10 @@ class ShelfActivity : AppCompatActivity() {
                                 binding.warehouseSpinnerCont.visible()
                                 binding.rackSpinnerCont.visible()
                                 showWarehouseSpinner(it.data)
-                                binding.shelfAddBTN.isEnabled = true
                             }
                             else
                             {
                                 binding.shelfRV.adapter = null
-                                binding.shelfAddBTN.isEnabled = false
                                 binding.printIV.click {
                                     toast("Nothing to print!")
                                 }
@@ -296,13 +299,11 @@ class ShelfActivity : AppCompatActivity() {
                             if(it.data?.get(0)?.status == true)
                             {
                                 showRackSpinner(it.data)
-                                binding.shelfAddBTN.isEnabled = true
                             }
                             else
                             {
                                 binding.shelfRV.adapter = null
-                                binding.shelfAddBTN.isEnabled = false
-
+                                intent.removeExtra("key")
                                 binding.printIV.click {
                                     toast("Nothing to print!")
                                 }
@@ -320,7 +321,6 @@ class ShelfActivity : AppCompatActivity() {
                 Status.ERROR ->{
                     dialog.dismiss()
                 }
-
             }
         })
 
@@ -344,6 +344,8 @@ class ShelfActivity : AppCompatActivity() {
 
                                     showShelfSpinner(it.data)
                                     shelfList = ArrayList()
+                                    shelfCode = it.data[0].shelfCode.toString()
+                                    shelfCapacity = it.data[0].capacity.toString()
                                     binding.warehouseSpinnerCont.visible()
                                     binding.rackSpinnerCont.visible()
                                     shelfAdapter = ShelfAdapter(this,  it.data as ArrayList<GetShelfResponse>)
@@ -367,13 +369,10 @@ class ShelfActivity : AppCompatActivity() {
                                         adapter = shelfAdapter
                                         layoutManager = LinearLayoutManager(this@ShelfActivity)
                                     }
-                                    binding.shelfAddBTN.isEnabled = true
                                 }
                                 else
                                 {
                                     binding.shelfRV.adapter = null
-                                    binding.shelfAddBTN.isEnabled = false
-                                    binding.rackSpinnerCont.gone()
                                     binding.printIV.click { btn ->
                                         toast("Nothing to print!")
                                     }

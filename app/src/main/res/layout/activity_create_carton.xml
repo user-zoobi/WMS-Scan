@@ -24,7 +24,7 @@
         android:layout_marginTop="@dimen/_50sdp"
         android:layout_marginEnd="@dimen/_20sdp"
         android:layout_marginBottom="@dimen/_5sdp"
-        android:background="@drawable/grey_rounded_bg"
+        android:background="@drawable/grey_circle_bg"
         android:padding="@dimen/_5sdp"
         android:src="@drawable/logout" />
 

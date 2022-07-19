@@ -24,7 +24,7 @@
         android:layout_marginTop="@dimen/_35sdp"
         android:layout_marginEnd="@dimen/_20sdp"
         android:layout_marginBottom="@dimen/_5sdp"
-        android:background="@drawable/grey_rounded_bg"
+        android:background="@drawable/grey_circle_bg"
         android:padding="@dimen/_5sdp"
         android:src="@drawable/logout" />
 
@@ -101,9 +101,9 @@
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
                     android:layout_marginStart="@dimen/_20sdp"
-                    android:layout_marginEnd="@dimen/_20sdp">
+                    android:layout_marginEnd="@dimen/_20sdp"
+                    android:orientation="vertical">
 
                     <RelativeLayout
                         android:layout_width="match_parent"
@@ -147,6 +147,7 @@
 
 
                     </RelativeLayout>
+
                     <com.google.android.material.card.MaterialCardView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -168,6 +169,7 @@
                             android:visibility="visible" />
 
                     </com.google.android.material.card.MaterialCardView>
+
                     <com.google.android.material.card.MaterialCardView
                         android:id="@+id/warehouseSpinnerCont"
                         android:layout_width="match_parent"
@@ -189,6 +191,7 @@
                             android:theme="@style/SpinnerScrollBar" />
 
                     </com.google.android.material.card.MaterialCardView>
+
                     <com.google.android.material.card.MaterialCardView
                         android:id="@+id/rackSpinnerCont"
                         android:layout_width="match_parent"
@@ -210,6 +213,7 @@
                             android:theme="@style/SpinnerScrollBar" />
 
                     </com.google.android.material.card.MaterialCardView>
+
                     <com.google.android.material.card.MaterialCardView
                         android:id="@+id/shelfSpinnerCont"
                         android:layout_width="match_parent"
@@ -230,7 +234,9 @@
                             android:spinnerMode="dropdown" />
 
                     </com.google.android.material.card.MaterialCardView>
+
                     <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/availableShelfTV"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/_20sdp"
@@ -238,6 +244,7 @@
                         android:text="Available Shelf"
                         android:textColor="@color/black"
                         android:textSize="@dimen/_20ssp" />
+
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/shelfRV"
                         android:layout_width="match_parent"
@@ -249,8 +256,6 @@
                         tools:listitem="@layout/warehouse_list_view" />
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
-
-
 
 
             </androidx.appcompat.widget.LinearLayoutCompat>

@@ -29,7 +29,6 @@ import com.example.scanmate.data.response.GetWarehouseResponse
 import com.example.scanmate.data.response.UserLocationResponse
 import com.example.scanmate.extensions.*
 import com.example.scanmate.util.Constants.Toast.NoInternetFound
-import com.example.scanmate.util.Constants.Toast.noRecordFound
 import com.example.scanmate.util.CustomProgressDialog
 import com.example.scanmate.util.LocalPreferences
 import com.example.scanmate.util.LocalPreferences.AppLoginPreferences.isRefreshRequired
@@ -59,8 +58,8 @@ class WarehouseActivity : AppCompatActivity() {
     private lateinit var viewModel: MainViewModel
     private lateinit var dialog: CustomProgressDialog
     private var selectedBusLocNo = ""
+    private var whcode = ""
     private var businessLocName = ""
-    private lateinit var bottomSheet: QrCodeDetailActivity
     private lateinit var bmp:Bitmap
     private val bmpList = mutableListOf<Bitmap>()
     private val textList = mutableListOf<String>()
@@ -123,8 +122,8 @@ class WarehouseActivity : AppCompatActivity() {
                     }
                     else
                     {
-                        toast("No result found")
                         binding.whAddBTN.isEnabled = false
+                        toast("No result found")
                     }
                 }
                 Status.ERROR ->{
@@ -152,6 +151,21 @@ class WarehouseActivity : AppCompatActivity() {
                             if(it.data?.get(0)?.status == true)
                             {
                                 it.data[0].wHName?.let { it1 -> Log.i("warehouseResponse", it1) }
+                                whcode = it.data[0].wHCode.toString()
+                                binding.whAddBTN.click{
+                                    if (isNetworkConnected(this)){
+                                        val intent = Intent(this, WarehouseDetailsActivity::class.java)
+                                        intent.putExtra("addBusName",businessLocName)
+                                        intent.putExtra("addBusLocNo",selectedBusLocNo)
+                                        intent.putExtra("addWhCode",whcode)
+                                        intent.putExtra("AddWHKey",true)
+                                        startActivity(intent)
+                                    }
+                                    else
+                                    {
+                                        toast(NoInternetFound)
+                                    }
+                                }
 
                                 // DATA FOR QR CODE /////////////////
 
@@ -186,19 +200,19 @@ class WarehouseActivity : AppCompatActivity() {
                                 binding.whAddBTN.isEnabled = true
                             }
                             else{
+
                                 binding.warehouseRV.adapter = null
                                 binding.availableWHTV.gone()
-                                toast("No record found")
                                 binding.printIV.click { btn ->
                                     toast("Nothing to print!")
                                 }
-                                binding.whAddBTN.isEnabled = false
                             }
                         }
                         else
                         {
                             binding.warehouseRV.adapter = null
                             toast("No result found")
+                            binding.warehouseCont.gone()
                         }
                     }
 
@@ -251,6 +265,7 @@ class WarehouseActivity : AppCompatActivity() {
             else
             {
                 toast(NoInternetFound)
+                binding.whAddBTN.isEnabled = false
             }
         }
 
@@ -258,12 +273,13 @@ class WarehouseActivity : AppCompatActivity() {
 
     }
 
-    fun performAction(whName: String?, whNo: String) {
+    fun performAction(whName: String?, whNo: String, whCode:String) {
         val intent = Intent(this, WarehouseDetailsActivity::class.java)
         intent.putExtra("updateBusName",businessLocName)
         intent.putExtra("updateBusLocNo",selectedBusLocNo)
         intent.putExtra("updateWhName",whName)
         intent.putExtra("updateWhNo",whNo)
+        intent.putExtra("updateWhCode",whcode)
         intent.putExtra("UpdateWHKey",true)
         startActivity(intent)
     }

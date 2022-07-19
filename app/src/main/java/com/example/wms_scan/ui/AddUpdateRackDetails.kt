@@ -20,6 +20,7 @@ import com.example.scanmate.util.Utils
 import com.example.scanmate.viewModel.MainViewModel
 import com.example.wms_scan.R
 import com.example.wms_scan.databinding.ActivityAddUpdateRackDetailsBinding
+import java.util.*
 
 class AddUpdateRackDetails : AppCompatActivity() {
     private lateinit var viewModel: MainViewModel
@@ -38,6 +39,11 @@ class AddUpdateRackDetails : AppCompatActivity() {
     private var updatedRackNo:String? = ""
     private var updatedRackName:String? = ""
     private var rackName = ""
+    private var rackCode = ""
+    private var rackCap = ""
+    private var deviceId = ""
+    private var updatedRackCode = ""
+    private var updatedRackCap = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,13 +62,13 @@ class AddUpdateRackDetails : AppCompatActivity() {
             viewModel.addRack(
                 Utils.getSimpleTextBody("0"),
                 Utils.getSimpleTextBody(rackName),
-                Utils.getSimpleTextBody("R-1"),
+                Utils.getSimpleTextBody(rackCode),
                 Utils.getSimpleTextBody(selectedWareHouseNo),
-                Utils.getSimpleTextBody("20"),
+                Utils.getSimpleTextBody(rackCap),
                 Utils.getSimpleTextBody(selectedBusLocNo),
                 Utils.getSimpleTextBody(
                     LocalPreferences.getInt(this,userNo).toString()),
-                Utils.getSimpleTextBody("TEST"),
+                Utils.getSimpleTextBody(deviceId),
             )
             LocalPreferences.getBoolean(this, isRefreshRequired)
         }
@@ -72,12 +78,12 @@ class AddUpdateRackDetails : AppCompatActivity() {
             viewModel.addRack(
                 Utils.getSimpleTextBody("$updatedRackNo"),
                 Utils.getSimpleTextBody("$rackName"),
-                Utils.getSimpleTextBody("R-1"),
+                Utils.getSimpleTextBody(updatedRackCode),
                 Utils.getSimpleTextBody("$updatedWHNo"),
-                Utils.getSimpleTextBody("20"),
+                Utils.getSimpleTextBody(updatedRackCap),
                 Utils.getSimpleTextBody("$updatedBusLocNo"),
                 Utils.getSimpleTextBody("${LocalPreferences.getInt(this, userNo)}"),
-                Utils.getSimpleTextBody("TEST"),
+                Utils.getSimpleTextBody(deviceId),
             )
             finish()
         }
@@ -92,6 +98,7 @@ class AddUpdateRackDetails : AppCompatActivity() {
         supportActionBar?.hide()
         setTransparentStatusBarColor(R.color.transparent)
         dialog = CustomProgressDialog(this)
+        deviceId = UUID.randomUUID().toString()
 
         binding.userNameTV.text = LocalPreferences.getString(this,
             LocalPreferences.AppLoginPreferences.userName
@@ -111,6 +118,8 @@ class AddUpdateRackDetails : AppCompatActivity() {
                 updatedWHName = intent.extras?.getString("updateWhName")
                 updatedRackName = intent.extras?.getString("updateRackName")
                 updatedRackNo = intent.extras?.getString("updateRackNo")
+                updatedRackCode = intent.extras?.getString("updateRackCode").toString()
+                updatedRackCap = intent.extras?.getString("updateRackCap").toString()
 
                 binding.warehouseTV.text = updatedWHName
                 binding.businessLocTV.text = updatedBusLocName
@@ -126,6 +135,8 @@ class AddUpdateRackDetails : AppCompatActivity() {
                 selectedBusLocName = intent.extras?.getString("addBusName")!!
                 selectedWareHouseNo = intent.extras?.getString("addWHNo")!!
                 selectedWHName = intent.extras?.getString("addWHName")!!
+                rackCode = intent.extras?.getString("addRackCode")!!
+                rackCap = intent.extras?.getString("addRackCap")!!
                 binding.businessLocTV.text = selectedBusLocName
                 binding.warehouseTV.text = selectedWHName
             }

@@ -75,6 +75,8 @@ class PalletsActivity : AppCompatActivity() {
     private var shelfCode = ""
     private var rackCode = ""
     private var whCode = ""
+    private var capacity = ""
+    private var palletCode = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -140,21 +142,24 @@ class PalletsActivity : AppCompatActivity() {
         }
 
         binding.palletAddBTN.click {
-            if (isNetworkConnected(this)){
-                val intent = Intent(this, AddUpdatePalletDetails::class.java)
-                intent.putExtra("addBusLocNo",selectedBusLocNo)
-                intent.putExtra("addWHNo",selectedWareHouseNo)
-                intent.putExtra("addRackNo",selectedRackNo)
-                intent.putExtra("addShelfNo",selectedShelveNo)
-                intent.putExtra("addBusLocName",busLocName)
-                intent.putExtra("addWHName",warehouseName)
-                intent.putExtra("addRackName",rackName)
-                intent.putExtra("addShelfName",shelfName)
-                intent.putExtra("AddPalletKey",true)
-                startActivity(intent)
+            if (isNetworkConnected(this))
+            {
+                    val intent = Intent(this, AddUpdatePalletDetails::class.java)
+                    intent.putExtra("addBusLocNo",selectedBusLocNo)
+                    intent.putExtra("addWHNo",selectedWareHouseNo)
+                    intent.putExtra("addRackNo",selectedRackNo)
+                    intent.putExtra("addShelfNo",selectedShelveNo)
+                    intent.putExtra("addBusLocName",busLocName)
+                    intent.putExtra("addWHName",warehouseName)
+                    intent.putExtra("addRackName",rackName)
+                    intent.putExtra("addShelfName",shelfName)
+                    intent.putExtra("palletCode",palletCode)
+                    intent.putExtra("palletCap",capacity)
+                    intent.putExtra("AddPalletKey",true)
+                    startActivity(intent)
             }
-
         }
+
 
         binding.printIV.click {
             try
@@ -233,15 +238,16 @@ class PalletsActivity : AppCompatActivity() {
                                 binding.rackSpinnerCont.visible()
                                 binding.warehouseSpinnerCont.visible()
                                 binding.shelfSpinnerCont.visible()
-                                binding.palletAddBTN.isEnabled = true
                             }
                             else
                             {
+                                binding.warehouseSpinnerCont.gone()
+                                binding.rackSpinnerCont.gone()
+                                binding.shelfSpinnerCont.gone()
                                 binding.palletsRV.adapter = null
                                 binding.printIV.click {
                                     toast("Nothing to print!")
                                 }
-                                binding.palletAddBTN.isEnabled = false
                             }
                         }
                         catch(e:Exception){
@@ -278,15 +284,16 @@ class PalletsActivity : AppCompatActivity() {
                             if(it.data?.get(0)?.status == true)
                             {
                                 showRackSpinner(it.data)
-                                binding.palletAddBTN.isEnabled = true
                             }
                             else
                             {
                                 binding.palletsRV.adapter = null
+                                binding.warehouseSpinnerCont.gone()
+                                binding.rackSpinnerCont.gone()
+                                binding.shelfSpinnerCont.gone()
                                 binding.printIV.click {
                                     toast("Nothing to print!")
                                 }
-                                binding.palletAddBTN.isEnabled = false
                             }
                         }
                         catch (e: Exception)
@@ -308,7 +315,6 @@ class PalletsActivity : AppCompatActivity() {
             }
         })
 
-
         /**
          *      GET SHELF OBSERVER
          */
@@ -324,18 +330,15 @@ class PalletsActivity : AppCompatActivity() {
                             {
                                 showShelfSpinner(it.data)
                                 binding.rackSpinnerCont.visible()
-                                binding.warehouseSpinnerCont.visible()
                                 binding.shelfSpinnerCont.visible()
-                                binding.palletAddBTN.isEnabled = true
                             }
                             else
                             {
                                 binding.palletsRV.adapter = null
-                                binding.shelfSpinnerCont.gone()
+                                binding.rackSpinnerCont.gone()
                                 binding.printIV.click {
                                     toast("Nothing to print!")
                                 }
-                                binding.palletAddBTN.isEnabled = false
                             }
                         }
                         catch (e:Exception){
@@ -347,7 +350,6 @@ class PalletsActivity : AppCompatActivity() {
                     {
                         binding.palletsRV.adapter = null
                     }
-
                 }
                 Status.ERROR ->{}
             }
@@ -370,14 +372,18 @@ class PalletsActivity : AppCompatActivity() {
                         LocalPreferences.put(this,isRefreshRequired, true)
                         if(it.data?.get(0)?.status == true)
                         {
+
                             Log.i(success,"Success")
                             palletAdapter = PalletsAdapter(this, it.data)
 
                             bmpList.clear()
+                            capacity = it.data[0].capacity.toString()
+                            palletCode = it.data[0].pilotCode.toString()
                             binding.rackSpinnerCont.visible()
                             binding.warehouseSpinnerCont.visible()
                             binding.shelfSpinnerCont.visible()
                             binding.printIV.click { btn ->
+
                                 for (i in it.data)
                                 {
                                     Log.i("WarehouseCodeName","${whCode}")
@@ -398,7 +404,7 @@ class PalletsActivity : AppCompatActivity() {
                                 adapter = palletAdapter
                                 layoutManager = LinearLayoutManager(this@PalletsActivity)
                             }
-                            binding.palletAddBTN.isEnabled = true
+
                         }
                         else
                         {
@@ -406,10 +412,6 @@ class PalletsActivity : AppCompatActivity() {
                             binding.printIV.click { btn ->
                                 toast("Nothing to print!")
                             }
-                            binding.rackSpinnerCont.gone()
-                            binding.warehouseSpinnerCont.gone()
-                            binding.shelfSpinnerCont.gone()
-                            binding.palletAddBTN.isEnabled = false
                         }
                     }
                     catch (e:Exception)
@@ -621,7 +623,6 @@ class PalletsActivity : AppCompatActivity() {
         val settings: SharedPreferences =
             context.getSharedPreferences(LocalPreferences.AppLoginPreferences.PREF, Context.MODE_PRIVATE)
         settings.edit().clear().apply()
-        gotoActivity(LoginActivity::class.java)
     }
 
     override fun onResume() {

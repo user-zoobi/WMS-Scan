@@ -19,6 +19,8 @@ class PalletsAdapter(
     private val list:List<GetPalletResponse>
     ) : RecyclerView.Adapter<PalletsAdapter.ViewHolder>() {
 
+    private val palletCap = 2
+
     inner class ViewHolder(view: View): RecyclerView.ViewHolder(view){
         val binding = PalletListViewBinding.bind(view)
     }
@@ -45,10 +47,11 @@ class PalletsAdapter(
                     data.pilotNo.toString()
                 )
             }
-
         }
     }
 
-    override fun getItemCount(): Int = list.size
+    override fun getItemCount(): Int =
+            list.size
+
 
 }

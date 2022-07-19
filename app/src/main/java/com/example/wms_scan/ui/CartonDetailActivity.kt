@@ -107,13 +107,10 @@ class CartonDetailActivity : AppCompatActivity() {
                     Log.i("palletCode","${it.data?.get(0)?.pilotCode}")
 
                     val warehouse = it.data?.get(0)?.wHName.toString()
-                    val whNo = it.data?.get(0)?.wHNo.toString()
                     val racks = it.data?.get(0)?.rackName.toString()
-                    val rackNo = it.data?.get(0)?.rackNo.toString()
                     val shelf = it.data?.get(0)?.shelfName.toString()
                     val shelfNo = it.data?.get(0)?.shelfNo.toString()
                     val pallet = it.data?.get(0)?.pilotName.toString()
-                    val palletNo = it.data?.get(0)?.pilotNo.toString()
                     val busLoc = it.data?.get(0)?.locationNo.toString()
                     hierarchyLoc = it.data?.get(0)?.locationNo.toString()
                     Log.i("shelfNoCarton",shelfNo)
