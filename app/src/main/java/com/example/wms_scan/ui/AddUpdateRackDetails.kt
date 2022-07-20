@@ -67,6 +67,13 @@ class AddUpdateRackDetails : AppCompatActivity() {
                 {
                     toast("Please enter greater capacity")
                 }
+                else if (
+                    binding.shelfCapacityET.text.isNullOrEmpty() or
+                    binding.rackNameET.text.isNullOrEmpty()
+                )
+                {
+                    toast("Field must not be empty")
+                }
                 else
                 {
                     viewModel.addRack(
@@ -93,6 +100,13 @@ class AddUpdateRackDetails : AppCompatActivity() {
                 if(binding.shelfCapacityET.text.toString() == "0")
                 {
                     toast("Please enter greater capacity")
+                }
+                else if (
+                    binding.shelfCapacityET.text.isNullOrEmpty() or
+                    binding.rackNameET.text.isNullOrEmpty()
+                )
+                {
+                    toast("Field must not be empty")
                 }
                 else
                 {

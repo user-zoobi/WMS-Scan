@@ -141,6 +141,10 @@ class AddUpdateShelfDetails : AppCompatActivity() {
             {
                 toast("Please enter greater capacity")
             }
+            else if (binding.palletCapacityET.text.isNullOrEmpty())
+            {
+                toast("Field must not be empty")
+            }
             else
             {
                 viewModel.addShelf(
@@ -169,9 +173,17 @@ class AddUpdateShelfDetails : AppCompatActivity() {
         binding.updateShelfBtn.click {
             shelfNameInput = binding.shelfNameET.text.toString()
             palletCapacity = binding.palletCapacityET.text.toString()
+
             if(binding.palletCapacityET.text.toString() == "0")
             {
                 toast("Please enter greater capacity")
+            }
+            else if (
+                binding.palletCapacityET.text.isNullOrEmpty()
+                or binding.shelfNameET.text.isNullOrEmpty()
+            )
+            {
+                toast("Field must not be empty")
             }
             else
             {
