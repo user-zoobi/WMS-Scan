@@ -168,6 +168,7 @@
                         android:layout_height="@dimen/_50sdp"
                         android:background="@color/white"
                         android:hint="Add warehouse"
+                        android:maxLines="1"
                         android:paddingStart="@dimen/_20sdp" />
 
                 </com.google.android.material.card.MaterialCardView>

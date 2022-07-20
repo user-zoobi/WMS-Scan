@@ -21,6 +21,7 @@ import com.budiyev.android.codescanner.ScanMode
 import com.example.scanmate.data.callback.Status
 import com.example.scanmate.extensions.obtainViewModel
 import com.example.scanmate.extensions.setTransparentStatusBarColor
+import com.example.scanmate.extensions.toast
 import com.example.scanmate.util.CustomProgressDialog
 import com.example.scanmate.viewModel.MainViewModel
 import com.example.wms_scan.R
@@ -47,20 +48,11 @@ class ScannerCameraActivity : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
         supportActionBar?.hide()
-        codeScanner = CodeScanner(this,binding.cameraSurfaceView)
+
         setTransparentStatusBarColor(R.color.transparent)
         viewModel = obtainViewModel(MainViewModel::class.java)
 
-        if (ContextCompat.checkSelfPermission(
-                this , android.Manifest.permission.CAMERA
-            ) != PackageManager.PERMISSION_GRANTED
-        ) {
-            codeScannerCamera()
-        }
-        else
-        {
-            codeScannerCamera()
-        }
+        codeScannerCamera()
 
         val aniSlide: Animation = AnimationUtils.loadAnimation(this, R.anim.scanner_animation)
         binding.barcodeLine.startAnimation(aniSlide)
@@ -100,6 +92,7 @@ class ScannerCameraActivity : AppCompatActivity() {
 
 
     private fun codeScannerCamera(){
+        codeScanner = CodeScanner(this,binding.cameraSurfaceView)
         // Parameters (default values)
         codeScanner.camera = CodeScanner.CAMERA_BACK // or CAMERA_FRONT or specific camera id
         codeScanner.formats = CodeScanner.ALL_FORMATS // list of type BarcodeFormat,
@@ -164,6 +157,7 @@ class ScannerCameraActivity : AppCompatActivity() {
 
             }
         }
+
         codeScanner.errorCallback = ErrorCallback { // or ErrorCallback.SUPPRESS
             runOnUiThread {
                 Toast.makeText(this, "Camera initialization error: ${it.message}",

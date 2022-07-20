@@ -82,7 +82,8 @@
         android:layout_height="match_parent"
         android:layout_below="@+id/loginTimeTV"
         android:layout_alignParentBottom="true"
-        android:layout_marginTop="14dp"
+        android:layout_marginTop="9dp"
+        android:layout_marginBottom="5dp"
         android:background="@drawable/grey_rounded_bg">
 
         <androidx.appcompat.widget.LinearLayoutCompat
@@ -97,7 +98,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_20sdp"
-                android:layout_marginTop="@dimen/_40sdp"
+                android:layout_marginTop="@dimen/_20sdp"
                 android:fontFamily="@font/amiko"
                 android:text="Add shelf"
                 android:textColor="@color/black"
@@ -212,7 +213,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_50sdp"
                     android:layout_marginStart="@dimen/_20sdp"
-                    android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_5sdp"
                     android:layout_marginEnd="@dimen/_20sdp"
                     android:layout_marginBottom="@dimen/_10sdp"
                     app:cardElevation="@dimen/_10sdp">
@@ -233,7 +234,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/_20sdp"
-                    android:layout_marginTop="@dimen/_20sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
                     android:layout_marginBottom="@dimen/_5sdp"
                     android:fontFamily="@font/amiko"
                     android:text="Warehouse Name"
@@ -265,7 +266,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/_20sdp"
-                    android:layout_marginTop="@dimen/_20sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
                     android:layout_marginBottom="@dimen/_5sdp"
                     android:fontFamily="@font/amiko"
                     android:text="Rack Name"
@@ -279,6 +280,7 @@
                     android:layout_marginStart="@dimen/_20sdp"
                     android:layout_marginEnd="@dimen/_20sdp"
                     android:layout_marginBottom="@dimen/_10sdp"
+                    android:maxLines="1"
                     app:cardElevation="@dimen/_10sdp">
 
                     <androidx.appcompat.widget.AppCompatTextView
@@ -297,7 +299,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/_20sdp"
-                    android:layout_marginTop="@dimen/_20sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
                     android:layout_marginBottom="@dimen/_5sdp"
                     android:fontFamily="@font/amiko"
                     android:text="Shelf Name"
@@ -318,6 +320,37 @@
                         android:layout_height="@dimen/_50sdp"
                         android:background="@color/white"
                         android:hint="@string/add_shelf"
+                        android:maxLines="1"
+                        android:paddingStart="@dimen/_20sdp" />
+
+                </com.google.android.material.card.MaterialCardView>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_20sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_marginBottom="@dimen/_5sdp"
+                    android:fontFamily="@font/amiko"
+                    android:text="Pallet Capacity"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_10ssp" />
+
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_20sdp"
+                    android:layout_marginEnd="@dimen/_20sdp"
+                    android:layout_marginBottom="@dimen/_10sdp"
+                    app:cardElevation="@dimen/_10sdp">
+
+                    <androidx.appcompat.widget.AppCompatEditText
+                        android:id="@+id/palletCapacityET"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_50sdp"
+                        android:background="@color/white"
+                        android:hint="Pallet capacity"
+                        android:inputType="number"
                         android:paddingStart="@dimen/_20sdp" />
 
                 </com.google.android.material.card.MaterialCardView>

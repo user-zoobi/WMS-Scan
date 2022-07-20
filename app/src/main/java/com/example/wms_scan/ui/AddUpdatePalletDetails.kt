@@ -47,6 +47,7 @@ class AddUpdatePalletDetails : AppCompatActivity() {
     private var updatedShelfNo:String?  = ""
     private var updatedPalletNo:String?  = ""
     private var updatedPalletName:String?  = ""
+    private var updatedPalletCode:String?  = ""
     private var palletName = ""
     private var palletCap = ""
     private var palletCode = ""
@@ -92,6 +93,7 @@ class AddUpdatePalletDetails : AppCompatActivity() {
                 updatedShelfName = intent.extras?.getString("updatedShelveName")
                 updatedPalletName= intent.extras?.getString("updatedPalletName")
                 updatedPalletNo = intent.extras?.getString("updatedPalletNo")
+                updatedPalletCode = intent.extras?.getString("updatedPalletCode")
 
                 binding.businessTV.text = updatedBusLocName
                 binding.warehouseTV.text = updatedWarehouseName
@@ -113,7 +115,6 @@ class AddUpdatePalletDetails : AppCompatActivity() {
                 selectedWHName = intent.extras?.getString("addWHName")
                 selectedRackName = intent.extras?.getString("addRackName")
                 selectedShelfName = intent.extras?.getString("addShelfName")
-                palletCap = intent.extras?.getString("palletCap").toString()
                 palletCode = intent.extras?.getString("palletCode").toString()
 
                 binding.businessTV.text = selectedBusLocName
@@ -132,12 +133,13 @@ class AddUpdatePalletDetails : AppCompatActivity() {
         binding.addPalletBtn.click {
             LocalPreferences.put(this,isRefreshRequired, true)
             palletName = binding.palletNameET.text.toString()
+
             viewModel.addPallet(
                 Utils.getSimpleTextBody("0"),
                 Utils.getSimpleTextBody(palletName),
-                Utils.getSimpleTextBody(palletCode),
+                Utils.getSimpleTextBody("0"),
                 Utils.getSimpleTextBody("$selectedShelveNo"),
-                Utils.getSimpleTextBody(palletCap),
+                Utils.getSimpleTextBody(""),
                 Utils.getSimpleTextBody("$selectedBusLocNo"),
                 Utils.getSimpleTextBody("${LocalPreferences.getInt(this, userNo)}"),
                 Utils.getSimpleTextBody(deviceId),
@@ -152,9 +154,9 @@ class AddUpdatePalletDetails : AppCompatActivity() {
             viewModel.addPallet(
                 Utils.getSimpleTextBody("$updatedPalletNo"),
                 Utils.getSimpleTextBody(palletName),
-                Utils.getSimpleTextBody(palletCode),
+                Utils.getSimpleTextBody("0"),
                 Utils.getSimpleTextBody("$updatedShelfNo"),
-                Utils.getSimpleTextBody(palletCap),
+                Utils.getSimpleTextBody(""),
                 Utils.getSimpleTextBody("$updatedBusLocNo"),
                 Utils.getSimpleTextBody("${LocalPreferences.getInt(this, userNo)}"),
                 Utils.getSimpleTextBody(deviceId),

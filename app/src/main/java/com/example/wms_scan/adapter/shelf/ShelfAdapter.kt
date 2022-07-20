@@ -36,7 +36,7 @@ class ShelfAdapter(
             binding.shelfTV.text = data.shelfName
             binding.editIV.setOnClickListener {
                 (context as ShelfActivity).showAction(
-                    data.shelfName.toString(),data.shelfNo.toString(),data.shelfCode.toString()
+                    data.shelfName.toString(),data.shelfNo.toString(),data.shelfCode.toString(),data.capacity.toString()
                 )
             }
             binding.showQRIV.setOnClickListener {

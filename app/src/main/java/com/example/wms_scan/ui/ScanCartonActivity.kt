@@ -22,6 +22,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.budiyev.android.codescanner.AutoFocusMode
 import com.budiyev.android.codescanner.CodeScanner
 import com.budiyev.android.codescanner.DecodeCallback
+import com.budiyev.android.codescanner.ErrorCallback
 import com.budiyev.android.codescanner.ScanMode
 import com.bumptech.glide.util.Util
 import com.example.scanmate.data.callback.Status
@@ -310,6 +311,17 @@ class ScanCartonActivity : AppCompatActivity() {
                 codeScanner.startPreview()
             }
 
+        }
+
+        codeScanner.errorCallback = ErrorCallback { // or ErrorCallback.SUPPRESS
+            runOnUiThread {
+                Toast.makeText(this, "Camera initialization error: ${it.message}",
+                    Toast.LENGTH_LONG).show()
+            }
+        }
+
+        binding.cameraSurfaceView.setOnClickListener {
+            codeScanner.startPreview()
         }
 
     }

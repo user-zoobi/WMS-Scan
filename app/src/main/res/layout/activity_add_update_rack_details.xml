@@ -81,9 +81,9 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/loginTimeTV"
-        android:background="@drawable/grey_rounded_bg"
         android:layout_alignParentBottom="true"
-        android:layout_marginTop="14dp">
+        android:layout_marginTop="14dp"
+        android:background="@drawable/grey_rounded_bg">
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
@@ -270,9 +270,43 @@
                         android:layout_height="@dimen/_50sdp"
                         android:background="@color/white"
                         android:hint="@string/add_rack"
+                        android:maxLines="1"
                         android:paddingStart="@dimen/_20sdp" />
 
                 </com.google.android.material.card.MaterialCardView>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_20sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_marginBottom="@dimen/_5sdp"
+                    android:fontFamily="@font/amiko"
+                    android:text="shelf Capacity"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_10ssp" />
+
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_20sdp"
+                    android:layout_marginTop="@dimen/_2sdp"
+                    android:layout_marginEnd="@dimen/_20sdp"
+                    android:layout_marginBottom="@dimen/_10sdp"
+                    app:cardElevation="@dimen/_5sdp">
+
+                    <androidx.appcompat.widget.AppCompatEditText
+                        android:id="@+id/shelfCapacityET"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_50sdp"
+                        android:background="@color/white"
+                        android:hint="Shelf capacity"
+                        android:inputType="number"
+                        android:maxLines="1"
+                        android:paddingStart="@dimen/_20sdp" />
+
+                </com.google.android.material.card.MaterialCardView>
+
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 

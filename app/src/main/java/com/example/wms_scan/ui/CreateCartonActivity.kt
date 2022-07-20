@@ -21,6 +21,7 @@ import androidx.lifecycle.Observer
 import com.budiyev.android.codescanner.AutoFocusMode
 import com.budiyev.android.codescanner.CodeScanner
 import com.budiyev.android.codescanner.DecodeCallback
+import com.budiyev.android.codescanner.ErrorCallback
 import com.budiyev.android.codescanner.ScanMode
 import com.example.scanmate.data.callback.Status
 import com.example.scanmate.extensions.*
@@ -171,6 +172,13 @@ class CreateCartonActivity : AppCompatActivity() {
                     toast("Scan pallet please")
                 }
                 finish()
+            }
+        }
+
+        codeScanner.errorCallback = ErrorCallback { // or ErrorCallback.SUPPRESS
+            runOnUiThread {
+                Toast.makeText(this, "Camera initialization error: ${it.message}",
+                    Toast.LENGTH_LONG).show()
             }
         }
 

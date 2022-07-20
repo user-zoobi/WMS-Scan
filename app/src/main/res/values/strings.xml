@@ -51,8 +51,10 @@
     <string name="update_shelf">Update shelf details</string>
     <string name="update_pallet">Update pallet details</string>
     <string name="add_shelf">Add shelf</string>
+    <string name="cap_shelf">Shelf Capacity</string>
     <string name="add_rack">Add rack</string>
     <string name="add_pallet">Add pallet</string>
+    <string name="cap_pallet">Pallet Capacity</string>
     <string name="master">Master</string>
     <string name="scan_pallet">Scan your pallet code</string>
     <string name="update_pallet_code">Or update pallet code</string>

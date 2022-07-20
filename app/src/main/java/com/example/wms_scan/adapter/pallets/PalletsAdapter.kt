@@ -37,7 +37,8 @@ class PalletsAdapter(
             binding.editIV.setOnClickListener {
                 (context as PalletsActivity).showAction(
                     data.pilotName.toString(),
-                    data.pilotNo.toString()
+                    data.pilotNo.toString(),
+                    data.pilotCode.toString()
                 )
             }
             binding.showQRIV.setOnClickListener {

@@ -164,7 +164,7 @@
                             android:dropDownHeight="300dp"
                             android:maxLines="1"
                             android:paddingStart="@dimen/_10sdp"
-                            android:spinnerMode="dropdown"
+                            android:spinnerMode="dialog"
                             android:theme="@style/SpinnerScrollBar"
                             android:visibility="visible" />
 
@@ -187,7 +187,7 @@
                             android:dropDownHeight="300dp"
                             android:maxLines="1"
                             android:paddingStart="@dimen/_10sdp"
-                            android:spinnerMode="dropdown"
+                            android:spinnerMode="dialog"
                             android:theme="@style/SpinnerScrollBar" />
 
                     </com.google.android.material.card.MaterialCardView>
@@ -209,7 +209,7 @@
                             android:dropDownHeight="300dp"
                             android:maxLines="1"
                             android:paddingStart="@dimen/_10sdp"
-                            android:spinnerMode="dropdown"
+                            android:spinnerMode="dialog"
                             android:theme="@style/SpinnerScrollBar" />
 
                     </com.google.android.material.card.MaterialCardView>

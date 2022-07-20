@@ -157,7 +157,7 @@ class ShelfActivity : AppCompatActivity() {
 
     }
 
-    fun showAction(shelfName:String,shelfNo:String,shelfCode:String){
+    fun showAction(shelfName:String,shelfNo:String,shelfCode:String,palletCapacity:String){
         if (isNetworkConnected(this))
         {
             val intent = Intent(this, AddUpdateShelfDetails::class.java)
@@ -171,7 +171,7 @@ class ShelfActivity : AppCompatActivity() {
             intent.putExtra("updateRackName",rackName)
             intent.putExtra("updateShelfName",shelfName)
             intent.putExtra("updatedShelfCode",shelfCode)
-            intent.putExtra("updatedShelfCap",shelfCapacity)
+            intent.putExtra("updatedPalletCapacity",palletCapacity)
             intent.putExtra("UpdateShelfKey",true)
             startActivity(intent)
         }
@@ -263,6 +263,8 @@ class ShelfActivity : AppCompatActivity() {
                             else
                             {
                                 binding.shelfRV.adapter = null
+                                binding.warehouseSpinner.onItemSelectedListener = null
+                                binding.rackSpinner.onItemSelectedListener = null
                                 binding.printIV.click {
                                     toast("Nothing to print!")
                                 }
@@ -345,6 +347,7 @@ class ShelfActivity : AppCompatActivity() {
                                     showShelfSpinner(it.data)
                                     shelfList = ArrayList()
                                     shelfCode = it.data[0].shelfCode.toString()
+                                    Log.i("shelfcode",shelfCode)
                                     shelfCapacity = it.data[0].capacity.toString()
                                     binding.warehouseSpinnerCont.visible()
                                     binding.rackSpinnerCont.visible()
@@ -373,6 +376,10 @@ class ShelfActivity : AppCompatActivity() {
                                 else
                                 {
                                     binding.shelfRV.adapter = null
+                                    binding.shelfSpinnerCont.gone()
+                                    binding.shelfSpinner.onItemSelectedListener = null
+                                    binding.rackSpinner.onItemSelectedListener = null
+                                    binding.warehouseSpinner.onItemSelectedListener = null
                                     binding.printIV.click { btn ->
                                         toast("Nothing to print!")
                                     }

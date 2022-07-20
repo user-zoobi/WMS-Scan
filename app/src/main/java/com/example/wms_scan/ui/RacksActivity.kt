@@ -57,6 +57,7 @@ class RacksActivity : AppCompatActivity() {
     private var selectedWareHouseNo = ""
     private var selectedRackNo = ""
     private var selectedRackName = ""
+    private var selectedRackCode = ""
     private var businessLocName = ""
     private var warehouseName = ""
     private var capacity = ""
@@ -113,9 +114,11 @@ class RacksActivity : AppCompatActivity() {
                 intent.putExtra("addRackNo",selectedRackNo)
                 intent.putExtra("addRackName",selectedRackName)
                 intent.putExtra("addRackCode",rackCode)
-                intent.putExtra("addRackCap",capacity)
+                intent.putExtra("shelfCapacity",capacity)
                 intent.putExtra("AddRackKey",true)
                 startActivity(intent)
+
+                Log.i("addRack","$selectedBusLocNo $businessLocName $selectedWareHouseNo $warehouseName $selectedRackNo $selectedRackName $rackCode $capacity" )
             }
             else
             {
@@ -152,7 +155,7 @@ class RacksActivity : AppCompatActivity() {
 
     }
 
-    fun openActivity(rackName: String?, rackNo: String, rackCode: String){
+    fun openActivity(rackName: String?, rackNo: String, rackCode: String,capacity:String){
 
         if (isNetworkConnected(this))
         {
@@ -165,9 +168,10 @@ class RacksActivity : AppCompatActivity() {
             intent.putExtra("updateRackName",rackName)
             intent.putExtra("updateRackNo",rackNo)
             intent.putExtra("updateRackCode",rackCode)
-            intent.putExtra("updateRackCap",capacity)
+            intent.putExtra("updateShelfCapacity",capacity)
             intent.putExtra("updateRackKey",true)
             startActivity(intent)
+
         }
         else
         {
@@ -241,15 +245,12 @@ class RacksActivity : AppCompatActivity() {
                                 if(it.data?.get(0)?.status == true)
                                 {
                                     it.data[0].wHName?.let { it1 -> Log.i("warehouseResponse", it1) }
-                                    binding.warehouseSpinnerCont.visible()
-                                    binding.availableRacks.visible()
                                     showWarehouseSpinner(it.data)
                                     binding.rackAddBTN.isEnabled = true
                                 }
                                 else
                                 {
                                     binding.racksRV.adapter = null
-                                    binding.warehouseSpinnerCont.gone()
                                     binding.printIV.click {
                                         toast("Nothing to print!")
                                     }
@@ -293,7 +294,6 @@ class RacksActivity : AppCompatActivity() {
 
                                     bmpList.clear()
                                     textList.clear()
-                                    binding.warehouseSpinnerCont.visible()
                                     binding.printIV.click { btn->
                                         if (isNetworkConnected(this))
                                         {
@@ -323,8 +323,7 @@ class RacksActivity : AppCompatActivity() {
                                 else
                                 {
                                     binding.racksRV.adapter = null
-                                    binding.warehouseSpinnerCont.gone()
-                                    binding.availableRacks.gone()
+                                    binding.rackSpinnerCont.gone()
                                     binding.printIV.click { btn ->
                                         toast("Nothing to print!")
                                     }
@@ -448,6 +447,7 @@ class RacksActivity : AppCompatActivity() {
                 if (Utils.isNetworkConnected(this@RacksActivity)) {
                     selectedRackNo = data[position].rackNo.toString()
                     selectedRackName = data[position].rackName.toString()
+                    selectedRackCode = data[position].rackCode.toString()
                     viewModel.getShelf(
                         Utils.getSimpleTextBody(""),
                         Utils.getSimpleTextBody(selectedRackNo),

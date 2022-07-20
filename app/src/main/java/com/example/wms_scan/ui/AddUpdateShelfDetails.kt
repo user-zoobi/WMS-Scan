@@ -44,9 +44,9 @@ class AddUpdateShelfDetails : AppCompatActivity() {
     private var updatedShelfNo:String? = ""
     private var updatedShelfName:String? = ""
     private var shelfNameInput = ""
-    private var shelveCapacity = ""
+    private var palletCapacity = ""
     private var updatedShelveCode = ""
-    private var updatedShelveCapacity = ""
+    private var updatedPalletCapacity = ""
     private var shelveCode = ""
     private var deviceId = ""
 
@@ -88,7 +88,6 @@ class AddUpdateShelfDetails : AppCompatActivity() {
                 selectedRackNo = intent.extras?.getString("addRackNo")
                 selectedShelveName = intent.extras?.getString("addShelfName")
                 selectedShelveNo = intent.extras?.getString("addShelfNo")
-                shelveCapacity = intent.extras?.getString("shelfCap").toString()
                 shelveCode = intent.extras?.getString("shelfCode").toString()
 
                 binding.busLocTV.text = selectedBusLocName
@@ -113,13 +112,14 @@ class AddUpdateShelfDetails : AppCompatActivity() {
                 updatedShelfName = intent.extras?.getString("updateShelfName")
                 updatedShelfNo = intent.extras?.getString("updateShelfNo")
                 updatedShelveCode = intent.extras?.getString("updatedShelfCode").toString()
-                updatedShelveCapacity = intent.extras?.getString("updatedShelfCap").toString()
+                updatedPalletCapacity = intent.extras?.getString("updatedPalletCapacity").toString()
 
                 binding.busLocTV.text = updatedBusName
                 binding.warehouseTV.text = updatedWhName
                 binding.rackTV.text = updatedRackName
                 binding.editDetailTV.text = "Update to"
                 binding.shelfNameET.text = updatedShelfName?.toEditable()
+                binding.palletCapacityET.text = updatedPalletCapacity.toEditable()
                 binding.addShelfBtn.gone()
                 binding.updateShelfBtn.visible()
                 binding.shelfNameET.hint= "Update Shelf"
@@ -135,36 +135,60 @@ class AddUpdateShelfDetails : AppCompatActivity() {
 
         binding.addShelfBtn.click {
             shelfNameInput = binding.shelfNameET.text.toString()
-            viewModel.addShelf(
-                Utils.getSimpleTextBody("0"),
-                Utils.getSimpleTextBody("$selectedRackNo"),
-                Utils.getSimpleTextBody(shelfNameInput),
-                Utils.getSimpleTextBody(shelveCode),
-                Utils.getSimpleTextBody(shelveCapacity),
-                Utils.getSimpleTextBody("$selectedBusLocNo"),
-                Utils.getSimpleTextBody(
-                    LocalPreferences.getInt(this, LocalPreferences.AppLoginPreferences.userNo).toString()
-                ),
-                Utils.getSimpleTextBody(deviceId),
-            )
+            palletCapacity = binding.palletCapacityET.text.toString()
+
+            if(binding.palletCapacityET.text.toString() == "0")
+            {
+                toast("Please enter greater capacity")
+            }
+            else
+            {
+                viewModel.addShelf(
+                    Utils.getSimpleTextBody("0"),
+                    Utils.getSimpleTextBody("$selectedRackNo"),
+                    Utils.getSimpleTextBody(shelfNameInput),
+                    Utils.getSimpleTextBody("0"),
+                    Utils.getSimpleTextBody(palletCapacity),
+                    Utils.getSimpleTextBody("$selectedBusLocNo"),
+                    Utils.getSimpleTextBody(
+                        LocalPreferences.getInt(this, LocalPreferences.AppLoginPreferences.userNo).toString()
+                    ),
+                    Utils.getSimpleTextBody(deviceId),
+                )
+            }
+
+            binding.backBtn.click {
+                onBackPressed()
+            }
+
+
+            Log.i("addshelf","1. 0 \n 2.$selectedRackNo\n 3.$shelfNameInput\n 4.$shelveCode\n 5.$palletCapacity\n 6.$selectedBusLocNo\n 7.2\n 8.$deviceId" )
             Log.i("shelfValues","THE KEYS ARE VALUES WITH selectedBusLocNo :$selectedBusLocNo\n $selectedBusLocName\n")
-            finish()
         }
 
         binding.updateShelfBtn.click {
             shelfNameInput = binding.shelfNameET.text.toString()
-            viewModel.addShelf(
-                Utils.getSimpleTextBody("$updatedShelfNo"),
-                Utils.getSimpleTextBody("$updatedRackNo"),
-                Utils.getSimpleTextBody(shelfNameInput),
-                Utils.getSimpleTextBody(updatedShelveCode),
-                Utils.getSimpleTextBody(updatedShelveCapacity),
-                Utils.getSimpleTextBody("$updatedBusLocNo"),
-                Utils.getSimpleTextBody(
-                    LocalPreferences.getInt(this, LocalPreferences.AppLoginPreferences.userNo).toString()
-                ),
-                Utils.getSimpleTextBody(deviceId)
-            )
+            palletCapacity = binding.palletCapacityET.text.toString()
+            if(binding.palletCapacityET.text.toString() == "0")
+            {
+                toast("Please enter greater capacity")
+            }
+            else
+            {
+                viewModel.addShelf(
+                    Utils.getSimpleTextBody("$updatedShelfNo"),
+                    Utils.getSimpleTextBody("$updatedRackNo"),
+                    Utils.getSimpleTextBody(shelfNameInput),
+                    Utils.getSimpleTextBody(updatedShelveCode),
+                    Utils.getSimpleTextBody(palletCapacity),
+                    Utils.getSimpleTextBody("$updatedBusLocNo"),
+                    Utils.getSimpleTextBody(
+                        LocalPreferences.getInt(this, LocalPreferences.AppLoginPreferences.userNo).toString()
+                    ),
+                    Utils.getSimpleTextBody(deviceId)
+                )
+            }
+
             finish()
 
         }

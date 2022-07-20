@@ -160,7 +160,8 @@
                         android:layout_height="wrap_content"
                         android:maxLines="1"
                         android:paddingStart="@dimen/_10sdp"
-                        android:spinnerMode="dropdown"
+                        android:spinnerMode="dialog"
+                        android:theme="@style/SpinnerScrollBar"
                         android:visibility="visible" />
 
                 </com.google.android.material.card.MaterialCardView>
@@ -182,7 +183,8 @@
                         android:layout_height="wrap_content"
                         android:maxLines="1"
                         android:paddingStart="@dimen/_10sdp"
-                        android:spinnerMode="dropdown" />
+                        android:spinnerMode="dialog"
+                        android:theme="@style/SpinnerScrollBar" />
 
                 </com.google.android.material.card.MaterialCardView>
 
@@ -203,7 +205,8 @@
                         android:layout_height="wrap_content"
                         android:maxLines="1"
                         android:paddingStart="@dimen/_10sdp"
-                        android:spinnerMode="dropdown" />
+                        android:spinnerMode="dialog"
+                        android:theme="@style/SpinnerScrollBar" />
 
                 </com.google.android.material.card.MaterialCardView>
 
@@ -224,8 +227,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:maxLines="1"
-                        android:paddingStart="@dimen/_20sdp"
-                        android:spinnerMode="dropdown"
+                        android:paddingStart="@dimen/_10sdp"
+                        android:spinnerMode="dialog"
+                        android:theme="@style/SpinnerScrollBar"
                         android:visibility="visible" />
 
                 </com.google.android.material.card.MaterialCardView>

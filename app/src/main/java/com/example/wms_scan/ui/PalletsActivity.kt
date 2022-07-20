@@ -409,6 +409,9 @@ class PalletsActivity : AppCompatActivity() {
                         else
                         {
                             binding.palletsRV.adapter = null
+                            binding.warehouseSpinner.onItemSelectedListener = null
+                            binding.rackSpinner.onItemSelectedListener = null
+                            binding.shelfSpinner.onItemSelectedListener = null
                             binding.printIV.click { btn ->
                                 toast("Nothing to print!")
                             }
@@ -429,7 +432,7 @@ class PalletsActivity : AppCompatActivity() {
 
     }
 
-    fun showAction(palletName:String,palletNo:String){
+    fun showAction(palletName:String,palletNo:String,palletCode: String){
 
         val intent = Intent(this, AddUpdatePalletDetails::class.java)
         intent.putExtra("updatedBusLocNo",selectedBusLocNo)
@@ -442,6 +445,8 @@ class PalletsActivity : AppCompatActivity() {
         intent.putExtra("updatedShelveName",shelfName)
         intent.putExtra("updatedPalletName",palletName)
         intent.putExtra("updatedPalletNo",palletNo)
+        intent.putExtra("updatedPalletCode",palletCode)
+        intent.putExtra("updatedPalletCap",capacity)
         intent.putExtra("UpdatePalletKey",true)
         startActivity(intent)
 
