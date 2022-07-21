@@ -206,6 +206,7 @@ class ShelfActivity : AppCompatActivity() {
             when(it.status){
                 Status.LOADING->{
                     dialog.show()
+                    dialog.setCanceledOnTouchOutside(true);
                 }
                 Status.SUCCESS ->{
                     if (isNetworkConnected(this)){
@@ -222,6 +223,7 @@ class ShelfActivity : AppCompatActivity() {
                                 binding.shelfRV.adapter = null
                                 binding.warehouseSpinnerCont.gone()
                                 binding.rackSpinnerCont.gone()
+                                binding.shelfAddBTN.gone()
                                 binding.printIV.click {
                                     toast("Nothing to print!")
                                 }
@@ -257,7 +259,6 @@ class ShelfActivity : AppCompatActivity() {
                             {
                                 it.data[0].wHName?.let { it1 -> Log.i("warehouseResponse", it1) }
                                 binding.warehouseSpinnerCont.visible()
-                                binding.rackSpinnerCont.visible()
                                 showWarehouseSpinner(it.data)
                             }
                             else
@@ -265,6 +266,9 @@ class ShelfActivity : AppCompatActivity() {
                                 binding.shelfRV.adapter = null
                                 binding.warehouseSpinner.onItemSelectedListener = null
                                 binding.rackSpinner.onItemSelectedListener = null
+                                binding.shelfAddBTN.gone()
+                                binding.warehouseSpinnerCont.gone()
+                                binding.rackSpinnerCont.gone()
                                 binding.printIV.click {
                                     toast("Nothing to print!")
                                 }
@@ -301,11 +305,15 @@ class ShelfActivity : AppCompatActivity() {
                             if(it.data?.get(0)?.status == true)
                             {
                                 showRackSpinner(it.data)
+                                binding.shelfAddBTN.visible()
+                                binding.rackSpinnerCont.visible()
                             }
                             else
                             {
                                 binding.shelfRV.adapter = null
                                 intent.removeExtra("key")
+                                binding.shelfAddBTN.gone()
+                                binding.rackSpinnerCont.gone()
                                 binding.printIV.click {
                                     toast("Nothing to print!")
                                 }
@@ -338,36 +346,41 @@ class ShelfActivity : AppCompatActivity() {
                 }
                 Status.SUCCESS ->{
                     binding.swipeRefresh.isRefreshing = false
+                    dialog.setCanceledOnTouchOutside(true);
                     it.let{
                         if (isNetworkConnected(this)){
                             LocalPreferences.put(this, isRefreshRequired, true)
                             try {
                                 if(it.data?.get(0)?.status == true) {
 
-                                    showShelfSpinner(it.data)
                                     shelfList = ArrayList()
                                     shelfCode = it.data[0].shelfCode.toString()
                                     Log.i("shelfcode",shelfCode)
                                     shelfCapacity = it.data[0].capacity.toString()
-                                    binding.warehouseSpinnerCont.visible()
-                                    binding.rackSpinnerCont.visible()
                                     shelfAdapter = ShelfAdapter(this,  it.data as ArrayList<GetShelfResponse>)
 
                                     bmpList.clear()
                                     textList.clear()
-
                                     binding.printIV.click { btn ->
 
-                                        for (i in it.data.indices)
+                                        if (isNetworkConnected(this))
                                         {
-                                            generateQRCode("${it.data[i].shelfCode}")
-                                            Log.i("ShelfName",it.data[i].shelfName.toString())
-                                            textList.add("${it.data[i].shelfName}")
-                                            Log.i("shelfArrayList","$textList")
+                                            for (i in it.data.indices)
+                                            {
+                                                generateQRCode("${it.data[i].shelfCode}")
+                                                Log.i("ShelfName",it.data[i].shelfName.toString())
+                                                textList.add("${it.data[i].shelfName}")
+                                                Log.i("shelfArrayList","$textList")
+                                            }
+                                            generatePDF()
                                         }
-                                        generatePDF()
-                                    }
+                                        else
+                                        {
+                                            toast("No Internet")
+                                        }
 
+
+                                    }
                                     binding.shelfRV.apply {
                                         adapter = shelfAdapter
                                         layoutManager = LinearLayoutManager(this@ShelfActivity)
@@ -376,11 +389,9 @@ class ShelfActivity : AppCompatActivity() {
                                 else
                                 {
                                     binding.shelfRV.adapter = null
-                                    binding.shelfSpinnerCont.gone()
-                                    binding.shelfSpinner.onItemSelectedListener = null
                                     binding.rackSpinner.onItemSelectedListener = null
                                     binding.warehouseSpinner.onItemSelectedListener = null
-                                    binding.printIV.click { btn ->
+                                    binding.printIV.click {
                                         toast("Nothing to print!")
                                     }
                                 }
@@ -522,39 +533,6 @@ class ShelfActivity : AppCompatActivity() {
         }
     }
 
-    private fun showShelfSpinner(data:List<GetShelfResponse>) {
-        //String array to store all the book names
-        val items = arrayOfNulls<String>(data.size)
-        val shelfResponse = binding.shelfSpinner
-
-        //Traversing through the whole list to get all the names
-        for (i in data.indices) {
-            //Storing names to string array
-            items[i] = data[i].shelfName
-            val adapter: ArrayAdapter<String?> =
-                ArrayAdapter(this, android.R.layout.simple_list_item_1, items)
-            //setting adapter to spinner
-            shelfResponse.adapter = adapter
-            shelfResponse.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
-
-                override fun onItemSelected(adapter: AdapterView<*>?, view: View?, position: Int, long: Long) {
-                    if (Utils.isNetworkConnected(this@ShelfActivity))
-                    {
-                        Log.i("LocBus","This is shelf pos ${adapter?.getItemAtPosition(position)}")
-                        selectedShelveNo = data[position].shelfNo.toString()
-//                    viewModel.getPallet("",selectedShelveNo,selectedBusLocNo)
-                    }
-                    else
-                    {
-                        binding.shelfRV.adapter = null
-                        toast(NoInternetFound)
-                    }
-
-                }
-                override fun onNothingSelected(p0: AdapterView<*>?) {}
-            }
-        }
-    }
 
     override fun onResume() {
         super.onResume()

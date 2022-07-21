@@ -118,11 +118,9 @@ class WarehouseActivity : AppCompatActivity() {
                     {
                         dialog.dismiss()
                         showBusLocSpinner(it.data)
-                        binding.whAddBTN.isEnabled = true
                     }
                     else
                     {
-                        binding.whAddBTN.isEnabled = false
                         toast("No result found")
                     }
                 }
@@ -136,7 +134,8 @@ class WarehouseActivity : AppCompatActivity() {
          *      GET WAREHOUSE OBSERVER
          */
 
-        viewModel.getWarehouse.observe(this, Observer{
+        viewModel.getWarehouse.observe(this, Observer
+        {
             when(it.status){
                 Status.LOADING->{
                     binding.swipeRefresh.isRefreshing = isNetworkConnected(this)
@@ -173,21 +172,25 @@ class WarehouseActivity : AppCompatActivity() {
                                 textList.clear()
 
                                 binding.printIV.click { btn ->
-
-                                    try
-                                    {
-                                        for (i in it.data)
+                                    if (isNetworkConnected(this)){
+                                        try
                                         {
-                                            generateQRCode("${i.wHCode}")
-                                            textList.add("${i.wHName}")
+                                            for (i in it.data)
+                                            {
+                                                generateQRCode("${i.wHCode}")
+                                                textList.add("${i.wHName}")
+                                            }
+                                            generatePDF()
                                         }
-                                        generatePDF()
+                                        catch (e:Exception)
+                                        {
+                                            Log.i("exception","${e.message}")
+                                        }
                                     }
-                                    catch (e:Exception)
+                                    else
                                     {
-                                        Log.i("exception","${e.message}")
+                                        toast("No Internet")
                                     }
-
                                 }
 
                                 warehouseAdapter = WarehouseAdapter(this,
@@ -197,7 +200,6 @@ class WarehouseActivity : AppCompatActivity() {
                                     layoutManager = LinearLayoutManager(this@WarehouseActivity)
                                     adapter = warehouseAdapter
                                 }
-                                binding.whAddBTN.isEnabled = true
                             }
                             else{
 
@@ -212,7 +214,6 @@ class WarehouseActivity : AppCompatActivity() {
                         {
                             binding.warehouseRV.adapter = null
                             toast("No result found")
-                            binding.warehouseCont.gone()
                         }
                     }
 

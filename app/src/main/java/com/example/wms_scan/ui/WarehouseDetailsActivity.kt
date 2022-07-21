@@ -109,7 +109,14 @@ class WarehouseDetailsActivity : AppCompatActivity() {
 
         binding.addWarehouseBTN.click {
 
-                updatedWarehouseName = binding.updateWarehouseET.text.toString()
+            updatedWarehouseName = binding.updateWarehouseET.text.toString()
+            if (binding.updateWarehouseET.text.isNullOrEmpty())
+            {
+                toast("Field must not be empty")
+                binding.updateWarehouseET.error = "Field must not be empty"
+            }
+            else
+            {
                 viewModel.addUpdateWarehouse(
                     "0",
                     updatedWarehouseName,
@@ -120,10 +127,18 @@ class WarehouseDetailsActivity : AppCompatActivity() {
                 )
                 LocalPreferences.put(this, isRefreshRequired, true)
                 finish()
+            }
         }
 
         binding.updateWarehouseBtn.click {
                 updatedWarehouseName = binding.updateWarehouseET.text.toString()
+            if (binding.updateWarehouseET.text.isNullOrEmpty())
+            {
+                toast("Field must not be empty")
+                binding.updateWarehouseET.error = "Field must not be empty"
+            }
+            else
+            {
                 viewModel.addUpdateWarehouse(
                     "$selectedWHNo",
                     "$updatedWarehouseName",
@@ -132,6 +147,8 @@ class WarehouseDetailsActivity : AppCompatActivity() {
                     LocalPreferences.getInt(this, userNo).toString(),
                     "$deviceId"
                 )
+                finish()
+            }
         }
 
         binding.backBtn.click {

@@ -214,27 +214,6 @@
 
                     </com.google.android.material.card.MaterialCardView>
 
-                    <com.google.android.material.card.MaterialCardView
-                        android:id="@+id/shelfSpinnerCont"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/_5sdp"
-                        android:layout_marginTop="@dimen/_5sdp"
-                        android:layout_marginEnd="@dimen/_5sdp"
-                        android:layout_marginBottom="@dimen/_10sdp"
-                        android:visibility="gone"
-                        app:cardElevation="@dimen/_5sdp">
-
-                        <androidx.appcompat.widget.AppCompatSpinner
-                            android:id="@+id/shelfSpinner"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:maxLines="1"
-                            android:paddingStart="@dimen/_20sdp"
-                            android:spinnerMode="dropdown" />
-
-                    </com.google.android.material.card.MaterialCardView>
-
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/availableShelfTV"
                         android:layout_width="wrap_content"

@@ -205,13 +205,13 @@ class RacksActivity : AppCompatActivity() {
                             {
                                 dialog.dismiss()
                                 showBusLocSpinner(it.data)
-                                binding.rackAddBTN.isEnabled = true
+                                binding.rackAddBTN.visible()
                             }
                             else
                             {
                                 binding.racksRV.adapter = null
                                 toast("${R.string.addWH}")
-                                binding.rackAddBTN.isEnabled = false
+                                binding.rackAddBTN.gone()
                             }
                         }
                         Status.ERROR ->{
@@ -246,15 +246,19 @@ class RacksActivity : AppCompatActivity() {
                                 {
                                     it.data[0].wHName?.let { it1 -> Log.i("warehouseResponse", it1) }
                                     showWarehouseSpinner(it.data)
-                                    binding.rackAddBTN.isEnabled = true
+                                    binding.rackAddBTN.visible()
+                                    binding.availableRacks.visible()
+                                    binding.warehouseSpinnerCont.visible()
                                 }
                                 else
                                 {
                                     binding.racksRV.adapter = null
+                                    binding.availableRacks.gone()
+                                    binding.rackAddBTN.gone()
+                                    binding.warehouseSpinnerCont.gone()
                                     binding.printIV.click {
                                         toast("Nothing to print!")
                                     }
-                                    binding.availableRacks.gone()
                                 }
                             }
                             catch(e:Exception){
@@ -263,7 +267,8 @@ class RacksActivity : AppCompatActivity() {
                             }
                             //warehouseAdapter.addItems(list)
                         }
-                        Status.ERROR ->{
+                        Status.ERROR ->
+                        {
                             dialog.dismiss()
                         }
                     }
@@ -319,6 +324,8 @@ class RacksActivity : AppCompatActivity() {
                                     rackCode = it.data[0].rackCode.toString()
                                     capacity = it.data[0].capacity.toString()
                                     binding.availableRacks.visible()
+                                    binding.warehouseSpinnerCont.visible()
+
                                 }
                                 else
                                 {
@@ -327,7 +334,7 @@ class RacksActivity : AppCompatActivity() {
                                     binding.printIV.click { btn ->
                                         toast("Nothing to print!")
                                     }
-                                    intent.removeExtra("key")
+
                                 }
                             }
                             catch (e: Exception)
@@ -343,7 +350,6 @@ class RacksActivity : AppCompatActivity() {
                 }
                 else
                 {
-                    binding.rackAddBTN.isEnabled = false
                 }
             }
         })

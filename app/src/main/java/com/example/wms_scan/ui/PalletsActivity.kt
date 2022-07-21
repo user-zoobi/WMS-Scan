@@ -238,6 +238,7 @@ class PalletsActivity : AppCompatActivity() {
                                 binding.rackSpinnerCont.visible()
                                 binding.warehouseSpinnerCont.visible()
                                 binding.shelfSpinnerCont.visible()
+                                binding.palletAddBTN.visible()
                             }
                             else
                             {
@@ -245,6 +246,8 @@ class PalletsActivity : AppCompatActivity() {
                                 binding.rackSpinnerCont.gone()
                                 binding.shelfSpinnerCont.gone()
                                 binding.palletsRV.adapter = null
+                                binding.palletAddBTN.gone()
+                                binding.availablePallets.gone()
                                 binding.printIV.click {
                                     toast("Nothing to print!")
                                 }
@@ -284,13 +287,16 @@ class PalletsActivity : AppCompatActivity() {
                             if(it.data?.get(0)?.status == true)
                             {
                                 showRackSpinner(it.data)
+                                binding.palletAddBTN.visible()
+                                binding.availablePallets.visible()
                             }
                             else
                             {
                                 binding.palletsRV.adapter = null
-                                binding.warehouseSpinnerCont.gone()
                                 binding.rackSpinnerCont.gone()
                                 binding.shelfSpinnerCont.gone()
+                                binding.palletAddBTN.gone()
+                                binding.availablePallets.gone()
                                 binding.printIV.click {
                                     toast("Nothing to print!")
                                 }
@@ -331,11 +337,14 @@ class PalletsActivity : AppCompatActivity() {
                                 showShelfSpinner(it.data)
                                 binding.rackSpinnerCont.visible()
                                 binding.shelfSpinnerCont.visible()
+                                binding.availablePallets.visible()
                             }
                             else
                             {
                                 binding.palletsRV.adapter = null
                                 binding.rackSpinnerCont.gone()
+                                binding.shelfSpinnerCont.gone()
+                                binding.availablePallets.gone()
                                 binding.printIV.click {
                                     toast("Nothing to print!")
                                 }
@@ -382,6 +391,7 @@ class PalletsActivity : AppCompatActivity() {
                             binding.rackSpinnerCont.visible()
                             binding.warehouseSpinnerCont.visible()
                             binding.shelfSpinnerCont.visible()
+                            binding.availablePallets.visible()
                             binding.printIV.click { btn ->
 
                                 for (i in it.data)
@@ -399,7 +409,6 @@ class PalletsActivity : AppCompatActivity() {
                                 }
                                 generatePDF()
                             }
-
                             binding.palletsRV.apply {
                                 adapter = palletAdapter
                                 layoutManager = LinearLayoutManager(this@PalletsActivity)
@@ -412,6 +421,7 @@ class PalletsActivity : AppCompatActivity() {
                             binding.warehouseSpinner.onItemSelectedListener = null
                             binding.rackSpinner.onItemSelectedListener = null
                             binding.shelfSpinner.onItemSelectedListener = null
+                            binding.availablePallets.gone()
                             binding.printIV.click { btn ->
                                 toast("Nothing to print!")
                             }

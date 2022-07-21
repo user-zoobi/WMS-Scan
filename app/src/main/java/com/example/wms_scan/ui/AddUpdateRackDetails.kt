@@ -63,16 +63,22 @@ class AddUpdateRackDetails : AppCompatActivity() {
 
                 rackName = binding.rackNameET.text.toString()
                 shelfCap = binding.shelfCapacityET.text.toString()
+
                 if(binding.shelfCapacityET.text.toString() == "0")
                 {
                     toast("Please enter greater capacity")
+                    binding.shelfCapacityET.error = "Please enter greater capacity"
                 }
-                else if (
-                    binding.shelfCapacityET.text.isNullOrEmpty() or
-                    binding.rackNameET.text.isNullOrEmpty()
-                )
+                else if (binding.shelfCapacityET.text.isNullOrEmpty())
                 {
                     toast("Field must not be empty")
+                    binding.shelfCapacityET.error = "Field must not be empty"
+
+                }
+                else if(binding.rackNameET.text.isNullOrEmpty())
+                {
+                    toast("Field must not be empty")
+                    binding.rackNameET.error = "Field must not be empty"
                 }
                 else
                 {
@@ -87,6 +93,7 @@ class AddUpdateRackDetails : AppCompatActivity() {
                             LocalPreferences.getInt(this,userNo).toString()),
                         Utils.getSimpleTextBody(deviceId),
                     )
+                    finish()
                 }
 
                 LocalPreferences.getBoolean(this, isRefreshRequired)
@@ -97,16 +104,23 @@ class AddUpdateRackDetails : AppCompatActivity() {
 
                 updatedRackName = binding.rackNameET.text.toString()
                 shelfCap = binding.shelfCapacityET.text.toString()
+
                 if(binding.shelfCapacityET.text.toString() == "0")
                 {
                     toast("Please enter greater capacity")
                 }
                 else if (
-                    binding.shelfCapacityET.text.isNullOrEmpty() or
-                    binding.rackNameET.text.isNullOrEmpty()
+                    binding.shelfCapacityET.text.isNullOrEmpty()
+
                 )
                 {
                     toast("Field must not be empty")
+                    binding.shelfCapacityET.requestFocus()
+                }
+                else if ( binding.rackNameET.text.isNullOrEmpty())
+                {
+                    toast("Field must not be empty")
+                    binding.rackNameET.requestFocus()
                 }
                 else
                 {
@@ -119,12 +133,12 @@ class AddUpdateRackDetails : AppCompatActivity() {
                         Utils.getSimpleTextBody("$updatedBusLocNo"),
                         Utils.getSimpleTextBody("${LocalPreferences.getInt(this, userNo)}"),
                         Utils.getSimpleTextBody(deviceId),
-
                         )
+                    finish()
                 }
 
                 Log.i("updateRack","1. $updatedRackNo \n 2.$updatedRackName\n 3.\n 4.$updatedWHNo\n 5.$shelfCap\n 6.$updatedBusLocNo\n 7.2\n 8.$deviceId" )
-                finish()
+
             }
 
         binding.backBtn.click {

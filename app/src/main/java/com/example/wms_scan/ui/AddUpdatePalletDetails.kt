@@ -133,18 +133,25 @@ class AddUpdatePalletDetails : AppCompatActivity() {
         binding.addPalletBtn.click {
             LocalPreferences.put(this,isRefreshRequired, true)
             palletName = binding.palletNameET.text.toString()
-
-            viewModel.addPallet(
-                Utils.getSimpleTextBody("0"),
-                Utils.getSimpleTextBody(palletName),
-                Utils.getSimpleTextBody("0"),
-                Utils.getSimpleTextBody("$selectedShelveNo"),
-                Utils.getSimpleTextBody(""),
-                Utils.getSimpleTextBody("$selectedBusLocNo"),
-                Utils.getSimpleTextBody("${LocalPreferences.getInt(this, userNo)}"),
-                Utils.getSimpleTextBody(deviceId),
-            )
-            finish()
+            if (binding.palletNameET.text.isNullOrEmpty())
+            {
+                toast("Field must not be empty")
+                binding.palletNameET.error = "Field must not be empty"
+            }
+            else
+            {
+                viewModel.addPallet(
+                    Utils.getSimpleTextBody("0"),
+                    Utils.getSimpleTextBody(palletName),
+                    Utils.getSimpleTextBody("0"),
+                    Utils.getSimpleTextBody("$selectedShelveNo"),
+                    Utils.getSimpleTextBody(""),
+                    Utils.getSimpleTextBody("$selectedBusLocNo"),
+                    Utils.getSimpleTextBody("${LocalPreferences.getInt(this, userNo)}"),
+                    Utils.getSimpleTextBody(deviceId),
+                )
+                finish()
+            }
 
         }
 

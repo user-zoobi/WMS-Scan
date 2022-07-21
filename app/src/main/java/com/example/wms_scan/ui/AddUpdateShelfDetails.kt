@@ -177,13 +177,17 @@ class AddUpdateShelfDetails : AppCompatActivity() {
             if(binding.palletCapacityET.text.toString() == "0")
             {
                 toast("Please enter greater capacity")
+                binding.palletCapacityET.error = "Please enter greater capacity"
             }
-            else if (
-                binding.palletCapacityET.text.isNullOrEmpty()
-                or binding.shelfNameET.text.isNullOrEmpty()
-            )
+            else if (binding.palletCapacityET.text.isNullOrEmpty())
             {
                 toast("Field must not be empty")
+                binding.palletCapacityET.error = "Field must not be empty"
+            }
+            else if(binding.shelfNameET.text.isNullOrEmpty())
+            {
+                toast("Field must not be empty")
+                binding.shelfNameET.error = "Field must not be empty"
             }
             else
             {
@@ -199,10 +203,8 @@ class AddUpdateShelfDetails : AppCompatActivity() {
                     ),
                     Utils.getSimpleTextBody(deviceId)
                 )
+                finish()
             }
-
-            finish()
-
         }
     }
 
@@ -212,13 +214,15 @@ class AddUpdateShelfDetails : AppCompatActivity() {
          *       ADD SHELF OBSERVER
          */
 
-        viewModel.addShelf.observe(this, Observer{
+        viewModel.addShelf.observe(this, Observer
+        {
             when(it.status){
                 Status.LOADING ->{
                     dialog.show()
                     dialog.setCanceledOnTouchOutside(true)
                 }
-                Status.SUCCESS ->{
+                Status.SUCCESS ->
+                {
 
                     if (it.data?.status == true)
                     {
@@ -233,7 +237,8 @@ class AddUpdateShelfDetails : AppCompatActivity() {
                         toast(it.data?.error!!)
                     }
                 }
-                Status.ERROR ->{
+                Status.ERROR ->
+                {
                     dialog.dismiss()
                 }
             }

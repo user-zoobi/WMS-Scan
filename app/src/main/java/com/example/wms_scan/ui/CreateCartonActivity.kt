@@ -170,8 +170,8 @@ class CreateCartonActivity : AppCompatActivity() {
                 else
                 {
                     toast("Scan pallet please")
+                    codeScanner.startPreview()
                 }
-                finish()
             }
         }
 

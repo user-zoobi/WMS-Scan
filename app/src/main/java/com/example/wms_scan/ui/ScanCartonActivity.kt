@@ -181,6 +181,7 @@ class ScanCartonActivity : AppCompatActivity() {
             binding.palletCont.isEnabled = false
             binding.palletDetailCont.isEnabled = false
             binding.hierarchyTree.isEnabled = false
+            codeScanner.startPreview()
         }
 
         binding.closeIV.click {
@@ -189,6 +190,7 @@ class ScanCartonActivity : AppCompatActivity() {
             binding.palletCont.isEnabled = true
             binding.hierarchyTree.isEnabled = true
             binding.palletDetailCont.isEnabled = false
+            codeScanner.stopPreview()
         }
 
         binding.palletCont.click {
@@ -278,27 +280,27 @@ class ScanCartonActivity : AppCompatActivity() {
                         when {
                             scannedValue.contains("L") -> {
                                 toast("No record found")
-                                finish()
+                                codeScanner.startPreview()
                             }
                             scannedValue.contains("WH") -> {
                                 toast("No record found")
-                                finish()
+                                codeScanner.startPreview()
                             }
                             scannedValue.contains("RK") -> {
                                 toast("No record found")
-                                finish()
+                                codeScanner.startPreview()
                             }
                             scannedValue.contains("SF") -> {
                                 toast("No record found")
-                                finish()
+                                codeScanner.startPreview()
                             }
                             scannedValue.contains("PL") -> {
                                 toast("No record found")
-                                finish()
+                                codeScanner.startPreview()
                             }
                             status.equals(false) -> {
                                 toast("No record found")
-                                finish()
+                                codeScanner.startPreview()
                             }
                             else -> {
                                 viewModel.getCartonDetails(scannedValue)
