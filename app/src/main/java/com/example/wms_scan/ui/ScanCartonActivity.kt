@@ -163,11 +163,6 @@ class ScanCartonActivity : AppCompatActivity() {
             binding.palletDetailCont.visible()
         }
 
-        binding.showQRIV.click {
-            binding.qrScanCont.visible()
-            binding.viewRV.gone()
-        }
-
         binding.treeView.click {
             binding.qrScanCont.gone()
             binding.viewRV.visible()
@@ -177,7 +172,6 @@ class ScanCartonActivity : AppCompatActivity() {
         binding.scanCont.click {
             binding.qrScanCont.gone()
             binding.surfaceCont.visible()
-            binding.showQRIV.gone()
             binding.palletCont.isEnabled = false
             binding.palletDetailCont.isEnabled = false
             binding.hierarchyTree.isEnabled = false
@@ -198,7 +192,6 @@ class ScanCartonActivity : AppCompatActivity() {
             binding.qrScanCont.gone()
             binding.viewRV.visible()
             binding.palletDetailCont.visible()
-            binding.showQRIV.visible()
             binding.palletDetailCont.isEnabled = false
         }
 

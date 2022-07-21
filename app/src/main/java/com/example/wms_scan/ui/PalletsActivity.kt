@@ -160,19 +160,6 @@ class PalletsActivity : AppCompatActivity() {
             }
         }
 
-
-        binding.printIV.click {
-            try
-            {
-                generatePDF()
-            }
-            catch (e:Exception)
-            {
-                Log.i("exception","${e.message}")
-            }
-
-        }
-
         binding.backBtn.click {
             onBackPressed()
         }
@@ -203,10 +190,11 @@ class PalletsActivity : AppCompatActivity() {
                             {
                                 dialog.dismiss()
                                 showBusLocSpinner(it.data!!)
-                                binding.palletAddBTN.isEnabled = true
                             }
                             else
-                            { }
+                            {
+
+                            }
                         }
                     }
                     else
@@ -229,26 +217,26 @@ class PalletsActivity : AppCompatActivity() {
                 Status.LOADING->{
                 }
                 Status.SUCCESS ->{
-                    if (isNetworkConnected(this)){
+                    if (isNetworkConnected(this))
+                    {
                         try {
                             if(it.data?.get(0)?.status == true)
                             {
                                 it.data[0].wHName?.let { it1 -> Log.i("warehouseResponse", it1) }
                                 showWarehouseSpinner(it.data)
                                 binding.warehouseSpinnerCont.visible()
-                                binding.palletAddBTN.visible()
                                 binding.rackSpinnerCont.visible()
-                                binding.shelfSpinnerCont.visible()
+                                binding.palletAddBTN.visible()
 
                             }
                             else
                             {
-                                binding.warehouseSpinnerCont.gone()
-                                binding.rackSpinnerCont.gone()
-                                binding.shelfSpinnerCont.gone()
                                 binding.palletsRV.adapter = null
                                 binding.palletAddBTN.gone()
                                 binding.availablePallets.gone()
+                                binding.warehouseSpinnerCont.gone()
+                                binding.rackSpinnerCont.gone()
+                                binding.shelfSpinnerCont.gone()
                                 binding.printIV.click {
                                     toast("Nothing to print!")
                                 }
@@ -291,17 +279,15 @@ class PalletsActivity : AppCompatActivity() {
                                 binding.palletAddBTN.visible()
                                 binding.availablePallets.visible()
                                 binding.rackSpinnerCont.visible()
-                                binding.warehouseSpinnerCont.visible()
                                 binding.shelfSpinnerCont.visible()
-
                             }
                             else
                             {
                                 binding.palletsRV.adapter = null
-                                binding.rackSpinnerCont.gone()
-                                binding.warehouseSpinnerCont.gone()
                                 binding.palletAddBTN.gone()
                                 binding.availablePallets.gone()
+                                binding.rackSpinnerCont.gone()
+                                binding.shelfSpinnerCont.gone()
                                 binding.printIV.click {
                                     toast("Nothing to print!")
                                 }
@@ -340,21 +326,19 @@ class PalletsActivity : AppCompatActivity() {
                             if(it.data?.get(0)?.status == true)
                             {
                                 showShelfSpinner(it.data)
-                                binding.rackSpinnerCont.visible()
-                                binding.shelfSpinnerCont.visible()
                                 binding.availablePallets.visible()
-                                toast("rack visi")
+                                binding.palletAddBTN.visible()
+                                binding.shelfSpinnerCont.visible()
                             }
                             else
                             {
                                 binding.palletsRV.adapter = null
-                                binding.shelfSpinnerCont.gone()
-                                binding.rackSpinnerCont.gone()
                                 binding.availablePallets.gone()
                                 binding.printIV.click {
                                     toast("Nothing to print!")
                                 }
-                                toast("rack gone")
+                                binding.shelfSpinnerCont.gone()
+                                binding.palletAddBTN.gone()
                             }
                         }
                         catch (e:Exception){
@@ -395,7 +379,6 @@ class PalletsActivity : AppCompatActivity() {
                             bmpList.clear()
                             capacity = it.data[0].capacity.toString()
                             palletCode = it.data[0].pilotCode.toString()
-                            binding.shelfSpinnerCont.visible()
                             binding.availablePallets.visible()
                             binding.printIV.click { btn ->
 
@@ -423,11 +406,7 @@ class PalletsActivity : AppCompatActivity() {
                         else
                         {
                             binding.palletsRV.adapter = null
-                            binding.warehouseSpinner.onItemSelectedListener = null
-                            binding.rackSpinner.onItemSelectedListener = null
-                            binding.shelfSpinner.onItemSelectedListener = null
                             binding.availablePallets.gone()
-                            binding.shelfSpinnerCont.gone()
                             binding.printIV.click { btn ->
                                 toast("Nothing to print!")
                             }
