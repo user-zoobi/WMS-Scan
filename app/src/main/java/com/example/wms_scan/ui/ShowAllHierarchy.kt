@@ -418,7 +418,7 @@ class ShowAllHierarchy : AppCompatActivity() {
 
     private fun initListener(){
         binding.scanIV.click {
-            finish()
+            gotoActivity(ScannerCameraActivity::class.java)
         }
     }
 

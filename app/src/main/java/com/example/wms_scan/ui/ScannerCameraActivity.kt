@@ -58,7 +58,6 @@ class ScannerCameraActivity : AppCompatActivity() {
 
     private fun initObserver(){
 
-
         viewModel.scanAll.observe(this, Observer {
             when(it.status){
                 Status.LOADING ->{
@@ -69,7 +68,6 @@ class ScannerCameraActivity : AppCompatActivity() {
                     {
                         dialog.dismiss()
                         Log.i("scanAllResponse","${it.data?.get(0)?.pilotCode}")
-
                     }
                     catch (e:Exception)
                     {
@@ -115,7 +113,7 @@ class ScannerCameraActivity : AppCompatActivity() {
                 }
                 else
                 {
-
+                    codeScanner.startPreview()
                 }
 
                 if (scannedData.contains("WH"))
@@ -125,7 +123,7 @@ class ScannerCameraActivity : AppCompatActivity() {
                 }
                 else
                 {
-
+                    codeScanner.startPreview()
                 }
 
                 if (scannedData.contains("RK"))
@@ -135,7 +133,7 @@ class ScannerCameraActivity : AppCompatActivity() {
                 }
                 else
                 {
-
+                    codeScanner.startPreview()
                 }
 
                 if (scannedData.contains("SF"))
@@ -145,18 +143,18 @@ class ScannerCameraActivity : AppCompatActivity() {
                 }
                 else
                 {
-
+                    codeScanner.startPreview()
                 }
+
 
                 if (scannedData.contains("PL"))
                 {
                     pallete = "${scannedData.substringAfter("SF-").substringBefore("PL")}PL"
-                    palleteCode = pallete
                     Log.i("palletCode",pallete)
                 }
                 else
                 {
-
+                    codeScanner.startPreview()
                 }
 
                 val intent =  Intent(this@ScannerCameraActivity, ShowAllHierarchy::class.java)
@@ -166,8 +164,6 @@ class ScannerCameraActivity : AppCompatActivity() {
                 intent.putExtra("s",shelve)
                 intent.putExtra("p",pallete)
                 startActivity(intent)
-
-                finish()
 
             }
         }

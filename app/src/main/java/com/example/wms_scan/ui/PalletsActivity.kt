@@ -235,10 +235,11 @@ class PalletsActivity : AppCompatActivity() {
                             {
                                 it.data[0].wHName?.let { it1 -> Log.i("warehouseResponse", it1) }
                                 showWarehouseSpinner(it.data)
-                                binding.rackSpinnerCont.visible()
                                 binding.warehouseSpinnerCont.visible()
-                                binding.shelfSpinnerCont.visible()
                                 binding.palletAddBTN.visible()
+                                binding.rackSpinnerCont.visible()
+                                binding.shelfSpinnerCont.visible()
+
                             }
                             else
                             {
@@ -289,12 +290,16 @@ class PalletsActivity : AppCompatActivity() {
                                 showRackSpinner(it.data)
                                 binding.palletAddBTN.visible()
                                 binding.availablePallets.visible()
+                                binding.rackSpinnerCont.visible()
+                                binding.warehouseSpinnerCont.visible()
+                                binding.shelfSpinnerCont.visible()
+
                             }
                             else
                             {
                                 binding.palletsRV.adapter = null
                                 binding.rackSpinnerCont.gone()
-                                binding.shelfSpinnerCont.gone()
+                                binding.warehouseSpinnerCont.gone()
                                 binding.palletAddBTN.gone()
                                 binding.availablePallets.gone()
                                 binding.printIV.click {
@@ -338,16 +343,18 @@ class PalletsActivity : AppCompatActivity() {
                                 binding.rackSpinnerCont.visible()
                                 binding.shelfSpinnerCont.visible()
                                 binding.availablePallets.visible()
+                                toast("rack visi")
                             }
                             else
                             {
                                 binding.palletsRV.adapter = null
-                                binding.rackSpinnerCont.gone()
                                 binding.shelfSpinnerCont.gone()
+                                binding.rackSpinnerCont.gone()
                                 binding.availablePallets.gone()
                                 binding.printIV.click {
                                     toast("Nothing to print!")
                                 }
+                                toast("rack gone")
                             }
                         }
                         catch (e:Exception){
@@ -388,8 +395,6 @@ class PalletsActivity : AppCompatActivity() {
                             bmpList.clear()
                             capacity = it.data[0].capacity.toString()
                             palletCode = it.data[0].pilotCode.toString()
-                            binding.rackSpinnerCont.visible()
-                            binding.warehouseSpinnerCont.visible()
                             binding.shelfSpinnerCont.visible()
                             binding.availablePallets.visible()
                             binding.printIV.click { btn ->
@@ -422,6 +427,7 @@ class PalletsActivity : AppCompatActivity() {
                             binding.rackSpinner.onItemSelectedListener = null
                             binding.shelfSpinner.onItemSelectedListener = null
                             binding.availablePallets.gone()
+                            binding.shelfSpinnerCont.gone()
                             binding.printIV.click { btn ->
                                 toast("Nothing to print!")
                             }
