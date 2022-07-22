@@ -42,9 +42,7 @@ object RetrofitClient {
                 chain.proceed(request)
             }
 
-        sOkHttpClient=okHttpClientBuilder.build()
-
-
+        sOkHttpClient = okHttpClientBuilder.build()
         return sOkHttpClient
     }
 

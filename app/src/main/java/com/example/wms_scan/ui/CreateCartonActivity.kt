@@ -1,7 +1,9 @@
 package com.example.wms_scan.ui
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.graphics.Path
 import android.os.Build
@@ -76,9 +78,8 @@ class CreateCartonActivity : AppCompatActivity() {
 
             when(it.status)
             {
-                Status.LOADING ->{
+                Status.LOADING ->{}
 
-                }
                 Status.SUCCESS ->{
 
                     it.let {
@@ -89,7 +90,6 @@ class CreateCartonActivity : AppCompatActivity() {
                             {
                                 gotoActivity(ScanCartonActivity::class.java, "scannedValue",scannedValue)
                                 Log.i("palletHierarchyCode",scannedValue)
-
                             }
                         }
                     }
@@ -121,6 +121,10 @@ class CreateCartonActivity : AppCompatActivity() {
     }
 
     private fun initListeners(){
+
+        binding.toolbar.click {
+            clearPreferences(this)
+        }
 
         binding.scanBtn.click {
 //            gotoActivity(ScanCartonActivity::class.java)
@@ -190,6 +194,13 @@ class CreateCartonActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         codeScanner.startPreview()
+    }
+
+    private fun clearPreferences(context: Context){
+        val settings: SharedPreferences =
+            context.getSharedPreferences(LocalPreferences.AppLoginPreferences.PREF, Context.MODE_PRIVATE)
+        settings.edit().clear().apply()
+        gotoActivity(LoginActivity::class.java)
     }
 
     override fun onPause() {

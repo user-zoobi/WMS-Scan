@@ -42,9 +42,4 @@ class ScanShelfAdapter (
     }
 
     override fun getItemCount(): Int = list.size
-
-    fun addItems(listItems:ArrayList<GetShelfResponse>){
-        list.addAll(listItems)
-        notifyDataSetChanged()
-    }
 }

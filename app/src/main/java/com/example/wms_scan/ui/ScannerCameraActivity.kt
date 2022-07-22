@@ -17,6 +17,7 @@ import com.example.scanmate.data.callback.Status
 import com.example.scanmate.extensions.click
 import com.example.scanmate.extensions.obtainViewModel
 import com.example.scanmate.extensions.setTransparentStatusBarColor
+import com.example.scanmate.extensions.toast
 import com.example.scanmate.util.CustomProgressDialog
 import com.example.scanmate.viewModel.MainViewModel
 import com.example.wms_scan.R
@@ -28,6 +29,7 @@ class ScannerCameraActivity : AppCompatActivity() {
     private lateinit var dialog: CustomProgressDialog
     private lateinit var viewModel: MainViewModel
     private lateinit var binding: ActivityScannerCameraBinding
+    private var scannedData = ""
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -89,74 +91,9 @@ class ScannerCameraActivity : AppCompatActivity() {
 
             runOnUiThread {
                 Toast.makeText(this, "Scan result: ${it.text}", Toast.LENGTH_LONG).show()
-                val scannedData = it.text
-
+                scannedData = it.text
+                scannedProcess()
                 Log.i("scannedQR",scannedData)
-
-                var location    = ""
-                var warehouse   = ""
-                var rack        = ""
-                var shelve      = ""
-                var pallete     = ""
-
-                if (scannedData.contains("L"))
-                {
-                    location = "${scannedData.substringBefore("L-")}L"
-                    Log.i("LocCode","$location")
-                }
-                else
-                {
-                    codeScanner.startPreview()
-                }
-
-                if (scannedData.contains("WH"))
-                {
-                    warehouse = "${scannedData.substringAfter("L-").substringBefore("WH")}WH"
-                    Log.i("whCode","${warehouse}")
-                }
-                else
-                {
-                    codeScanner.startPreview()
-                }
-
-                if (scannedData.contains("RK"))
-                {
-                    rack = "${scannedData.substringAfter("WH-").substringBefore("RK")}RK"
-                    Log.i("rackCode","$rack")
-                }
-                else
-                {
-                    codeScanner.startPreview()
-                }
-
-                if (scannedData.contains("SF"))
-                {
-                    shelve = "${scannedData.substringAfter("RK-").substringBefore("SF")}SF"
-                    Log.i("shelfCode",shelve)
-                }
-                else
-                {
-                    codeScanner.startPreview()
-                }
-
-
-                if (scannedData.contains("PL"))
-                {
-                    pallete = "${scannedData.substringAfter("SF-").substringBefore("PL")}PL"
-                    Log.i("palletCode",pallete)
-                }
-                else
-                {
-                    codeScanner.startPreview()
-                }
-
-                val intent =  Intent(this@ScannerCameraActivity, ShowAllHierarchy::class.java)
-                intent.putExtra("l",location)
-                intent.putExtra("w",warehouse)
-                intent.putExtra("r",rack)
-                intent.putExtra("s",shelve)
-                intent.putExtra("p",pallete)
-                startActivity(intent)
 
             }
         }
@@ -183,6 +120,74 @@ class ScannerCameraActivity : AppCompatActivity() {
         super.onPause()
     }
 
-    //
+    private fun scannedProcess(){
 
+        var warehouse = "${scannedData.substringAfter("L-").substringBefore("WH")}WH"
+
+        var rack = if (scannedData.contains("RK")) "${scannedData.substringAfter("WH-").substringBefore("RK")}RK"
+        else ""
+
+        var shelve = if (scannedData.contains("SF")) "${scannedData.substringAfter("RK-").substringBefore("SF")}SF"
+        else ""
+
+        var pallete = if (scannedData.contains("PL")) "${scannedData.substringAfter("SF-").substringBefore("PL")}PL"
+        else ""
+
+        Log.i("INTENT", "scannedData: $scannedData")
+        Log.i("INTENT", "warehouse: $warehouse")
+        Log.i("INTENT", "rack: $rack")
+        Log.i("INTENT", "shelve: $shelve")
+        Log.i("INTENT", "pallete: $pallete")
+
+        if ((scannedData == warehouse) or (scannedData == rack) or (scannedData == shelve) or (scannedData == pallete))
+        {
+            toast("Please scan correct QR Code")
+            codeScanner.startPreview()
+        }
+        else
+        {
+            if (scannedData.contains("PL"))
+            {
+                val intent =  Intent(this@ScannerCameraActivity, ShowAllHierarchy::class.java)
+                intent.putExtra("p",pallete)
+                intent.putExtra("scannedData",scannedData)
+                startActivity(intent)
+                Log.i("elect",pallete)
+            }
+
+            if (scannedData.contains("SF"))
+            {
+                val intent =  Intent(this@ScannerCameraActivity, ShowAllHierarchy::class.java)
+                intent.putExtra("s",shelve)
+                intent.putExtra("scannedData",scannedData)
+                startActivity(intent)
+                Log.i("elect",shelve)
+            }
+            if (scannedData.contains("RK"))
+            {
+                val intent =  Intent(this@ScannerCameraActivity, ShowAllHierarchy::class.java)
+                intent.putExtra("r",rack)
+                intent.putExtra("scannedData",scannedData)
+                startActivity(intent)
+                Log.i("elect",rack)
+            }
+            if (scannedData.contains("WH"))
+            {
+                toast(warehouse)
+                val intent =  Intent(this@ScannerCameraActivity, ShowAllHierarchy::class.java)
+                intent.putExtra("w",warehouse)
+                intent.putExtra("scannedData",scannedData)
+                startActivity(intent)
+                Log.i("elect",warehouse)
+            }
+
+
+//            val intent =  Intent(this@ScannerCameraActivity, ShowAllHierarchy::class.java)
+//            intent.putExtra("w",warehouse)
+//            intent.putExtra("r",rack)
+//            intent.putExtra("s",shelve)
+//            intent.putExtra("p",pallete)
+//            startActivity(intent)
+        }
+    }
 }

@@ -43,12 +43,8 @@ class ShowAllHierarchy : AppCompatActivity() {
     private lateinit var palletAdapter: ScanPalletAdapter
     private lateinit var cartonAdapter: ScanCartonAdapter
     private lateinit var cartonQnWiseAdapter: CartonDetailAdapter
-    private var location:String? = ""
-    private var warehouse:String?  = ""
-    private var rack:String?  = ""
-    private var shelve:String?  = ""
-    private var pallete:String?  = ""
-//
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityScanAllHierarchyBinding.inflate(layoutInflater)
@@ -57,29 +53,39 @@ class ShowAllHierarchy : AppCompatActivity() {
         initObserver()
         initListener()
 
-        location    = intent.extras?.getString("l")
-        warehouse   = intent.extras?.getString("w")
-        rack        = intent.extras?.getString("r")
-        shelve      = intent.extras?.getString("s")
-        pallete     = intent.extras?.getString("p")
+        var warehouse = intent.extras?.getString("w").toString()
+        var rack = intent.extras?.getString("r").toString()
+        var shelve = intent.extras?.getString("s").toString()
+        var palette = intent.extras?.getString("p").toString()
+        var scannedData = intent.extras?.getString("scannedData").toString()
+        val locationNo = scannedData?.substringBefore("L")
 
-        val locationNo = location?.substringBefore("L")
-        Log.i("locationNo",locationNo.toString())
+            if(palette.contains("PL") )
+            {
+                viewModel.scanAll("$palette", "$locationNo")
+                toast("pallet")
+            }
+            if (shelve.contains("SF"))
+            {
+                viewModel.scanAll("$shelve", "$locationNo")
+                toast("shelf")
+            }
+            if (rack.contains("RK"))
+            {
+                viewModel.scanAll("$rack", "$locationNo")
+                toast("rack")
+            }
+            if (warehouse.contains("WH"))
+            {
+                viewModel.scanAll("$warehouse", "$locationNo")
+                toast("warehouse")
+            }
 
-    when
-        {
-        pallete!!.contains("PL") -> viewModel.scanAll("$pallete", "$locationNo")
-        shelve!!.contains("SF") -> viewModel.scanAll("$shelve", "$locationNo")
-        rack!!.contains("RK") -> viewModel.scanAll("$rack", "$locationNo")
-        warehouse!!.contains("WH") -> viewModel.scanAll("$warehouse", "$locationNo")
-        location!!.contains("L") -> viewModel.scanAll("$location", "$locationNo")
-        }
-///
-        Log.i("location",location.toString())
-        Log.i("rack",rack.toString())
-        Log.i("warehouse",warehouse.toString())
-        Log.i("shelve",shelve.toString())
-        Log.i("pallet",pallete.toString())
+        Log.i("scannerCameraActivity1",rack.toString())
+        Log.i("scannerCameraActivity1",warehouse.toString())
+        Log.i("scannerCameraActivity1",shelve.toString())
+        Log.i("scannerCameraActivity1",palette.toString())
+        Log.i("scannerCameraActivity1",locationNo.toString())
 
     }
 
@@ -134,10 +140,21 @@ class ShowAllHierarchy : AppCompatActivity() {
 
                             Log.i("allHierarchy",it.data?.get(0)?.rackCode.toString())
 
+                            var warehouse = intent.extras?.getString("w").toString()
+                            var rack = intent.extras?.getString("r").toString()
+                            var shelve = intent.extras?.getString("s").toString()
+                            var palette = intent.extras?.getString("p").toString()
+
+                            Log.i("scannerCameraActivity2",rack.toString())
+                            Log.i("scannerCameraActivity2",warehouse.toString())
+                            Log.i("scannerCameraActivity2",shelve.toString())
+                            Log.i("scannerCameraActivity2",palette.toString())
+                            Log.i("scannerCameraActivity2",busLocNo.toString())
+
                             when
                             {
 
-                                pallete!!.contains("PL") ->{
+                                palette.contains("PL") ->{
                                     viewModel.getCarton(
                                         Utils.getSimpleTextBody(palletNo),
                                         Utils.getSimpleTextBody(busLocNo)
@@ -146,7 +163,7 @@ class ShowAllHierarchy : AppCompatActivity() {
                                     Log.i("palletNoScan",palletNo)
                                 }
 
-                                shelve!!.contains("SF") ->{
+                                shelve.contains("SF") ->{
 
                                     viewModel.getPallet(
                                         Utils.getSimpleTextBody(""),
@@ -158,7 +175,7 @@ class ShowAllHierarchy : AppCompatActivity() {
                                     binding.palletCont.gone()
                                 }
 
-                                rack!!.contains("RK") ->{
+                                rack.contains("RK") ->{
 
                                     viewModel.getShelf(
                                         Utils.getSimpleTextBody(""),
@@ -175,7 +192,7 @@ class ShowAllHierarchy : AppCompatActivity() {
 
                                 }
 
-                                warehouse!!.contains("WH") -> {
+                                warehouse.contains("WH") -> {
 
                                     viewModel.getRack(
                                         Utils.getSimpleTextBody(""),
@@ -195,10 +212,6 @@ class ShowAllHierarchy : AppCompatActivity() {
 
                                 }
 
-                                location!!.contains("L") ->{
-                                    viewModel.getWarehouse("",busLocNo)
-                                }
-                                else -> { }
                             }
 
                             binding.WHTV.click {
@@ -473,5 +486,6 @@ class ShowAllHierarchy : AppCompatActivity() {
     {
         finish()
     }
+
 
 }
