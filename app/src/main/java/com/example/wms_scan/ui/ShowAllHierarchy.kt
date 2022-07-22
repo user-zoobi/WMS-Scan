@@ -397,18 +397,18 @@ class ShowAllHierarchy : AppCompatActivity() {
                     binding.showAllRV.apply {
                         layoutManager = LinearLayoutManager(this@ShowAllHierarchy)
                         adapter = cartonQnWiseAdapter
-                        Log.i("analyticalNo",it.data?.get(0)?.analyticalNo.toString())
+                        Log.i("analyticalNo",it.data.get(0).analyticalNo.toString())
                         binding.itemCode.visible()
                         binding.slash.visible()
 
-                        if (it.data?.get(0)?.cartonNo.toString() == "0")
+                        if (it.data.get(0).cartonNo.toString() == "0")
                         {
                             adapter = null
                             toast(noRecordFound)
                         }
 
-                        binding.itemTV.text = it.data?.get(0)?.analyticalNo.toString()
-                        binding.itemCode.text = it.data?.get(0)?.itemCode.toString()
+                        binding.itemTV.text = it.data.get(0).analyticalNo.toString()
+                        binding.itemCode.text = it.data.get(0).itemCode.toString()
                     }
                 }
                 Status.ERROR -> {}

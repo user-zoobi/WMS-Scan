@@ -25,17 +25,10 @@ import com.google.android.gms.vision.barcode.BarcodeDetector
 
 class ScannerCameraActivity : AppCompatActivity() {
     private lateinit var codeScanner: CodeScanner
-    private val requestCodeCameraPermission = 1001
-    private lateinit var barcodeDetector: BarcodeDetector
     private lateinit var dialog: CustomProgressDialog
     private lateinit var viewModel: MainViewModel
     private lateinit var binding: ActivityScannerCameraBinding
-    private var palleteCode = ""
 
-    companion object {
-        private const val CAMERA_PERMISSION_CODE = 100
-        private const val STORAGE_PERMISSION_CODE = 101
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
