@@ -183,4 +183,6 @@ class ScannerCameraActivity : AppCompatActivity() {
         super.onPause()
     }
 
+    //
+
 }
