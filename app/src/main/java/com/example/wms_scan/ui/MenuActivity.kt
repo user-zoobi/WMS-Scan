@@ -21,6 +21,7 @@ import com.example.scanmate.util.LocalPreferences.AppLoginPreferences.busLocNo
 import com.example.scanmate.util.LocalPreferences.AppLoginPreferences.scanCarton
 import com.example.scanmate.util.LocalPreferences.AppLoginPreferences.userNo
 import com.example.scanmate.util.Utils
+import com.example.scanmate.util.Utils.isNetworkConnected
 import com.example.scanmate.viewModel.MainViewModel
 import com.example.wms_scan.R
 import com.example.wms_scan.databinding.ActivityMenuBinding
@@ -93,7 +94,9 @@ class MenuActivity : AppCompatActivity() {
                         it.data[0].busLocationName?.let { it1 ->
                             LocalPreferences.put(this,orgBusLocNo, it1)
                         }
-                    }else{
+                    }
+                    else
+                    {
                      toast("no result found")
                     }
                 }
@@ -112,7 +115,7 @@ class MenuActivity : AppCompatActivity() {
                     if(it.data?.get(0)?.status == true)
                     {
                         dialog.dismiss()
-                        Log.i("businessLoc1",it.data?.get(0)?.menu!!)
+                        Log.i("businessLoc1", it.data[0].menu!!)
                     }
                     else
                     {
@@ -126,22 +129,63 @@ class MenuActivity : AppCompatActivity() {
 
     private fun initListeners() {
         binding.warehouseIV.setOnClickListener {
-            gotoActivity(WarehouseActivity::class.java, "warehouseValues",false)
+            if (isNetworkConnected(this)){
+                gotoActivity(WarehouseActivity::class.java, "warehouseValues",false)
+            }
+            else
+            {
+                toast("No internet found")
+            }
+
         }
         binding.racksIV.setOnClickListener {
-            gotoActivity(RacksActivity::class.java)
+            if (isNetworkConnected(this)){
+                gotoActivity(RacksActivity::class.java)
+            }
+            else
+            {
+                toast("No internet found")
+            }
+
         }
         binding.shelfIV.setOnClickListener {
-            gotoActivity(ShelfActivity::class.java)
+
+            if (isNetworkConnected(this)){
+                gotoActivity(ShelfActivity::class.java)
+            }
+            else
+            {
+                toast("No internet found")
+            }
         }
         binding.palletsIV.setOnClickListener {
-            gotoActivity(PalletsActivity::class.java)
+
+            if (isNetworkConnected(this)){
+                gotoActivity(PalletsActivity::class.java)
+            }
+            else
+            {
+                toast("No internet found")
+            }
         }
         binding.placeCartonIV.setOnClickListener {
-            gotoActivity(CreateCartonActivity::class.java, "placeCarton",true)
+            if (isNetworkConnected(this)){
+                gotoActivity(CreateCartonActivity::class.java, "placeCarton",true)
+            }
+            else
+            {
+                toast("No internet found")
+            }
+
         }
         binding.scanCartonIV.click {
-            gotoActivity(ScannerActivity::class.java,scanCarton,true)
+            if (isNetworkConnected(this)){
+                gotoActivity(ScannerActivity::class.java,scanCarton,true)
+            }
+            else
+            {
+                toast("No internet found")
+            }
         }
 
     }

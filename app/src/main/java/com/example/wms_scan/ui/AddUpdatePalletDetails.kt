@@ -24,6 +24,7 @@ import com.example.wms_scan.data.response.GetPalletResponse
 import com.example.wms_scan.databinding.ActivityAddUpdatePalletDetailsBinding
 import com.example.wms_scan.databinding.ActivityAddUpdateShelfDetailsBinding
 import java.util.*
+import java.util.regex.Pattern
 
 class AddUpdatePalletDetails : AppCompatActivity() {
     private lateinit var viewModel: MainViewModel
@@ -133,6 +134,8 @@ class AddUpdatePalletDetails : AppCompatActivity() {
         binding.addPalletBtn.click {
             LocalPreferences.put(this,isRefreshRequired, true)
             palletName = binding.palletNameET.text.toString()
+            val regex = Pattern.compile("[$&+,:;=\\\\?@#|/'<>.^*()%!-]")
+
             if (binding.palletNameET.text.isNullOrEmpty())
             {
                 toast("Field must not be empty")
@@ -157,7 +160,16 @@ class AddUpdatePalletDetails : AppCompatActivity() {
 
         // UPDATE YOUR PALLET
         binding.updatePalletBtn.click {
+
             palletName = binding.palletNameET.text.toString()
+            val regex = Pattern.compile("[$&+,:;=\\\\?@#|/'<>.^*()%!-]")
+            if (binding.palletNameET.text.isNullOrEmpty())
+            {
+                toast("Field must not be empty")
+                binding.palletNameET.requestFocus()
+            }
+
+
             viewModel.addPallet(
                 Utils.getSimpleTextBody("$updatedPalletNo"),
                 Utils.getSimpleTextBody(palletName),

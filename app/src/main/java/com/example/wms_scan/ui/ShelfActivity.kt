@@ -130,20 +130,38 @@ class ShelfActivity : AppCompatActivity() {
         }
 
         binding.shelfAddBTN.click {
+            val businessSpinner = binding.businessLocationSpinner
+            val warehouseSpinner = binding.warehouseSpinner
+            val rackSpinner = binding.rackSpinner
+
             if (isNetworkConnected(this))
             {
-                val intent = Intent(this, AddUpdateShelfDetails::class.java)
-                intent.putExtra("addBusLocNo",selectedBusLocNo)
-                intent.putExtra("addWHNo",selectedWareHouseNo)
-                intent.putExtra("addRackNo",selectedRackNo)
-                intent.putExtra("addShelfNo",selectedShelveNo)
-                intent.putExtra("addBusLocName",busLocName)
-                intent.putExtra("addWHName",warehouseName)
-                intent.putExtra("addRackName",rackName)
-                intent.putExtra("shelfCap",shelfCapacity)
-                intent.putExtra("shelfCode",shelfCode)
-                intent.putExtra("AddShelfKey",true)
-                startActivity(intent)
+                if ((businessSpinner.adapter != null) and (warehouseSpinner.adapter != null)
+                    and (rackSpinner.adapter != null))
+                {
+                    val intent = Intent(this, AddUpdateShelfDetails::class.java)
+                    intent.putExtra("addBusLocNo",selectedBusLocNo)
+                    intent.putExtra("addWHNo",selectedWareHouseNo)
+                    intent.putExtra("addRackNo",selectedRackNo)
+                    intent.putExtra("addShelfNo",selectedShelveNo)
+                    intent.putExtra("addBusLocName",busLocName)
+                    intent.putExtra("addWHName",warehouseName)
+                    intent.putExtra("addRackName",rackName)
+                    intent.putExtra("shelfCap",shelfCapacity)
+                    intent.putExtra("shelfCode",shelfCode)
+                    intent.putExtra("AddShelfKey",true)
+                    startActivity(intent)
+                }
+                else
+                {
+                    toast("please select value again")
+                    businessSpinner.gone()
+                    warehouseSpinner.gone()
+                    rackSpinner.gone()
+                    binding.availableShelfTV.gone()
+                    binding.swipeRefresh.isRefreshing = false
+                }
+
             }
             else
             {
@@ -234,6 +252,9 @@ class ShelfActivity : AppCompatActivity() {
                     else
                     {
                         binding.shelfRV.adapter = null
+                        toast("Please select any value")
+                        binding.shelfAddBTN.isEnabled = false
+                        binding.businessLocationSpinner.gone()
                     }
                 }
                 Status.ERROR ->{
@@ -280,6 +301,12 @@ class ShelfActivity : AppCompatActivity() {
                             Log.i("rackAdapter","${e.stackTrace}")
                         }
                     }
+                    else
+                    {
+                        toast("Please select any value")
+                        binding.shelfAddBTN.isEnabled = false
+                        binding.warehouseSpinnerCont.gone()
+                    }
 
                     //warehouseAdapter.addItems(list)
                 }
@@ -307,6 +334,7 @@ class ShelfActivity : AppCompatActivity() {
                                 showRackSpinner(it.data)
                                 binding.shelfAddBTN.visible()
                                 binding.rackSpinnerCont.visible()
+                                binding.warehouseSpinnerCont.visible()
                             }
                             else
                             {
@@ -314,6 +342,7 @@ class ShelfActivity : AppCompatActivity() {
                                 intent.removeExtra("key")
                                 binding.shelfAddBTN.gone()
                                 binding.rackSpinnerCont.gone()
+                                binding.warehouseSpinnerCont.gone()
                                 binding.printIV.click {
                                     toast("Nothing to print!")
                                 }
@@ -325,6 +354,12 @@ class ShelfActivity : AppCompatActivity() {
                             Log.i("RACK_OBSERVER","${e.message}")
                             Log.i("RACK_OBSERVER","${e.stackTrace}")
                         }
+                    }
+                    else
+                    {
+                        toast("Please select any value")
+                        binding.shelfAddBTN.isEnabled = false
+                        binding.rackSpinnerCont.gone()
                     }
                 }
 
@@ -345,65 +380,72 @@ class ShelfActivity : AppCompatActivity() {
                     binding.swipeRefresh.isRefreshing = true
                 }
                 Status.SUCCESS ->{
-                    binding.swipeRefresh.isRefreshing = false
-                    dialog.setCanceledOnTouchOutside(true);
-                    it.let{
-                        if (isNetworkConnected(this)){
-                            LocalPreferences.put(this, isRefreshRequired, true)
-                            try {
-                                if(it.data?.get(0)?.status == true) {
+                    if (isNetworkConnected(this))
+                    {
+                        binding.swipeRefresh.isRefreshing = false
+                        dialog.setCanceledOnTouchOutside(true);
+                        it.let{
+                            if (isNetworkConnected(this)){
+                                LocalPreferences.put(this, isRefreshRequired, true)
+                                try {
+                                    if(it.data?.get(0)?.status == true) {
 
-                                    shelfList = ArrayList()
-                                    shelfCode = it.data[0].shelfCode.toString()
-                                    Log.i("shelfcode",shelfCode)
-                                    shelfCapacity = it.data[0].capacity.toString()
-                                    shelfAdapter = ShelfAdapter(this,  it.data as ArrayList<GetShelfResponse>)
+                                        shelfList = ArrayList()
+                                        shelfCode = it.data[0].shelfCode.toString()
+                                        Log.i("shelfcode",shelfCode)
+                                        shelfCapacity = it.data[0].capacity.toString()
+                                        shelfAdapter = ShelfAdapter(this,  it.data as ArrayList<GetShelfResponse>)
 
-                                    bmpList.clear()
-                                    textList.clear()
-                                    binding.printIV.click { btn ->
+                                        bmpList.clear()
+                                        textList.clear()
+                                        binding.printIV.click { btn ->
 
-                                        if (isNetworkConnected(this))
-                                        {
-                                            for (i in it.data.indices)
+                                            if (isNetworkConnected(this))
                                             {
-                                                generateQRCode("${it.data[i].shelfCode}")
-                                                Log.i("ShelfName",it.data[i].shelfName.toString())
-                                                textList.add("${it.data[i].shelfName}")
-                                                Log.i("shelfArrayList","$textList")
+                                                for (i in it.data.indices)
+                                                {
+                                                    generateQRCode("${it.data[i].shelfCode}")
+                                                    Log.i("ShelfName",it.data[i].shelfName.toString())
+                                                    textList.add("${it.data[i].shelfName}")
+                                                    Log.i("shelfArrayList","$textList")
+                                                }
+                                                generatePDF()
                                             }
-                                            generatePDF()
-                                        }
-                                        else
-                                        {
-                                            toast("No Internet")
-                                        }
+                                            else
+                                            {
+                                                toast("No Internet")
+                                            }
 
 
+                                        }
+                                        binding.shelfRV.apply {
+                                            adapter = shelfAdapter
+                                            layoutManager = LinearLayoutManager(this@ShelfActivity)
+                                        }
                                     }
-                                    binding.shelfRV.apply {
-                                        adapter = shelfAdapter
-                                        layoutManager = LinearLayoutManager(this@ShelfActivity)
+                                    else
+                                    {
+                                        binding.printIV.click {
+                                            toast("Nothing to print!")
+                                        }
+                                        binding.shelfRV.adapter = null
+
                                     }
                                 }
-                                else
-                                {
-                                    binding.shelfRV.adapter = null
-                                    binding.rackSpinner.onItemSelectedListener = null
-                                    binding.warehouseSpinner.onItemSelectedListener = null
-                                    binding.printIV.click {
-                                        toast("Nothing to print!")
-                                    }
+                                catch (e:Exception){
+                                    Log.i("shelfException","${e.message}")
                                 }
                             }
-                            catch (e:Exception){
-                                Log.i("shelfException","${e.message}")
+                            else
+                            {
+                                binding.shelfRV.adapter = null
                             }
                         }
-                        else
-                        {
-                            binding.shelfRV.adapter = null
-                        }
+                    }
+                    else
+                    {
+                        toast("Please select any value")
+                        binding.shelfAddBTN.isEnabled = false
                     }
                 }
                 Status.ERROR ->{
@@ -447,7 +489,10 @@ class ShelfActivity : AppCompatActivity() {
                 }
 
             }
-            override fun onNothingSelected(p0: AdapterView<*>?) {}
+            override fun onNothingSelected(p0: AdapterView<*>?) {
+                toast("Please select any value")
+                binding.shelfAddBTN.isEnabled = false
+            }
         }
     }
 
@@ -481,6 +526,7 @@ class ShelfActivity : AppCompatActivity() {
                     Log.i("LocBus","This is warehouse name is ${adapter?.getItemAtPosition(position)}")
                     Log.i("LocBus","This is warehouse pos is ${data[position].wHNo}")
                 }
+
                 else
                 {
                     binding.shelfRV.adapter = null
@@ -488,7 +534,10 @@ class ShelfActivity : AppCompatActivity() {
                 }
 
             }
-            override fun onNothingSelected(p0: AdapterView<*>?) {}
+            override fun onNothingSelected(p0: AdapterView<*>?) {
+                toast("Please select any value")
+                binding.shelfAddBTN.isEnabled = false
+            }
         }
     }
 
@@ -529,7 +578,10 @@ class ShelfActivity : AppCompatActivity() {
                 }
 
             }
-            override fun onNothingSelected(p0: AdapterView<*>?) {}
+            override fun onNothingSelected(p0: AdapterView<*>?) {
+                toast("Please select any value")
+                binding.shelfAddBTN.isEnabled = false
+            }
         }
     }
 

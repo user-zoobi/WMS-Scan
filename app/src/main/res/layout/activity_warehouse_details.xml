@@ -81,9 +81,9 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/loginTimeTV"
-        android:background="@drawable/grey_rounded_bg"
         android:layout_alignParentBottom="true"
-        android:layout_marginTop="14dp">
+        android:layout_marginTop="14dp"
+        android:background="@drawable/grey_rounded_bg">
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
@@ -139,6 +139,7 @@
                         android:background="@color/white"
                         android:hint="business location name"
                         android:paddingStart="@dimen/_20sdp"
+                        android:textIsSelectable="true"
                         android:textSize="@dimen/_18ssp" />
 
                 </com.google.android.material.card.MaterialCardView>
@@ -167,6 +168,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/_50sdp"
                         android:background="@color/white"
+                        android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz"
                         android:hint="Add warehouse"
                         android:maxLines="1"
                         android:paddingStart="@dimen/_20sdp" />

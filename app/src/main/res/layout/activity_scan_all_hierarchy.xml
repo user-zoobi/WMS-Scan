@@ -156,12 +156,14 @@
             </RelativeLayout>
 
             <com.google.android.material.card.MaterialCardView
+                android:id="@+id/hierarchyCont"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_10sdp"
                 android:layout_marginTop="@dimen/_10sdp"
                 android:layout_marginEnd="@dimen/_10sdp"
                 android:layout_marginBottom="@dimen/_10sdp"
+                android:visibility="gone"
                 app:cardCornerRadius="@dimen/_20sdp"
                 app:cardElevation="@dimen/_10sdp">
 
@@ -402,25 +404,25 @@
                     android:id="@+id/slash"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_30sdp"
+                    android:layout_toEndOf="@id/itemTV"
                     android:fontFamily="@font/amiko"
                     android:text="|"
-                    android:layout_toEndOf="@id/itemTV"
-                    android:layout_marginStart="@dimen/_30sdp"
                     android:textSize="@dimen/_18ssp"
-                    android:visibility="gone"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:visibility="gone" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/itemCode"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/amiko"
-                    android:text=""
                     android:layout_marginStart="@dimen/_30sdp"
                     android:layout_toEndOf="@+id/slash"
+                    android:fontFamily="@font/amiko"
+                    android:text=""
                     android:textSize="@dimen/_18ssp"
                     android:textStyle="bold"
-                    android:visibility="gone"/>
+                    android:visibility="gone" />
 
             </RelativeLayout>
 

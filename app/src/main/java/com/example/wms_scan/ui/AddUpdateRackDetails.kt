@@ -2,11 +2,13 @@ package com.example.wms_scan.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.TextUtils
 import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
+import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.Observer
 import com.example.scanmate.data.callback.Status
 import com.example.scanmate.data.response.GetRackResponse
@@ -22,6 +24,7 @@ import com.example.scanmate.viewModel.MainViewModel
 import com.example.wms_scan.R
 import com.example.wms_scan.databinding.ActivityAddUpdateRackDetailsBinding
 import java.util.*
+import java.util.regex.Pattern
 
 class AddUpdateRackDetails : AppCompatActivity() {
     private lateinit var viewModel: MainViewModel
@@ -61,8 +64,8 @@ class AddUpdateRackDetails : AppCompatActivity() {
 
         binding.addRackBtn.click {
 
-                rackName = binding.rackNameET.text.toString()
-                shelfCap = binding.shelfCapacityET.text.toString()
+            rackName = binding.rackNameET.text.toString()
+            shelfCap = binding.shelfCapacityET.text.toString()
 
                 if(binding.shelfCapacityET.text.toString() == "0")
                 {
@@ -80,6 +83,7 @@ class AddUpdateRackDetails : AppCompatActivity() {
                     toast("Field must not be empty")
                     binding.rackNameET.error = "Field must not be empty"
                 }
+
                 else
                 {
                     viewModel.addRack(
@@ -102,20 +106,18 @@ class AddUpdateRackDetails : AppCompatActivity() {
 
         binding.updateRackBtn.click {
 
-                updatedRackName = binding.rackNameET.text.toString()
-                shelfCap = binding.shelfCapacityET.text.toString()
+            updatedRackName = binding.rackNameET.text.toString()
+            shelfCap = binding.shelfCapacityET.text.toString()
+            val regex = Pattern.compile("[$&+,:;=\\\\?@#|/'<>.^*()%!-]")
 
-                if(binding.shelfCapacityET.text.toString() == "0")
-                {
-                    toast("Please enter greater capacity")
-                }
-                else if (
-                    binding.shelfCapacityET.text.isNullOrEmpty()
-
-                )
+                if (binding.shelfCapacityET.text.isNullOrEmpty())
                 {
                     toast("Field must not be empty")
                     binding.shelfCapacityET.requestFocus()
+                }
+                else if (binding.shelfCapacityET.text.toString() == "[a-zA-Z.? ]*")
+                {
+                    binding.shelfCapacityET.error = "Please enter correct text"
                 }
                 else if ( binding.rackNameET.text.isNullOrEmpty())
                 {

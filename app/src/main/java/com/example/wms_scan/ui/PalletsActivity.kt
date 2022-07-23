@@ -142,8 +142,17 @@ class PalletsActivity : AppCompatActivity() {
         }
 
         binding.palletAddBTN.click {
+
+            val businessSpinner = binding.businessLocationSpinner
+            val warehouseSpinner = binding.warehouseSpinner
+            val rackSpinner = binding.rackSpinner
+            val shelfSpinner = binding.shelfSpinner
+
             if (isNetworkConnected(this))
             {
+                if ((businessSpinner.adapter != null) and (warehouseSpinner.adapter != null)
+                    and (rackSpinner.adapter != null) and (shelfSpinner.adapter != null))
+                {
                     val intent = Intent(this, AddUpdatePalletDetails::class.java)
                     intent.putExtra("addBusLocNo",selectedBusLocNo)
                     intent.putExtra("addWHNo",selectedWareHouseNo)
@@ -157,6 +166,17 @@ class PalletsActivity : AppCompatActivity() {
                     intent.putExtra("palletCap",capacity)
                     intent.putExtra("AddPalletKey",true)
                     startActivity(intent)
+                }
+                else
+                {
+                    toast("please select value again")
+                    businessSpinner.gone()
+                    warehouseSpinner.gone()
+                    rackSpinner.gone()
+                    shelfSpinner.gone()
+                    binding.availablePallets.gone()
+                    binding.swipeRefresh.isRefreshing = false
+                }
             }
         }
 
@@ -195,6 +215,7 @@ class PalletsActivity : AppCompatActivity() {
             when(it.status){
                 Status.LOADING->{
                     dialog.show()
+                    dialog.setCanceledOnTouchOutside(true)
                 }
                 Status.SUCCESS ->{
                     if (isNetworkConnected(this)){
@@ -212,6 +233,8 @@ class PalletsActivity : AppCompatActivity() {
                     else
                     {
                         binding.palletsRV.adapter = null
+                        binding.palletAddBTN.isEnabled = false
+                        binding.businessLocationSpinner.gone()
                     }
                 }
                 Status.ERROR ->{
@@ -263,6 +286,8 @@ class PalletsActivity : AppCompatActivity() {
                     else
                     {
                         binding.palletsRV.adapter = null
+                        binding.palletAddBTN.isEnabled = false
+                        binding.warehouseSpinnerCont.gone()
                     }
                 }
                 Status.ERROR ->{
@@ -315,6 +340,8 @@ class PalletsActivity : AppCompatActivity() {
                     else
                     {
                         binding.palletsRV.adapter = null
+                        binding.palletAddBTN.isEnabled = false
+                        binding.rackSpinnerCont.gone()
                     }
                     // Log.i("getRack",it.data?.get(0)?.rackNo.toString())
 
@@ -362,6 +389,8 @@ class PalletsActivity : AppCompatActivity() {
                     else
                     {
                         binding.palletsRV.adapter = null
+                        binding.palletAddBTN.isEnabled = false
+                        binding.shelfSpinnerCont.gone()
                     }
                 }
                 Status.ERROR ->{}
@@ -379,58 +408,67 @@ class PalletsActivity : AppCompatActivity() {
                     Log.i(loading,"Loading")
                 }
                 Status.SUCCESS ->{
-                    binding.swipeRefresh.isRefreshing = false
-                    try
+                    if (isNetworkConnected(this))
                     {
-                        LocalPreferences.put(this,isRefreshRequired, true)
-                        if(it.data?.get(0)?.status == true)
+                        binding.swipeRefresh.isRefreshing = false
+                        try
                         {
+                            LocalPreferences.put(this,isRefreshRequired, true)
+                            if(it.data?.get(0)?.status == true)
+                            {
 
-                            Log.i(success,"Success")
-                            palletAdapter = PalletsAdapter(this, it.data)
+                                Log.i(success,"Success")
+                                palletAdapter = PalletsAdapter(this, it.data)
 
-                            bmpList.clear()
-                            capacity = it.data[0].capacity.toString()
-                            palletCode = it.data[0].pilotCode.toString()
-                            binding.availablePallets.visible()
-                            binding.palletAddBTN.visible()
-                            binding.printIV.click { btn ->
+                                bmpList.clear()
+                                capacity = it.data[0].capacity.toString()
+                                palletCode = it.data[0].pilotCode.toString()
+                                binding.availablePallets.visible()
+                                binding.palletAddBTN.visible()
+                                binding.printIV.click { btn ->
 
-                                for (i in it.data)
-                                {
-                                    Log.i("WarehouseCodeName","${whCode}")
-                                    Log.i("RackCodeName","${rackCode}")
-                                    Log.i("ShelfCodeName","${shelfCode}")
-                                    Log.i("PalletCodeName","${palletCodeList}")
+                                    for (i in it.data)
+                                    {
+                                        Log.i("WarehouseCodeName","${whCode}")
+                                        Log.i("RackCodeName","${rackCode}")
+                                        Log.i("ShelfCodeName","${shelfCode}")
+                                        Log.i("PalletCodeName","${palletCodeList}")
 
-                                    generateQRCode("${i.pilotCode}")
-                                    Log.i("palletCode","${selectedBusLocNo}L-${whCode}-${rackCode}-${shelfCode}-${i.pilotCode}")
+                                        generateQRCode("${i.pilotCode}")
+                                        Log.i("palletCode","${selectedBusLocNo}L-${whCode}-${rackCode}-${shelfCode}-${i.pilotCode}")
 
-                                    palletCodeList.add("${i.pilotName}")
+                                        palletCodeList.add("${i.pilotName}")
 //                                Log.i("PalletCodes","$palletCodeList")
+                                    }
+                                    generatePDF()
                                 }
-                                generatePDF()
-                            }
-                            binding.palletsRV.apply {
-                                adapter = palletAdapter
-                                layoutManager = LinearLayoutManager(this@PalletsActivity)
-                            }
+                                binding.palletsRV.apply {
+                                    adapter = palletAdapter
+                                    layoutManager = LinearLayoutManager(this@PalletsActivity)
+                                }
 
-                        }
-                        else
-                        {
-                            binding.palletsRV.adapter = null
-                            binding.availablePallets.gone()
-                            binding.printIV.click { btn ->
-                                toast("Nothing to print!")
+                            }
+                            else
+                            {
+                                binding.palletsRV.adapter = null
+                                binding.availablePallets.gone()
+                                binding.printIV.click { btn ->
+                                    toast("Nothing to print!")
+                                }
                             }
                         }
+                        catch (e:Exception)
+                        {
+                            Log.i("","${e.message}")
+                            Log.i("rackAdapter","${e.stackTrace}")
+                        }
                     }
-                    catch (e:Exception)
+                    else
                     {
-                        Log.i("","${e.message}")
-                        Log.i("rackAdapter","${e.stackTrace}")
+                        binding.palletsRV.adapter = null
+                        binding.palletAddBTN.isEnabled = false
                     }
+
                 }
 
                 Status.ERROR ->{

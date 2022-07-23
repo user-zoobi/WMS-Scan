@@ -112,17 +112,27 @@ class WarehouseActivity : AppCompatActivity() {
                     dialog.setCanceledOnTouchOutside(true);
                 }
                 Status.SUCCESS ->{
-                    binding.swipeRefresh.isRefreshing = false
-
-                    if(it.data?.get(0)?.status == true)
+                    if (isNetworkConnected(this))
                     {
-                        dialog.dismiss()
-                        showBusLocSpinner(it.data)
+                        binding.swipeRefresh.isRefreshing = false
+
+                        if(it.data?.get(0)?.status == true)
+                        {
+                            dialog.dismiss()
+                            showBusLocSpinner(it.data)
+                        }
+                        else
+                        {
+                            toast("No result found")
+                        }
                     }
                     else
                     {
-                        toast("No result found")
+                        binding.businessLocationSpinner.gone()
+                        binding.businessLocationSpinner.adapter = null
+                        binding.whAddBTN.isEnabled = false
                     }
+
                 }
                 Status.ERROR ->{
                     dialog.dismiss()
@@ -214,6 +224,7 @@ class WarehouseActivity : AppCompatActivity() {
                         {
                             binding.warehouseRV.adapter = null
                             toast("No result found")
+                            binding.whAddBTN.isEnabled = false
                         }
                     }
 
@@ -255,18 +266,30 @@ class WarehouseActivity : AppCompatActivity() {
         }
 
         binding.whAddBTN.click{
-            if (isNetworkConnected(this)){
-                val intent = Intent(this, WarehouseDetailsActivity::class.java)
+            val businessSpinner = binding.businessLocationSpinner
 
-                intent.putExtra("addBusName",businessLocName)
-                intent.putExtra("addBusLocNo",selectedBusLocNo)
-                intent.putExtra("AddWHKey",true)
-                startActivity(intent)
+            if (isNetworkConnected(this)){
+                if ((businessSpinner.adapter != null))
+                {
+                    val intent = Intent(this, WarehouseDetailsActivity::class.java)
+                    intent.putExtra("addBusName",businessLocName)
+                    intent.putExtra("addBusLocNo",selectedBusLocNo)
+                    intent.putExtra("AddWHKey",true)
+                    startActivity(intent)
+                }
+                else
+                {
+                    toast("please select value again")
+                    businessSpinner.gone()
+                    binding.availableWHTV.gone()
+                    binding.swipeRefresh.isRefreshing = false
+                }
             }
             else
             {
                 toast(NoInternetFound)
                 binding.whAddBTN.isEnabled = false
+                binding.businessLocationSpinner.gone()
             }
         }
 
@@ -327,7 +350,10 @@ class WarehouseActivity : AppCompatActivity() {
                 }
 
             }
-            override fun onNothingSelected(p0: AdapterView<*>?) {}
+            override fun onNothingSelected(p0: AdapterView<*>?) {
+                toast("Please select any value")
+                binding.whAddBTN.isEnabled = false
+            }
         }
     }
 

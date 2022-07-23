@@ -5,6 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
     tools:context=".ui.AddUpdateShelfDetails"
     android:background="@color/dark_hollow_black">
 
@@ -226,6 +227,7 @@
                         android:background="@color/white"
                         android:paddingStart="@dimen/_20sdp"
                         android:text="business location name"
+                        android:textIsSelectable="true"
                         android:textSize="@dimen/_18ssp" />
 
                 </com.google.android.material.card.MaterialCardView>
@@ -258,6 +260,7 @@
                         android:background="@color/white"
                         android:paddingStart="@dimen/_20sdp"
                         android:text="warehouse name"
+                        android:textIsSelectable="true"
                         android:textSize="@dimen/_18ssp" />
 
                 </com.google.android.material.card.MaterialCardView>
@@ -291,6 +294,7 @@
                         android:background="@color/white"
                         android:paddingStart="@dimen/_20sdp"
                         android:text="rack name"
+                        android:textIsSelectable="true"
                         android:textSize="@dimen/_18ssp" />
 
                 </com.google.android.material.card.MaterialCardView>
@@ -321,7 +325,8 @@
                         android:background="@color/white"
                         android:hint="@string/add_shelf"
                         android:maxLines="1"
-                        android:paddingStart="@dimen/_20sdp" />
+                        android:paddingStart="@dimen/_20sdp"
+                        android:digits="123456789"/>
 
                 </com.google.android.material.card.MaterialCardView>
 
@@ -351,7 +356,8 @@
                         android:background="@color/white"
                         android:hint="Pallet capacity"
                         android:inputType="number"
-                        android:paddingStart="@dimen/_20sdp" />
+                        android:paddingStart="@dimen/_20sdp"
+                        android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz"/>
 
                 </com.google.android.material.card.MaterialCardView>
 

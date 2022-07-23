@@ -32,6 +32,7 @@ class ScannerCameraActivity : AppCompatActivity() {
     private var scannedData = ""
 
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityScannerCameraBinding.inflate(layoutInflater)
@@ -173,7 +174,7 @@ class ScannerCameraActivity : AppCompatActivity() {
             }
             if (scannedData.contains("WH"))
             {
-                toast(warehouse)
+                //toast(warehouse)
                 val intent =  Intent(this@ScannerCameraActivity, ShowAllHierarchy::class.java)
                 intent.putExtra("w",warehouse)
                 intent.putExtra("scannedData",scannedData)

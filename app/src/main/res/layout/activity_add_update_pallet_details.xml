@@ -135,6 +135,7 @@
                         android:fontFamily="@font/amiko"
                         android:paddingStart="@dimen/_10sdp"
                         android:text="business location name"
+                        android:textIsSelectable="true"
                         android:textSize="@dimen/_18ssp"
                         android:textStyle="bold" />
 
@@ -168,6 +169,7 @@
                         android:fontFamily="@font/amiko"
                         android:paddingStart="@dimen/_10sdp"
                         android:text="business location name"
+                        android:textIsSelectable="true"
                         android:textSize="@dimen/_18ssp"
                         android:textStyle="bold" />
 
@@ -201,6 +203,7 @@
                         android:fontFamily="@font/amiko"
                         android:paddingStart="@dimen/_10sdp"
                         android:text="business location name"
+                        android:textIsSelectable="true"
                         android:textSize="@dimen/_18ssp"
                         android:textStyle="bold" />
 
@@ -234,6 +237,7 @@
                         android:fontFamily="@font/amiko"
                         android:paddingStart="@dimen/_10sdp"
                         android:text="business location name"
+                        android:textIsSelectable="true"
                         android:textSize="@dimen/_18ssp"
                         android:textStyle="bold" />
 
@@ -264,6 +268,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/_50sdp"
                         android:background="@color/white"
+                        android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz"
                         android:hint="@string/add_pallet"
                         android:paddingStart="@dimen/_20sdp" />
 
@@ -279,9 +284,9 @@
                 android:layout_marginTop="@dimen/_20sdp"
                 android:layout_marginEnd="@dimen/_20sdp"
                 android:layout_marginBottom="@dimen/_20sdp"
-                android:maxLines="1"
                 android:background="@drawable/dark_green_rounded_bg"
                 android:fontFamily="@font/amiko"
+                android:maxLines="1"
                 android:text="Add"
                 android:textAllCaps="false"
                 android:textColor="@color/white"

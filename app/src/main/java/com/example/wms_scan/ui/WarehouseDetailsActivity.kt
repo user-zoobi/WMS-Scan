@@ -2,31 +2,21 @@ package com.example.wms_scan.ui
 
 import android.content.Context
 import android.content.SharedPreferences
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.view.View
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.scanmate.data.callback.Status
-import com.example.scanmate.data.response.GetRackResponse
-import com.example.scanmate.data.response.GetShelfResponse
-import com.example.scanmate.data.response.GetWarehouseResponse
-import com.example.scanmate.data.response.UserLocationResponse
 import com.example.scanmate.extensions.*
 import com.example.scanmate.util.CustomProgressDialog
 import com.example.scanmate.util.LocalPreferences
 import com.example.scanmate.util.LocalPreferences.AppLoginPreferences.isRefreshRequired
 import com.example.scanmate.util.LocalPreferences.AppLoginPreferences.userNo
-import com.example.scanmate.util.Utils
 import com.example.scanmate.viewModel.MainViewModel
 import com.example.wms_scan.R
-import com.example.wms_scan.adapter.shelf.ShelfAdapter
-import com.example.wms_scan.adapter.warehouse.WarehouseAdapter
 import com.example.wms_scan.databinding.ActivityWarehouseDetailsBinding
 import java.util.*
+import java.util.regex.Pattern
 
 class WarehouseDetailsActivity : AppCompatActivity() {
     private lateinit var binding: ActivityWarehouseDetailsBinding
@@ -109,7 +99,9 @@ class WarehouseDetailsActivity : AppCompatActivity() {
 
         binding.addWarehouseBTN.click {
 
+
             updatedWarehouseName = binding.updateWarehouseET.text.toString()
+
             if (binding.updateWarehouseET.text.isNullOrEmpty())
             {
                 toast("Field must not be empty")
@@ -117,21 +109,23 @@ class WarehouseDetailsActivity : AppCompatActivity() {
             }
             else
             {
-                viewModel.addUpdateWarehouse(
-                    "0",
-                    updatedWarehouseName,
-                    "$addWhCode",
-                    "$selectedBusLocNo",
-                    LocalPreferences.getInt(this, userNo).toString(),
-                    "$deviceId"
-                )
-                LocalPreferences.put(this, isRefreshRequired, true)
-                finish()
+                    viewModel.addUpdateWarehouse(
+                        "0",
+                        updatedWarehouseName,
+                        "$addWhCode",
+                        "$selectedBusLocNo",
+                        LocalPreferences.getInt(this, userNo).toString(),
+                        "$deviceId"
+                    )
+                    LocalPreferences.put(this, isRefreshRequired, true)
+                    finish()
             }
         }
 
         binding.updateWarehouseBtn.click {
-                updatedWarehouseName = binding.updateWarehouseET.text.toString()
+
+            updatedWarehouseName = binding.updateWarehouseET.text.toString()
+
             if (binding.updateWarehouseET.text.isNullOrEmpty())
             {
                 toast("Field must not be empty")

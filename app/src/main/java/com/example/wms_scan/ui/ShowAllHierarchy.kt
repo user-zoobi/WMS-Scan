@@ -53,39 +53,7 @@ class ShowAllHierarchy : AppCompatActivity() {
         initObserver()
         initListener()
 
-        var warehouse = intent.extras?.getString("w").toString()
-        var rack = intent.extras?.getString("r").toString()
-        var shelve = intent.extras?.getString("s").toString()
-        var palette = intent.extras?.getString("p").toString()
-        var scannedData = intent.extras?.getString("scannedData").toString()
-        val locationNo = scannedData?.substringBefore("L")
 
-            if(palette.contains("PL") )
-            {
-                viewModel.scanAll("$palette", "$locationNo")
-                toast("pallet")
-            }
-            if (shelve.contains("SF"))
-            {
-                viewModel.scanAll("$shelve", "$locationNo")
-                toast("shelf")
-            }
-            if (rack.contains("RK"))
-            {
-                viewModel.scanAll("$rack", "$locationNo")
-                toast("rack")
-            }
-            if (warehouse.contains("WH"))
-            {
-                viewModel.scanAll("$warehouse", "$locationNo")
-                toast("warehouse")
-            }
-
-        Log.i("scannerCameraActivity1",rack.toString())
-        Log.i("scannerCameraActivity1",warehouse.toString())
-        Log.i("scannerCameraActivity1",shelve.toString())
-        Log.i("scannerCameraActivity1",palette.toString())
-        Log.i("scannerCameraActivity1",locationNo.toString())
 
     }
 
@@ -120,6 +88,7 @@ class ShowAllHierarchy : AppCompatActivity() {
 
                 Status.SUCCESS ->
                 {
+                    binding.hierarchyCont.visible()
                     it.let {
                         try
                         {
@@ -255,6 +224,7 @@ class ShowAllHierarchy : AppCompatActivity() {
                 Status.ERROR ->
                 {
                     Log.i("scanAllHierarchy","${Exception().message}")
+
                 }
             }
         })
@@ -266,12 +236,15 @@ class ShowAllHierarchy : AppCompatActivity() {
                 }
                 Status.SUCCESS ->
                 {
+                    binding.hierarchyCont.visible()
                     warehouseAdapter = ScanWarehouseAdapter(this,
                         it.data as ArrayList<GetWarehouseResponse>
                     )
                     binding.showAllRV.apply{
                         layoutManager = LinearLayoutManager(this@ShowAllHierarchy)
                         adapter = warehouseAdapter
+
+
 
                         if (it.data[0].wHNo.toString() == "0")
                         {
@@ -294,6 +267,7 @@ class ShowAllHierarchy : AppCompatActivity() {
 
                 Status.SUCCESS ->
                 {
+                    binding.hierarchyCont.visible()
                     racksAdapter = ScanRackAdapter(this,
                         it.data as ArrayList<GetRackResponse>
                     )
@@ -310,7 +284,10 @@ class ShowAllHierarchy : AppCompatActivity() {
                     binding.itemTV.text = it.data[0].wHName
                     Log.i("warehouseCode", it.data[0].wHName.toString())
                 }
-                Status.ERROR -> {}
+                Status.ERROR ->
+                {
+
+                }
             }
         })
 
@@ -319,6 +296,7 @@ class ShowAllHierarchy : AppCompatActivity() {
                 Status.LOADING ->{}
 
                 Status.SUCCESS ->{
+                    binding.hierarchyCont.visible()
                     shelfAdapter = ScanShelfAdapter(this,
                         it.data as ArrayList<GetShelfResponse>
                     )
@@ -335,8 +313,8 @@ class ShowAllHierarchy : AppCompatActivity() {
                     binding.itemTV.text = it.data[0].rackName
                     Log.i("shelfData", it.data[0].shelfName.toString())
                 }
-                Status.ERROR ->{
-
+                Status.ERROR ->
+                {
                 }
             }
         })
@@ -347,6 +325,7 @@ class ShowAllHierarchy : AppCompatActivity() {
 
                 }
                 Status.SUCCESS ->{
+                    binding.hierarchyCont.visible()
                     palletAdapter = ScanPalletAdapter(this,
                         it.data as ArrayList<GetPalletResponse>
                     )
@@ -362,8 +341,11 @@ class ShowAllHierarchy : AppCompatActivity() {
                     }
                     binding.itemTV.text = it.data[0].shelfName
                 }
-                Status.ERROR ->{
-
+                Status.ERROR ->
+                {
+                    binding.hierarchyTree.gone()
+                    binding.treeView.gone()
+                    binding.hierarchyCont.gone()
                 }
             }
         })
@@ -374,6 +356,7 @@ class ShowAllHierarchy : AppCompatActivity() {
 
                 }
                 Status.SUCCESS ->{
+                    binding.hierarchyCont.visible()
                     cartonAdapter = ScanCartonAdapter(this,
                         it.data as ArrayList<GetCartonResponse>
                     )
@@ -393,7 +376,11 @@ class ShowAllHierarchy : AppCompatActivity() {
                     Log.i("getCartonData", it.data[0].toString())
                 }
 
-                Status.ERROR ->{}
+                Status.ERROR ->
+                {
+                    binding.hierarchyTree.gone()
+                    binding.treeView.gone()
+                }
             }
         })
 
@@ -417,21 +404,27 @@ class ShowAllHierarchy : AppCompatActivity() {
                         if (it.data.get(0).cartonNo.toString() == "0")
                         {
                             adapter = null
-                            toast(noRecordFound)
+
                         }
 
                         binding.itemTV.text = it.data.get(0).analyticalNo.toString()
                         binding.itemCode.text = it.data.get(0).itemCode.toString()
                     }
                 }
-                Status.ERROR -> {}
+                Status.ERROR -> {
+                    toast("onError")
+                    binding.hierarchyTree.gone()
+                    binding.treeView.gone()
+                }
             }
         })
     }
 
     private fun initListener(){
         binding.scanIV.click {
-            gotoActivity(ScannerCameraActivity::class.java)
+            val intent = Intent(this, ScannerCameraActivity::class.java)
+            finish()
+            startActivity(intent)
         }
     }
 
@@ -485,6 +478,44 @@ class ShowAllHierarchy : AppCompatActivity() {
     override fun onBackPressed()
     {
         finish()
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        var warehouse = intent.extras?.getString("w").toString()
+        var rack = intent.extras?.getString("r").toString()
+        var shelve = intent.extras?.getString("s").toString()
+        var palette = intent.extras?.getString("p").toString()
+        var scannedData = intent.extras?.getString("scannedData").toString()
+        val locationNo = scannedData.substringBefore("L")
+
+        if(palette.contains("PL") )
+        {
+            viewModel.scanAll("$palette", "$locationNo")
+
+        }
+        if (shelve.contains("SF"))
+        {
+            viewModel.scanAll("$shelve", "$locationNo")
+
+        }
+        if (rack.contains("RK"))
+        {
+            viewModel.scanAll("$rack", "$locationNo")
+
+        }
+        if (warehouse.contains("WH"))
+        {
+            viewModel.scanAll("$warehouse", "$locationNo")
+
+        }
+
+        Log.i("scannerCameraActivity1",rack.toString())
+        Log.i("scannerCameraActivity1",warehouse.toString())
+        Log.i("scannerCameraActivity1",shelve.toString())
+        Log.i("scannerCameraActivity1",palette.toString())
+        Log.i("scannerCameraActivity1",locationNo.toString())
     }
 
 

@@ -32,9 +32,9 @@ class ScanRackAdapter (
         with(holder){
             binding.rackTV.text = data.rackName
 
-//            binding.rackCont.click {
-//                (context as ShowAllHierarchy).rackAction(data.rackNo.toString())
-//            }
+            binding.rackCont.click {
+                (context as ShowAllHierarchy).rackAction(data.rackNo.toString())
+            }
         }
     }
 

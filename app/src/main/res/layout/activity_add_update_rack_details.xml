@@ -209,6 +209,7 @@
                         android:fontFamily="@font/amiko"
                         android:paddingStart="@dimen/_10sdp"
                         android:text="business location name"
+                        android:textIsSelectable="true"
                         android:textSize="@dimen/_18ssp" />
 
                 </com.google.android.material.card.MaterialCardView>
@@ -241,6 +242,7 @@
                         android:fontFamily="@font/amiko"
                         android:paddingStart="@dimen/_10sdp"
                         android:text="warehouse name"
+                        android:textIsSelectable="true"
                         android:textSize="@dimen/_18ssp" />
 
                 </com.google.android.material.card.MaterialCardView>
@@ -271,7 +273,8 @@
                         android:background="@color/white"
                         android:hint="@string/add_rack"
                         android:maxLines="1"
-                        android:paddingStart="@dimen/_20sdp" />
+                        android:paddingStart="@dimen/_20sdp"
+                        android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz"/>
 
                 </com.google.android.material.card.MaterialCardView>
 
@@ -282,7 +285,7 @@
                     android:layout_marginTop="@dimen/_10sdp"
                     android:layout_marginBottom="@dimen/_5sdp"
                     android:fontFamily="@font/amiko"
-                    android:text="shelf Capacity"
+                    android:text="Shelf Capacity"
                     android:textColor="@color/black"
                     android:textSize="@dimen/_10ssp" />
 
@@ -303,7 +306,8 @@
                         android:hint="Shelf capacity"
                         android:inputType="number"
                         android:maxLines="1"
-                        android:paddingStart="@dimen/_20sdp" />
+                        android:paddingStart="@dimen/_20sdp"
+                        android:digits="123456789"/>
 
                 </com.google.android.material.card.MaterialCardView>
 

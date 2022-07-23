@@ -93,22 +93,22 @@ class QrCodeDetailActivity : AppCompatActivity() {
         {
             intent.extras?.getBoolean("warehouseKey") == true->
             {
-                generateQRCode("${busLocNo}-${whCode}")
+                generateQRCode("${whCode}")
                 binding.qrCodeNameTV.text = whName
             }
             intent.extras?.getBoolean("rackKey") == true->
             {
-                generateQRCode("${busLocNo}-${whCode}-$rackCode")
+                generateQRCode("$rackCode")
                 binding.qrCodeNameTV.text = rackName
             }
             intent.extras?.getBoolean("shelfKey") == true->
             {
-                generateQRCode("${busLocNo}-${whCode}-${rackCode}-${shelfCode}")
+                generateQRCode("${shelfCode}")
                 binding.qrCodeNameTV.text = shelfName
             }
             intent.extras?.getBoolean("palletKey") == true->
             {
-                generateQRCode("${busLocNo}-${whCode}-${rackCode}-${shelfCode}-${palletCode}")
+                generateQRCode("${palletCode}")
                 binding.qrCodeNameTV.text = palletNo
 
             }

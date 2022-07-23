@@ -110,7 +110,8 @@
                     android:inputType="textPassword"
                     android:paddingStart="@dimen/_20sdp"
                     android:textSize="@dimen/_12ssp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    />
 
             </com.google.android.material.textfield.TextInputLayout>
 

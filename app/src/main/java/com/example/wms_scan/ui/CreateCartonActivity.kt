@@ -1,5 +1,6 @@
 package com.example.wms_scan.ui
 
+import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
@@ -51,9 +52,8 @@ class CreateCartonActivity : AppCompatActivity() {
     private lateinit var viewModel: MainViewModel
     private lateinit var codeScanner: CodeScanner
     private lateinit var dialog: CustomProgressDialog
-    private val requestCodeCameraPermission = 1001
-    private lateinit var barcodeDetector: BarcodeDetector
     private var scannedValue = ""
+    private var cameraRequestCode = 100
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -64,12 +64,13 @@ class CreateCartonActivity : AppCompatActivity() {
         setupUi()
         initListeners()
 
-        if (ContextCompat.checkSelfPermission(
-                this , android.Manifest.permission.CAMERA
-            ) != PackageManager.PERMISSION_GRANTED
-        ) {
-            codeScannerCamera()
-        } else {
+        if(
+            ContextCompat.checkSelfPermission(
+                this, Manifest.permission.CAMERA
+            ) == PackageManager.PERMISSION_DENIED
+        )
+        {
+            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.CAMERA),cameraRequestCode)
             codeScannerCamera()
         }
 
@@ -209,4 +210,3 @@ class CreateCartonActivity : AppCompatActivity() {
     }
 
 }
-
