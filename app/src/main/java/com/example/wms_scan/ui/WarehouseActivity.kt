@@ -277,18 +277,25 @@ class WarehouseActivity : AppCompatActivity() {
             if (isNetworkConnected(this)){
                 if ((businessSpinner.adapter != null))
                 {
+                    businessSpinner.visible()
+                    binding.availableWHTV.visible()
+                    binding.whAddBTN.visible()
                     val intent = Intent(this, WarehouseDetailsActivity::class.java)
                     intent.putExtra("addBusName",businessLocName)
                     intent.putExtra("addBusLocNo",selectedBusLocNo)
                     intent.putExtra("AddWHKey",true)
                     startActivity(intent)
+
                 }
                 else
                 {
-                    toast("please select value again")
+                    toast("No connection found")
                     businessSpinner.gone()
                     binding.availableWHTV.gone()
                     binding.swipeRefresh.isRefreshing = false
+                    binding.whAddBTN.gone()
+                    toast("Refresh to continue")
+                    binding.warehouseRV.gone()
                 }
             }
             else

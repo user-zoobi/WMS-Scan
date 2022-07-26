@@ -268,7 +268,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/_50sdp"
                         android:background="@color/white"
-                        android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz"
                         android:hint="@string/add_pallet"
                         android:paddingStart="@dimen/_20sdp" />
 

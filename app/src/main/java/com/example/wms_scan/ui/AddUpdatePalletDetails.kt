@@ -134,12 +134,19 @@ class AddUpdatePalletDetails : AppCompatActivity() {
         binding.addPalletBtn.click {
             LocalPreferences.put(this,isRefreshRequired, true)
             palletName = binding.palletNameET.text.toString()
-            val regex = Pattern.compile("[$&+,:;=\\\\?@#|/'<>.^*()%!-]")
 
             if (binding.palletNameET.text.isNullOrEmpty())
             {
                 toast("Field must not be empty")
                 binding.palletNameET.error = "Field must not be empty"
+            }
+            else if(binding.palletNameET.text.toString().startsWith(" "))
+            {
+                toast("Please enter any value")
+            }
+            else if(binding.palletNameET.text.toString().startsWith("0") )
+            {
+                toast("Please enter any value")
             }
             else
             {
@@ -162,25 +169,33 @@ class AddUpdatePalletDetails : AppCompatActivity() {
         binding.updatePalletBtn.click {
 
             palletName = binding.palletNameET.text.toString()
-            val regex = Pattern.compile("[$&+,:;=\\\\?@#|/'<>.^*()%!-]")
             if (binding.palletNameET.text.isNullOrEmpty())
             {
                 toast("Field must not be empty")
                 binding.palletNameET.requestFocus()
             }
-
-
-            viewModel.addPallet(
-                Utils.getSimpleTextBody("$updatedPalletNo"),
-                Utils.getSimpleTextBody(palletName),
-                Utils.getSimpleTextBody("0"),
-                Utils.getSimpleTextBody("$updatedShelfNo"),
-                Utils.getSimpleTextBody(""),
-                Utils.getSimpleTextBody("$updatedBusLocNo"),
-                Utils.getSimpleTextBody("${LocalPreferences.getInt(this, userNo)}"),
-                Utils.getSimpleTextBody(deviceId),
-            )
-            finish()
+            else if(binding.palletNameET.text.toString().startsWith(" "))
+            {
+                toast("Please enter any value")
+            }
+            else if(binding.palletNameET.text.toString().startsWith("0") )
+            {
+                toast("Please enter any value")
+            }
+            else
+            {
+                viewModel.addPallet(
+                    Utils.getSimpleTextBody("$updatedPalletNo"),
+                    Utils.getSimpleTextBody(palletName),
+                    Utils.getSimpleTextBody("0"),
+                    Utils.getSimpleTextBody("$updatedShelfNo"),
+                    Utils.getSimpleTextBody(""),
+                    Utils.getSimpleTextBody("$updatedBusLocNo"),
+                    Utils.getSimpleTextBody("${LocalPreferences.getInt(this, userNo)}"),
+                    Utils.getSimpleTextBody(deviceId),
+                )
+                finish()
+            }
         }
 
         binding.backBtn.click {

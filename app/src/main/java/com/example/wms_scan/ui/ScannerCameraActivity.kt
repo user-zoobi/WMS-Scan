@@ -14,10 +14,7 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import com.budiyev.android.codescanner.*
 import com.example.scanmate.data.callback.Status
-import com.example.scanmate.extensions.click
-import com.example.scanmate.extensions.obtainViewModel
-import com.example.scanmate.extensions.setTransparentStatusBarColor
-import com.example.scanmate.extensions.toast
+import com.example.scanmate.extensions.*
 import com.example.scanmate.util.CustomProgressDialog
 import com.example.scanmate.viewModel.MainViewModel
 import com.example.wms_scan.R
@@ -83,7 +80,8 @@ class ScannerCameraActivity : AppCompatActivity() {
         // Parameters (default values)
         codeScanner.camera = CodeScanner.CAMERA_BACK // or CAMERA_FRONT or specific camera id
         codeScanner.formats = CodeScanner.ALL_FORMATS // list of type BarcodeFormat,
-        // ex. listOf(BarcodeFormat.QR_CODE)
+        codeScanner.isTouchFocusEnabled = true
+        codeScanner.isAutoFocusEnabled = true
         codeScanner.autoFocusMode = AutoFocusMode.SAFE // or CONTINUOUS
         codeScanner.scanMode = ScanMode.SINGLE // or CONTINUOUS or PREVIEW
 
@@ -93,9 +91,20 @@ class ScannerCameraActivity : AppCompatActivity() {
             runOnUiThread {
                 Toast.makeText(this, "Scan result: ${it.text}", Toast.LENGTH_LONG).show()
                 scannedData = it.text
-                scannedProcess()
-                Log.i("scannedQR",scannedData)
 
+                if ((scannedData.contains("PL")) or (scannedData.contains("SF")) or
+                    (scannedData.contains("RK")) or (scannedData.contains("WH")))
+                {
+                    scannedProcess()
+                    Log.i("scannedQR",scannedData)
+
+                }
+
+                else
+                {
+                   toast("Please scan correct code")
+                    codeScanner.startPreview()
+                }
             }
         }
 

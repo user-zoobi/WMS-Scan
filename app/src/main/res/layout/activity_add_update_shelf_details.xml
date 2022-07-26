@@ -325,8 +325,7 @@
                         android:background="@color/white"
                         android:hint="@string/add_shelf"
                         android:maxLines="1"
-                        android:paddingStart="@dimen/_20sdp"
-                        android:digits="123456789"/>
+                        android:paddingStart="@dimen/_20sdp" />
 
                 </com.google.android.material.card.MaterialCardView>
 
@@ -356,8 +355,7 @@
                         android:background="@color/white"
                         android:hint="Pallet capacity"
                         android:inputType="number"
-                        android:paddingStart="@dimen/_20sdp"
-                        android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz"/>
+                        android:paddingStart="@dimen/_20sdp" />
 
                 </com.google.android.material.card.MaterialCardView>
 

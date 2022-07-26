@@ -4,7 +4,9 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
+import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.res.TypedArrayUtils.getText
 import androidx.lifecycle.Observer
 import com.example.scanmate.data.callback.Status
 import com.example.scanmate.extensions.*
@@ -130,6 +132,14 @@ class WarehouseDetailsActivity : AppCompatActivity() {
             {
                 toast("Field must not be empty")
                 binding.updateWarehouseET.error = "Field must not be empty"
+            }
+            else if(updatedWarehouseName.startsWith(" "))
+            {
+                toast("Please enter any value")
+            }
+            else if(updatedWarehouseName.startsWith("0"))
+            {
+                toast("Please enter any value")
             }
             else
             {

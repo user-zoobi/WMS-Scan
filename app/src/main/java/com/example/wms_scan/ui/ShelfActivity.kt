@@ -170,12 +170,13 @@ class ShelfActivity : AppCompatActivity() {
                 }
                 else
                 {
-                    toast("please select value again")
+                    toast("No connection found")
                     businessSpinner.gone()
                     warehouseSpinner.gone()
                     rackSpinner.gone()
                     binding.availableShelfTV.gone()
                     binding.swipeRefresh.isRefreshing = false
+                    binding.shelfRV.gone()
                 }
             }
             else

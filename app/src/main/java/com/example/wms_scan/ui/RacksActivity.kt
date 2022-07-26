@@ -82,9 +82,6 @@ class RacksActivity : AppCompatActivity() {
 
     private fun setupUi(){
 
-        val businessSpinner = binding.businessLocationSpinner
-        val warehouseSpinner = binding.warehouseSpinner
-
         dialog = CustomProgressDialog(this)
         supportActionBar?.hide()
         setTransparentStatusBarColor(R.color.transparent)
@@ -99,16 +96,6 @@ class RacksActivity : AppCompatActivity() {
             LocalPreferences.AppLoginPreferences.loginTime
         )
 
-        if ((businessSpinner.adapter == null) and (warehouseSpinner.adapter == null))
-        {
-            viewModel.userLocation(
-                Utils.getSimpleTextBody(
-                    LocalPreferences.getInt(this, LocalPreferences.AppLoginPreferences.userNo).toString()
-                ))
-            warehouseSpinner.gone()
-            binding.availableRacks.gone()
-        }
-
     }
 
     private fun initListeners(){
@@ -122,8 +109,10 @@ class RacksActivity : AppCompatActivity() {
             val warehouseSpinner = binding.warehouseSpinner
             if (isNetworkConnected(this))
             {
+
                 if ((businessSpinner.adapter != null) and (warehouseSpinner.adapter != null))
                 {
+
                     val intent = Intent(this, AddUpdateRackDetails::class.java)
                     intent.putExtra("addBusNo",selectedBusLocNo)
                     intent.putExtra("addBusName",businessLocName)
@@ -140,11 +129,12 @@ class RacksActivity : AppCompatActivity() {
                 }
                 else
                 {
-                    toast("please select value again")
                     businessSpinner.gone()
                     warehouseSpinner.gone()
+                    toast("No connection found")
                     binding.availableRacks.gone()
                     binding.swipeRefresh.isRefreshing = false
+                    binding.racksRV.gone()
                 }
 
             }

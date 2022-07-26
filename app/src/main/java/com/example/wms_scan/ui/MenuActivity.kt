@@ -1,14 +1,18 @@
 package com.example.wms_scan.ui
 
+import android.Manifest
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import com.example.scanmate.data.callback.Status
 import com.example.scanmate.data.response.UserLocationResponse
@@ -31,6 +35,7 @@ class MenuActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMenuBinding
     private lateinit var viewModel: MainViewModel
     private lateinit var dialog: CustomProgressDialog
+    private var cameraRequestCode = 100
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,6 +44,7 @@ class MenuActivity : AppCompatActivity() {
         viewModel = obtainViewModel(MainViewModel::class.java)
         setupUi()
         initObserver()
+        permissions()
 
     }
 
@@ -47,6 +53,18 @@ class MenuActivity : AppCompatActivity() {
         finishAffinity()
         overridePendingTransition(R.anim.slide_bottom, R.anim.slide_up)
         exitProcess(0)
+    }
+
+    private fun permissions()
+    {
+        if(
+            ContextCompat.checkSelfPermission(
+                this, Manifest.permission.CAMERA
+            ) == PackageManager.PERMISSION_DENIED
+        )
+        {
+            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.CAMERA),cameraRequestCode)
+        }
     }
 
     private fun setupUi() {
@@ -108,7 +126,7 @@ class MenuActivity : AppCompatActivity() {
         /**
          *  User Menu api observer
          */
-        viewModel.userMenu.observe(this, Observer {
+        viewModel.userMenu.observe(this){
             when(it.status){
                 Status.LOADING -> dialog.show()
                 Status.SUCCESS ->{
@@ -124,7 +142,7 @@ class MenuActivity : AppCompatActivity() {
                 }
                 Status.ERROR -> dialog.dismiss()
             }
-        })
+        }
     }
 
     private fun initListeners() {

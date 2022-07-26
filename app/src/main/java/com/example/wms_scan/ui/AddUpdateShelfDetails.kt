@@ -151,6 +151,22 @@ class AddUpdateShelfDetails : AppCompatActivity() {
             {
                 toast("Field must not be empty")
             }
+            else if(binding.shelfNameET.text.toString().startsWith(" "))
+            {
+                toast("Please enter any value")
+            }
+            else if(binding.shelfNameET.text.toString().startsWith("0") )
+            {
+                toast("Please enter any value")
+            }
+            else if(binding.palletCapacityET.text.toString().startsWith(" ") )
+            {
+                toast("Please enter any value")
+            }
+            else if(binding.palletCapacityET.text.toString().startsWith("0") )
+            {
+                toast("Please enter any value")
+            }
 
             else
             {
@@ -180,7 +196,6 @@ class AddUpdateShelfDetails : AppCompatActivity() {
         binding.updateShelfBtn.click {
             shelfNameInput = binding.shelfNameET.text.toString()
             palletCapacity = binding.palletCapacityET.text.toString()
-            val regex = Pattern.compile("[$&+,:;=\\\\?@#|/'<>.^*()%!-]")
 
             if(binding.palletCapacityET.text.toString() == "0")
             {
@@ -192,18 +207,26 @@ class AddUpdateShelfDetails : AppCompatActivity() {
                 toast("Field must not be empty")
                 binding.palletCapacityET.error = "Field must not be empty"
             }
-            else if (regex.matcher(binding.shelfNameET.toString()).find())
-            {
-                binding.shelfNameET.error = "Special characters are not allowed"
-            }
-            else if (regex.matcher(binding.palletCapacityET.toString()).find())
-            {
-                binding.palletCapacityET.error = "Special characters are not allowed"
-            }
             else if(binding.shelfNameET.text.isNullOrEmpty())
             {
                 toast("Field must not be empty")
                 binding.shelfNameET.error = "Field must not be empty"
+            }
+            else if(binding.shelfNameET.text.toString().startsWith(" "))
+            {
+                toast("Please enter any value")
+            }
+            else if(binding.shelfNameET.text.toString().startsWith("0"))
+            {
+                toast("Please enter any value")
+            }
+            else if(binding.palletCapacityET.text.toString().startsWith(" "))
+            {
+                toast("Please enter any value")
+            }
+            else if(binding.palletCapacityET.text.toString().startsWith("0"))
+            {
+                toast("Please enter any value")
             }
             else
             {

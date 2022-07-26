@@ -53,7 +53,6 @@ class CreateCartonActivity : AppCompatActivity() {
     private lateinit var codeScanner: CodeScanner
     private lateinit var dialog: CustomProgressDialog
     private var scannedValue = ""
-    private var cameraRequestCode = 100
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -63,17 +62,7 @@ class CreateCartonActivity : AppCompatActivity() {
         codeScanner = CodeScanner(this,binding.cameraSurfaceView)
         setupUi()
         initListeners()
-
-        if(
-            ContextCompat.checkSelfPermission(
-                this, Manifest.permission.CAMERA
-            ) == PackageManager.PERMISSION_DENIED
-        )
-        {
-            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.CAMERA),cameraRequestCode)
-            codeScannerCamera()
-        }
-
+        codeScannerCamera()
 
         viewModel.palletHierarchy.observe(this, Observer {
 

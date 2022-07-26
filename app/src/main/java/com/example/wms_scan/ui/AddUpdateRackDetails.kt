@@ -78,6 +78,14 @@ class AddUpdateRackDetails : AppCompatActivity() {
                     binding.shelfCapacityET.error = "Field must not be empty"
 
                 }
+                else if(binding.rackNameET.text.toString().startsWith(" ") and rackName.startsWith("0"))
+                {
+                    toast("Please enter any value")
+                }
+                else if(binding.shelfCapacityET.text.toString().startsWith(" ") or shelfCap.startsWith("0"))
+                {
+                    toast("Please enter any value")
+                }
                 else if(binding.rackNameET.text.isNullOrEmpty())
                 {
                     toast("Field must not be empty")
@@ -108,16 +116,27 @@ class AddUpdateRackDetails : AppCompatActivity() {
 
             updatedRackName = binding.rackNameET.text.toString()
             shelfCap = binding.shelfCapacityET.text.toString()
-            val regex = Pattern.compile("[$&+,:;=\\\\?@#|/'<>.^*()%!-]")
 
                 if (binding.shelfCapacityET.text.isNullOrEmpty())
                 {
                     toast("Field must not be empty")
                     binding.shelfCapacityET.requestFocus()
                 }
-                else if (binding.shelfCapacityET.text.toString() == "[a-zA-Z.? ]*")
+                else if(binding.rackNameET.text.toString().startsWith(" "))
                 {
-                    binding.shelfCapacityET.error = "Please enter correct text"
+                    toast("Please enter any value")
+                }
+                else if(binding.shelfCapacityET.text.toString().startsWith("0") )
+                {
+                    toast("Please enter any value")
+                }
+                else if(binding.shelfCapacityET.text.toString().startsWith(" ") )
+                {
+                    toast("Please enter any value")
+                }
+                else if(binding.shelfCapacityET.text.toString().startsWith("0") )
+                {
+                    toast("Please enter any value")
                 }
                 else if ( binding.rackNameET.text.isNullOrEmpty())
                 {

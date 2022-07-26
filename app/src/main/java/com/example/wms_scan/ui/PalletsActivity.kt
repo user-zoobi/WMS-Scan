@@ -185,13 +185,14 @@ class PalletsActivity : AppCompatActivity() {
                 }
                 else
                 {
-                    toast("please select value again")
+                    toast("No connection found")
                     businessSpinner.gone()
                     warehouseSpinner.gone()
                     rackSpinner.gone()
                     shelfSpinner.gone()
                     binding.availablePallets.gone()
                     binding.swipeRefresh.isRefreshing = false
+                    binding.palletsRV.gone()
                 }
             }
         }

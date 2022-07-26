@@ -257,6 +257,8 @@ class ScanCartonActivity : AppCompatActivity() {
         codeScanner.formats = CodeScanner.ALL_FORMATS // list of type BarcodeFormat,
         // ex. listOf(BarcodeFormat.QR_CODE)
         codeScanner.autoFocusMode = AutoFocusMode.SAFE // or CONTINUOUS
+        codeScanner.isTouchFocusEnabled = true
+        codeScanner.isAutoFocusEnabled = true
         codeScanner.scanMode = ScanMode.SINGLE // or CONTINUOUS or PREVIEW
 
         // Callbacks
