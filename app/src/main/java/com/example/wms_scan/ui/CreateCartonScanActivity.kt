@@ -13,6 +13,7 @@ import com.budiyev.android.codescanner.ScanMode
 import com.example.scanmate.extensions.gotoActivity
 import com.example.scanmate.extensions.setTransparentStatusBarColor
 import com.example.scanmate.extensions.toast
+import com.example.scanmate.util.LocalPreferences
 import com.example.wms_scan.R
 import com.example.wms_scan.databinding.ActivityCartonDetailBinding
 import com.example.wms_scan.databinding.ActivityCreatecartonScanBinding
@@ -57,13 +58,9 @@ class CreateCartonScanActivity : AppCompatActivity()
 
                 if (scannedData.contains("PL"))
                 {
-                    val intent = Intent(this, CartonDetailActivity::class.java)
-                    intent.putExtra("cartonDetailKey", 1)
-                    intent.putExtra("cartonDetailValue", scannedData)
-                    startActivity(intent)
-
+                    gotoActivity(CartonDetailActivity::class.java, "createCartonScan",true)
+                    LocalPreferences.put(this, "createCartonScanValue",scannedData)
                 }
-
             }
         }
 

@@ -296,12 +296,25 @@ class CartonDetailActivity : AppCompatActivity() {
             }
         }
 
+
+    }
+
+//    private fun clearPreferences(context: Context){
+//        val settings: SharedPreferences =
+//            context.getSharedPreferences(LocalPreferences.AppLoginPreferences.PREF, Context.MODE_PRIVATE)
+//        settings.edit().clear().apply()
+//        gotoActivity(LoginActivity::class.java)
+//    }
+
+    override fun onResume() {
+        super.onResume()
         when
         {
-            intent.extras?.getInt("cartonDetailKey") == 1 ->{
+            intent.extras?.getBoolean("createCartonScan") == true ->
+            {
 
-                val scannedValue =  intent.extras?.getString("cartonDetailValue").toString()
-                Log.i("scannedValueFromCreateCarScan",scannedValue)
+                val scannedValue =  LocalPreferences.getString(this, "createCartonScanValue").toString()
+                Log.i("scanCreateCarton", scannedValue)
                 viewModel.palletHierarchy(
                     Utils.getSimpleTextBody(scannedValue),
                     Utils.getSimpleTextBody("0")
@@ -312,16 +325,7 @@ class CartonDetailActivity : AppCompatActivity() {
 
             }
         }
-
-
     }
-
-//    private fun clearPreferences(context: Context){
-//        val settings: SharedPreferences =
-//            context.getSharedPreferences(LocalPreferences.AppLoginPreferences.PREF, Context.MODE_PRIVATE)
-//        settings.edit().clear().apply()
-//        gotoActivity(LoginActivity::class.java)
-//    }
 
 
 }
