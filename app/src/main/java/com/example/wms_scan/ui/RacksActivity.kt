@@ -82,6 +82,9 @@ class RacksActivity : AppCompatActivity() {
 
     private fun setupUi(){
 
+        val businessSpinner = binding.businessLocationSpinner
+        val warehouseSpinner = binding.warehouseSpinner
+
         dialog = CustomProgressDialog(this)
         supportActionBar?.hide()
         setTransparentStatusBarColor(R.color.transparent)
@@ -95,6 +98,16 @@ class RacksActivity : AppCompatActivity() {
         binding.loginTimeTV.text = LocalPreferences.getString(this,
             LocalPreferences.AppLoginPreferences.loginTime
         )
+
+        if ((businessSpinner.adapter == null) and (warehouseSpinner.adapter == null))
+        {
+            viewModel.userLocation(
+                Utils.getSimpleTextBody(
+                    LocalPreferences.getInt(this, LocalPreferences.AppLoginPreferences.userNo).toString()
+                ))
+            warehouseSpinner.gone()
+            binding.availableRacks.gone()
+        }
 
     }
 

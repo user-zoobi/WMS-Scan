@@ -82,6 +82,7 @@ class WarehouseActivity : AppCompatActivity() {
         supportActionBar?.hide()
         setTransparentStatusBarColor(R.color.transparent)
 
+        val businessSpinner = binding.businessLocationSpinner
 
         binding.userNameTV.text = LocalPreferences.getString(this,
             LocalPreferences.AppLoginPreferences.userName
@@ -92,6 +93,14 @@ class WarehouseActivity : AppCompatActivity() {
         binding.loginTimeTV.text = LocalPreferences.getString(this,
             LocalPreferences.AppLoginPreferences.loginTime
         )
+
+        if ((businessSpinner.adapter == null))
+        {
+            viewModel.userLocation(
+                Utils.getSimpleTextBody(
+                    LocalPreferences.getInt(this, userNo).toString()
+                ))
+        }
 
     }
 
@@ -128,9 +137,6 @@ class WarehouseActivity : AppCompatActivity() {
                     }
                     else
                     {
-                        binding.businessLocationSpinner.gone()
-                        binding.businessLocationSpinner.adapter = null
-                        binding.whAddBTN.isEnabled = false
                     }
 
                 }
@@ -289,7 +295,6 @@ class WarehouseActivity : AppCompatActivity() {
             {
                 toast(NoInternetFound)
                 binding.whAddBTN.isEnabled = false
-                binding.businessLocationSpinner.gone()
             }
         }
 

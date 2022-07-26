@@ -84,6 +84,11 @@ class ShelfActivity : AppCompatActivity() {
     }
 
     private fun setupUi(){
+
+        val businessSpinner = binding.businessLocationSpinner
+        val warehouseSpinner = binding.warehouseSpinner
+        val rackSpinner = binding.rackSpinner
+
         window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
         dialog = CustomProgressDialog(this)
         supportActionBar?.hide()
@@ -98,6 +103,17 @@ class ShelfActivity : AppCompatActivity() {
         binding.loginTimeTV.text = LocalPreferences.getString(this,
             LocalPreferences.AppLoginPreferences.loginTime
         )
+
+        if ((businessSpinner.adapter == null) and (warehouseSpinner.adapter == null)
+            and (rackSpinner.adapter != null))
+        {
+            viewModel.userLocation(
+                Utils.getSimpleTextBody(
+                    LocalPreferences.getInt(this, LocalPreferences.AppLoginPreferences.userNo).toString()
+                ))
+            warehouseSpinner.gone()
+            binding.availableShelfTV.gone()
+        }
 
     }
 
@@ -161,7 +177,6 @@ class ShelfActivity : AppCompatActivity() {
                     binding.availableShelfTV.gone()
                     binding.swipeRefresh.isRefreshing = false
                 }
-
             }
             else
             {

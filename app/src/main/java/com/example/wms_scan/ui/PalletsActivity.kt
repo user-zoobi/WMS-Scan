@@ -105,6 +105,22 @@ class PalletsActivity : AppCompatActivity() {
             LocalPreferences.AppLoginPreferences.loginTime
         )
 
+        val businessSpinner = binding.businessLocationSpinner
+        val warehouseSpinner = binding.warehouseSpinner
+        val rackSpinner = binding.rackSpinner
+        val shelfSpinner = binding.shelfSpinner
+
+        if ((businessSpinner.adapter != null) and (warehouseSpinner.adapter != null)
+            and (rackSpinner.adapter != null) and (shelfSpinner.adapter != null))
+        {
+            viewModel.userLocation(
+                Utils.getSimpleTextBody(
+                    LocalPreferences.getInt(this, LocalPreferences.AppLoginPreferences.userNo).toString()
+                ))
+            warehouseSpinner.gone()
+            binding.availablePallets.gone()
+        }
+
     }
 
     private fun initListeners(){
