@@ -507,7 +507,7 @@
                         android:paddingStart="@dimen/_5sdp"
                         android:scrollHorizontally="true"
                         android:singleLine="true"
-                        android:text="Carton Details"
+                        android:text=""
                         android:textColor="@color/dark_grey"
                         android:textSize="@dimen/_12ssp" />
 
@@ -521,7 +521,7 @@
                         android:layout_marginTop="@dimen/_10sdp"
                         android:layout_marginEnd="@dimen/_20sdp"
                         android:fontFamily="@font/amiko"
-                        android:text="Carton Details"
+                        android:text=""
                         android:textColor="@color/dark_grey"
                         android:textSize="@dimen/_12ssp" />
 
@@ -535,7 +535,7 @@
                         android:layout_marginTop="@dimen/_10sdp"
                         android:layout_marginEnd="@dimen/_20sdp"
                         android:fontFamily="@font/amiko"
-                        android:text="Carton Details"
+                        android:text=""
                         android:textColor="@color/dark_grey"
                         android:textSize="@dimen/_12ssp" />
 
@@ -549,7 +549,7 @@
                         android:layout_marginTop="@dimen/_10sdp"
                         android:layout_marginEnd="@dimen/_20sdp"
                         android:fontFamily="@font/amiko"
-                        android:text="Carton Details"
+                        android:text=""
                         android:textColor="@color/dark_grey"
                         android:textSize="@dimen/_12ssp" />
 
@@ -565,7 +565,7 @@
                         android:layout_marginEnd="@dimen/_20sdp"
                         android:layout_marginBottom="@dimen/_10sdp"
                         android:fontFamily="@font/amiko"
-                        android:text="Carton Details"
+                        android:text=""
                         android:textColor="@color/red"
                         android:textSize="@dimen/_12ssp" />
 

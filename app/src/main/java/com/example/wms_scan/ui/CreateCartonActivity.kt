@@ -75,7 +75,6 @@ class CreateCartonActivity : AppCompatActivity() {
                     it.let {
                         if(Utils.isNetworkConnected(this))
                         {
-                            Log.i("palletCode","${it.data?.get(0)?.pilotCode}")
                             if (scannedValue.contains("PL"))
                             {
                                 gotoActivity(ScanCartonActivity::class.java, "scannedValue",scannedValue)
@@ -159,7 +158,6 @@ class CreateCartonActivity : AppCompatActivity() {
                         Utils.getSimpleTextBody(scannedValue),
                         Utils.getSimpleTextBody("0")
                     )
-                    Log.i("palletCode", scannedValue)
                 }
                 else
                 {

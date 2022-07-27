@@ -45,9 +45,6 @@ class CartonDetailActivity : AppCompatActivity() {
     private var cartonNo = ""
     private var itemCode = ""
     private var stock = ""
-    private var selectedPalletNo = ""
-    private var selectedPalletCode = ""
-    private var selectedPalletName = ""
     private var hierarchyLoc = ""
     private var deviceId = ""
 
@@ -61,15 +58,12 @@ class CartonDetailActivity : AppCompatActivity() {
         initListener()
         setupUi()
 
+        analyticalNo =  intent.extras?.getString("scanAnalyticalNum").toString()
+        Log.i("analyticalNum", analyticalNo)
 
-        val scannedAnalyticalNo =  intent.extras?.getString("scanAnalyticalNum").toString()
-        Log.i("analyticalNum", analyticalNo.toString())
-
-
-        /**
-         *  GET PALLET API
-         */
-
+        val palletCode =  intent.extras?.getString("palletCode").toString()
+        viewModel.palletHierarchy(Utils.getSimpleTextBody(palletCode), Utils.getSimpleTextBody("0"))
+        Log.i("palletCode1", palletCode)
 
         /**
          *  PALLET HIERARCHY API
@@ -110,9 +104,7 @@ class CartonDetailActivity : AppCompatActivity() {
                         Utils.getSimpleTextBody(shelfNo),
                         Utils.getSimpleTextBody(busLoc),
                     )
-
                     Log.i("hierarchyPilotNo","$shelfNo $busLoc")
-
                 }
 
                 Status.ERROR -> { }
@@ -124,7 +116,7 @@ class CartonDetailActivity : AppCompatActivity() {
          *  CARTON DETAIL API
          */
 
-        viewModel.getCartonDetails("$scannedAnalyticalNo")
+        viewModel.getCartonDetails("$analyticalNo")
 
         viewModel.getCartonDetails.observe(this){
 
@@ -142,11 +134,10 @@ class CartonDetailActivity : AppCompatActivity() {
                             binding.cartonNumTV.text = it.data?.get(0)?.cartonNo.toString()
                             binding.stockTV.text = it.data?.get(0)?.matStock.toString()
                             binding.palletName.text = it.data?.get(0)?.pilotName.toString()
-                            analyticalNo = it.data?.get(0)?.analyticalNo.toString()
                             itemCode = it.data?.get(0)?.materialId.toString()
 
                             Log.i(
-                                "getCartonDetail","1.0\n2.0\n3.$itemCode\n4.$pilotNo\n5.$analyticalNo\n6.$cartonSNo\n7.$totCarton\n8.$hierarchyLoc\n9.$deviceId"
+                                "getCartonDetail","1.0\n2.0\n3.$itemCode\n4.$pilotNo\n5.$analyticalNo\n6.0\n7.0\n8.$hierarchyLoc\n9.$deviceId"
                             )
                         }
                     }
@@ -182,14 +173,15 @@ class CartonDetailActivity : AppCompatActivity() {
                     }
                 }
 
-                Status.ERROR ->{ }
+                Status.ERROR -> { }
 
             }
         })
 
     }
 
-    private fun initListener(){
+    private fun initListener()
+    {
 
         binding.backBtn.click {
             onBackPressed()
@@ -210,33 +202,12 @@ class CartonDetailActivity : AppCompatActivity() {
                 Utils.getSimpleTextBody(deviceId)
             )
             Log.i(
-                "getcarton","1.0\n2.0\n3.$itemCode\n4.$pilotNo\n5.$analyticalNo\n6.$cartonSNo\n7.$totCarton\n8.$hierarchyLoc\n9.$deviceId"
+                "getcarton","1.0\n2.0\n3.$itemCode\n4.$pilotNo\n5.$analyticalNo\n6.$cartonSNo\n" +
+                        "7.$totCarton\n8.$hierarchyLoc\n9.$deviceId"
             )
             Log.i("itemcode",itemCode)
 
-        }
-
-        binding.updateBtn.click {
-
-            viewModel.addCarton(
-                Utils.getSimpleTextBody("$cartonNo"),
-                Utils.getSimpleTextBody("0"),
-                Utils.getSimpleTextBody("$itemCode"),
-                Utils.getSimpleTextBody("$selectedPalletNo"),
-                Utils.getSimpleTextBody("$analyticalNo"),
-                Utils.getSimpleTextBody("$cartonSNo"),
-                Utils.getSimpleTextBody("$totCarton"),
-                Utils.getSimpleTextBody(hierarchyLoc),
-                Utils.getSimpleTextBody(LocalPreferences.getInt(this,userNo).toString()),
-                Utils.getSimpleTextBody(deviceId)
-            )
-
-            viewModel.palletHierarchy(
-                Utils.getSimpleTextBody("$selectedPalletCode"),
-                Utils.getSimpleTextBody("0")
-            )
-
-            binding.updateBtn.gone()
+            binding.saveBtn.gone()
             binding.changeTV.visible()
 
         }
@@ -250,8 +221,9 @@ class CartonDetailActivity : AppCompatActivity() {
 
         binding.scanBtn.click {
             gotoActivity(CreateCartonScanActivity::class.java)
+            LocalPreferences.put(this, "isScannedAnalyticalNo",analyticalNo)
+            finish()
         }
-
     }
 
     private fun setupUi(){
@@ -259,10 +231,6 @@ class CartonDetailActivity : AppCompatActivity() {
         supportActionBar?.hide()
         setTransparentStatusBarColor(R.color.transparent)
         Log.i("pilotNo",pilotNo)
-
-        val palletCode =  intent.extras?.getString("palletCode").toString()
-        viewModel.palletHierarchy(Utils.getSimpleTextBody(palletCode), Utils.getSimpleTextBody("0"))
-        Log.i("palletCode", palletCode)
 
         binding.analyticalNumTV.text = analyticalNo
         binding.stockTV.text = stock
@@ -284,11 +252,13 @@ class CartonDetailActivity : AppCompatActivity() {
         Log.i("isExist",intent.extras?.getInt("isExist").toString())
         when
         {
-            intent.extras?.getInt("isExist") == 1 ->{
+            intent.extras?.getInt("isExist") == 1 ->
+            {
                 binding.changeTV.visible()
             }
 
-            intent.extras?.getInt("isExist") == 0 ->{
+            intent.extras?.getInt("isExist") == 0 ->
+            {
                 binding.changeTV.gone()
                 binding.saveBtn.visible()
                 binding.palletName.gone()
@@ -296,36 +266,46 @@ class CartonDetailActivity : AppCompatActivity() {
             }
         }
 
-
+        var scannedValue = intent.extras?.getString("createCartonFlag")
+        Log.i("scannedValue", scannedValue.toString())
     }
 
-//    private fun clearPreferences(context: Context){
-//        val settings: SharedPreferences =
-//            context.getSharedPreferences(LocalPreferences.AppLoginPreferences.PREF, Context.MODE_PRIVATE)
-//        settings.edit().clear().apply()
-//        gotoActivity(LoginActivity::class.java)
-//    }
-
-    override fun onResume() {
+    override fun onResume()
+    {
         super.onResume()
         when
         {
-            intent.extras?.getBoolean("createCartonScan") == true ->
-            {
+            intent.extras?.getBoolean("isScannedKey") == true ->{
 
-                val scannedValue =  LocalPreferences.getString(this, "createCartonScanValue").toString()
-                Log.i("scanCreateCarton", scannedValue)
-                viewModel.palletHierarchy(
-                    Utils.getSimpleTextBody(scannedValue),
-                    Utils.getSimpleTextBody("0")
-                )
+                var scannedPallet = intent.extras?.getString("isScanned").toString()
+                viewModel.palletHierarchy(Utils.getSimpleTextBody(scannedPallet), Utils.getSimpleTextBody("0"))
 
-                viewModel.getCartonDetails(analyticalNo)
+                viewModel.getCartonDetails(LocalPreferences.getString(this,"isScannedAnalyticalNo").toString())
+
+                binding.scanToUpdate.gone()
+                binding.changeTV.gone()
                 binding.updateBtn.visible()
+
+                binding.updateBtn.click {
+                    Log.i("isScannedAddCarton","1.$itemCode\n2.$pilotNo\n3.$analyticalNo\n4.$hierarchyLoc\n5.$deviceId")
+                    viewModel.addCarton(
+                        Utils.getSimpleTextBody(cartonNo),
+                        Utils.getSimpleTextBody("0"),
+                        Utils.getSimpleTextBody("$itemCode"),
+                        Utils.getSimpleTextBody("$pilotNo"),
+                        Utils.getSimpleTextBody("${LocalPreferences.getString(this,"isScannedAnalyticalNo").toString()}"),
+                        Utils.getSimpleTextBody("0"),
+                        Utils.getSimpleTextBody("0"),
+                        Utils.getSimpleTextBody(hierarchyLoc),
+                        Utils.getSimpleTextBody(LocalPreferences.getInt(this,userNo).toString()),
+                        Utils.getSimpleTextBody(deviceId)
+                    )
+                    finish()
+                }
+
 
             }
         }
     }
-
 
 }

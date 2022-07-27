@@ -53,8 +53,6 @@ class ShowAllHierarchy : AppCompatActivity() {
         initObserver()
         initListener()
 
-
-
     }
 
     private fun setupUi(){
@@ -404,17 +402,15 @@ class ShowAllHierarchy : AppCompatActivity() {
                         if (it.data.get(0).cartonNo.toString() == "0")
                         {
                             adapter = null
-
                         }
-
-                        binding.itemTV.text = it.data.get(0).analyticalNo.toString()
-                        binding.itemCode.text = it.data.get(0).itemCode.toString()
                     }
+
+                    binding.itemTV.text = it.data.get(0).analyticalNo.toString()
+                    binding.itemCode.text = it.data.get(0).itemCode.toString()
                 }
-                Status.ERROR -> {
-                    toast("onError")
-                    binding.hierarchyTree.gone()
-                    binding.treeView.gone()
+                Status.ERROR ->
+                {
+                    binding.showAllRV.adapter = null
                 }
             }
         })

@@ -13,6 +13,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import com.budiyev.android.codescanner.*
+import com.example.boschscan.extensions.putExtra
 import com.example.scanmate.data.callback.Status
 import com.example.scanmate.extensions.*
 import com.example.scanmate.util.CustomProgressDialog
@@ -97,9 +98,7 @@ class ScannerCameraActivity : AppCompatActivity() {
                 {
                     scannedProcess()
                     Log.i("scannedQR",scannedData)
-
                 }
-
                 else
                 {
                    toast("Please scan correct code")

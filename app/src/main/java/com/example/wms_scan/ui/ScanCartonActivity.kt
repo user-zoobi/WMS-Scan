@@ -102,7 +102,6 @@ class ScanCartonActivity : AppCompatActivity() {
 
                 Status.SUCCESS ->
                 {
-                    Log.i("palletCode","${it.data?.get(0)?.pilotCode}")
 
                     val warehouse = it.data?.get(0)?.wHName.toString()
                     val  racks = it.data?.get(0)?.rackName.toString()
@@ -225,8 +224,6 @@ class ScanCartonActivity : AppCompatActivity() {
                                     intent.putExtra("palletCode",scannedPalletCode)
                                     intent.putExtra("isExist",it.data[0].isExist)
                                     startActivity(intent)
-
-
                                 }
                                 else
                                 {
@@ -290,10 +287,6 @@ class ScanCartonActivity : AppCompatActivity() {
                                 codeScanner.startPreview()
                             }
                             scannedValue.contains("PL") -> {
-                                toast("No record found")
-                                codeScanner.startPreview()
-                            }
-                            status.equals(false) -> {
                                 toast("No record found")
                                 codeScanner.startPreview()
                             }

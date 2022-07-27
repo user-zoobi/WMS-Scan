@@ -188,7 +188,6 @@ class AddUpdateShelfDetails : AppCompatActivity() {
                 onBackPressed()
             }
 
-
             Log.i("addshelf","1. 0 \n 2.$selectedRackNo\n 3.$shelfNameInput\n 4.$shelveCode\n 5.$palletCapacity\n 6.$selectedBusLocNo\n 7.2\n 8.$deviceId" )
             Log.i("shelfValues","THE KEYS ARE VALUES WITH selectedBusLocNo :$selectedBusLocNo\n $selectedBusLocName\n")
         }

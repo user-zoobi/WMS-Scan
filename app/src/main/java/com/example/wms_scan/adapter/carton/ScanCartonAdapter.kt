@@ -32,7 +32,7 @@ class ScanCartonAdapter (
             binding.analyticalNoTV.text = data.analyticalNo
             binding.materialCodeTV.text = data.itemCode
             binding.cartonNo.text = data.cartonNo.toString()
-            binding.analyticalNoTV.click {
+            binding.cartonCont.click {
                 (context as ShowAllHierarchy).analyticalNoAction(data.analyticalNo.toString())
             }
         }

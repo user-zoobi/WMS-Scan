@@ -52,22 +52,29 @@ class CreateCartonScanActivity : AppCompatActivity()
         codeScanner.decodeCallback = DecodeCallback {
 
             runOnUiThread {
+
                 Toast.makeText(this, "Scan result: ${it.text}", Toast.LENGTH_LONG).show()
                 scannedData = it.text
                 Log.i("createCartonFlag", scannedData)
 
                 if (scannedData.contains("PL"))
                 {
-                    gotoActivity(CartonDetailActivity::class.java, "createCartonScan",true)
-                    LocalPreferences.put(this, "createCartonScanValue",scannedData)
+                    val intent = Intent(this, CartonDetailActivity::class.java)
+                    intent.putExtra("isScanned",scannedData)
+                    intent.putExtra("isScannedKey",true)
+                    startActivity(intent)
+                    finish()
+                }
+                else
+                {
+                    toast("Please scan pallet only")
                 }
             }
         }
 
         codeScanner.errorCallback = ErrorCallback { // or ErrorCallback.SUPPRESS
             runOnUiThread {
-                Toast.makeText(this, "Camera initialization error: ${it.message}",
-                    Toast.LENGTH_LONG).show()
+                Toast.makeText(this, "Camera initialization error: ${it.message}", Toast.LENGTH_LONG).show()
             }
         }
 
@@ -76,12 +83,14 @@ class CreateCartonScanActivity : AppCompatActivity()
         }
     }
 
-    override fun onResume() {
+    override fun onResume()
+    {
         super.onResume()
         codeScanner.startPreview()
     }
 
-    override fun onPause() {
+    override fun onPause()
+    {
         codeScanner.releaseResources()
         super.onPause()
     }
