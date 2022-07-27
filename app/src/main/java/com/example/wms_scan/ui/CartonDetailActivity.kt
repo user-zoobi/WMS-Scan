@@ -167,7 +167,7 @@ class CartonDetailActivity : AppCompatActivity() {
                             }
                             else
                             {
-                                toast("No record found")
+                                toast("${it.data?.error}")
                             }
                         }
                     }
