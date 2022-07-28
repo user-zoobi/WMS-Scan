@@ -140,6 +140,13 @@ class AddUpdatePalletDetails : AppCompatActivity() {
                 toast("Field must not be empty")
                 binding.palletNameET.error = "Field must not be empty"
             }
+            else if (
+                (binding.businessTV.text == null) or (binding.warehouseTV.text == null) or
+                (binding.rackTV.text == null) or (binding.shelfTV.text == null)
+            )
+            {
+                toast("Error found")
+            }
             else if(binding.palletNameET.text.toString().startsWith(" "))
             {
                 toast("Please enter any value")
@@ -173,6 +180,13 @@ class AddUpdatePalletDetails : AppCompatActivity() {
             {
                 toast("Field must not be empty")
                 binding.palletNameET.requestFocus()
+            }
+            else if (
+                (binding.businessTV.text == null) or (binding.warehouseTV.text == null) or
+                (binding.rackTV.text == null) or (binding.shelfTV.text == null)
+            )
+            {
+                toast("Error found")
             }
             else if(binding.palletNameET.text.toString().startsWith(" "))
             {

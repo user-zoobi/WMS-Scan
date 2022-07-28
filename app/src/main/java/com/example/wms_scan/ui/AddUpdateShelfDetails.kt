@@ -147,6 +147,13 @@ class AddUpdateShelfDetails : AppCompatActivity() {
             {
                 toast("Field must not be empty")
             }
+            else if (
+                (binding.busLocTV.text == null) or (binding.warehouseTV.text == null) or
+                (binding.rackTV.text == null)
+            )
+            {
+                toast("Error found")
+            }
             else if (binding.shelfNameET.text.isNullOrEmpty())
             {
                 toast("Field must not be empty")
@@ -205,6 +212,13 @@ class AddUpdateShelfDetails : AppCompatActivity() {
             {
                 toast("Field must not be empty")
                 binding.palletCapacityET.error = "Field must not be empty"
+            }
+            else if (
+                (binding.busLocTV.text == null) or (binding.warehouseTV.text == null) or
+                (binding.rackTV.text == null)
+            )
+            {
+                toast("Error found")
             }
             else if(binding.shelfNameET.text.isNullOrEmpty())
             {

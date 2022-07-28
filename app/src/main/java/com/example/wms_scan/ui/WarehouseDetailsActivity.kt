@@ -101,7 +101,6 @@ class WarehouseDetailsActivity : AppCompatActivity() {
 
         binding.addWarehouseBTN.click {
 
-
             updatedWarehouseName = binding.updateWarehouseET.text.toString()
 
             if (binding.updateWarehouseET.text.isNullOrEmpty())
@@ -109,6 +108,12 @@ class WarehouseDetailsActivity : AppCompatActivity() {
                 toast("Field must not be empty")
                 binding.updateWarehouseET.error = "Field must not be empty"
             }
+
+            else if (binding.busLocTV.text == null)
+            {
+                toast("Error found")
+            }
+
             else
             {
                     viewModel.addUpdateWarehouse(
@@ -140,6 +145,10 @@ class WarehouseDetailsActivity : AppCompatActivity() {
             else if(updatedWarehouseName.startsWith("0"))
             {
                 toast("Please enter any value")
+            }
+            else if (binding.busLocTV.text == null)
+            {
+                toast("Error found")
             }
             else
             {
