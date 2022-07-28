@@ -31,6 +31,7 @@ import com.example.scanmate.util.Constants.Toast.NoInternetFound
 import com.example.scanmate.util.CustomProgressDialog
 import com.example.scanmate.util.LocalPreferences
 import com.example.scanmate.util.LocalPreferences.AppLoginPreferences.isRefreshRequired
+import com.example.scanmate.util.LocalPreferences.AppLoginPreferences.isSpinnerSelected
 import com.example.scanmate.util.LocalPreferences.AppLoginPreferences.userNo
 import com.example.scanmate.util.Utils
 import com.example.scanmate.util.Utils.isNetworkConnected
@@ -162,16 +163,9 @@ class ShelfActivity : AppCompatActivity() {
         binding.swipeRefresh.setOnRefreshListener {
             if (isNetworkConnected(this))
             {
-                viewModel.userLocation(
-                    Utils.getSimpleTextBody(
-                        LocalPreferences.getInt(this, LocalPreferences.AppLoginPreferences.userNo).toString()
-                    )
-                )
-                viewModel.getWarehouse("", selectedBusLocNo)
-
-                viewModel.getRack(
+                viewModel.getShelf(
                     Utils.getSimpleTextBody(""),
-                    Utils.getSimpleTextBody(selectedWareHouseNo),
+                    Utils.getSimpleTextBody(LocalPreferences.getString(this, isSpinnerSelected).toString()),
                     Utils.getSimpleTextBody(selectedBusLocNo)
                 )
             }
@@ -388,6 +382,7 @@ class ShelfActivity : AppCompatActivity() {
                                 showRackSpinner(it.data)
                                 binding.shelfAddBTN.visible()
                                 binding.rackSpinnerCont.visible()
+                                binding.rackSpinner.visible()
                                 binding.warehouseSpinnerCont.visible()
                             }
                             else
@@ -396,7 +391,7 @@ class ShelfActivity : AppCompatActivity() {
                                 intent.removeExtra("key")
                                 binding.shelfAddBTN.gone()
                                 binding.rackSpinnerCont.gone()
-                                binding.warehouseSpinnerCont.gone()
+                                binding.rackSpinner.gone()
                                 binding.printIV.click {
                                     toast("Nothing to print!")
                                 }
@@ -629,6 +624,8 @@ class ShelfActivity : AppCompatActivity() {
                 {
                     binding.shelfRV.adapter = null
                     toast(NoInternetFound)
+                    val selectedRack = data[position].rackNo.toString()
+                    LocalPreferences.put(this@ShelfActivity,isSpinnerSelected,selectedRack)
                 }
 
             }

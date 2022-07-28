@@ -55,6 +55,7 @@ object LocalPreferences {
         const val rackNo = "rackNo"
         const val shelfNo = "shelfNo"
         const val isRefreshRequired = "isRefreshRequired"
+        const val isSpinnerSelected = "isSpinnerSelected"
         const val scanCarton = "scanCarton"
 
 

@@ -264,34 +264,41 @@ class ScanCartonActivity : AppCompatActivity() {
             runOnUiThread {
                     scannedValue = it.text
 
-                    Toast.makeText(this, "Scan result: ${it.text}", Toast.LENGTH_LONG).show()
+//                    Toast.makeText(this, "Scan result: ${it.text}", Toast.LENGTH_LONG).show()
 
                     //Don't forget to add this line printing value or finishing activity must run on main thread
                     runOnUiThread {
 
                         when {
-                            scannedValue.contains("L") -> {
+                            scannedValue.contains("L") ->
+                            {
                                 toast("No record found")
                                 codeScanner.startPreview()
                             }
-                            scannedValue.contains("WH") -> {
+                            scannedValue.contains("WH") ->
+                            {
                                 toast("No record found")
                                 codeScanner.startPreview()
                             }
-                            scannedValue.contains("RK") -> {
+                            scannedValue.contains("RK") ->
+                            {
                                 toast("No record found")
                                 codeScanner.startPreview()
                             }
-                            scannedValue.contains("SF") -> {
+                            scannedValue.contains("SF") ->
+                            {
                                 toast("No record found")
                                 codeScanner.startPreview()
                             }
-                            scannedValue.contains("PL") -> {
+                            scannedValue.contains("PL") ->
+                            {
                                 toast("No record found")
                                 codeScanner.startPreview()
                             }
-                            else -> {
+                            else ->
+                            {
                                 viewModel.getCartonDetails(scannedValue)
+                                codeScanner.startPreview()
                             }
                         }
                     }

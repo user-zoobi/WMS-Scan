@@ -29,6 +29,7 @@ import com.example.scanmate.util.Constants.Toast.NoInternetFound
 import com.example.scanmate.util.CustomProgressDialog
 import com.example.scanmate.util.LocalPreferences
 import com.example.scanmate.util.LocalPreferences.AppLoginPreferences.isRefreshRequired
+import com.example.scanmate.util.LocalPreferences.AppLoginPreferences.isSpinnerSelected
 import com.example.scanmate.util.LocalPreferences.AppLoginPreferences.userNo
 import com.example.scanmate.util.Utils
 import com.example.scanmate.util.Utils.isNetworkConnected
@@ -164,18 +165,13 @@ class RacksActivity : AppCompatActivity() {
         }
 
         binding.swipeRefresh.setOnRefreshListener {
+
             if (isNetworkConnected(this))
             {
-                viewModel.userLocation(
-                    Utils.getSimpleTextBody(
-                        LocalPreferences.getInt(this, LocalPreferences.AppLoginPreferences.userNo).toString()
-                    )
-                )
-                viewModel.getWarehouse("", selectedBusLocNo)
 
                 viewModel.getRack(
                     Utils.getSimpleTextBody(""),
-                    Utils.getSimpleTextBody(selectedWareHouseNo),
+                    Utils.getSimpleTextBody(LocalPreferences.getString(this, isSpinnerSelected).toString()),
                     Utils.getSimpleTextBody(selectedBusLocNo)
                 )
 
@@ -312,6 +308,7 @@ class RacksActivity : AppCompatActivity() {
                             {
                                 binding.rackAddBTN.isEnabled = false
                                 binding.warehouseSpinnerCont.gone()
+
                             }
 
                         }
@@ -337,14 +334,13 @@ class RacksActivity : AppCompatActivity() {
                         Status.LOADING ->{
                         }
                         Status.SUCCESS ->{
-
+                            binding.swipeRefresh.isRefreshing = false
                             if (isNetworkConnected(this))
                             {
                                 try
                                 {
                                     if(it.data?.get(0)?.status == true)
                                     {
-                                        showRackSpinner(it.data)
                                         racksAdapter = RackAdapter(this,it.data as ArrayList<GetRackResponse>)
 
                                         bmpList.clear()
@@ -405,9 +401,7 @@ class RacksActivity : AppCompatActivity() {
                         }
                     }
                 }
-                else
-                {
-                }
+                else  { }
             }
         })
     }
@@ -487,50 +481,10 @@ class RacksActivity : AppCompatActivity() {
                 {
                     binding.racksRV.adapter = null
                     toast(NoInternetFound)
+                    var selectedWH = data[position].wHNo.toString()
+                    LocalPreferences.put(this@RacksActivity,isSpinnerSelected,"$selectedWH")
                 }
 
-            }
-            override fun onNothingSelected(p0: AdapterView<*>?) {
-                toast("Please select any value")
-                binding.rackAddBTN.isEnabled = false
-            }
-        }
-    }
-
-    private fun showRackSpinner(data:List<GetRackResponse>) {
-        //String array to store all the book names
-        val items = arrayOfNulls<String>(data.size)
-        val rackSpinner = binding.rackSpinner
-
-        //Traversing through the whole list to get all the names
-        for (i in data.indices) {
-            //Storing names to string array
-            items[i] = data[i].rackName
-        }
-        val adapter: ArrayAdapter<String?> =
-            ArrayAdapter(this, android.R.layout.simple_list_item_1, items)
-        //setting adapter to spinner
-        rackSpinner.adapter = adapter
-
-        rackSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
-            override fun onItemSelected(adapter: AdapterView<*>?, view: View?, position: Int, long: Long) {
-                if (Utils.isNetworkConnected(this@RacksActivity)) {
-                    selectedRackNo = data[position].rackNo.toString()
-                    selectedRackName = data[position].rackName.toString()
-                    selectedRackCode = data[position].rackCode.toString()
-                    viewModel.getShelf(
-                        Utils.getSimpleTextBody(""),
-                        Utils.getSimpleTextBody(selectedRackNo),
-                        Utils.getSimpleTextBody(selectedBusLocNo)
-                    )
-                }
-                else
-                {
-                    binding.racksRV.adapter = null
-                    toast(NoInternetFound)
-                }
-
-                Log.i("LocBus","This is rack pos ${adapter?.getItemAtPosition(position)}")
             }
             override fun onNothingSelected(p0: AdapterView<*>?) {
                 toast("Please select any value")

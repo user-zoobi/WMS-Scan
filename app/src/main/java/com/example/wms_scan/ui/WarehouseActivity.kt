@@ -32,6 +32,7 @@ import com.example.scanmate.util.Constants.Toast.NoInternetFound
 import com.example.scanmate.util.CustomProgressDialog
 import com.example.scanmate.util.LocalPreferences
 import com.example.scanmate.util.LocalPreferences.AppLoginPreferences.isRefreshRequired
+import com.example.scanmate.util.LocalPreferences.AppLoginPreferences.isSpinnerSelected
 import com.example.scanmate.util.LocalPreferences.AppLoginPreferences.userNo
 import com.example.scanmate.util.Utils
 import com.example.scanmate.util.Utils.isNetworkConnected
@@ -275,11 +276,7 @@ class WarehouseActivity : AppCompatActivity() {
         binding.swipeRefresh.setOnRefreshListener {
             if (isNetworkConnected(this@WarehouseActivity))
             {
-                viewModel.userLocation(
-                    Utils.getSimpleTextBody(
-                        LocalPreferences.getInt(this, userNo).toString()
-                    )
-                )
+                viewModel.getWarehouse("", LocalPreferences.getString(this, isSpinnerSelected).toString())
             }
             else{
                 binding.swipeRefresh.isRefreshing = false
@@ -366,7 +363,7 @@ class WarehouseActivity : AppCompatActivity() {
         businessLocSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
 
             override fun onItemSelected(adapter: AdapterView<*>?, view: View?, position: Int, long: Long) {
-                if (Utils.isNetworkConnected(this@WarehouseActivity))
+                if (isNetworkConnected(this@WarehouseActivity))
                 {
                     Log.i("LocBus","business Location no ${data[position].orgBusLocNo}")
                     // binding.rackSpinnerCont.visible()
@@ -375,11 +372,14 @@ class WarehouseActivity : AppCompatActivity() {
                     businessLocName = data[position].busLocationName.toString()
                 }
                 else{
+                    val selectedLocation = data[position].orgBusLocNo.toString()
+                    LocalPreferences.put(this@WarehouseActivity, isSpinnerSelected,"$selectedLocation")
                     binding.warehouseRV.adapter = null
                     toast(NoInternetFound)
                 }
 
             }
+
             override fun onNothingSelected(p0: AdapterView<*>?) {
                 toast("Please select any value")
                 binding.whAddBTN.isEnabled = false
