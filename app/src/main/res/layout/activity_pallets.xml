@@ -90,9 +90,8 @@
             android:layout_marginTop="@dimen/_20sdp"
             android:background="@drawable/grey_rounded_bg">
 
-
             <androidx.appcompat.widget.LinearLayoutCompat
-                android:id="@+id/viewCont"
+                android:id="@+id/palletCont"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_20sdp"
@@ -141,7 +140,7 @@
                         android:padding="@dimen/_8sdp"
                         android:src="@drawable/refresh"
                         android:tint="@color/dark_green"
-                        android:visibility="gone"/>
+                        android:visibility="gone" />
 
                     <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/palletAddBTN"
@@ -159,12 +158,14 @@
 
 
                 <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/businessSpinnerCont"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/_5sdp"
                     android:layout_marginTop="@dimen/_10sdp"
                     android:layout_marginEnd="@dimen/_5sdp"
                     android:layout_marginBottom="@dimen/_2sdp"
+                    android:visibility="gone"
                     app:cardElevation="@dimen/_5sdp">
 
                     <androidx.appcompat.widget.AppCompatSpinner
@@ -175,7 +176,7 @@
                         android:paddingStart="@dimen/_10sdp"
                         android:spinnerMode="dialog"
                         android:theme="@style/SpinnerScrollBar"
-                        android:visibility="visible" />
+                        android:visibility="gone" />
 
                 </com.google.android.material.card.MaterialCardView>
 
@@ -187,7 +188,7 @@
                     android:layout_marginStart="@dimen/_5sdp"
                     android:layout_marginEnd="@dimen/_5sdp"
                     android:layout_marginBottom="@dimen/_2sdp"
-                    android:visibility="visible"
+                    android:visibility="gone"
                     app:cardElevation="@dimen/_5sdp">
 
                     <androidx.appcompat.widget.AppCompatSpinner
@@ -197,7 +198,8 @@
                         android:maxLines="1"
                         android:paddingStart="@dimen/_10sdp"
                         android:spinnerMode="dialog"
-                        android:theme="@style/SpinnerScrollBar" />
+                        android:theme="@style/SpinnerScrollBar"
+                        android:visibility="gone" />
 
                 </com.google.android.material.card.MaterialCardView>
 
@@ -209,7 +211,7 @@
                     android:layout_marginStart="@dimen/_5sdp"
                     android:layout_marginEnd="@dimen/_5sdp"
                     android:layout_marginBottom="@dimen/_2sdp"
-                    android:visibility="visible"
+                    android:visibility="gone"
                     app:cardElevation="@dimen/_5sdp">
 
                     <androidx.appcompat.widget.AppCompatSpinner
@@ -219,7 +221,8 @@
                         android:maxLines="1"
                         android:paddingStart="@dimen/_10sdp"
                         android:spinnerMode="dialog"
-                        android:theme="@style/SpinnerScrollBar" />
+                        android:theme="@style/SpinnerScrollBar"
+                        android:visibility="gone" />
 
                 </com.google.android.material.card.MaterialCardView>
 
@@ -232,7 +235,7 @@
 
                     android:layout_marginEnd="@dimen/_5sdp"
                     android:layout_marginBottom="@dimen/_2sdp"
-                    android:visibility="visible"
+                    android:visibility="gone"
                     app:cardElevation="@dimen/_5sdp">
 
                     <androidx.appcompat.widget.AppCompatSpinner
@@ -243,7 +246,7 @@
                         android:paddingStart="@dimen/_10sdp"
                         android:spinnerMode="dialog"
                         android:theme="@style/SpinnerScrollBar"
-                        android:visibility="visible" />
+                        android:visibility="gone" />
 
                 </com.google.android.material.card.MaterialCardView>
 
@@ -255,7 +258,8 @@
                     android:fontFamily="@font/amiko"
                     android:text="Available Pallets"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/_20ssp" />
+                    android:textSize="@dimen/_20ssp"
+                    android:visibility="gone" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/palletsRV"
@@ -282,5 +286,29 @@
         android:layout_margin="@dimen/_2sdp"
         android:layout_alignParentBottom="true"
         android:visibility="gone"/>
+
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/connectionTimeout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_centerInParent="true"
+        android:visibility="gone">
+
+        <ImageView
+            android:layout_width="@dimen/_300sdp"
+            android:layout_height="@dimen/_300sdp"
+            android:src="@drawable/timeout"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="The connection has timed out"
+            android:layout_gravity="center"
+            android:textSize="@dimen/_20sdp"
+            android:textStyle="bold"
+            android:textColor="@color/black"/>
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
 
 </RelativeLayout>

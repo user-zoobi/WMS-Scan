@@ -107,39 +107,22 @@ class RacksActivity : AppCompatActivity() {
         }
         binding.rackAddBTN.click {
 
-            val businessSpinner = binding.businessLocationSpinner
-            val warehouseSpinner = binding.warehouseSpinner
             if (isNetworkConnected(this))
             {
 
-                if ((businessSpinner.adapter != null) and (warehouseSpinner.adapter != null))
-                {
+                val intent = Intent(this, AddUpdateRackDetails::class.java)
+                intent.putExtra("addBusNo",selectedBusLocNo)
+                intent.putExtra("addBusName",businessLocName)
+                intent.putExtra("addWHNo",selectedWareHouseNo)
+                intent.putExtra("addWHName",warehouseName)
+                intent.putExtra("addRackNo",selectedRackNo)
+                intent.putExtra("addRackName",selectedRackName)
+                intent.putExtra("addRackCode",rackCode)
+                intent.putExtra("shelfCapacity",capacity)
+                intent.putExtra("AddRackKey",true)
+                startActivity(intent)
 
-                    val intent = Intent(this, AddUpdateRackDetails::class.java)
-                    intent.putExtra("addBusNo",selectedBusLocNo)
-                    intent.putExtra("addBusName",businessLocName)
-                    intent.putExtra("addWHNo",selectedWareHouseNo)
-                    intent.putExtra("addWHName",warehouseName)
-                    intent.putExtra("addRackNo",selectedRackNo)
-                    intent.putExtra("addRackName",selectedRackName)
-                    intent.putExtra("addRackCode",rackCode)
-                    intent.putExtra("shelfCapacity",capacity)
-                    intent.putExtra("AddRackKey",true)
-                    startActivity(intent)
-
-                    Log.i("addRack","$selectedBusLocNo $businessLocName $selectedWareHouseNo $warehouseName $selectedRackNo $selectedRackName $rackCode $capacity" )
-                }
-                else
-                {
-                    businessSpinner.gone()
-                    warehouseSpinner.gone()
-                    toast("No connection found")
-                    binding.availableRacks.gone()
-                    binding.swipeRefresh.isRefreshing = false
-                    binding.racksRV.gone()
-                    binding.refreshBtn.visible()
-                    binding.rackAddBTN.gone()
-                }
+                Log.i("addRack","$selectedBusLocNo $businessLocName $selectedWareHouseNo $warehouseName $selectedRackNo $selectedRackName $rackCode $capacity" )
 
             }
             else
@@ -148,27 +131,17 @@ class RacksActivity : AppCompatActivity() {
             }
         }
 
-        binding.refreshBtn.click {
-
-            binding.businessLocationSpinner.visible()
-            binding.warehouseSpinner.visible()
-            binding.racksRV.visible()
-            binding.rackAddBTN.visible()
-            binding.refreshBtn.gone()
-            viewModel.userLocation(Utils.getSimpleTextBody(LocalPreferences.getInt(this, userNo).toString()))
-            viewModel.getWarehouse("", selectedBusLocNo)
-            viewModel.getRack(
-                Utils.getSimpleTextBody(""),
-                Utils.getSimpleTextBody(selectedWareHouseNo),
-                Utils.getSimpleTextBody(selectedBusLocNo)
-            )
-        }
-
         binding.swipeRefresh.setOnRefreshListener {
 
             if (isNetworkConnected(this))
             {
-
+                binding.rackCont.visible()
+                binding.connectionTimeout.gone()
+                viewModel.userLocation(
+                    Utils.getSimpleTextBody(
+                        LocalPreferences.getInt(this, userNo).toString()
+                    ))
+                viewModel.getWarehouse("", LocalPreferences.getString(this, isSpinnerSelected).toString())
                 viewModel.getRack(
                     Utils.getSimpleTextBody(""),
                     Utils.getSimpleTextBody(LocalPreferences.getString(this, isSpinnerSelected).toString()),
@@ -230,13 +203,14 @@ class RacksActivity : AppCompatActivity() {
                 {
                     when(it.status){
                         Status.LOADING->{
-                            dialog.show()
                             dialog.setCanceledOnTouchOutside(true);
                         }
                         Status.SUCCESS ->{
                             if(it.data?.get(0)?.status == true)
                             {
                                 dialog.dismiss()
+                                binding.businessLocationSpinner.visible()
+                                binding.businessSpinnerCont.visible()
                                 showBusLocSpinner(it.data)
                                 binding.rackAddBTN.visible()
                             }
@@ -250,6 +224,9 @@ class RacksActivity : AppCompatActivity() {
                         }
                         Status.ERROR ->{
                             dialog.dismiss()
+                            binding.swipeRefresh.isRefreshing = false
+                            binding.rackCont.gone()
+                            binding.connectionTimeout.visible()
                         }
                     }
                 }
@@ -275,6 +252,9 @@ class RacksActivity : AppCompatActivity() {
                             if (isNetworkConnected(this))
                             {
                                 binding.swipeRefresh.isRefreshing = false
+                                binding.warehouseSpinner.visible()
+                                binding.warehouseSpinnerCont.visible()
+                                binding.availableRacks.visible()
                                 try {
                                     LocalPreferences.put(this, isRefreshRequired, false)
 
@@ -315,6 +295,9 @@ class RacksActivity : AppCompatActivity() {
                         Status.ERROR ->
                         {
                             dialog.dismiss()
+                            binding.swipeRefresh.isRefreshing = false
+                            binding.rackCont.gone()
+                            binding.connectionTimeout.visible()
                         }
                     }
                 }
@@ -376,7 +359,6 @@ class RacksActivity : AppCompatActivity() {
                                     else
                                     {
                                         binding.racksRV.adapter = null
-                                        binding.rackSpinnerCont.gone()
                                         binding.printIV.click { btn ->
                                             toast("Nothing to print!")
                                         }
@@ -392,12 +374,15 @@ class RacksActivity : AppCompatActivity() {
                             else
                             {
                                 binding.rackAddBTN.isEnabled = false
-                                binding.rackSpinnerCont.gone()
                             }
 
                         }
+
                         Status.ERROR ->{
                             dialog.dismiss()
+                            binding.swipeRefresh.isRefreshing = false
+                            binding.rackCont.gone()
+                            binding.connectionTimeout.visible()
                         }
                     }
                 }

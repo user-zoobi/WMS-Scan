@@ -125,44 +125,18 @@ class ShelfActivity : AppCompatActivity() {
             clearPreferences(this)
         }
 
-        binding.refreshBtn.click {
-
-            binding.businessLocationSpinner.visible()
-            binding.warehouseSpinner.visible()
-            binding.warehouseSpinnerCont.visible()
-            binding.rackSpinner.visible()
-            binding.rackSpinnerCont.visible()
-            binding.availableShelfTV.visible()
-            binding.shelfRV.visible()
-            binding.shelfAddBTN.visible()
-            binding.refreshBtn.gone()
-            viewModel.userLocation(Utils.getSimpleTextBody(LocalPreferences.getInt(this, userNo).toString()))
-
-            viewModel.getWarehouse("", selectedBusLocNo)
-
-            viewModel.getRack(
-                Utils.getSimpleTextBody(""),
-                Utils.getSimpleTextBody(selectedWareHouseNo),
-                Utils.getSimpleTextBody(selectedBusLocNo)
-            )
-
-            viewModel.getShelf(
-                Utils.getSimpleTextBody(""),
-                Utils.getSimpleTextBody(selectedRackNo),
-                Utils.getSimpleTextBody(selectedBusLocNo)
-            )
-
-            viewModel.getPallet(
-                Utils.getSimpleTextBody(""),
-                Utils.getSimpleTextBody(selectedShelveNo),
-                Utils.getSimpleTextBody(selectedBusLocNo)
-            )
-
-        }
-
         binding.swipeRefresh.setOnRefreshListener {
             if (isNetworkConnected(this))
             {
+                binding.shelfCont.visible()
+                binding.connectionTimeout.gone()
+                viewModel.userLocation(Utils.getSimpleTextBody(LocalPreferences.getInt(this, userNo).toString()))
+                viewModel.getWarehouse("", selectedBusLocNo)
+                viewModel.getRack(
+                    Utils.getSimpleTextBody(""),
+                    Utils.getSimpleTextBody(selectedWareHouseNo),
+                    Utils.getSimpleTextBody(selectedBusLocNo)
+                )
                 viewModel.getShelf(
                     Utils.getSimpleTextBody(""),
                     Utils.getSimpleTextBody(LocalPreferences.getString(this, isSpinnerSelected).toString()),
@@ -207,7 +181,6 @@ class ShelfActivity : AppCompatActivity() {
                     binding.availableShelfTV.gone()
                     binding.swipeRefresh.isRefreshing = false
                     binding.shelfRV.gone()
-                    binding.refreshBtn.visible()
                     binding.shelfAddBTN.gone()
                 }
             }
@@ -271,11 +244,12 @@ class ShelfActivity : AppCompatActivity() {
         viewModel.userLoc.observe(this, Observer {
             when(it.status){
                 Status.LOADING->{
-                    dialog.show()
                     dialog.setCanceledOnTouchOutside(true);
                 }
                 Status.SUCCESS ->{
                     if (isNetworkConnected(this)){
+                        binding.businessLocationSpinner.visible()
+                        binding.businessSpinnerCont.visible()
                         try
                         {
                             if(it.data?.get(0)?.status == true)
@@ -307,6 +281,9 @@ class ShelfActivity : AppCompatActivity() {
                 }
                 Status.ERROR ->{
                     dialog.dismiss()
+                    binding.swipeRefresh.isRefreshing = false
+                    binding.shelfCont.gone()
+                    binding.connectionTimeout.visible()
                 }
             }
         })
@@ -322,7 +299,8 @@ class ShelfActivity : AppCompatActivity() {
                 }
                 Status.SUCCESS ->{
                     if (isNetworkConnected(this)){
-
+                        binding.warehouseSpinner.visible()
+                        binding.warehouseSpinnerCont.visible()
                         try {
                             if(it.data?.get(0)?.status == true)
                             {
@@ -360,6 +338,9 @@ class ShelfActivity : AppCompatActivity() {
                 }
                 Status.ERROR ->{
                     dialog.dismiss()
+                    binding.swipeRefresh.isRefreshing = false
+                    binding.shelfCont.gone()
+                    binding.connectionTimeout.visible()
                 }
             }
         })
@@ -374,6 +355,10 @@ class ShelfActivity : AppCompatActivity() {
                 Status.LOADING ->{}
 
                 Status.SUCCESS ->{
+
+                    binding.rackSpinner.visible()
+                    binding.rackSpinnerCont.visible()
+
                     if (isNetworkConnected(this)){
                         try
                         {
@@ -414,6 +399,9 @@ class ShelfActivity : AppCompatActivity() {
 
                 Status.ERROR ->{
                     dialog.dismiss()
+                    binding.swipeRefresh.isRefreshing = false
+                    binding.shelfCont.gone()
+                    binding.connectionTimeout.visible()
                 }
             }
         })
@@ -429,6 +417,7 @@ class ShelfActivity : AppCompatActivity() {
                     binding.swipeRefresh.isRefreshing = true
                 }
                 Status.SUCCESS ->{
+                    binding.availableShelfTV.visible()
                     if (isNetworkConnected(this))
                     {
                         binding.swipeRefresh.isRefreshing = false
@@ -497,8 +486,11 @@ class ShelfActivity : AppCompatActivity() {
                         binding.shelfAddBTN.isEnabled = false
                     }
                 }
-                Status.ERROR ->{
 
+                Status.ERROR ->
+                {
+                    binding.shelfCont.gone()
+                    binding.connectionTimeout.visible()
                 }
             }
         })

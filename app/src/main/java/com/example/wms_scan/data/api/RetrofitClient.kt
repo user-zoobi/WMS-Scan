@@ -29,14 +29,12 @@ object RetrofitClient {
         // Create an ssl socket factory with our all-trusting manager
         sslSocketFactory = sslContext?.socketFactory
         val okHttpClientBuilder = OkHttpClient().newBuilder()
-            .connectTimeout(30, TimeUnit.SECONDS)
-            .readTimeout(30, TimeUnit.SECONDS)
-            .writeTimeout(30, TimeUnit.SECONDS)
+            .connectTimeout(15, TimeUnit.SECONDS)
+            .readTimeout(15, TimeUnit.SECONDS)
+            .writeTimeout(15, TimeUnit.SECONDS)
             .addInterceptor { chain ->
                 val original = chain.request()
-                //int maxAge = 60 * 60 * 24; // tolerate 1 day
                 val request = original.newBuilder()
-                    //.header("Content-Type", "application/x-www-form-urlencoded")
                     .method(original.method, original.body)
                     .build()
                 chain.proceed(request)

@@ -128,40 +128,11 @@ class PalletsActivity : AppCompatActivity() {
             clearPreferences(this)
         }
 
-        binding.refreshBtn.click {
-            binding.businessLocationSpinner.visible()
-            binding.warehouseSpinner.visible()
-            binding.warehouseSpinnerCont.visible()
-            binding.rackSpinner.visible()
-            binding.rackSpinnerCont.visible()
-            binding.shelfSpinner.visible()
-            binding.shelfSpinnerCont.visible()
-            binding.palletAddBTN.visible()
-            binding.palletsRV.visible()
-            binding.refreshBtn.gone()
-            viewModel.userLocation(
-                Utils.getSimpleTextBody(LocalPreferences.getInt(
-                    this, LocalPreferences.AppLoginPreferences.userNo
-                ).toString()))
-
-            viewModel.getWarehouse("", selectedBusLocNo)
-
-            viewModel.getRack(
-                Utils.getSimpleTextBody(""),
-                Utils.getSimpleTextBody(selectedWareHouseNo),
-                Utils.getSimpleTextBody(selectedBusLocNo))
-
-            viewModel.getShelf(
-                Utils.getSimpleTextBody(""),
-                Utils.getSimpleTextBody(selectedRackNo),
-                Utils.getSimpleTextBody(selectedBusLocNo))
-
-
-        }
-
         binding.swipeRefresh.setOnRefreshListener {
             if (isNetworkConnected(this))
             {
+                binding.palletCont.visible()
+                binding.connectionTimeout.gone()
                 viewModel.userLocation(
                     Utils.getSimpleTextBody(
                         LocalPreferences.getInt(this, LocalPreferences.AppLoginPreferences.userNo).toString()
@@ -189,16 +160,8 @@ class PalletsActivity : AppCompatActivity() {
 
         binding.palletAddBTN.click {
 
-            val businessSpinner = binding.businessLocationSpinner
-            val warehouseSpinner = binding.warehouseSpinner
-            val rackSpinner = binding.rackSpinner
-            val shelfSpinner = binding.shelfSpinner
-
             if (isNetworkConnected(this))
             {
-                if ((businessSpinner.adapter != null) and (warehouseSpinner.adapter != null)
-                    and (rackSpinner.adapter != null) and (shelfSpinner.adapter != null))
-                {
                     val intent = Intent(this, AddUpdatePalletDetails::class.java)
                     intent.putExtra("addBusLocNo",selectedBusLocNo)
                     intent.putExtra("addWHNo",selectedWareHouseNo)
@@ -212,20 +175,7 @@ class PalletsActivity : AppCompatActivity() {
                     intent.putExtra("palletCap",capacity)
                     intent.putExtra("AddPalletKey",true)
                     startActivity(intent)
-                }
-                else
-                {
-                    toast("No connection found")
-                    businessSpinner.gone()
-                    warehouseSpinner.gone()
-                    rackSpinner.gone()
-                    shelfSpinner.gone()
-                    binding.availablePallets.gone()
-                    binding.swipeRefresh.isRefreshing = false
-                    binding.palletsRV.gone()
-                    binding.refreshBtn.visible()
-                    binding.palletAddBTN.gone()
-                }
+
             }
         }
 
@@ -263,10 +213,13 @@ class PalletsActivity : AppCompatActivity() {
         viewModel.userLoc.observe(this, Observer {
             when(it.status){
                 Status.LOADING->{
-                    dialog.show()
                     dialog.setCanceledOnTouchOutside(true)
                 }
                 Status.SUCCESS ->{
+
+                    binding.businessLocationSpinner.visible()
+                    binding.businessSpinnerCont.visible()
+
                     if (isNetworkConnected(this)){
                         it.let {
                             if(it.data?.get(0)?.status == true)
@@ -286,8 +239,13 @@ class PalletsActivity : AppCompatActivity() {
                         binding.businessLocationSpinner.gone()
                     }
                 }
-                Status.ERROR ->{
+
+                Status.ERROR ->
+                {
                     dialog.dismiss()
+                    binding.swipeRefresh.isRefreshing = false
+                    binding.palletCont.gone()
+                    binding.connectionTimeout.visible()
                 }
             }
         })
@@ -301,6 +259,10 @@ class PalletsActivity : AppCompatActivity() {
                 Status.LOADING->{
                 }
                 Status.SUCCESS ->{
+
+                    binding.warehouseSpinner.visible()
+                    binding.warehouseSpinnerCont.visible()
+
                     if (isNetworkConnected(this)){
                         try {
                             if(it.data?.get(0)?.status == true)
@@ -341,6 +303,9 @@ class PalletsActivity : AppCompatActivity() {
                 }
                 Status.ERROR ->{
                     dialog.dismiss()
+                    binding.swipeRefresh.isRefreshing = false
+                    binding.palletCont.gone()
+                    binding.connectionTimeout.visible()
                 }
             }
         })
@@ -355,6 +320,9 @@ class PalletsActivity : AppCompatActivity() {
                 Status.LOADING ->{
                 }
                 Status.SUCCESS ->{
+
+                    binding.rackSpinner.visible()
+                    binding.rackSpinnerCont.visible()
 
                     if (isNetworkConnected(this)){
                         try
@@ -397,6 +365,9 @@ class PalletsActivity : AppCompatActivity() {
                 }
                 Status.ERROR ->{
                     dialog.dismiss()
+                    binding.swipeRefresh.isRefreshing = false
+                    binding.palletCont.gone()
+                    binding.connectionTimeout.visible()
                 }
             }
         })
@@ -410,6 +381,11 @@ class PalletsActivity : AppCompatActivity() {
                 Status.LOADING ->{
                 }
                 Status.SUCCESS ->{
+
+                    binding.shelfSpinner.visible()
+                    binding.shelfSpinnerCont.visible()
+                    binding.availablePallets.visible()
+
                     if (isNetworkConnected(this)){
                         try {
                             if(it.data?.get(0)?.status == true)
@@ -442,7 +418,11 @@ class PalletsActivity : AppCompatActivity() {
                         binding.shelfSpinnerCont.gone()
                     }
                 }
-                Status.ERROR ->{}
+                Status.ERROR ->{
+                    binding.swipeRefresh.isRefreshing = false
+                    binding.palletCont.gone()
+                    binding.connectionTimeout.visible()
+                }
             }
         })
 
@@ -522,6 +502,9 @@ class PalletsActivity : AppCompatActivity() {
 
                 Status.ERROR ->{
                     Log.i(error,"Success")
+                    binding.swipeRefresh.isRefreshing = false
+                    binding.palletCont.gone()
+                    binding.connectionTimeout.visible()
                 }
             }
         })

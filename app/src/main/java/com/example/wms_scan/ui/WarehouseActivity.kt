@@ -49,7 +49,9 @@ import com.itextpdf.text.pdf.PdfWriter
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileOutputStream
+import java.io.IOException
 import java.util.*
+import kotlin.jvm.Throws
 
 
 class WarehouseActivity : AppCompatActivity() {
@@ -124,6 +126,10 @@ class WarehouseActivity : AppCompatActivity() {
                 }
                 Status.SUCCESS ->{
                     binding.swipeRefresh.isRefreshing = false
+                    binding.businessLocationSpinner.visible()
+                    binding.businessCont.visible()
+                    binding.availableWHTV.visible()
+
                     if (isNetworkConnected(this))
                     {
                         binding.swipeRefresh.isRefreshing = false
@@ -144,6 +150,8 @@ class WarehouseActivity : AppCompatActivity() {
                     dialog.dismiss()
                     binding.warehouseRV.adapter = null
                     binding.businessLocationSpinner.gone()
+                    binding.swipeRefresh.isRefreshing = false
+                    binding.warehouseCont.gone()
                 }
             }
         }
@@ -246,6 +254,9 @@ class WarehouseActivity : AppCompatActivity() {
                     dialog.dismiss()
                     binding.warehouseRV.adapter = null
                     binding.businessLocationSpinner.gone()
+                    binding.swipeRefresh.isRefreshing = false
+                    binding.warehouseCont.gone()
+                    binding.connectionTimeout.visible()
                 }
             }
         })
@@ -261,22 +272,16 @@ class WarehouseActivity : AppCompatActivity() {
             onBackPressed()
         }
 
-        binding.refreshBtn.click {
-
-            binding.businessLocationSpinner.visible()
-            binding.warehouseRV.visible()
-            binding.whAddBTN.visible()
-            binding.refreshBtn.gone()
-            binding.availableWHTV.visible()
-            viewModel.userLocation(Utils.getSimpleTextBody(LocalPreferences.getInt(this, userNo).toString()))
-            viewModel.getWarehouse("", selectedBusLocNo)
-
-        }
-
         binding.swipeRefresh.setOnRefreshListener {
             if (isNetworkConnected(this@WarehouseActivity))
             {
+                viewModel.userLocation(
+                    Utils.getSimpleTextBody(
+                        LocalPreferences.getInt(this, userNo).toString()
+                    ))
                 viewModel.getWarehouse("", LocalPreferences.getString(this, isSpinnerSelected).toString())
+                binding.warehouseCont.visible()
+                binding.connectionTimeout.gone()
             }
             else{
                 binding.swipeRefresh.isRefreshing = false
@@ -287,40 +292,16 @@ class WarehouseActivity : AppCompatActivity() {
             val businessSpinner = binding.businessLocationSpinner
 
             if (isNetworkConnected(this)){
-                if ((businessSpinner.adapter != null))
-                {
-                    businessSpinner.visible()
-                    binding.availableWHTV.visible()
-                    binding.whAddBTN.visible()
-                    binding.availableWHTV.visible()
+
                     val intent = Intent(this, WarehouseDetailsActivity::class.java)
                     intent.putExtra("addBusName",businessLocName)
                     intent.putExtra("addBusLocNo",selectedBusLocNo)
                     intent.putExtra("AddWHKey",true)
                     startActivity(intent)
 
-                }
-                else
-                {
-                    toast("No connection found")
-                    businessSpinner.gone()
-                    binding.availableWHTV.gone()
-                    binding.swipeRefresh.isRefreshing = false
-                    binding.whAddBTN.gone()
-                    toast("Refresh to continue")
-                    binding.warehouseRV.gone()
-                    binding.refreshBtn.visible()
-                    binding.whAddBTN.gone()
-                }
-            }
-            else
-            {
-                toast(NoInternetFound)
-                binding.whAddBTN.gone()
+
             }
         }
-
-
 
     }
 

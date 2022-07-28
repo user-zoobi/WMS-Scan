@@ -130,8 +130,7 @@
                         android:background="@drawable/hollow_black_rounded_bg"
                         android:padding="@dimen/_8sdp"
                         android:src="@drawable/print_icon"
-                        android:tint="@color/white"
-                        />
+                        android:tint="@color/white" />
 
                     <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/refreshBtn"
@@ -144,7 +143,7 @@
                         android:padding="@dimen/_8sdp"
                         android:src="@drawable/refresh"
                         android:tint="@color/dark_green"
-                        android:visibility="gone"/>
+                        android:visibility="gone" />
 
                     <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/whAddBTN"
@@ -162,12 +161,14 @@
 
 
                 <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/businessCont"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/_5sdp"
                     android:layout_marginTop="@dimen/_10sdp"
                     android:layout_marginEnd="@dimen/_5sdp"
                     android:layout_marginBottom="@dimen/_5sdp"
+                    android:visibility="gone"
                     app:cardElevation="@dimen/_5sdp">
 
                     <androidx.appcompat.widget.AppCompatSpinner
@@ -189,7 +190,8 @@
                     android:fontFamily="@font/amiko"
                     android:text="Available Warehouse"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/_20ssp" />
+                    android:textSize="@dimen/_20ssp"
+                    android:visibility="gone" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/warehouseRV"
@@ -207,35 +209,27 @@
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
-    <com.google.android.material.card.MaterialCardView
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/connectionTimeout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_gravity="end"
-        android:layout_marginEnd="@dimen/_25sdp"
-        android:layout_marginBottom="@dimen/_100sdp"
-        app:cardCornerRadius="@dimen/_50sdp"
-        app:cardElevation="@dimen/_20sdp">
+        android:orientation="vertical"
+        android:layout_centerInParent="true"
+        android:visibility="gone">
 
+        <ImageView
+            android:layout_width="@dimen/_300sdp"
+            android:layout_height="@dimen/_300sdp"
+            android:src="@drawable/timeout"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="The connection has timed out"
+            android:layout_gravity="center"
+            android:textSize="@dimen/_20sdp"
+            android:textStyle="bold"
+            android:textColor="@color/black"/>
 
-
-    </com.google.android.material.card.MaterialCardView>
-
-    <ImageView
-        android:id="@+id/qrImageView"
-        android:layout_width="@dimen/_150sdp"
-        android:layout_height="@dimen/_150sdp"
-        android:layout_centerHorizontal="true"
-        android:layout_gravity="center"
-        android:layout_margin="@dimen/_2sdp"
-        android:layout_alignParentBottom="true"
-        android:visibility="gone"/>
-
-    <TextView
-        android:id="@+id/textValue"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="gone"/>
+    </androidx.appcompat.widget.LinearLayoutCompat>
 
 </RelativeLayout>

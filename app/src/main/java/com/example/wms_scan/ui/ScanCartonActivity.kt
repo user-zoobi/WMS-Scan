@@ -320,17 +320,18 @@ class ScanCartonActivity : AppCompatActivity() {
         binding.cameraSurfaceView.setOnClickListener {
             codeScanner.startPreview()
         }
-
     }
 
-    override fun onResume() {
+    override fun onResume()
+    {
         super.onResume()
         codeScanner.startPreview()
     }
 
-    override fun onPause() {
+    override fun onPause()
+    {
         codeScanner.releaseResources()
         super.onPause()
     }
-    //
+
 }
