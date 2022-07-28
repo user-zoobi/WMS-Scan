@@ -114,13 +114,15 @@ class WarehouseActivity : AppCompatActivity() {
             Utils.getSimpleTextBody(
                 LocalPreferences.getInt(this, userNo).toString()
             ))
-        viewModel.userLoc.observe(this, Observer {
+        viewModel.userLoc.observe(this)
+        {
             when(it.status){
                 Status.LOADING->{
-                    binding.swipeRefresh.isRefreshing = true
+                    binding.swipeRefresh.isRefreshing = false
                     dialog.setCanceledOnTouchOutside(true);
                 }
                 Status.SUCCESS ->{
+                    binding.swipeRefresh.isRefreshing = false
                     if (isNetworkConnected(this))
                     {
                         binding.swipeRefresh.isRefreshing = false
@@ -135,16 +137,15 @@ class WarehouseActivity : AppCompatActivity() {
                             toast("No result found")
                         }
                     }
-                    else
-                    {
-                    }
-
+                    else { }
                 }
                 Status.ERROR ->{
                     dialog.dismiss()
+                    binding.warehouseRV.adapter = null
+                    binding.businessLocationSpinner.gone()
                 }
             }
-        })
+        }
 
         /**
          *      GET WAREHOUSE OBSERVER
@@ -157,8 +158,8 @@ class WarehouseActivity : AppCompatActivity() {
                     binding.swipeRefresh.isRefreshing = isNetworkConnected(this)
                 }
                 Status.SUCCESS ->{
-                    binding.swipeRefresh.isRefreshing = false
                     try {
+                        binding.swipeRefresh.isRefreshing = false
                         LocalPreferences.put(this, isRefreshRequired, true)
                         if (isNetworkConnected(this))
                         {
@@ -228,9 +229,9 @@ class WarehouseActivity : AppCompatActivity() {
                         }
                         else
                         {
+                            binding.swipeRefresh.isRefreshing = false
                             binding.warehouseRV.adapter = null
                             toast("No result found")
-                            binding.whAddBTN.isEnabled = false
                         }
                     }
 
@@ -242,6 +243,8 @@ class WarehouseActivity : AppCompatActivity() {
                 }
                 Status.ERROR ->{
                     dialog.dismiss()
+                    binding.warehouseRV.adapter = null
+                    binding.businessLocationSpinner.gone()
                 }
             }
         })
@@ -255,6 +258,18 @@ class WarehouseActivity : AppCompatActivity() {
 
         binding.backBtn.click {
             onBackPressed()
+        }
+
+        binding.refreshBtn.click {
+
+            binding.businessLocationSpinner.visible()
+            binding.warehouseRV.visible()
+            binding.whAddBTN.visible()
+            binding.refreshBtn.gone()
+            binding.availableWHTV.visible()
+            viewModel.userLocation(Utils.getSimpleTextBody(LocalPreferences.getInt(this, userNo).toString()))
+            viewModel.getWarehouse("", selectedBusLocNo)
+
         }
 
         binding.swipeRefresh.setOnRefreshListener {
@@ -280,6 +295,7 @@ class WarehouseActivity : AppCompatActivity() {
                     businessSpinner.visible()
                     binding.availableWHTV.visible()
                     binding.whAddBTN.visible()
+                    binding.availableWHTV.visible()
                     val intent = Intent(this, WarehouseDetailsActivity::class.java)
                     intent.putExtra("addBusName",businessLocName)
                     intent.putExtra("addBusLocNo",selectedBusLocNo)
@@ -296,12 +312,14 @@ class WarehouseActivity : AppCompatActivity() {
                     binding.whAddBTN.gone()
                     toast("Refresh to continue")
                     binding.warehouseRV.gone()
+                    binding.refreshBtn.visible()
+                    binding.whAddBTN.gone()
                 }
             }
             else
             {
                 toast(NoInternetFound)
-                binding.whAddBTN.isEnabled = false
+                binding.whAddBTN.gone()
             }
         }
 

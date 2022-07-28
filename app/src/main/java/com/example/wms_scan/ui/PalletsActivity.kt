@@ -59,7 +59,6 @@ class PalletsActivity : AppCompatActivity() {
     private lateinit var palletAdapter: PalletsAdapter
     private lateinit var viewModel: MainViewModel
     private lateinit var dialog: CustomProgressDialog
-
     private var selectedBusLocNo = ""
     private var selectedWareHouseNo = ""
     private var selectedRackNo = ""
@@ -129,6 +128,37 @@ class PalletsActivity : AppCompatActivity() {
             clearPreferences(this)
         }
 
+        binding.refreshBtn.click {
+            binding.businessLocationSpinner.visible()
+            binding.warehouseSpinner.visible()
+            binding.warehouseSpinnerCont.visible()
+            binding.rackSpinner.visible()
+            binding.rackSpinnerCont.visible()
+            binding.shelfSpinner.visible()
+            binding.shelfSpinnerCont.visible()
+            binding.palletAddBTN.visible()
+            binding.palletsRV.visible()
+            binding.refreshBtn.gone()
+            viewModel.userLocation(
+                Utils.getSimpleTextBody(LocalPreferences.getInt(
+                    this, LocalPreferences.AppLoginPreferences.userNo
+                ).toString()))
+
+            viewModel.getWarehouse("", selectedBusLocNo)
+
+            viewModel.getRack(
+                Utils.getSimpleTextBody(""),
+                Utils.getSimpleTextBody(selectedWareHouseNo),
+                Utils.getSimpleTextBody(selectedBusLocNo))
+
+            viewModel.getShelf(
+                Utils.getSimpleTextBody(""),
+                Utils.getSimpleTextBody(selectedRackNo),
+                Utils.getSimpleTextBody(selectedBusLocNo))
+
+
+        }
+
         binding.swipeRefresh.setOnRefreshListener {
             if (isNetworkConnected(this))
             {
@@ -193,6 +223,8 @@ class PalletsActivity : AppCompatActivity() {
                     binding.availablePallets.gone()
                     binding.swipeRefresh.isRefreshing = false
                     binding.palletsRV.gone()
+                    binding.refreshBtn.visible()
+                    binding.palletAddBTN.gone()
                 }
             }
         }

@@ -31,6 +31,7 @@ import com.example.scanmate.util.Constants.Toast.NoInternetFound
 import com.example.scanmate.util.CustomProgressDialog
 import com.example.scanmate.util.LocalPreferences
 import com.example.scanmate.util.LocalPreferences.AppLoginPreferences.isRefreshRequired
+import com.example.scanmate.util.LocalPreferences.AppLoginPreferences.userNo
 import com.example.scanmate.util.Utils
 import com.example.scanmate.util.Utils.isNetworkConnected
 import com.example.scanmate.viewModel.MainViewModel
@@ -123,6 +124,41 @@ class ShelfActivity : AppCompatActivity() {
             clearPreferences(this)
         }
 
+        binding.refreshBtn.click {
+
+            binding.businessLocationSpinner.visible()
+            binding.warehouseSpinner.visible()
+            binding.warehouseSpinnerCont.visible()
+            binding.rackSpinner.visible()
+            binding.rackSpinnerCont.visible()
+            binding.availableShelfTV.visible()
+            binding.shelfRV.visible()
+            binding.shelfAddBTN.visible()
+            binding.refreshBtn.gone()
+            viewModel.userLocation(Utils.getSimpleTextBody(LocalPreferences.getInt(this, userNo).toString()))
+
+            viewModel.getWarehouse("", selectedBusLocNo)
+
+            viewModel.getRack(
+                Utils.getSimpleTextBody(""),
+                Utils.getSimpleTextBody(selectedWareHouseNo),
+                Utils.getSimpleTextBody(selectedBusLocNo)
+            )
+
+            viewModel.getShelf(
+                Utils.getSimpleTextBody(""),
+                Utils.getSimpleTextBody(selectedRackNo),
+                Utils.getSimpleTextBody(selectedBusLocNo)
+            )
+
+            viewModel.getPallet(
+                Utils.getSimpleTextBody(""),
+                Utils.getSimpleTextBody(selectedShelveNo),
+                Utils.getSimpleTextBody(selectedBusLocNo)
+            )
+
+        }
+
         binding.swipeRefresh.setOnRefreshListener {
             if (isNetworkConnected(this))
             {
@@ -177,6 +213,8 @@ class ShelfActivity : AppCompatActivity() {
                     binding.availableShelfTV.gone()
                     binding.swipeRefresh.isRefreshing = false
                     binding.shelfRV.gone()
+                    binding.refreshBtn.visible()
+                    binding.shelfAddBTN.gone()
                 }
             }
             else

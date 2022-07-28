@@ -29,6 +29,7 @@ import com.example.scanmate.util.Constants.Toast.NoInternetFound
 import com.example.scanmate.util.CustomProgressDialog
 import com.example.scanmate.util.LocalPreferences
 import com.example.scanmate.util.LocalPreferences.AppLoginPreferences.isRefreshRequired
+import com.example.scanmate.util.LocalPreferences.AppLoginPreferences.userNo
 import com.example.scanmate.util.Utils
 import com.example.scanmate.util.Utils.isNetworkConnected
 import com.example.scanmate.viewModel.MainViewModel
@@ -135,6 +136,8 @@ class RacksActivity : AppCompatActivity() {
                     binding.availableRacks.gone()
                     binding.swipeRefresh.isRefreshing = false
                     binding.racksRV.gone()
+                    binding.refreshBtn.visible()
+                    binding.rackAddBTN.gone()
                 }
 
             }
@@ -142,6 +145,22 @@ class RacksActivity : AppCompatActivity() {
             {
                 toast(NoInternetFound)
             }
+        }
+
+        binding.refreshBtn.click {
+
+            binding.businessLocationSpinner.visible()
+            binding.warehouseSpinner.visible()
+            binding.racksRV.visible()
+            binding.rackAddBTN.visible()
+            binding.refreshBtn.gone()
+            viewModel.userLocation(Utils.getSimpleTextBody(LocalPreferences.getInt(this, userNo).toString()))
+            viewModel.getWarehouse("", selectedBusLocNo)
+            viewModel.getRack(
+                Utils.getSimpleTextBody(""),
+                Utils.getSimpleTextBody(selectedWareHouseNo),
+                Utils.getSimpleTextBody(selectedBusLocNo)
+            )
         }
 
         binding.swipeRefresh.setOnRefreshListener {
