@@ -78,6 +78,10 @@ class AddUpdateRackDetails : AppCompatActivity() {
                     binding.shelfCapacityET.error = "Field must not be empty"
 
                 }
+                else if(selectedBusLocNo.isNullOrEmpty())
+                {
+                    toast("rack cannot be added")
+                }
                 else if (
                     (binding.businessLocTV.text == null) or (binding.warehouseTV.text == null)
                 )
@@ -131,6 +135,10 @@ class AddUpdateRackDetails : AppCompatActivity() {
                 else if(binding.rackNameET.text.toString().startsWith(" "))
                 {
                     toast("Please enter any value")
+                }
+                else if(selectedBusLocNo.isNullOrEmpty())
+                {
+                    toast("rack cannot be added")
                 }
                 else if(binding.shelfCapacityET.text.toString().startsWith("0") )
                 {

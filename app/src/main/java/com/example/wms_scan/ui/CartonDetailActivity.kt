@@ -73,9 +73,10 @@ class CartonDetailActivity : AppCompatActivity() {
 
             when(it.status){
 
-                Status.LOADING -> { }
+                Status.LOADING ->{
 
-                Status.SUCCESS -> {
+                }
+                Status.SUCCESS ->{
                     Log.i("palletCode","${it.data?.get(0)?.pilotCode}")
 
                     val warehouse = it.data?.get(0)?.wHName.toString()
@@ -117,8 +118,7 @@ class CartonDetailActivity : AppCompatActivity() {
 
         viewModel.getCartonDetails("$analyticalNo")
 
-        viewModel.getCartonDetails.observe(this)
-        {
+        viewModel.getCartonDetails.observe(this){
 
             when(it.status){
 
@@ -135,10 +135,9 @@ class CartonDetailActivity : AppCompatActivity() {
                             binding.stockTV.text = it.data?.get(0)?.matStock.toString()
                             binding.palletName.text = it.data?.get(0)?.pilotName.toString()
                             itemCode = it.data?.get(0)?.materialId.toString()
-                            cartonNo = it.data?.get(0)?.cartonNo.toString()
 
                             Log.i(
-                                "getCartonDetail","1.0\n2.0\n3.$itemCode\n4.$pilotNo\n5.$analyticalNo\n6.0\n7.0\n8.$hierarchyLoc\n9.$deviceId\n10.$cartonNo"
+                                "getCartonDetail","1.0\n2.0\n3.$itemCode\n4.$pilotNo\n5.$analyticalNo\n6.0\n7.0\n8.$hierarchyLoc\n9.$deviceId"
                             )
                         }
                     }
@@ -223,7 +222,6 @@ class CartonDetailActivity : AppCompatActivity() {
         binding.scanBtn.click {
             gotoActivity(CreateCartonScanActivity::class.java)
             LocalPreferences.put(this, "isScannedAnalyticalNo",analyticalNo)
-            LocalPreferences.put(this, "cartonDetailNo",cartonNo)
             finish()
         }
     }
@@ -289,9 +287,9 @@ class CartonDetailActivity : AppCompatActivity() {
                 binding.updateBtn.visible()
 
                 binding.updateBtn.click {
-                    Log.i("isScannedAddCarton","1.$cartonNo\n2.$itemCode\n3.$hierarchyLoc\n4.$deviceId")
+                    Log.i("isScannedAddCarton","1.$itemCode\n2.$pilotNo\n3.$analyticalNo\n4.$hierarchyLoc\n5.$deviceId")
                     viewModel.addCarton(
-                        Utils.getSimpleTextBody(LocalPreferences.getString(this,"cartonDetailNo").toString()),
+                        Utils.getSimpleTextBody(cartonNo),
                         Utils.getSimpleTextBody("0"),
                         Utils.getSimpleTextBody("$itemCode"),
                         Utils.getSimpleTextBody("$pilotNo"),
@@ -304,6 +302,8 @@ class CartonDetailActivity : AppCompatActivity() {
                     )
                     finish()
                 }
+
+
             }
         }
     }

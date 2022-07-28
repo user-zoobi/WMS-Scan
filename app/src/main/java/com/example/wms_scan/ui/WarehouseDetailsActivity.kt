@@ -108,24 +108,24 @@ class WarehouseDetailsActivity : AppCompatActivity() {
                 toast("Field must not be empty")
                 binding.updateWarehouseET.error = "Field must not be empty"
             }
-
-            else if (binding.busLocTV.text == null)
+            else if(selectedBusLocNo.isNullOrEmpty())
             {
-                toast("Error found")
+                toast("warehouse cannot be added")
             }
-
             else
             {
-                    viewModel.addUpdateWarehouse(
-                        "0",
-                        updatedWarehouseName,
-                        "$addWhCode",
-                        "$selectedBusLocNo",
-                        LocalPreferences.getInt(this, userNo).toString(),
-                        "$deviceId"
-                    )
-                    LocalPreferences.put(this, isRefreshRequired, true)
-                    finish()
+                viewModel.addUpdateWarehouse(
+                    "0",
+                    updatedWarehouseName,
+                    "$addWhCode",
+                    "$selectedBusLocNo",
+                    LocalPreferences.getInt(this, userNo).toString(),
+                    "$deviceId"
+                )
+                LocalPreferences.put(this, isRefreshRequired, true)
+                finish()
+                Log.i("addWH","1.0\n 2.$updatedWarehouseName\n 3.$addWhCode\n4.$selectedBusLocNo\n5.1\n6.1")
+
             }
         }
 
@@ -137,6 +137,10 @@ class WarehouseDetailsActivity : AppCompatActivity() {
             {
                 toast("Field must not be empty")
                 binding.updateWarehouseET.error = "Field must not be empty"
+            }
+            else if(selectedBusLocNo.isNullOrEmpty())
+            {
+                toast("warehouse cannot be added")
             }
             else if(updatedWarehouseName.startsWith(" "))
             {
@@ -160,6 +164,7 @@ class WarehouseDetailsActivity : AppCompatActivity() {
                     LocalPreferences.getInt(this, userNo).toString(),
                     "$deviceId"
                 )
+                Log.i("updateWH","1.0\n 2.$updatedWarehouseName\n 3.$addWhCode\n4.$selectedBusLocNo\n5.1\n6.1")
                 finish()
             }
         }

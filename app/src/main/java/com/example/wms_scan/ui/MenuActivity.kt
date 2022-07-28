@@ -51,7 +51,6 @@ class MenuActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
         finishAffinity()
-        overridePendingTransition(R.anim.slide_bottom, R.anim.slide_up)
         exitProcess(0)
     }
 

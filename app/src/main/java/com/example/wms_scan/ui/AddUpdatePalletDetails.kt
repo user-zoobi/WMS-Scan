@@ -147,6 +147,10 @@ class AddUpdatePalletDetails : AppCompatActivity() {
             {
                 toast("Error found")
             }
+            else if(selectedBusLocNo.isNullOrEmpty())
+            {
+                toast("Pallet cannot be added")
+            }
             else if(binding.palletNameET.text.toString().startsWith(" "))
             {
                 toast("Please enter any value")
@@ -191,6 +195,10 @@ class AddUpdatePalletDetails : AppCompatActivity() {
             else if(binding.palletNameET.text.toString().startsWith(" "))
             {
                 toast("Please enter any value")
+            }
+            else if(selectedBusLocNo.isNullOrEmpty())
+            {
+                toast("Pallet cannot be added")
             }
             else if(binding.palletNameET.text.toString().startsWith("0") )
             {

@@ -167,7 +167,6 @@ class LoginActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
         finish()
-        overridePendingTransition(R.anim.slide_bottom, R.anim.slide_up)
     }
 
 }

@@ -153,7 +153,8 @@ class CreateCartonActivity : AppCompatActivity() {
 
                 Toast.makeText(this, "Scan result: ${it.text}", Toast.LENGTH_LONG).show()
 
-                if (scannedValue.contains("PL")){
+                if (scannedValue.contains("PL"))
+                {
                     viewModel.palletHierarchy(
                         Utils.getSimpleTextBody(scannedValue),
                         Utils.getSimpleTextBody("0")

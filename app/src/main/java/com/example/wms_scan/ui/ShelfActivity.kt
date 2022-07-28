@@ -516,16 +516,26 @@ class ShelfActivity : AppCompatActivity() {
 
             override fun onItemSelected(adapter: AdapterView<*>?, view: View?, position: Int, long: Long) {
 
-                if (Utils.isNetworkConnected(this@ShelfActivity))
+                if (isNetworkConnected(this@ShelfActivity))
                 {
                     Log.i("LocBus","business Location no ${data[position].orgBusLocNo}")
                     // binding.rackSpinnerCont.visible()
                     selectedBusLocNo = data[position].orgBusLocNo.toString()
                     viewModel.getWarehouse("", selectedBusLocNo)
                     busLocName = data[position].busLocationName.toString()
+                    binding.warehouseSpinner.visible()
+                    binding.warehouseSpinnerCont.visible()
+                    binding.rackSpinner.visible()
+                    binding.rackSpinnerCont.visible()
+                    binding.shelfAddBTN.visible()
                 }
                 else{
                     binding.shelfRV.adapter = null
+                    binding.warehouseSpinner.gone()
+                    binding.warehouseSpinnerCont.gone()
+                    binding.rackSpinner.gone()
+                    binding.rackSpinnerCont.gone()
+                    binding.shelfAddBTN.gone()
                     toast(NoInternetFound)
                 }
 
@@ -564,6 +574,10 @@ class ShelfActivity : AppCompatActivity() {
                         Utils.getSimpleTextBody(selectedWareHouseNo),
                         Utils.getSimpleTextBody(selectedBusLocNo)
                     )
+                    binding.warehouseSpinner.visible()
+                    binding.warehouseSpinnerCont.visible()
+                    binding.rackSpinner.visible()
+                    binding.rackSpinnerCont.visible()
                     Log.i("LocBus","This is warehouse name is ${adapter?.getItemAtPosition(position)}")
                     Log.i("LocBus","This is warehouse pos is ${data[position].wHNo}")
                 }
@@ -572,6 +586,11 @@ class ShelfActivity : AppCompatActivity() {
                 {
                     binding.shelfRV.adapter = null
                     toast(NoInternetFound)
+                    binding.warehouseSpinner.gone()
+                    binding.warehouseSpinnerCont.gone()
+                    binding.rackSpinner.gone()
+                    binding.rackSpinnerCont.gone()
+                    binding.shelfAddBTN.gone()
                 }
 
             }
@@ -609,7 +628,10 @@ class ShelfActivity : AppCompatActivity() {
                         Utils.getSimpleTextBody(selectedRackNo),
                         Utils.getSimpleTextBody(selectedBusLocNo)
                     )
-
+                    binding.warehouseSpinner.visible()
+                    binding.warehouseSpinnerCont.visible()
+                    binding.rackSpinner.visible()
+                    binding.rackSpinnerCont.visible()
                     Log.i("LocBus","This is rack pos ${adapter?.getItemAtPosition(position)}")
                 }
                 else
@@ -618,6 +640,11 @@ class ShelfActivity : AppCompatActivity() {
                     toast(NoInternetFound)
                     val selectedRack = data[position].rackNo.toString()
                     LocalPreferences.put(this@ShelfActivity,isSpinnerSelected,selectedRack)
+                    binding.warehouseSpinner.gone()
+                    binding.warehouseSpinnerCont.gone()
+                    binding.rackSpinner.gone()
+                    binding.rackSpinnerCont.gone()
+                    binding.shelfAddBTN.gone()
                 }
 
             }

@@ -416,11 +416,17 @@ class RacksActivity : AppCompatActivity() {
                     businessLocName = data[position].busLocationName.toString()
                     selectedBusLocNo = data[position].orgBusLocNo.toString()
                     viewModel.getWarehouse("", selectedBusLocNo)
+                    binding.warehouseSpinner.visible()
+                    binding.warehouseSpinnerCont.visible()
+                    binding.rackAddBTN.visible()
                 }
                 else
                 {
                     binding.racksRV.adapter = null
-
+                    binding.warehouseSpinner.gone()
+                    binding.warehouseSpinnerCont.gone()
+                    binding.rackAddBTN.gone()
+                    toast("Connect internet\nselect location again")
                 }
             }
             override fun onNothingSelected(p0: AdapterView<*>?)
@@ -468,6 +474,10 @@ class RacksActivity : AppCompatActivity() {
                     toast(NoInternetFound)
                     var selectedWH = data[position].wHNo.toString()
                     LocalPreferences.put(this@RacksActivity,isSpinnerSelected,"$selectedWH")
+                    binding.warehouseSpinner.gone()
+                    binding.warehouseSpinnerCont.gone()
+                    binding.rackAddBTN.gone()
+                    toast("Connect internet\nselect location again")
                 }
 
             }

@@ -565,10 +565,24 @@ class PalletsActivity : AppCompatActivity() {
                     selectedBusLocNo = data[position].orgBusLocNo.toString()
                     busLocName = data[position].busLocationName.toString()
                     viewModel.getWarehouse("", selectedBusLocNo)
+                    binding.warehouseSpinner.visible()
+                    binding.warehouseSpinnerCont.visible()
+                    binding.rackSpinner.visible()
+                    binding.rackSpinnerCont.visible()
+                    binding.shelfSpinner.visible()
+                    binding.shelfSpinnerCont.visible()
+                    binding.palletAddBTN.visible()
                 }else
                 {
                     binding.palletsRV.adapter = null
                     toast(NoInternetFound)
+                    binding.warehouseSpinner.gone()
+                    binding.warehouseSpinnerCont.gone()
+                    binding.rackSpinner.gone()
+                    binding.rackSpinnerCont.gone()
+                    binding.shelfSpinner.gone()
+                    binding.shelfSpinnerCont.gone()
+                    binding.palletAddBTN.gone()
                 }
 
             }
@@ -604,10 +618,23 @@ class PalletsActivity : AppCompatActivity() {
                         Utils.getSimpleTextBody(selectedWareHouseNo),
                         Utils.getSimpleTextBody(selectedBusLocNo)
                     )
+                    binding.warehouseSpinner.visible()
+                    binding.warehouseSpinnerCont.visible()
+                    binding.rackSpinner.visible()
+                    binding.rackSpinnerCont.visible()
+                    binding.shelfSpinner.visible()
+                    binding.shelfSpinnerCont.visible()
                     Log.i("LocBus","This is warehouse name is ${adapter?.getItemAtPosition(position)}")
                     Log.i("LocBus","This is warehouse pos is ${data[position].wHNo}")
                 }else
                 {
+                    binding.warehouseSpinner.gone()
+                    binding.warehouseSpinnerCont.gone()
+                    binding.rackSpinner.gone()
+                    binding.rackSpinnerCont.gone()
+                    binding.shelfSpinner.gone()
+                    binding.shelfSpinnerCont.gone()
+                    binding.palletAddBTN.gone()
                     binding.palletsRV.adapter = null
                     toast(NoInternetFound)
                 }
@@ -645,9 +672,22 @@ class PalletsActivity : AppCompatActivity() {
                         Utils.getSimpleTextBody(selectedRackNo),
                         Utils.getSimpleTextBody(selectedBusLocNo)
                     )
+                    binding.warehouseSpinner.visible()
+                    binding.warehouseSpinnerCont.visible()
+                    binding.rackSpinner.visible()
+                    binding.rackSpinnerCont.visible()
+                    binding.shelfSpinner.visible()
+                    binding.shelfSpinnerCont.visible()
                 }
                 else
                 {
+                    binding.warehouseSpinner.gone()
+                    binding.warehouseSpinnerCont.gone()
+                    binding.rackSpinner.gone()
+                    binding.rackSpinnerCont.gone()
+                    binding.shelfSpinner.gone()
+                    binding.shelfSpinnerCont.gone()
+                    binding.palletAddBTN.gone()
                     binding.palletsRV.adapter = null
                     toast(NoInternetFound)
                 }
@@ -686,9 +726,22 @@ class PalletsActivity : AppCompatActivity() {
                             Utils.getSimpleTextBody(selectedShelveNo),
                             Utils.getSimpleTextBody(selectedBusLocNo)
                         )
+                        binding.warehouseSpinner.visible()
+                        binding.warehouseSpinnerCont.visible()
+                        binding.rackSpinner.visible()
+                        binding.rackSpinnerCont.visible()
+                        binding.shelfSpinner.visible()
+                        binding.shelfSpinnerCont.visible()
                     }
                     else
                     {
+                        binding.warehouseSpinner.gone()
+                        binding.warehouseSpinnerCont.gone()
+                        binding.rackSpinner.gone()
+                        binding.rackSpinnerCont.gone()
+                        binding.shelfSpinner.gone()
+                        binding.shelfSpinnerCont.gone()
+                        binding.palletAddBTN.gone()
                         binding.palletsRV.adapter = null
                         toast(NoInternetFound)
                     }

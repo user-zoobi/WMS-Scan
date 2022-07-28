@@ -143,6 +143,10 @@ class AddUpdateShelfDetails : AppCompatActivity() {
             {
                 toast("Please enter greater capacity")
             }
+            else if(selectedBusLocNo.isNullOrEmpty())
+            {
+                toast("shelf cannot be added")
+            }
             else if (binding.palletCapacityET.text.isNullOrEmpty())
             {
                 toast("Field must not be empty")
@@ -212,6 +216,10 @@ class AddUpdateShelfDetails : AppCompatActivity() {
             {
                 toast("Field must not be empty")
                 binding.palletCapacityET.error = "Field must not be empty"
+            }
+            else if(selectedBusLocNo.isNullOrEmpty())
+            {
+                toast("shelf cannot be added")
             }
             else if (
                 (binding.busLocTV.text == null) or (binding.warehouseTV.text == null) or
