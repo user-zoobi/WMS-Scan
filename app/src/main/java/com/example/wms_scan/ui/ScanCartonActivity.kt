@@ -332,4 +332,5 @@ class ScanCartonActivity : AppCompatActivity() {
         codeScanner.releaseResources()
         super.onPause()
     }
+    //
 }
