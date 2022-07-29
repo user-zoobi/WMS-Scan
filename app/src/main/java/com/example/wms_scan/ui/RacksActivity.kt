@@ -410,7 +410,7 @@ class RacksActivity : AppCompatActivity() {
 
                 businessLocName = data[position].busLocationName.toString()
                 selectedBusLocNo = data[position].orgBusLocNo.toString()
-                toast("onItem: $selectedBusLocNo")
+//                toast("onItem: $selectedBusLocNo")
                 binding.racksRV.adapter = null
                 //setting adapter to spinner
                 binding.warehouseSpinner.adapter = returnNoAdapter()
@@ -428,7 +428,6 @@ class RacksActivity : AppCompatActivity() {
                 {
                     binding.racksRV.adapter = null
                     binding.rackAddBTN.gone()
-                    toast("Connect internet\nselect location again")
                 }
             }
             override fun onNothingSelected(p0: AdapterView<*>?)
@@ -471,8 +470,6 @@ class RacksActivity : AppCompatActivity() {
                         )
                         warehouseName = data[position].wHName.toString()
                         whCode = data[position].wHCode.toString()
-                        binding.warehouseSpinner.visible()
-                        binding.warehouseSpinnerCont.visible()
                         binding.rackAddBTN.isEnabled = true
 
                         Log.i("LocBus","This is warehouse name is ${adapter?.getItemAtPosition(position)}")
@@ -484,8 +481,6 @@ class RacksActivity : AppCompatActivity() {
                         toast(NoInternetFound)
                         var selectedWH = data[position].wHNo.toString()
                         LocalPreferences.put(this@RacksActivity,isSpinnerSelected,"$selectedWH")
-                        binding.warehouseSpinner.gone()
-                        binding.warehouseSpinnerCont.gone()
                         binding.rackAddBTN.gone()
                         toast("Connect internet\nselect location again")
                     }

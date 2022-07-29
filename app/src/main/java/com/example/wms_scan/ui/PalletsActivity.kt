@@ -192,7 +192,7 @@ class PalletsActivity : AppCompatActivity() {
 
         }
 
-        binding.backBtn.click {
+        binding.backBtn.click{
             onBackPressed()
         }
 
@@ -558,30 +558,26 @@ class PalletsActivity : AppCompatActivity() {
         businessLocSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
 
             override fun onItemSelected(adapter: AdapterView<*>?, view: View?, position: Int, long: Long) {
+
                 Log.i("LocBus","business Location no ${data[position].orgBusLocNo}")
                 // binding.rackSpinnerCont.visible()
+
+                selectedBusLocNo = data[position].orgBusLocNo.toString()
+                busLocName = data[position].busLocationName.toString()
+                binding.warehouseSpinner.adapter = returnNoAdapter()
+                binding.rackSpinner.adapter = returnNoAdapter()
+                binding.shelfSpinner.adapter = returnNoAdapter()
+
                 if (isNetworkConnected(this@PalletsActivity))
                 {
-                    selectedBusLocNo = data[position].orgBusLocNo.toString()
-                    busLocName = data[position].busLocationName.toString()
                     viewModel.getWarehouse("", selectedBusLocNo)
-                    binding.warehouseSpinner.visible()
-                    binding.warehouseSpinnerCont.visible()
-                    binding.rackSpinner.visible()
-                    binding.rackSpinnerCont.visible()
-                    binding.shelfSpinner.visible()
-                    binding.shelfSpinnerCont.visible()
                     binding.palletAddBTN.visible()
-                }else
+                    binding.palletAddBTN.isEnabled = true
+                }
+                else
                 {
                     binding.palletsRV.adapter = null
                     toast(NoInternetFound)
-                    binding.warehouseSpinner.gone()
-                    binding.warehouseSpinnerCont.gone()
-                    binding.rackSpinner.gone()
-                    binding.rackSpinnerCont.gone()
-                    binding.shelfSpinner.gone()
-                    binding.shelfSpinnerCont.gone()
                     binding.palletAddBTN.gone()
                 }
 
@@ -607,37 +603,41 @@ class PalletsActivity : AppCompatActivity() {
         warehouseSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
 
             override fun onItemSelected(adapter: AdapterView<*>?, view: View?, position: Int, long: Long) {
-                if (isNetworkConnected(this@PalletsActivity))
-                {
-                    selectedWareHouseNo = data[position].wHNo.toString()
-                    warehouseName = data[position].wHName.toString()
-                    whCode = data[position].wHCode.toString()
 
-                    viewModel.getRack(
-                        Utils.getSimpleTextBody(""),
-                        Utils.getSimpleTextBody(selectedWareHouseNo),
-                        Utils.getSimpleTextBody(selectedBusLocNo)
-                    )
-                    binding.warehouseSpinner.visible()
-                    binding.warehouseSpinnerCont.visible()
-                    binding.rackSpinner.visible()
-                    binding.rackSpinnerCont.visible()
-                    binding.shelfSpinner.visible()
-                    binding.shelfSpinnerCont.visible()
-                    Log.i("LocBus","This is warehouse name is ${adapter?.getItemAtPosition(position)}")
-                    Log.i("LocBus","This is warehouse pos is ${data[position].wHNo}")
-                }else
+                selectedWareHouseNo = data[position].wHNo.toString()
+                warehouseName = data[position].wHName.toString()
+                whCode = data[position].wHCode.toString()
+                binding.rackSpinner.adapter = returnNoAdapter()
+                binding.shelfSpinner.adapter = returnNoAdapter()
+                binding.palletsRV.adapter = null
+
+                if (warehouseSpinner.selectedItem != "No Record")
                 {
-                    binding.warehouseSpinner.gone()
-                    binding.warehouseSpinnerCont.gone()
-                    binding.rackSpinner.gone()
-                    binding.rackSpinnerCont.gone()
-                    binding.shelfSpinner.gone()
-                    binding.shelfSpinnerCont.gone()
-                    binding.palletAddBTN.gone()
-                    binding.palletsRV.adapter = null
-                    toast(NoInternetFound)
+                    if (isNetworkConnected(this@PalletsActivity))
+                    {
+                        viewModel.getRack(
+                            Utils.getSimpleTextBody(""),
+                            Utils.getSimpleTextBody(selectedWareHouseNo),
+                            Utils.getSimpleTextBody(selectedBusLocNo)
+                        )
+                        binding.palletAddBTN.isEnabled = true
+                        Log.i("LocBus","This is warehouse name is ${adapter?.getItemAtPosition(position)}")
+                        Log.i("LocBus","This is warehouse pos is ${data[position].wHNo}")
+                    }
+                    else
+                    {
+                        binding.palletAddBTN.gone()
+                        binding.palletsRV.adapter = null
+                        toast(NoInternetFound)
+                    }
                 }
+                else
+                {
+                    binding.palletAddBTN.isEnabled = false
+                    binding.palletsRV.adapter = null
+                }
+
+
 
 
             }
@@ -662,36 +662,36 @@ class PalletsActivity : AppCompatActivity() {
 
         rackSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
             override fun onItemSelected(adapter: AdapterView<*>?, view: View?, position: Int, long: Long) {
-                if (isNetworkConnected(this@PalletsActivity))
+
+                selectedRackNo = data[position].rackNo.toString()
+                rackCode = data[position].rackCode.toString()
+                rackName = data[position].rackName.toString()
+                binding.shelfSpinner.adapter = returnNoAdapter()
+                binding.palletsRV.adapter = null
+
+                if (rackSpinner.selectedItem != "No Record")
                 {
-                    selectedRackNo = data[position].rackNo.toString()
-                    rackCode = data[position].rackCode.toString()
-                    rackName = data[position].rackName.toString()
-                    viewModel.getShelf(
-                        Utils.getSimpleTextBody(""),
-                        Utils.getSimpleTextBody(selectedRackNo),
-                        Utils.getSimpleTextBody(selectedBusLocNo)
-                    )
-                    binding.warehouseSpinner.visible()
-                    binding.warehouseSpinnerCont.visible()
-                    binding.rackSpinner.visible()
-                    binding.rackSpinnerCont.visible()
-                    binding.shelfSpinner.visible()
-                    binding.shelfSpinnerCont.visible()
+                    if (isNetworkConnected(this@PalletsActivity))
+                    {
+                        viewModel.getShelf(
+                            Utils.getSimpleTextBody(""),
+                            Utils.getSimpleTextBody(selectedRackNo),
+                            Utils.getSimpleTextBody(selectedBusLocNo)
+                        )
+                        binding.palletAddBTN.isEnabled = true
+                    }
+                    else
+                    {
+                        binding.palletAddBTN.gone()
+                        binding.palletsRV.adapter = null
+                        toast(NoInternetFound)
+                    }
                 }
                 else
                 {
-                    binding.warehouseSpinner.gone()
-                    binding.warehouseSpinnerCont.gone()
-                    binding.rackSpinner.gone()
-                    binding.rackSpinnerCont.gone()
-                    binding.shelfSpinner.gone()
-                    binding.shelfSpinnerCont.gone()
-                    binding.palletAddBTN.gone()
+                    binding.palletAddBTN.isEnabled = false
                     binding.palletsRV.adapter = null
-                    toast(NoInternetFound)
                 }
-
 
                 Log.i("LocBus","This is rack pos ${adapter?.getItemAtPosition(position)}")
             }
@@ -702,7 +702,7 @@ class PalletsActivity : AppCompatActivity() {
     private fun showShelfSpinner(data:List<GetShelfResponse>) {
         //String array to store all the book names
         val items = arrayOfNulls<String>(data.size)
-        val shelfResponse = binding.shelfSpinner
+        val shelfSpinner = binding.shelfSpinner
 
         //Traversing through the whole list to get all the names
         for (i in data.indices) {
@@ -711,41 +711,41 @@ class PalletsActivity : AppCompatActivity() {
             val adapter: ArrayAdapter<String?> =
                 ArrayAdapter(this, android.R.layout.simple_list_item_1, items)
             //setting adapter to spinner
-            shelfResponse.adapter = adapter
-            shelfResponse.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
+            shelfSpinner.adapter = adapter
+            shelfSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
 
                 override fun onItemSelected(adapter: AdapterView<*>?, view: View?, position: Int, long: Long) {
-                    if (isNetworkConnected(this@PalletsActivity))
+
+                    selectedShelveNo = data[position].shelfNo.toString()
+                    shelfName = data[position].shelfName.toString()
+                    shelfCode = data[position].shelfCode.toString()
+                    binding.palletsRV.adapter = null
+
+                    if (shelfSpinner.selectedItem != "No Record")
                     {
-                        Log.i("LocBus","This is shelf pos ${adapter?.getItemAtPosition(position)}")
-                        selectedShelveNo = data[position].shelfNo.toString()
-                        shelfName = data[position].shelfName.toString()
-                        shelfCode = data[position].shelfCode.toString()
-                        viewModel.getPallet(
-                            Utils.getSimpleTextBody(""),
-                            Utils.getSimpleTextBody(selectedShelveNo),
-                            Utils.getSimpleTextBody(selectedBusLocNo)
-                        )
-                        binding.warehouseSpinner.visible()
-                        binding.warehouseSpinnerCont.visible()
-                        binding.rackSpinner.visible()
-                        binding.rackSpinnerCont.visible()
-                        binding.shelfSpinner.visible()
-                        binding.shelfSpinnerCont.visible()
+                        if (isNetworkConnected(this@PalletsActivity))
+                        {
+                            Log.i("LocBus","This is shelf pos ${adapter?.getItemAtPosition(position)}")
+
+                            viewModel.getPallet(
+                                Utils.getSimpleTextBody(""),
+                                Utils.getSimpleTextBody(selectedShelveNo),
+                                Utils.getSimpleTextBody(selectedBusLocNo)
+                            )
+                            binding.palletAddBTN.isEnabled = true
+                        }
+                        else
+                        {
+                            binding.palletAddBTN.gone()
+                            binding.palletsRV.adapter = null
+                            toast(NoInternetFound)
+                        }
                     }
                     else
                     {
-                        binding.warehouseSpinner.gone()
-                        binding.warehouseSpinnerCont.gone()
-                        binding.rackSpinner.gone()
-                        binding.rackSpinnerCont.gone()
-                        binding.shelfSpinner.gone()
-                        binding.shelfSpinnerCont.gone()
-                        binding.palletAddBTN.gone()
+                        binding.palletAddBTN.isEnabled = false
                         binding.palletsRV.adapter = null
-                        toast(NoInternetFound)
                     }
-
                 }
                 override fun onNothingSelected(p0: AdapterView<*>?) {}
             }

@@ -520,22 +520,29 @@ class ShelfActivity : AppCompatActivity() {
                 busLocName = data[position].busLocationName.toString()
                 binding.shelfRV.adapter = null
                 binding.warehouseSpinner.adapter = returnNoAdapter()
+                binding.rackSpinner.adapter = returnNoAdapter()
 
-                if (isNetworkConnected(this@ShelfActivity))
+                if (businessLocSpinner.selectedItem != "No Record")
                 {
-                    Log.i("LocBus","business Location no ${data[position].orgBusLocNo}")
-                    // binding.rackSpinnerCont.visible()
-                    viewModel.getWarehouse("", selectedBusLocNo)
-                    binding.shelfAddBTN.visible()
+                    if (isNetworkConnected(this@ShelfActivity))
+                    {
+                        Log.i("LocBus","business Location no ${data[position].orgBusLocNo}")
+                        // binding.rackSpinnerCont.visible()
+                        viewModel.getWarehouse("", selectedBusLocNo)
+                        binding.shelfAddBTN.visible()
+                        binding.shelfAddBTN.isEnabled =  true
+                    }
+                    else
+                    {
+                        binding.shelfRV.adapter = null
+                        binding.shelfAddBTN.gone()
+                        toast(NoInternetFound)
+                    }
                 }
-                else{
-                    binding.shelfRV.adapter = null
-                    binding.warehouseSpinner.gone()
-                    binding.warehouseSpinnerCont.gone()
-                    binding.rackSpinner.gone()
-                    binding.rackSpinnerCont.gone()
-                    binding.shelfAddBTN.gone()
-                    toast(NoInternetFound)
+                else
+                {
+                    toast("No record")
+                    binding.shelfAddBTN.isEnabled =  false
                 }
 
             }
@@ -563,33 +570,38 @@ class ShelfActivity : AppCompatActivity() {
         warehouseSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
 
             override fun onItemSelected(adapter: AdapterView<*>?, view: View?, position: Int, long: Long) {
-                if (Utils.isNetworkConnected(this@ShelfActivity))
-                {
-                    selectedWareHouseNo = data[position].wHNo.toString()
-                    warehouseName = data[position].wHName.toString()
-                    whCode = data[position].wHCode.toString()
-                    viewModel.getRack(
-                        Utils.getSimpleTextBody(""),
-                        Utils.getSimpleTextBody(selectedWareHouseNo),
-                        Utils.getSimpleTextBody(selectedBusLocNo)
-                    )
-                    binding.warehouseSpinner.visible()
-                    binding.warehouseSpinnerCont.visible()
-                    binding.rackSpinner.visible()
-                    binding.rackSpinnerCont.visible()
-                    Log.i("LocBus","This is warehouse name is ${adapter?.getItemAtPosition(position)}")
-                    Log.i("LocBus","This is warehouse pos is ${data[position].wHNo}")
-                }
 
+                binding.rackSpinner.adapter = returnNoAdapter()
+                selectedWareHouseNo = data[position].wHNo.toString()
+                warehouseName = data[position].wHName.toString()
+                whCode = data[position].wHCode.toString()
+
+                if (warehouseSpinner.selectedItem != "No Record")
+                {
+                    if (isNetworkConnected(this@ShelfActivity))
+                    {
+
+                        viewModel.getRack(
+                            Utils.getSimpleTextBody(""),
+                            Utils.getSimpleTextBody(selectedWareHouseNo),
+                            Utils.getSimpleTextBody(selectedBusLocNo)
+                        )
+                        Log.i("LocBus","This is warehouse name is ${adapter?.getItemAtPosition(position)}")
+                        Log.i("LocBus","This is warehouse pos is ${data[position].wHNo}")
+                        binding.shelfAddBTN.isEnabled =  true
+                    }
+
+                    else
+                    {
+                        binding.shelfRV.adapter = null
+                        toast(NoInternetFound)
+                        binding.shelfAddBTN.gone()
+                    }
+                }
                 else
                 {
-                    binding.shelfRV.adapter = null
-                    toast(NoInternetFound)
-                    binding.warehouseSpinner.gone()
-                    binding.warehouseSpinnerCont.gone()
-                    binding.rackSpinner.gone()
-                    binding.rackSpinnerCont.gone()
-                    binding.shelfAddBTN.gone()
+                    toast("No record found")
+                    binding.shelfAddBTN.isEnabled = false
                 }
 
             }
@@ -617,33 +629,37 @@ class ShelfActivity : AppCompatActivity() {
 
         rackSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
             override fun onItemSelected(adapter: AdapterView<*>?, view: View?, position: Int, long: Long) {
-                if (Utils.isNetworkConnected(this@ShelfActivity))
+
+                selectedRackNo = data[position].rackNo.toString()
+                rackName = data[position].rackName.toString()
+                rackCode = data[position].rackCode.toString()
+                binding.shelfRV.adapter = null
+
+                if (rackSpinner.selectedItem != "No Record")
                 {
-                    selectedRackNo = data[position].rackNo.toString()
-                    rackName = data[position].rackName.toString()
-                    rackCode = data[position].rackCode.toString()
-                    viewModel.getShelf(
-                        Utils.getSimpleTextBody(""),
-                        Utils.getSimpleTextBody(selectedRackNo),
-                        Utils.getSimpleTextBody(selectedBusLocNo)
-                    )
-                    binding.warehouseSpinner.visible()
-                    binding.warehouseSpinnerCont.visible()
-                    binding.rackSpinner.visible()
-                    binding.rackSpinnerCont.visible()
-                    Log.i("LocBus","This is rack pos ${adapter?.getItemAtPosition(position)}")
+                    if (isNetworkConnected(this@ShelfActivity))
+                    {
+                        viewModel.getShelf(
+                            Utils.getSimpleTextBody(""),
+                            Utils.getSimpleTextBody(selectedRackNo),
+                            Utils.getSimpleTextBody(selectedBusLocNo)
+                        )
+                        binding.shelfAddBTN.isEnabled = true
+                        Log.i("LocBus","This is rack pos ${adapter?.getItemAtPosition(position)}")
+                    }
+                    else
+                    {
+                        binding.shelfRV.adapter = null
+                        toast(NoInternetFound)
+                        val selectedRack = data[position].rackNo.toString()
+                        LocalPreferences.put(this@ShelfActivity,isSpinnerSelected,selectedRack)
+
+                    }
                 }
                 else
                 {
-                    binding.shelfRV.adapter = null
-                    toast(NoInternetFound)
-                    val selectedRack = data[position].rackNo.toString()
-                    LocalPreferences.put(this@ShelfActivity,isSpinnerSelected,selectedRack)
-                    binding.warehouseSpinner.gone()
-                    binding.warehouseSpinnerCont.gone()
-                    binding.rackSpinner.gone()
-                    binding.rackSpinnerCont.gone()
-                    binding.shelfAddBTN.gone()
+                    toast("No record found")
+                    binding.shelfAddBTN.isEnabled = false
                 }
 
             }
