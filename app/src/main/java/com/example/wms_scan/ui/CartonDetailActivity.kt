@@ -302,6 +302,8 @@ class CartonDetailActivity : AppCompatActivity() {
                         Utils.getSimpleTextBody(LocalPreferences.getInt(this,userNo).toString()),
                         Utils.getSimpleTextBody(deviceId)
                     )
+
+                    viewModel.palletHierarchy(Utils.getSimpleTextBody(scannedPallet), Utils.getSimpleTextBody("0"))
                 }
 
 

@@ -115,7 +115,15 @@ class WarehouseDetailsActivity : AppCompatActivity() {
             {
                 toast("warehouse cannot be added")
             }
+            else if(updatedWarehouseName.startsWith(" "))
+            {
+                toast("Please enter any value")
+            }
             else if (constainsSymbols)
+            {
+                toast("Please enter any value")
+            }
+            else if(updatedWarehouseName.startsWith("0"))
             {
                 toast("Please enter any value")
             }
