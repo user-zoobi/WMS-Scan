@@ -661,7 +661,7 @@ class RacksActivity : AppCompatActivity() {
         }
     }
 
-    override fun onBackPressed() {
+    override fun onBackPressed(){
         finish()
     }
 }

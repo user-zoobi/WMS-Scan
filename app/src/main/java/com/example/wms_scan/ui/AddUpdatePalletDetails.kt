@@ -171,7 +171,6 @@ class AddUpdatePalletDetails : AppCompatActivity() {
                     Utils.getSimpleTextBody("${LocalPreferences.getInt(this, userNo)}"),
                     Utils.getSimpleTextBody(deviceId),
                 )
-                finish()
             }
 
         }
@@ -216,7 +215,6 @@ class AddUpdatePalletDetails : AppCompatActivity() {
                     Utils.getSimpleTextBody("${LocalPreferences.getInt(this, userNo)}"),
                     Utils.getSimpleTextBody(deviceId),
                 )
-                finish()
             }
         }
 
@@ -387,6 +385,7 @@ class AddUpdatePalletDetails : AppCompatActivity() {
                 Status.ERROR ->
                 {
                     dialog.dismiss()
+                    toast(it.data?.error!!)
                 }
             }
         })

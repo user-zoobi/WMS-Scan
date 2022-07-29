@@ -58,7 +58,7 @@ class CreateCartonScanActivity : AppCompatActivity()
 
                 if (scannedData.contains("PL"))
                 {
-                    gotoActivity(CartonDetailActivity::class.java, "createCartonScan",true)
+                    gotoActivity(CartonDetailActivity::class.java, "isScannedKey",true)
                     LocalPreferences.put(this, "createCartonScanValue",scannedData)
                 }
             }

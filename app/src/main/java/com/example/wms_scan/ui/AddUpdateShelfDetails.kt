@@ -263,7 +263,6 @@ class AddUpdateShelfDetails : AppCompatActivity() {
                     ),
                     Utils.getSimpleTextBody(deviceId)
                 )
-                finish()
             }
         }
     }
@@ -300,6 +299,7 @@ class AddUpdateShelfDetails : AppCompatActivity() {
                 Status.ERROR ->
                 {
                     dialog.dismiss()
+                    toast(it.data?.error!!)
                 }
             }
         })

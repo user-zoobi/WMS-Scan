@@ -115,7 +115,6 @@ class AddUpdateRackDetails : AppCompatActivity() {
                             LocalPreferences.getInt(this,userNo).toString()),
                         Utils.getSimpleTextBody(deviceId),
                     )
-                    finish()
                 }
 
                 LocalPreferences.getBoolean(this, isRefreshRequired)
@@ -175,7 +174,6 @@ class AddUpdateRackDetails : AppCompatActivity() {
                         Utils.getSimpleTextBody("${LocalPreferences.getInt(this, userNo)}"),
                         Utils.getSimpleTextBody(deviceId),
                         )
-                    finish()
                 }
 
                 Log.i("updateRack","1. $updatedRackNo \n 2.$updatedRackName\n 3.\n 4.$updatedWHNo\n 5.$shelfCap\n 6.$updatedBusLocNo\n 7.2\n 8.$deviceId" )
@@ -265,6 +263,7 @@ class AddUpdateRackDetails : AppCompatActivity() {
                     }
                     Status.ERROR ->{
                         dialog.dismiss()
+                        toast(it.data?.error!!)
                     }
                 }
             }

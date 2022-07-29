@@ -123,7 +123,6 @@ class WarehouseDetailsActivity : AppCompatActivity() {
                     "$deviceId"
                 )
                 LocalPreferences.put(this, isRefreshRequired, true)
-                finish()
                 Log.i("addWH","1.0\n 2.$updatedWarehouseName\n 3.$addWhCode\n4.$selectedBusLocNo\n5.1\n6.1")
 
             }
@@ -165,7 +164,6 @@ class WarehouseDetailsActivity : AppCompatActivity() {
                     "$deviceId"
                 )
                 Log.i("updateWH","1.0\n 2.$updatedWarehouseName\n 3.$addWhCode\n4.$selectedBusLocNo\n5.1\n6.1")
-                finish()
             }
         }
 
@@ -205,7 +203,7 @@ class WarehouseDetailsActivity : AppCompatActivity() {
                     }
                     Status.ERROR ->{
                         dialog.dismiss()
-                        toast("")
+                        toast(it.data?.error!!)
                     }
                 }
             }

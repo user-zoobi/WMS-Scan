@@ -272,27 +272,22 @@ class ScanCartonActivity : AppCompatActivity() {
                         when {
                             scannedValue.contains("L") ->
                             {
-                                toast("No record found")
                                 codeScanner.startPreview()
                             }
                             scannedValue.contains("WH") ->
                             {
-                                toast("No record found")
                                 codeScanner.startPreview()
                             }
                             scannedValue.contains("RK") ->
                             {
-                                toast("No record found")
                                 codeScanner.startPreview()
                             }
                             scannedValue.contains("SF") ->
                             {
-                                toast("No record found")
                                 codeScanner.startPreview()
                             }
                             scannedValue.contains("PL") ->
                             {
-                                toast("No record found")
                                 codeScanner.startPreview()
                             }
                             else ->

@@ -277,8 +277,10 @@ class CartonDetailActivity : AppCompatActivity() {
         {
             intent.extras?.getBoolean("isScannedKey") == true ->{
 
-                var scannedPallet = intent.extras?.getString("isScanned").toString()
+                var scannedPallet = LocalPreferences.getString(this,"createCartonScanValue").toString()
+
                 viewModel.palletHierarchy(Utils.getSimpleTextBody(scannedPallet), Utils.getSimpleTextBody("0"))
+                Log.i("createCartonScannedLog",LocalPreferences.getString(this, "createCartonScanValue").toString())
 
                 viewModel.getCartonDetails(LocalPreferences.getString(this,"isScannedAnalyticalNo").toString())
 
@@ -300,7 +302,6 @@ class CartonDetailActivity : AppCompatActivity() {
                         Utils.getSimpleTextBody(LocalPreferences.getInt(this,userNo).toString()),
                         Utils.getSimpleTextBody(deviceId)
                     )
-                    finish()
                 }
 
 
