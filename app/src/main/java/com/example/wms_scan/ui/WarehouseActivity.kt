@@ -289,7 +289,6 @@ class WarehouseActivity : AppCompatActivity() {
         }
 
         binding.whAddBTN.click{
-            val businessSpinner = binding.businessLocationSpinner
 
             if (isNetworkConnected(this)){
 
@@ -298,11 +297,8 @@ class WarehouseActivity : AppCompatActivity() {
                     intent.putExtra("addBusLocNo",selectedBusLocNo)
                     intent.putExtra("AddWHKey",true)
                     startActivity(intent)
-
-
             }
         }
-
     }
 
     fun performAction(whName: String?, whNo: String, whCode:String) {
@@ -344,13 +340,15 @@ class WarehouseActivity : AppCompatActivity() {
         businessLocSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
 
             override fun onItemSelected(adapter: AdapterView<*>?, view: View?, position: Int, long: Long) {
+                businessLocName = data[position].busLocationName.toString()
+                selectedBusLocNo = data[position].orgBusLocNo.toString()
+                binding.warehouseRV.adapter = null
                 if (isNetworkConnected(this@WarehouseActivity))
                 {
                     Log.i("LocBus","business Location no ${data[position].orgBusLocNo}")
                     // binding.rackSpinnerCont.visible()
-                    selectedBusLocNo = data[position].orgBusLocNo.toString()
                     viewModel.getWarehouse("", selectedBusLocNo)
-                    businessLocName = data[position].busLocationName.toString()
+
                 }
                 else{
                     val selectedLocation = data[position].orgBusLocNo.toString()

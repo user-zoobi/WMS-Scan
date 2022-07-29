@@ -1,5 +1,7 @@
 package com.example.wms_scan.ui
 
+import android.content.Context
+import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -138,6 +140,11 @@ class AddUpdateShelfDetails : AppCompatActivity() {
 
             shelfNameInput = binding.shelfNameET.text.toString()
             palletCapacity = binding.palletCapacityET.text.toString()
+            val special = Pattern.compile("[!@#\$%&*()_+=|<>?{}\\[\\]:;^`.~£-]")
+            val hasSpecial = special.matcher(shelfNameInput)
+            val palletCapET = special.matcher(palletCapacity)
+            val constainsSymbols: Boolean = hasSpecial.find()
+            val palletCapETSymbols: Boolean = palletCapET.find()
 
             if(binding.palletCapacityET.text.toString() == "0")
             {
@@ -178,7 +185,14 @@ class AddUpdateShelfDetails : AppCompatActivity() {
             {
                 toast("Please enter any value")
             }
-
+            else if (constainsSymbols)
+            {
+                toast("Please enter any value")
+            }
+            else if (palletCapETSymbols)
+            {
+                toast("Please enter any value")
+            }
             else
             {
                 viewModel.addShelf(
@@ -203,9 +217,19 @@ class AddUpdateShelfDetails : AppCompatActivity() {
             Log.i("shelfValues","THE KEYS ARE VALUES WITH selectedBusLocNo :$selectedBusLocNo\n $selectedBusLocName\n")
         }
 
+        binding.toolbar.click {
+            clearPreferences(this)
+        }
+
         binding.updateShelfBtn.click {
+
             shelfNameInput = binding.shelfNameET.text.toString()
             palletCapacity = binding.palletCapacityET.text.toString()
+            val special = Pattern.compile("[!@#$%&*()_+=|<>?{}\\[\\]:;^`.~£-]")
+            val hasSpecial = special.matcher(shelfNameInput)
+            val palletCapET = special.matcher(palletCapacity)
+            val constainsSymbols: Boolean = hasSpecial.find()
+            val palletCapETSymbols: Boolean = palletCapET.find()
 
             if(binding.palletCapacityET.text.toString() == "0")
             {
@@ -217,7 +241,7 @@ class AddUpdateShelfDetails : AppCompatActivity() {
                 toast("Field must not be empty")
                 binding.palletCapacityET.error = "Field must not be empty"
             }
-            else if(selectedBusLocNo.isNullOrEmpty())
+            else if(updatedBusLocNo.isNullOrEmpty())
             {
                 toast("shelf cannot be added")
             }
@@ -227,6 +251,14 @@ class AddUpdateShelfDetails : AppCompatActivity() {
             )
             {
                 toast("Error found")
+            }
+            else if (constainsSymbols)
+            {
+                toast("Please enter any value")
+            }
+            else if (palletCapETSymbols)
+            {
+                toast("Please enter any value")
             }
             else if(binding.shelfNameET.text.isNullOrEmpty())
             {
@@ -265,6 +297,7 @@ class AddUpdateShelfDetails : AppCompatActivity() {
                 )
             }
         }
+
     }
 
     private fun initObserver(){
@@ -307,6 +340,13 @@ class AddUpdateShelfDetails : AppCompatActivity() {
 
     override fun onBackPressed() {
         finish()
+    }
+
+    private fun clearPreferences(context: Context){
+        val settings: SharedPreferences =
+            context.getSharedPreferences(LocalPreferences.AppLoginPreferences.PREF, Context.MODE_PRIVATE)
+        settings.edit().clear().apply()
+        onBackPressed()
     }
 
 }

@@ -61,6 +61,11 @@ class CreateCartonScanActivity : AppCompatActivity()
                     gotoActivity(CartonDetailActivity::class.java, "isScannedKey",true)
                     LocalPreferences.put(this, "createCartonScanValue",scannedData)
                 }
+                else
+                {
+                    toast("Please scan pallet only")
+                    codeScanner.startPreview()
+                }
             }
         }
 

@@ -137,16 +137,14 @@ class RacksActivity : AppCompatActivity() {
             {
                 binding.rackCont.visible()
                 binding.connectionTimeout.gone()
-                viewModel.userLocation(
-                    Utils.getSimpleTextBody(
-                        LocalPreferences.getInt(this, userNo).toString()
-                    ))
-                viewModel.getWarehouse("", LocalPreferences.getString(this, isSpinnerSelected).toString())
+                toast("Swipe: $selectedBusLocNo")
+                viewModel.userLocation(Utils.getSimpleTextBody(selectedBusLocNo))
+                /*viewModel.getWarehouse("", LocalPreferences.getString(this, isSpinnerSelected).toString())
                 viewModel.getRack(
                     Utils.getSimpleTextBody(""),
                     Utils.getSimpleTextBody(LocalPreferences.getString(this, isSpinnerSelected).toString()),
                     Utils.getSimpleTextBody(selectedBusLocNo)
-                )
+                )*/
 
             }
             else
@@ -410,21 +408,25 @@ class RacksActivity : AppCompatActivity() {
 
             override fun onItemSelected(adapter: AdapterView<*>?, view: View?, position: Int, long: Long) {
 
-                if (isNetworkConnected(this@RacksActivity)){
+                businessLocName = data[position].busLocationName.toString()
+                selectedBusLocNo = data[position].orgBusLocNo.toString()
+                toast("onItem: $selectedBusLocNo")
+                binding.racksRV.adapter = null
+                //setting adapter to spinner
+                binding.warehouseSpinner.adapter = returnNoAdapter()
+
+                if (isNetworkConnected(this@RacksActivity))
+                {
                     Log.i("LocBus","business Location no ${data[position].orgBusLocNo}")
                     // binding.rackSpinnerCont.visible()
-                    businessLocName = data[position].busLocationName.toString()
-                    selectedBusLocNo = data[position].orgBusLocNo.toString()
+
                     viewModel.getWarehouse("", selectedBusLocNo)
-                    binding.warehouseSpinner.visible()
-                    binding.warehouseSpinnerCont.visible()
                     binding.rackAddBTN.visible()
+                    binding.rackAddBTN.isEnabled = true
                 }
                 else
                 {
                     binding.racksRV.adapter = null
-                    binding.warehouseSpinner.gone()
-                    binding.warehouseSpinnerCont.gone()
                     binding.rackAddBTN.gone()
                     toast("Connect internet\nselect location again")
                 }
@@ -454,30 +456,43 @@ class RacksActivity : AppCompatActivity() {
         warehouseSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
 
             override fun onItemSelected(adapter: AdapterView<*>?, view: View?, position: Int, long: Long) {
+                selectedWareHouseNo = data[position].wHNo.toString()
+                binding.racksRV.adapter = null
 
-                if (isNetworkConnected(this@RacksActivity)) {
-                    selectedWareHouseNo = data[position].wHNo.toString()
-                    viewModel.getRack(
-                        Utils.getSimpleTextBody(""),
-                        Utils.getSimpleTextBody(selectedWareHouseNo),
-                        Utils.getSimpleTextBody(selectedBusLocNo)
-                    )
-                    warehouseName = data[position].wHName.toString()
-                    whCode = data[position].wHCode.toString()
+                toast("warehouse value: ${warehouseSpinner.selectedItem}")
+                if (warehouseSpinner.selectedItem != "No Record")
+                {
+                    if (isNetworkConnected(this@RacksActivity)) {
 
-                    Log.i("LocBus","This is warehouse name is ${adapter?.getItemAtPosition(position)}")
-                    Log.i("LocBus","This is warehouse pos is ${data[position].wHNo}")
+                        viewModel.getRack(
+                            Utils.getSimpleTextBody(""),
+                            Utils.getSimpleTextBody(selectedWareHouseNo),
+                            Utils.getSimpleTextBody(selectedBusLocNo)
+                        )
+                        warehouseName = data[position].wHName.toString()
+                        whCode = data[position].wHCode.toString()
+                        binding.warehouseSpinner.visible()
+                        binding.warehouseSpinnerCont.visible()
+                        binding.rackAddBTN.isEnabled = true
+
+                        Log.i("LocBus","This is warehouse name is ${adapter?.getItemAtPosition(position)}")
+                        Log.i("LocBus","This is warehouse pos is ${data[position].wHNo}")
+                    }
+                    else
+                    {
+                        binding.racksRV.adapter = null
+                        toast(NoInternetFound)
+                        var selectedWH = data[position].wHNo.toString()
+                        LocalPreferences.put(this@RacksActivity,isSpinnerSelected,"$selectedWH")
+                        binding.warehouseSpinner.gone()
+                        binding.warehouseSpinnerCont.gone()
+                        binding.rackAddBTN.gone()
+                        toast("Connect internet\nselect location again")
+                    }
                 }
                 else
                 {
-                    binding.racksRV.adapter = null
-                    toast(NoInternetFound)
-                    var selectedWH = data[position].wHNo.toString()
-                    LocalPreferences.put(this@RacksActivity,isSpinnerSelected,"$selectedWH")
-                    binding.warehouseSpinner.gone()
-                    binding.warehouseSpinnerCont.gone()
-                    binding.rackAddBTN.gone()
-                    toast("Connect internet\nselect location again")
+                    binding.rackAddBTN.isEnabled = false
                 }
 
             }

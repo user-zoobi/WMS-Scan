@@ -1,5 +1,7 @@
 package com.example.wms_scan.ui
 
+import android.content.Context
+import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.TextUtils
@@ -66,6 +68,11 @@ class AddUpdateRackDetails : AppCompatActivity() {
 
             rackName = binding.rackNameET.text.toString()
             shelfCap = binding.shelfCapacityET.text.toString()
+            val special = Pattern.compile("[!@#\$%&*()_+=|<>?{}\\[\\]:;^`.~£-]")
+            val hasSpecial = special.matcher(updatedRackName)
+            val shelfCapET = special.matcher(shelfCap)
+            val constainsSymbols: Boolean = hasSpecial.find()
+            val shelfCapETSymbols: Boolean = shelfCapET.find()
 
                 if(binding.shelfCapacityET.text.toString() == "0")
                 {
@@ -96,10 +103,18 @@ class AddUpdateRackDetails : AppCompatActivity() {
                 {
                     toast("Please enter any value")
                 }
+                else if (constainsSymbols)
+                {
+                    toast("Please enter any value")
+                }
                 else if(binding.rackNameET.text.isNullOrEmpty())
                 {
                     toast("Field must not be empty")
                     binding.rackNameET.error = "Field must not be empty"
+                }
+                else if (shelfCapETSymbols)
+                {
+                    toast("Please enter any value")
                 }
 
                 else
@@ -121,10 +136,19 @@ class AddUpdateRackDetails : AppCompatActivity() {
                 Log.i("addRack","1. 0 \n 2.$rackName\n 3.\n 4.$selectedWareHouseNo\n 5.$shelfCap\n 6.$selectedBusLocNo\n 7.2\n 8.$deviceId" )
             }
 
+        binding.toolbar.click {
+            clearPreferences(this)
+        }
+
         binding.updateRackBtn.click {
 
             updatedRackName = binding.rackNameET.text.toString()
             shelfCap = binding.shelfCapacityET.text.toString()
+            val special = Pattern.compile("[!@#\$%&*()_+=|<>?{}\\[\\]:;^`.~£-]")
+            val hasSpecial = special.matcher(updatedRackName)
+            val shelfCapET = special.matcher(shelfCap)
+            val constainsSymbols: Boolean = hasSpecial.find()
+            val shelfCapETSymbols: Boolean = shelfCapET.find()
 
                 if (binding.shelfCapacityET.text.isNullOrEmpty())
                 {
@@ -135,11 +159,19 @@ class AddUpdateRackDetails : AppCompatActivity() {
                 {
                     toast("Please enter any value")
                 }
-                else if(selectedBusLocNo.isNullOrEmpty())
+                else if(updatedBusLocNo.isNullOrEmpty())
                 {
                     toast("rack cannot be added")
                 }
                 else if(binding.shelfCapacityET.text.toString().startsWith("0") )
+                {
+                    toast("Please enter any value")
+                }
+                else if (constainsSymbols)
+                {
+                    toast("Please enter any value")
+                }
+                else if (shelfCapETSymbols)
                 {
                     toast("Please enter any value")
                 }
@@ -272,5 +304,12 @@ class AddUpdateRackDetails : AppCompatActivity() {
 
     override fun onBackPressed() {
         finish()
+    }
+
+    private fun clearPreferences(context: Context){
+        val settings: SharedPreferences =
+            context.getSharedPreferences(LocalPreferences.AppLoginPreferences.PREF, Context.MODE_PRIVATE)
+        settings.edit().clear().apply()
+        onBackPressed()
     }
 }

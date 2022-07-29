@@ -1,17 +1,12 @@
 package com.example.wms_scan.ui
 
-import androidx.appcompat.app.AppCompatActivity
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
-import android.view.View
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import com.example.scanmate.data.callback.Status
-import com.example.scanmate.data.response.GetRackResponse
-import com.example.scanmate.data.response.GetShelfResponse
-import com.example.scanmate.data.response.GetWarehouseResponse
-import com.example.scanmate.data.response.UserLocationResponse
 import com.example.scanmate.extensions.*
 import com.example.scanmate.util.CustomProgressDialog
 import com.example.scanmate.util.LocalPreferences
@@ -20,11 +15,10 @@ import com.example.scanmate.util.LocalPreferences.AppLoginPreferences.userNo
 import com.example.scanmate.util.Utils
 import com.example.scanmate.viewModel.MainViewModel
 import com.example.wms_scan.R
-import com.example.wms_scan.data.response.GetPalletResponse
 import com.example.wms_scan.databinding.ActivityAddUpdatePalletDetailsBinding
-import com.example.wms_scan.databinding.ActivityAddUpdateShelfDetailsBinding
 import java.util.*
 import java.util.regex.Pattern
+
 
 class AddUpdatePalletDetails : AppCompatActivity() {
     private lateinit var viewModel: MainViewModel
@@ -134,6 +128,9 @@ class AddUpdatePalletDetails : AppCompatActivity() {
         binding.addPalletBtn.click {
             LocalPreferences.put(this,isRefreshRequired, true)
             palletName = binding.palletNameET.text.toString()
+            val special = Pattern.compile("[!@#$%&*()_+=|<>?{}\\[\\]~-]")
+            val hasSpecial = special.matcher(palletName)
+            val constainsSymbols: Boolean = hasSpecial.find()
 
             if (binding.palletNameET.text.isNullOrEmpty())
             {
@@ -159,6 +156,14 @@ class AddUpdatePalletDetails : AppCompatActivity() {
             {
                 toast("Please enter any value")
             }
+            else if (constainsSymbols)
+            {
+                toast("Please enter any value")
+            }
+            else if (palletName.contains("[!@#\$%&*()_+=|<>?{}\\[\\]:;^`.~£-]"))
+            {
+                toast("Please enter any value")
+            }
             else
             {
                 viewModel.addPallet(
@@ -178,7 +183,12 @@ class AddUpdatePalletDetails : AppCompatActivity() {
         // UPDATE YOUR PALLET
         binding.updatePalletBtn.click {
 
+
             palletName = binding.palletNameET.text.toString()
+            val special = Pattern.compile("[!@#\$%&*()_+=|<>?{}\\[\\]:;^`.~£-]")
+            val hasSpecial = special.matcher(palletName)
+            val constainsSymbols: Boolean = hasSpecial.find()
+
             if (binding.palletNameET.text.isNullOrEmpty())
             {
                 toast("Field must not be empty")
@@ -195,11 +205,15 @@ class AddUpdatePalletDetails : AppCompatActivity() {
             {
                 toast("Please enter any value")
             }
-            else if(selectedBusLocNo.isNullOrEmpty())
+            else if(updatedBusLocNo.isNullOrEmpty())
             {
                 toast("Pallet cannot be added")
             }
             else if(binding.palletNameET.text.toString().startsWith("0") )
+            {
+                toast("Please enter any value")
+            }
+            else if (constainsSymbols)
             {
                 toast("Please enter any value")
             }
@@ -220,6 +234,10 @@ class AddUpdatePalletDetails : AppCompatActivity() {
 
         binding.backBtn.click {
             onBackPressed()
+        }
+
+        binding.toolbar.click {
+            clearPreferences(this)
         }
 
 
@@ -393,5 +411,12 @@ class AddUpdatePalletDetails : AppCompatActivity() {
 
     override fun onBackPressed() {
         finish()
+    }
+
+    private fun clearPreferences(context: Context){
+        val settings: SharedPreferences =
+            context.getSharedPreferences(LocalPreferences.AppLoginPreferences.PREF, Context.MODE_PRIVATE)
+        settings.edit().clear().apply()
+        onBackPressed()
     }
 }

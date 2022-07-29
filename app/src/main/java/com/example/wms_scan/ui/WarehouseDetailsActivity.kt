@@ -102,6 +102,9 @@ class WarehouseDetailsActivity : AppCompatActivity() {
         binding.addWarehouseBTN.click {
 
             updatedWarehouseName = binding.updateWarehouseET.text.toString()
+            val special = Pattern.compile("[!@#\$%&*()_+=|<>?{}\\[\\]:;^`.~£-]")
+            val hasSpecial = special.matcher(updatedWarehouseName)
+            val constainsSymbols: Boolean = hasSpecial.find()
 
             if (binding.updateWarehouseET.text.isNullOrEmpty())
             {
@@ -111,6 +114,10 @@ class WarehouseDetailsActivity : AppCompatActivity() {
             else if(selectedBusLocNo.isNullOrEmpty())
             {
                 toast("warehouse cannot be added")
+            }
+            else if (constainsSymbols)
+            {
+                toast("Please enter any value")
             }
             else
             {
@@ -131,17 +138,24 @@ class WarehouseDetailsActivity : AppCompatActivity() {
         binding.updateWarehouseBtn.click {
 
             updatedWarehouseName = binding.updateWarehouseET.text.toString()
+            val special = Pattern.compile("[!@#\$%&*()_+=|<>?{}\\[\\]:;^`.~£-]")
+            val hasSpecial = special.matcher(updatedWarehouseName)
+            val constainsSymbols: Boolean = hasSpecial.find()
 
             if (binding.updateWarehouseET.text.isNullOrEmpty())
             {
                 toast("Field must not be empty")
                 binding.updateWarehouseET.error = "Field must not be empty"
             }
-            else if(selectedBusLocNo.isNullOrEmpty())
+            else if(updatedBusLocNo.isNullOrEmpty())
             {
                 toast("warehouse cannot be added")
             }
             else if(updatedWarehouseName.startsWith(" "))
+            {
+                toast("Please enter any value")
+            }
+            else if (constainsSymbols)
             {
                 toast("Please enter any value")
             }

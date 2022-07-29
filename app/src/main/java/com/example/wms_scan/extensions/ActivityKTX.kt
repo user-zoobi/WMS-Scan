@@ -1,10 +1,14 @@
 package com.example.scanmate.extensions
 
+import android.R
+import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.view.View
 import android.view.Window
 import android.view.WindowManager
+import android.widget.ArrayAdapter
+import android.widget.SpinnerAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -98,4 +102,10 @@ fun AppCompatActivity.setTransparentStatusBarColor(color: Int) {
     }
     window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
     window.statusBarColor = ContextCompat.getColor(this, color)
+}
+
+fun Context.returnNoAdapter() : SpinnerAdapter
+{
+    val noItem: List<String> = arrayListOf("No Record")
+    return ArrayAdapter(this, R.layout.simple_list_item_1, noItem)
 }

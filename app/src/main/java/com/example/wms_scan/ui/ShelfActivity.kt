@@ -516,17 +516,16 @@ class ShelfActivity : AppCompatActivity() {
 
             override fun onItemSelected(adapter: AdapterView<*>?, view: View?, position: Int, long: Long) {
 
+                selectedBusLocNo = data[position].orgBusLocNo.toString()
+                busLocName = data[position].busLocationName.toString()
+                binding.shelfRV.adapter = null
+                binding.warehouseSpinner.adapter = returnNoAdapter()
+
                 if (isNetworkConnected(this@ShelfActivity))
                 {
                     Log.i("LocBus","business Location no ${data[position].orgBusLocNo}")
                     // binding.rackSpinnerCont.visible()
-                    selectedBusLocNo = data[position].orgBusLocNo.toString()
                     viewModel.getWarehouse("", selectedBusLocNo)
-                    busLocName = data[position].busLocationName.toString()
-                    binding.warehouseSpinner.visible()
-                    binding.warehouseSpinnerCont.visible()
-                    binding.rackSpinner.visible()
-                    binding.rackSpinnerCont.visible()
                     binding.shelfAddBTN.visible()
                 }
                 else{
