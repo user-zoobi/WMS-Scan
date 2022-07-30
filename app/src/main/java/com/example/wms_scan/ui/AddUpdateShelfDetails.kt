@@ -195,18 +195,25 @@ class AddUpdateShelfDetails : AppCompatActivity() {
             }
             else
             {
-                viewModel.addShelf(
-                    Utils.getSimpleTextBody("0"),
-                    Utils.getSimpleTextBody("$selectedRackNo"),
-                    Utils.getSimpleTextBody(shelfNameInput),
-                    Utils.getSimpleTextBody("0"),
-                    Utils.getSimpleTextBody(palletCapacity),
-                    Utils.getSimpleTextBody("$selectedBusLocNo"),
-                    Utils.getSimpleTextBody(
-                        LocalPreferences.getInt(this, LocalPreferences.AppLoginPreferences.userNo).toString()
-                    ),
-                    Utils.getSimpleTextBody(deviceId),
-                )
+                if(Utils.isNetworkConnected(this))
+                {
+                    viewModel.addShelf(
+                        Utils.getSimpleTextBody("0"),
+                        Utils.getSimpleTextBody("$selectedRackNo"),
+                        Utils.getSimpleTextBody(shelfNameInput),
+                        Utils.getSimpleTextBody("0"),
+                        Utils.getSimpleTextBody(palletCapacity),
+                        Utils.getSimpleTextBody("$selectedBusLocNo"),
+                        Utils.getSimpleTextBody(
+                            LocalPreferences.getInt(this, LocalPreferences.AppLoginPreferences.userNo).toString()
+                        ),
+                        Utils.getSimpleTextBody(deviceId),
+                    )
+                }
+                else
+                {
+                    toast("No connection found")
+                }
             }
 
             binding.backBtn.click {
@@ -283,18 +290,26 @@ class AddUpdateShelfDetails : AppCompatActivity() {
             }
             else
             {
-                viewModel.addShelf(
-                    Utils.getSimpleTextBody("$updatedShelfNo"),
-                    Utils.getSimpleTextBody("$updatedRackNo"),
-                    Utils.getSimpleTextBody(shelfNameInput),
-                    Utils.getSimpleTextBody(updatedShelveCode),
-                    Utils.getSimpleTextBody(palletCapacity),
-                    Utils.getSimpleTextBody("$updatedBusLocNo"),
-                    Utils.getSimpleTextBody(
-                        LocalPreferences.getInt(this, LocalPreferences.AppLoginPreferences.userNo).toString()
-                    ),
-                    Utils.getSimpleTextBody(deviceId)
-                )
+                if(Utils.isNetworkConnected(this))
+                {
+                    viewModel.addShelf(
+                        Utils.getSimpleTextBody("$updatedShelfNo"),
+                        Utils.getSimpleTextBody("$updatedRackNo"),
+                        Utils.getSimpleTextBody(shelfNameInput),
+                        Utils.getSimpleTextBody(updatedShelveCode),
+                        Utils.getSimpleTextBody(palletCapacity),
+                        Utils.getSimpleTextBody("$updatedBusLocNo"),
+                        Utils.getSimpleTextBody(
+                            LocalPreferences.getInt(this, LocalPreferences.AppLoginPreferences.userNo).toString()
+                        ),
+                        Utils.getSimpleTextBody(deviceId)
+                    )
+                }
+                else
+                {
+                    toast("No connection found")
+                }
+
             }
         }
 

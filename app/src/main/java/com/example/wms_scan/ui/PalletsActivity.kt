@@ -621,6 +621,7 @@ class PalletsActivity : AppCompatActivity() {
                             Utils.getSimpleTextBody(selectedBusLocNo)
                         )
                         binding.palletAddBTN.isEnabled = true
+                        binding.printIV.isEnabled = true
                         Log.i("LocBus","This is warehouse name is ${adapter?.getItemAtPosition(position)}")
                         Log.i("LocBus","This is warehouse pos is ${data[position].wHNo}")
                     }
@@ -634,6 +635,7 @@ class PalletsActivity : AppCompatActivity() {
                 else
                 {
                     binding.palletAddBTN.isEnabled = false
+                    binding.printIV.isEnabled = false
                     binding.palletsRV.adapter = null
                 }
 
@@ -679,6 +681,7 @@ class PalletsActivity : AppCompatActivity() {
                             Utils.getSimpleTextBody(selectedBusLocNo)
                         )
                         binding.palletAddBTN.isEnabled = true
+                        binding.printIV.isEnabled = true
                     }
                     else
                     {
@@ -690,6 +693,7 @@ class PalletsActivity : AppCompatActivity() {
                 else
                 {
                     binding.palletAddBTN.isEnabled = false
+                    binding.printIV.isEnabled = false
                     binding.palletsRV.adapter = null
                 }
 
@@ -733,6 +737,7 @@ class PalletsActivity : AppCompatActivity() {
                                 Utils.getSimpleTextBody(selectedBusLocNo)
                             )
                             binding.palletAddBTN.isEnabled = true
+                            binding.printIV.isEnabled = true
                         }
                         else
                         {
@@ -744,6 +749,7 @@ class PalletsActivity : AppCompatActivity() {
                     else
                     {
                         binding.palletAddBTN.isEnabled = false
+                        binding.printIV.isEnabled = false
                         binding.palletsRV.adapter = null
                     }
                 }

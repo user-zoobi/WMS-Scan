@@ -1,27 +1,25 @@
 package com.example.wms_scan.ui
 
 import android.Manifest
+import android.content.BroadcastReceiver
 import android.content.Context
-import android.content.Intent
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
+import android.net.ConnectivityManager
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
 import android.view.View
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import com.example.scanmate.data.callback.Status
-import com.example.scanmate.data.response.UserLocationResponse
 import com.example.scanmate.extensions.*
 import com.example.scanmate.util.CustomProgressDialog
 import com.example.scanmate.util.LocalPreferences
 import com.example.scanmate.util.LocalPreferences.AppConstants.orgBusLocNo
 import com.example.scanmate.util.LocalPreferences.AppLoginPreferences.PREF
-import com.example.scanmate.util.LocalPreferences.AppLoginPreferences.busLocNo
 import com.example.scanmate.util.LocalPreferences.AppLoginPreferences.scanCarton
 import com.example.scanmate.util.LocalPreferences.AppLoginPreferences.userNo
 import com.example.scanmate.util.Utils
@@ -31,20 +29,24 @@ import com.example.wms_scan.R
 import com.example.wms_scan.databinding.ActivityMenuBinding
 import kotlin.system.exitProcess
 
+
 class MenuActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMenuBinding
     private lateinit var viewModel: MainViewModel
     private lateinit var dialog: CustomProgressDialog
     private var cameraRequestCode = 100
+    private var receiverDataChange: BroadcastReceiver? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMenuBinding.inflate(layoutInflater)
         setContentView(binding.root)
         viewModel = obtainViewModel(MainViewModel::class.java)
+
         setupUi()
         initObserver()
         permissions()
+
 
     }
 
@@ -84,8 +86,8 @@ class MenuActivity : AppCompatActivity() {
         binding.loginTimeTV.text = LocalPreferences.getString(this,
             LocalPreferences.AppLoginPreferences.loginTime
         )
-
         initListeners()
+
     }
 
     private fun initObserver(){
@@ -102,8 +104,10 @@ class MenuActivity : AppCompatActivity() {
                 Status.LOADING -> {
                     dialog.show()
                     dialog.setCanceledOnTouchOutside(true)
+                    binding.swipeRefresh.isRefreshing = true
                 }
                 Status.SUCCESS ->{
+                    binding.swipeRefresh.isRefreshing = false
                     if(it.data?.get(0)?.status == true)
                     {
                         dialog.dismiss()
@@ -114,11 +118,12 @@ class MenuActivity : AppCompatActivity() {
                     }
                     else
                     {
-                     toast("no result found")
                     }
+                    Log.i("success",it.data?.get(0)?.error.toString())
                 }
                 Status.ERROR ->{
                     dialog.dismiss()
+                    binding.swipeRefresh.isRefreshing = false
                 }
             }})
 
@@ -128,7 +133,9 @@ class MenuActivity : AppCompatActivity() {
         viewModel.userMenu.observe(this){
             when(it.status){
                 Status.LOADING -> dialog.show()
+
                 Status.SUCCESS ->{
+                    binding.swipeRefresh.isRefreshing = false
                     if(it.data?.get(0)?.status == true)
                     {
                         dialog.dismiss()
@@ -136,10 +143,13 @@ class MenuActivity : AppCompatActivity() {
                     }
                     else
                     {
-                        toast("no result found")
                     }
                 }
-                Status.ERROR -> dialog.dismiss()
+                Status.ERROR ->{
+                    binding.swipeRefresh.isRefreshing = false
+                    dialog.dismiss()
+                }
+
             }
         }
     }
@@ -151,7 +161,6 @@ class MenuActivity : AppCompatActivity() {
             }
             else
             {
-                toast("No internet found")
             }
 
         }
@@ -161,7 +170,6 @@ class MenuActivity : AppCompatActivity() {
             }
             else
             {
-                toast("No internet found")
             }
 
         }
@@ -172,7 +180,6 @@ class MenuActivity : AppCompatActivity() {
             }
             else
             {
-                toast("No internet found")
             }
         }
         binding.palletsIV.setOnClickListener {
@@ -182,7 +189,6 @@ class MenuActivity : AppCompatActivity() {
             }
             else
             {
-                toast("No internet found")
             }
         }
         binding.placeCartonIV.setOnClickListener {
@@ -191,7 +197,7 @@ class MenuActivity : AppCompatActivity() {
             }
             else
             {
-                toast("No internet found")
+
             }
 
         }
@@ -201,8 +207,13 @@ class MenuActivity : AppCompatActivity() {
             }
             else
             {
-                toast("No internet found")
             }
+        }
+
+        binding.swipeRefresh.setOnRefreshListener {
+            viewModel.userLocation(
+                Utils.getSimpleTextBody(LocalPreferences.getInt(this, userNo).toString())
+            )
         }
 
     }
@@ -215,5 +226,16 @@ class MenuActivity : AppCompatActivity() {
         gotoActivity(LoginActivity::class.java)
     }
 
+    override fun onResume() {
+        super.onResume()
+        binding.swipeRefresh.isRefreshing = false
+    }
+
+
+    private fun isNetworkAvailable(): Boolean {
+        val connectivityManager = getSystemService(CONNECTIVITY_SERVICE) as ConnectivityManager
+        val activeNetworkInfo = connectivityManager?.activeNetworkInfo
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected
+    }
 
 }

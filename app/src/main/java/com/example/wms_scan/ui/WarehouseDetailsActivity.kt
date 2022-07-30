@@ -14,6 +14,7 @@ import com.example.scanmate.util.CustomProgressDialog
 import com.example.scanmate.util.LocalPreferences
 import com.example.scanmate.util.LocalPreferences.AppLoginPreferences.isRefreshRequired
 import com.example.scanmate.util.LocalPreferences.AppLoginPreferences.userNo
+import com.example.scanmate.util.Utils.isNetworkConnected
 import com.example.scanmate.viewModel.MainViewModel
 import com.example.wms_scan.R
 import com.example.wms_scan.databinding.ActivityWarehouseDetailsBinding
@@ -129,16 +130,24 @@ class WarehouseDetailsActivity : AppCompatActivity() {
             }
             else
             {
-                viewModel.addUpdateWarehouse(
-                    "0",
-                    updatedWarehouseName,
-                    "$addWhCode",
-                    "$selectedBusLocNo",
-                    LocalPreferences.getInt(this, userNo).toString(),
-                    "$deviceId"
-                )
-                LocalPreferences.put(this, isRefreshRequired, true)
-                Log.i("addWH","1.0\n 2.$updatedWarehouseName\n 3.$addWhCode\n4.$selectedBusLocNo\n5.1\n6.1")
+                if(isNetworkConnected(this))
+                {
+                    viewModel.addUpdateWarehouse(
+                        "0",
+                        updatedWarehouseName,
+                        "$addWhCode",
+                        "$selectedBusLocNo",
+                        LocalPreferences.getInt(this, userNo).toString(),
+                        "$deviceId"
+                    )
+                    LocalPreferences.put(this, isRefreshRequired, true)
+                    Log.i("addWH","1.0\n 2.$updatedWarehouseName\n 3.$addWhCode\n4.$selectedBusLocNo\n5.1\n6.1")
+                }
+                else
+                {
+                    toast("No connection found")
+                }
+
 
             }
         }
@@ -177,15 +186,23 @@ class WarehouseDetailsActivity : AppCompatActivity() {
             }
             else
             {
-                viewModel.addUpdateWarehouse(
-                    "$selectedWHNo",
-                    "$updatedWarehouseName",
-                    "$updatedwhCode",
-                    "$updatedBusLocNo",
-                    LocalPreferences.getInt(this, userNo).toString(),
-                    "$deviceId"
-                )
-                Log.i("updateWH","1.0\n 2.$updatedWarehouseName\n 3.$addWhCode\n4.$selectedBusLocNo\n5.1\n6.1")
+                if(isNetworkConnected(this))
+                {
+                    viewModel.addUpdateWarehouse(
+                        "$selectedWHNo",
+                        "$updatedWarehouseName",
+                        "$updatedwhCode",
+                        "$updatedBusLocNo",
+                        LocalPreferences.getInt(this, userNo).toString(),
+                        "$deviceId"
+                    )
+                    Log.i("updateWH","1.0\n 2.$updatedWarehouseName\n 3.$addWhCode\n4.$selectedBusLocNo\n5.1\n6.1")
+                }
+                else
+                {
+                    toast("No connection found")
+                }
+
             }
         }
 

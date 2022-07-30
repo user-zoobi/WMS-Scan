@@ -70,13 +70,7 @@ object LocalPreferences {
     object AppConstants{
 
         const val orgBusLocNo = "OrgBusLocNo"
-        const val qrCodeFlag = "qrCodeFlag"
 
     }
 
-    object SpinnerKeys{
-
-        const val businessLoc1 = "businessLoc1"
-
-    }
 }

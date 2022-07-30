@@ -186,7 +186,7 @@ class ShelfActivity : AppCompatActivity() {
             }
             else
             {
-                toast(NoInternetFound)
+
             }
         }
 
@@ -216,7 +216,7 @@ class ShelfActivity : AppCompatActivity() {
         }
         else
         {
-            toast(NoInternetFound)
+
         }
     }
 
@@ -451,7 +451,7 @@ class ShelfActivity : AppCompatActivity() {
                                             }
                                             else
                                             {
-                                                toast("No Internet")
+
                                             }
 
 
@@ -531,6 +531,7 @@ class ShelfActivity : AppCompatActivity() {
                         viewModel.getWarehouse("", selectedBusLocNo)
                         binding.shelfAddBTN.visible()
                         binding.shelfAddBTN.isEnabled =  true
+                        binding.printIV.isEnabled = true
                     }
                     else
                     {
@@ -543,6 +544,7 @@ class ShelfActivity : AppCompatActivity() {
                 {
                     toast("No record")
                     binding.shelfAddBTN.isEnabled =  false
+                    binding.printIV.isEnabled = false
                 }
 
             }
@@ -589,6 +591,7 @@ class ShelfActivity : AppCompatActivity() {
                         Log.i("LocBus","This is warehouse name is ${adapter?.getItemAtPosition(position)}")
                         Log.i("LocBus","This is warehouse pos is ${data[position].wHNo}")
                         binding.shelfAddBTN.isEnabled =  true
+                        binding.printIV.isEnabled = true
                     }
 
                     else
@@ -602,6 +605,7 @@ class ShelfActivity : AppCompatActivity() {
                 {
                     toast("No record found")
                     binding.shelfAddBTN.isEnabled = false
+                    binding.printIV.isEnabled = false
                 }
 
             }
@@ -645,6 +649,7 @@ class ShelfActivity : AppCompatActivity() {
                             Utils.getSimpleTextBody(selectedBusLocNo)
                         )
                         binding.shelfAddBTN.isEnabled = true
+                        binding.printIV.isEnabled = true
                         Log.i("LocBus","This is rack pos ${adapter?.getItemAtPosition(position)}")
                     }
                     else
@@ -660,6 +665,7 @@ class ShelfActivity : AppCompatActivity() {
                 {
                     toast("No record found")
                     binding.shelfAddBTN.isEnabled = false
+                    binding.printIV.isEnabled = false
                 }
 
             }

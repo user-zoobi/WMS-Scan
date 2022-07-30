@@ -304,6 +304,8 @@ class CartonDetailActivity : AppCompatActivity() {
                     )
 
                     viewModel.palletHierarchy(Utils.getSimpleTextBody(scannedPallet), Utils.getSimpleTextBody("0"))
+                    gotoActivity(ScannerActivity::class.java)
+                    finish()
                 }
 
 

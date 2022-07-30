@@ -67,7 +67,6 @@ class ScannerCameraActivity : AppCompatActivity() {
                     {
                         Log.i("scanAll","${e.message}")
                     }
-
                 }
                 Status.ERROR ->{
                     dialog.dismiss()

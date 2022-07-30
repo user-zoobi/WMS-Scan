@@ -140,9 +140,7 @@ class WarehouseActivity : AppCompatActivity() {
                             showBusLocSpinner(it.data)
                         }
                         else
-                        {
-                            toast("No result found")
-                        }
+                        { }
                     }
                     else { }
                 }
@@ -215,7 +213,6 @@ class WarehouseActivity : AppCompatActivity() {
                                     }
                                     else
                                     {
-                                        toast("No Internet")
                                     }
                                 }
 
@@ -240,7 +237,6 @@ class WarehouseActivity : AppCompatActivity() {
                         {
                             binding.swipeRefresh.isRefreshing = false
                             binding.warehouseRV.adapter = null
-                            toast("No result found")
                         }
                     }
 
@@ -354,7 +350,6 @@ class WarehouseActivity : AppCompatActivity() {
                     val selectedLocation = data[position].orgBusLocNo.toString()
                     LocalPreferences.put(this@WarehouseActivity, isSpinnerSelected,"$selectedLocation")
                     binding.warehouseRV.adapter = null
-                    toast(NoInternetFound)
                 }
 
             }

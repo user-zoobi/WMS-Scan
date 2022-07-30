@@ -119,21 +119,29 @@ class AddUpdateRackDetails : AppCompatActivity() {
 
                 else
                 {
-                    viewModel.addRack(
-                        Utils.getSimpleTextBody("0"),
-                        Utils.getSimpleTextBody(rackName),
-                        Utils.getSimpleTextBody("0"),
-                        Utils.getSimpleTextBody(selectedWareHouseNo),
-                        Utils.getSimpleTextBody(shelfCap),
-                        Utils.getSimpleTextBody(selectedBusLocNo),
-                        Utils.getSimpleTextBody(
-                            LocalPreferences.getInt(this,userNo).toString()),
-                        Utils.getSimpleTextBody(deviceId),
-                    )
+                    if(Utils.isNetworkConnected(this))
+                    {
+                        viewModel.addRack(
+                            Utils.getSimpleTextBody("0"),
+                            Utils.getSimpleTextBody(rackName),
+                            Utils.getSimpleTextBody("0"),
+                            Utils.getSimpleTextBody(selectedWareHouseNo),
+                            Utils.getSimpleTextBody(shelfCap),
+                            Utils.getSimpleTextBody(selectedBusLocNo),
+                            Utils.getSimpleTextBody(
+                                LocalPreferences.getInt(this,userNo).toString()),
+                            Utils.getSimpleTextBody(deviceId),
+                        )
+                        Log.i("addRack","1. 0 \n 2.$rackName\n 3.\n 4.$selectedWareHouseNo\n 5.$shelfCap\n 6.$selectedBusLocNo\n 7.2\n 8.$deviceId" )
+                    }
+                    else
+                    {
+                        toast("No connection found")
+                    }
                 }
 
                 LocalPreferences.getBoolean(this, isRefreshRequired)
-                Log.i("addRack","1. 0 \n 2.$rackName\n 3.\n 4.$selectedWareHouseNo\n 5.$shelfCap\n 6.$selectedBusLocNo\n 7.2\n 8.$deviceId" )
+
             }
 
         binding.toolbar.click {
@@ -196,16 +204,24 @@ class AddUpdateRackDetails : AppCompatActivity() {
                 }
                 else
                 {
-                    viewModel.addRack(
-                        Utils.getSimpleTextBody("$updatedRackNo"),
-                        Utils.getSimpleTextBody("$updatedRackName"),
-                        Utils.getSimpleTextBody("0"),
-                        Utils.getSimpleTextBody("$updatedWHNo"),
-                        Utils.getSimpleTextBody(shelfCap),
-                        Utils.getSimpleTextBody("$updatedBusLocNo"),
-                        Utils.getSimpleTextBody("${LocalPreferences.getInt(this, userNo)}"),
-                        Utils.getSimpleTextBody(deviceId),
+                    if(Utils.isNetworkConnected(this))
+                    {
+                        viewModel.addRack(
+                            Utils.getSimpleTextBody("$updatedRackNo"),
+                            Utils.getSimpleTextBody("$updatedRackName"),
+                            Utils.getSimpleTextBody("0"),
+                            Utils.getSimpleTextBody("$updatedWHNo"),
+                            Utils.getSimpleTextBody(shelfCap),
+                            Utils.getSimpleTextBody("$updatedBusLocNo"),
+                            Utils.getSimpleTextBody("${LocalPreferences.getInt(this, userNo)}"),
+                            Utils.getSimpleTextBody(deviceId),
                         )
+                    }
+                    else
+                    {
+                        toast("No connection found")
+                    }
+
                 }
 
                 Log.i("updateRack","1. $updatedRackNo \n 2.$updatedRackName\n 3.\n 4.$updatedWHNo\n 5.$shelfCap\n 6.$updatedBusLocNo\n 7.2\n 8.$deviceId" )

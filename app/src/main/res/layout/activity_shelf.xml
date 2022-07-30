@@ -278,10 +278,15 @@
         android:layout_centerInParent="true"
         android:visibility="gone">
 
-        <ImageView
-            android:layout_width="@dimen/_300sdp"
-            android:layout_height="@dimen/_300sdp"
-            android:src="@drawable/timeout"/>
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/timeoutAnim"
+            android:layout_width="@dimen/_200sdp"
+            android:layout_height="@dimen/_200sdp"
+            android:layout_gravity="center"
+            android:background="@color/transparent"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            app:lottie_rawRes="@raw/timeout" />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -292,5 +297,29 @@
             android:textColor="@color/black"/>
 
     </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <TextView
+        android:id="@+id/backOnlineTV"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/loginTimeTV"
+        android:layout_marginTop="@dimen/_20sdp"
+        android:background="@color/dark_green"
+        android:textColor="@color/white"
+        android:text="Back online"
+        android:textAlignment="center"
+        android:visibility="gone"/>
+
+    <TextView
+        android:id="@+id/moInternetTV"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/loginTimeTV"
+        android:layout_marginTop="@dimen/_20sdp"
+        android:background="@color/red"
+        android:textColor="@color/white"
+        android:text="No internet"
+        android:textAlignment="center"
+        android:visibility="gone"/>
 
 </RelativeLayout>

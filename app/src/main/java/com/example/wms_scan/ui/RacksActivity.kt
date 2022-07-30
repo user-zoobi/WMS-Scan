@@ -137,7 +137,6 @@ class RacksActivity : AppCompatActivity() {
             {
                 binding.rackCont.visible()
                 binding.connectionTimeout.gone()
-                toast("Swipe: $selectedBusLocNo")
                 viewModel.userLocation(Utils.getSimpleTextBody(selectedBusLocNo))
                 /*viewModel.getWarehouse("", LocalPreferences.getString(this, isSpinnerSelected).toString())
                 viewModel.getRack(
@@ -215,7 +214,6 @@ class RacksActivity : AppCompatActivity() {
                             else
                             {
                                 binding.racksRV.adapter = null
-                                toast("${R.string.addWH}")
                                 binding.rackAddBTN.gone()
                                 binding.businessLocationSpinner.gone()
                             }
@@ -458,7 +456,7 @@ class RacksActivity : AppCompatActivity() {
                 selectedWareHouseNo = data[position].wHNo.toString()
                 binding.racksRV.adapter = null
 
-                toast("warehouse value: ${warehouseSpinner.selectedItem}")
+//                toast("warehouse value: ${warehouseSpinner.selectedItem}")
                 if (warehouseSpinner.selectedItem != "No Record")
                 {
                     if (isNetworkConnected(this@RacksActivity)) {
@@ -471,6 +469,7 @@ class RacksActivity : AppCompatActivity() {
                         warehouseName = data[position].wHName.toString()
                         whCode = data[position].wHCode.toString()
                         binding.rackAddBTN.isEnabled = true
+                        binding.printIV.isEnabled = true
 
                         Log.i("LocBus","This is warehouse name is ${adapter?.getItemAtPosition(position)}")
                         Log.i("LocBus","This is warehouse pos is ${data[position].wHNo}")
@@ -478,16 +477,15 @@ class RacksActivity : AppCompatActivity() {
                     else
                     {
                         binding.racksRV.adapter = null
-                        toast(NoInternetFound)
                         var selectedWH = data[position].wHNo.toString()
                         LocalPreferences.put(this@RacksActivity,isSpinnerSelected,"$selectedWH")
                         binding.rackAddBTN.gone()
-                        toast("Connect internet\nselect location again")
                     }
                 }
                 else
                 {
                     binding.rackAddBTN.isEnabled = false
+                    binding.printIV.isEnabled = false
                 }
 
             }
