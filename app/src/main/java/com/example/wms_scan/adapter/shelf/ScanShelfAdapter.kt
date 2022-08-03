@@ -4,9 +4,11 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.example.scanmate.data.response.GetShelfResponse
 import com.example.scanmate.extensions.click
+import com.example.scanmate.util.Utils
 import com.example.wms_scan.R
 import com.example.wms_scan.databinding.ScanShelfListViewBinding
 import com.example.wms_scan.databinding.ShelfListViewBinding
@@ -36,7 +38,15 @@ class ScanShelfAdapter (
             binding.shelfTV.text = data.shelfName
 
             binding.shelfCont.click {
-                (context as ShowAllHierarchy).shelfAction(data.shelfNo.toString())
+                if(Utils.isNetworkConnected(context))
+                {
+                    (context as ShowAllHierarchy).shelfAction(data.shelfNo.toString())
+                }
+                else
+                {
+                    Toast.makeText(context, "No internet", Toast.LENGTH_SHORT).show()
+                }
+
             }
         }
     }

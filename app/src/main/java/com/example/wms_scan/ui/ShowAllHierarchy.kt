@@ -16,6 +16,7 @@ import com.example.scanmate.util.CustomProgressDialog
 import com.example.scanmate.util.LocalPreferences
 import com.example.scanmate.util.LocalPreferences.AppLoginPreferences.userNo
 import com.example.scanmate.util.Utils
+import com.example.scanmate.util.Utils.isNetworkConnected
 import com.example.scanmate.viewModel.MainViewModel
 import com.example.wms_scan.R
 import com.example.wms_scan.adapter.carton.CartonDetailAdapter
@@ -43,7 +44,12 @@ class ShowAllHierarchy : AppCompatActivity() {
     private lateinit var palletAdapter: ScanPalletAdapter
     private lateinit var cartonAdapter: ScanCartonAdapter
     private lateinit var cartonQnWiseAdapter: CartonDetailAdapter
-
+    private var currentScreen = ""
+    private var whNo = ""
+    private var rackNo = ""
+    private var shelfNo = ""
+    private var palletNo = ""
+    private var busLocNo = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -94,11 +100,11 @@ class ShowAllHierarchy : AppCompatActivity() {
                             val rackName = it.data?.get(0)?.rackName.toString()
                             val shelfName = it.data?.get(0)?.shelfName.toString()
                             val palletName = it.data?.get(0)?.pilotName.toString()
-                            val whNo = it.data?.get(0)?.wHNo.toString()
-                            val rackNo = it.data?.get(0)?.rackNo.toString()
-                            val shelfNo = it.data?.get(0)?.shelfNo.toString()
-                            val palletNo = it.data?.get(0)?.pilotNo.toString()
-                            val busLocNo = it.data?.get(0)?.locationNo.toString()
+                            whNo = it.data?.get(0)?.wHNo.toString()
+                            rackNo = it.data?.get(0)?.rackNo.toString()
+                            shelfNo = it.data?.get(0)?.shelfNo.toString()
+                            palletNo = it.data?.get(0)?.pilotNo.toString()
+                            busLocNo = it.data?.get(0)?.locationNo.toString()
 
                             binding.WHTV.text = whName
                             binding.rackTV.text = rackName
@@ -182,34 +188,80 @@ class ShowAllHierarchy : AppCompatActivity() {
                             }
 
                             binding.WHTV.click {
-                                viewModel.getRack(
-                                    Utils.getSimpleTextBody(""),
-                                    Utils.getSimpleTextBody(whNo),
-                                    Utils.getSimpleTextBody(busLocNo),
-                                )
+                                if (isNetworkConnected(this))
+                                {
+                                    viewModel.getRack(
+                                        Utils.getSimpleTextBody(""),
+                                        Utils.getSimpleTextBody(whNo),
+                                        Utils.getSimpleTextBody(busLocNo),
+                                    )
+                                    binding.view3.gone()
+                                    binding.view4.gone()
+                                    binding.rackCont.gone()
+                                    binding.view5.gone()
+                                    binding.view6.gone()
+                                    binding.shelfCont.gone()
+                                    binding.view7.gone()
+                                    binding.view8.gone()
+                                    binding.palletCont.gone()
+                                }
+                                else
+                                {
+                                    binding.WHTV.isEnabled = false
+                                }
                             }
 
                             binding.rackTV.click {
-                                viewModel.getShelf(
-                                    Utils.getSimpleTextBody(""),
-                                    Utils.getSimpleTextBody(rackNo),
-                                    Utils.getSimpleTextBody(busLocNo)
-                                )
+                                if (isNetworkConnected(this))
+                                {
+                                    viewModel.getShelf(
+                                        Utils.getSimpleTextBody(""),
+                                        Utils.getSimpleTextBody(rackNo),
+                                        Utils.getSimpleTextBody(busLocNo)
+                                    )
+                                    binding.view5.gone()
+                                    binding.view6.gone()
+                                    binding.shelfCont.gone()
+                                    binding.view7.gone()
+                                    binding.view8.gone()
+                                    binding.palletCont.gone()
+                                }
+                                else
+                                {
+                                    binding.rackTV.isEnabled = false
+                                }
                             }
 
                             binding.shelfTV.click {
-                                viewModel.getPallet(
-                                    Utils.getSimpleTextBody(""),
-                                    Utils.getSimpleTextBody(shelfNo),
-                                    Utils.getSimpleTextBody(busLocNo)
-                                )
+                                if (isNetworkConnected(this))
+                                {
+                                    viewModel.getPallet(
+                                        Utils.getSimpleTextBody(""),
+                                        Utils.getSimpleTextBody(shelfNo),
+                                        Utils.getSimpleTextBody(busLocNo)
+                                    )
+                                    binding.view7.gone()
+                                    binding.view8.gone()
+                                    binding.palletCont.gone()
+                                }
+                                else
+                                {
+                                    binding.shelfTV.isEnabled = false
+                                }
                             }
 
                             binding.palletTV.click {
-                                viewModel.getCarton(
-                                    Utils.getSimpleTextBody(palletNo),
-                                    Utils.getSimpleTextBody(busLocNo),
-                                )
+                                if (isNetworkConnected(this))
+                                {
+                                    viewModel.getCarton(
+                                        Utils.getSimpleTextBody(palletNo),
+                                        Utils.getSimpleTextBody(busLocNo),
+                                    )
+                                }
+                                else
+                                {
+                                    binding.palletTV.isEnabled = false
+                                }
                             }
                         }
                         catch (e:Exception)
@@ -227,7 +279,7 @@ class ShowAllHierarchy : AppCompatActivity() {
             }
         })
 
-        viewModel.getWarehouse.observe(this, Observer {
+        viewModel.getWarehouse.observe(this){
             when(it.status){
                 Status.LOADING ->{
 
@@ -257,7 +309,7 @@ class ShowAllHierarchy : AppCompatActivity() {
 
                 }
             }
-        })
+        }
 
         viewModel.getRack.observe(this, Observer {
             when(it.status){
@@ -319,15 +371,19 @@ class ShowAllHierarchy : AppCompatActivity() {
 
         viewModel.getPallet.observe(this, Observer {
             when(it.status){
-                Status.LOADING ->{
+                Status.LOADING ->
+                {
 
                 }
-                Status.SUCCESS ->{
+
+                Status.SUCCESS ->
+                {
                     binding.hierarchyCont.visible()
                     palletAdapter = ScanPalletAdapter(this,
                         it.data as ArrayList<GetPalletResponse>
                     )
                     binding.showAllRV.apply {
+
                         layoutManager = LinearLayoutManager(this@ShowAllHierarchy)
                         adapter = palletAdapter
 
@@ -339,6 +395,7 @@ class ShowAllHierarchy : AppCompatActivity() {
                     }
                     binding.itemTV.text = it.data[0].shelfName
                 }
+
                 Status.ERROR ->
                 {
                     binding.hierarchyTree.gone()
@@ -396,7 +453,6 @@ class ShowAllHierarchy : AppCompatActivity() {
                         layoutManager = LinearLayoutManager(this@ShowAllHierarchy)
                         adapter = cartonQnWiseAdapter
                         Log.i("analyticalNo",it.data.get(0).analyticalNo.toString())
-                        binding.itemCode.visible()
                         binding.slash.visible()
 
                         if (it.data.get(0).cartonNo.toString() == "0")
@@ -406,7 +462,6 @@ class ShowAllHierarchy : AppCompatActivity() {
                     }
 
                     binding.itemTV.text = it.data.get(0).analyticalNo.toString()
-                    binding.itemCode.text = it.data.get(0).itemCode.toString()
                 }
                 Status.ERROR ->
                 {
@@ -418,62 +473,90 @@ class ShowAllHierarchy : AppCompatActivity() {
 
     private fun initListener(){
         binding.scanIV.click {
-            val intent = Intent(this, ScannerCameraActivity::class.java)
-            finish()
-            startActivity(intent)
+            if (isNetworkConnected(this))
+            {
+                val intent = Intent(this, ScannerCameraActivity::class.java)
+                finish()
+                startActivity(intent)
+            }
+            else
+            {
+                binding.scanIV.isEnabled = false
+            }
         }
     }
 
     fun warehouseAction(whNo:String){
-        viewModel.getRack(
-            Utils.getSimpleTextBody(""),
-            Utils.getSimpleTextBody(whNo),
-            Utils.getSimpleTextBody("1")
-        )
+        if (isNetworkConnected(this))
+        {
+            viewModel.getRack(
+                Utils.getSimpleTextBody(""),
+                Utils.getSimpleTextBody(whNo),
+                Utils.getSimpleTextBody(busLocNo)
+            )
+        }
     }
 
     fun rackAction(rackNo:String){
-        viewModel.getShelf(
-            Utils.getSimpleTextBody(""),
-            Utils.getSimpleTextBody(rackNo),
-            Utils.getSimpleTextBody("1"),
-        )
-        binding.view3.visible()
-        binding.view4.visible()
-        binding.rackCont.visible()
+        if (isNetworkConnected(this))
+        {
+
+            viewModel.getShelf(
+                Utils.getSimpleTextBody(""),
+                Utils.getSimpleTextBody(rackNo),
+                Utils.getSimpleTextBody(busLocNo),
+            )
+            binding.view3.visible()
+            binding.view4.visible()
+            binding.rackCont.visible()
+        }
     }
 
     fun shelfAction(shelfNo:String){
-        viewModel.getPallet(
-            Utils.getSimpleTextBody(""),
-            Utils.getSimpleTextBody(shelfNo),
-            Utils.getSimpleTextBody("1"),
-        )
-        binding.view5.visible()
-        binding.view6.visible()
-        binding.shelfCont.visible()
-        binding.shelfTV.visible()
+        if (isNetworkConnected(this))
+        {
+            viewModel.getPallet(
+                Utils.getSimpleTextBody(""),
+                Utils.getSimpleTextBody(shelfNo),
+                Utils.getSimpleTextBody(busLocNo),
+            )
+            binding.view3.visible()
+            binding.view4.visible()
+            binding.rackCont.visible()
+            binding.view5.visible()
+            binding.view6.visible()
+            binding.shelfCont.visible()
+            binding.shelfTV.visible()
+        }
     }
 
     fun palletAction(palletNo:String){
-        viewModel.getCarton(
-            Utils.getSimpleTextBody(palletNo),
-            Utils.getSimpleTextBody("1")
-        )
-        binding.view7.visible()
-        binding.view8.visible()
-        binding.palletCont.visible()
-        binding.palletTV.visible()
+        if (isNetworkConnected(this))
+        {
+            viewModel.getCarton(
+                Utils.getSimpleTextBody(palletNo),
+                Utils.getSimpleTextBody(busLocNo)
+            )
+            binding.view3.visible()
+            binding.view4.visible()
+            binding.rackCont.visible()
+            binding.view5.visible()
+            binding.view6.visible()
+            binding.shelfCont.visible()
+            binding.shelfTV.visible()
+            binding.view7.visible()
+            binding.view8.visible()
+            binding.palletCont.visible()
+            binding.palletTV.visible()
+        }
     }
 
     fun analyticalNoAction(analyticalNo:String){
-        Log.i("analyticalNo",analyticalNo)
-        viewModel.getCartonQnWise(analyticalNo)
-    }
-
-    override fun onBackPressed()
-    {
-        finish()
+        if (isNetworkConnected(this))
+        {
+            Log.i("analyticalNo",analyticalNo)
+            viewModel.getCartonQnWise(analyticalNo)
+        }
     }
 
     override fun onResume() {
@@ -489,22 +572,22 @@ class ShowAllHierarchy : AppCompatActivity() {
         if(palette.contains("PL") )
         {
             viewModel.scanAll("$palette", "$locationNo")
-
+            currentScreen = "P"
         }
         if (shelve.contains("SF"))
         {
             viewModel.scanAll("$shelve", "$locationNo")
-
+            currentScreen = "S"
         }
         if (rack.contains("RK"))
         {
             viewModel.scanAll("$rack", "$locationNo")
-
+            currentScreen = "R"
         }
         if (warehouse.contains("WH"))
         {
             viewModel.scanAll("$warehouse", "$locationNo")
-
+            currentScreen = "W"
         }
 
         Log.i("scannerCameraActivity1",rack.toString())
@@ -514,5 +597,61 @@ class ShowAllHierarchy : AppCompatActivity() {
         Log.i("scannerCameraActivity1",locationNo.toString())
     }
 
+    override fun onBackPressed()
+    {
+        toast(currentScreen)
 
+        when(currentScreen)
+        {
+            "P"->
+            {
+                viewModel.getPallet(
+                    Utils.getSimpleTextBody(""),
+                    Utils.getSimpleTextBody(shelfNo),
+                    Utils.getSimpleTextBody(busLocNo),
+                )
+                binding.view7.gone()
+                binding.view8.gone()
+                binding.palletCont.gone()
+
+            }
+            "S"->
+            {
+                viewModel.getShelf(
+                    Utils.getSimpleTextBody(""),
+                    Utils.getSimpleTextBody(rackNo),
+                    Utils.getSimpleTextBody(busLocNo),
+                )
+
+                binding.view5.gone()
+                binding.view6.gone()
+                binding.shelfCont.gone()
+                binding.view7.gone()
+                binding.view8.gone()
+                binding.palletCont.gone()
+            }
+            "R"->
+            {
+                viewModel.getRack(
+                    Utils.getSimpleTextBody(""),
+                    Utils.getSimpleTextBody(whNo),
+                    Utils.getSimpleTextBody(busLocNo),
+                )
+                binding.view3.gone()
+                binding.view4.gone()
+                binding.rackCont.gone()
+                binding.view5.gone()
+                binding.view6.gone()
+                binding.shelfCont.gone()
+                binding.view7.gone()
+                binding.view8.gone()
+                binding.palletCont.gone()
+
+            }
+            "W"->
+            {
+
+            }
+        }
+    }
 }

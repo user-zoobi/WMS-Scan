@@ -31,7 +31,10 @@ class CartonDetailAdapter(
         val data= list[position]
         with(holder)
         {
-            binding.cartonTV.text = data.cartonCode
+            binding.warehouseName.text = "Warehouse name : ${data.wHName}"
+            binding.rackName.text = "Rack name : ${data.rackName}"
+            binding.shelfName.text = "Shelf name : ${data.shelfName}"
+            binding.palletName.text = "Pallet name : ${data.pilotName}"
         }
     }
 

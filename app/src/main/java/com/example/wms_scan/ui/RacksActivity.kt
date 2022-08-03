@@ -239,7 +239,8 @@ class RacksActivity : AppCompatActivity() {
             it.let {
                 if(isNetworkConnected(this))
                 {
-                    when(it.status){
+                    when(it.status)
+                    {
 
                         Status.LOADING->{}
 
@@ -251,7 +252,8 @@ class RacksActivity : AppCompatActivity() {
                                 binding.warehouseSpinner.visible()
                                 binding.warehouseSpinnerCont.visible()
                                 binding.availableRacks.visible()
-                                try {
+                                try
+                                {
                                     LocalPreferences.put(this, isRefreshRequired, false)
 
                                     if(it.data?.get(0)?.status == true)
@@ -273,7 +275,8 @@ class RacksActivity : AppCompatActivity() {
                                         }
                                     }
                                 }
-                                catch(e:Exception){
+                                catch(e:Exception)
+                                {
                                     Log.i("rackAdapter","${e.message}")
                                     Log.i("rackAdapter","${e.stackTrace}")
                                 }
@@ -310,10 +313,14 @@ class RacksActivity : AppCompatActivity() {
                 if(isNetworkConnected(this))
                 {
                     when(it.status){
-                        Status.LOADING ->{
+                        Status.LOADING ->
+                        {
+
                         }
                         Status.SUCCESS ->{
+
                             binding.swipeRefresh.isRefreshing = false
+
                             if (isNetworkConnected(this))
                             {
                                 try
@@ -325,6 +332,7 @@ class RacksActivity : AppCompatActivity() {
                                         bmpList.clear()
                                         textList.clear()
                                         binding.printIV.click { btn->
+
                                             if (isNetworkConnected(this))
                                             {
                                                 for (i in it.data)
@@ -350,15 +358,14 @@ class RacksActivity : AppCompatActivity() {
                                         capacity = it.data[0].capacity.toString()
                                         binding.availableRacks.visible()
                                         binding.warehouseSpinnerCont.visible()
-
                                     }
+
                                     else
                                     {
                                         binding.racksRV.adapter = null
                                         binding.printIV.click { btn ->
                                             toast("Nothing to print!")
                                         }
-
                                     }
                                 }
                                 catch (e: Exception)
@@ -371,7 +378,6 @@ class RacksActivity : AppCompatActivity() {
                             {
                                 binding.rackAddBTN.isEnabled = false
                             }
-
                         }
 
                         Status.ERROR ->{
@@ -522,7 +528,7 @@ class RacksActivity : AppCompatActivity() {
         val settings: SharedPreferences =
             context.getSharedPreferences(LocalPreferences.AppLoginPreferences.PREF, Context.MODE_PRIVATE)
         settings.edit().clear().apply()
-        gotoActivity(LoginActivity::class.java)
+        gotoActivity(ScannerActivity::class.java)
     }
 
     private fun generateQRCode(text:String) {
@@ -600,6 +606,7 @@ class RacksActivity : AppCompatActivity() {
                 rackCode.alignment = Element.ALIGN_CENTER
 
                 val pdfcell = PdfPCell()
+
                 with(pdfcell)
                 {
                     rowspan = 2
@@ -632,14 +639,18 @@ class RacksActivity : AppCompatActivity() {
         requestCode: Int, permissions: Array<out String>, grantResults: IntArray
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        when(requestCode){
-            STORAGE_CODE -> {
-                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+        when(requestCode)
+        {
+            STORAGE_CODE ->
+            {
+                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)
+                {
                     //permission from popup was granted, call savePdf() method
                     savePdf()
 
                 }
-                else{
+                else
+                {
                     //permission from popup was denied, show error message
                     Toast.makeText(this, "Permission denied...!", Toast.LENGTH_SHORT).show()
                 }

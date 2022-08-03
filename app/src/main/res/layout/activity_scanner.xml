@@ -51,12 +51,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="@dimen/_50sdp"
+            android:layout_marginTop="@dimen/_30sdp"
             android:fontFamily="@font/amiko"
             android:text="@string/scan_item_product"
             android:textColor="@color/black"
-            android:textSize="@dimen/_18ssp"
-            android:textStyle="bold" />
+            android:textSize="@dimen/_16ssp" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 

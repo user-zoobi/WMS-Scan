@@ -15,7 +15,7 @@
     <string name="scan_item">Scan Item</string>
     <string name="update_item">Update Item</string>
     <string name="cancel">Cancel</string>
-    <string name="scan_item_product">Scan the code on the product</string>
+    <string name="scan_item_product">Scan code on goods</string>
     <string name="add_or_update_product">Add or update product</string>
     <string name="add_product">Add Product</string>
     <string name="add_product_details">Add your product details</string>
@@ -28,7 +28,7 @@
     <string name="update_products">Update Product</string>
     <string name="update_product_details">Update your product details</string>
     <string name="field_must_be_empty">Field must be empty</string>
-    <string name="scan_product">Scan Product</string>
+    <string name="scan_product">Scan Goods</string>
     <string name="ok">OK</string>
     <string name="useYourBiometricsKey">Use your biometrics</string>
     <string name="unlockWithBiometricsTitleKey">Unlock with your biometric</string>

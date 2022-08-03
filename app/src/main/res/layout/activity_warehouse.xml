@@ -221,8 +221,8 @@
 
         <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/timeoutAnim"
-            android:layout_width="@dimen/_200sdp"
-            android:layout_height="@dimen/_200sdp"
+            android:layout_width="@dimen/_150sdp"
+            android:layout_height="@dimen/_150sdp"
             android:layout_gravity="center"
             android:background="@color/transparent"
             app:lottie_autoPlay="true"
@@ -234,7 +234,9 @@
             android:layout_height="wrap_content"
             android:text="The connection has timed out"
             android:layout_gravity="center"
-            android:textSize="@dimen/_20sdp"
+            android:textSize="@dimen/_18ssp"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:fontFamily="@font/amiko"
             android:textStyle="bold"
             android:textColor="@color/black"/>
 

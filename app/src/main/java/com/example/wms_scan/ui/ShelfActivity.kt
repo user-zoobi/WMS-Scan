@@ -603,7 +603,6 @@ class ShelfActivity : AppCompatActivity() {
                 }
                 else
                 {
-                    toast("No record found")
                     binding.shelfAddBTN.isEnabled = false
                     binding.printIV.isEnabled = false
                 }
@@ -663,7 +662,6 @@ class ShelfActivity : AppCompatActivity() {
                 }
                 else
                 {
-                    toast("No record found")
                     binding.shelfAddBTN.isEnabled = false
                     binding.printIV.isEnabled = false
                 }
@@ -743,8 +741,8 @@ class ShelfActivity : AppCompatActivity() {
 
     private fun savePdf() {
         //create object of Document class
+
         //pdf file name
-        val file = File(Environment.getExternalStorageDirectory().toString() + "/" + "QrGeneratedFile" +".pdf")
         val mFileName = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(System.currentTimeMillis())
         //pdf file path
         val mFilePath = Environment.getExternalStorageDirectory().toString() + "/" + "QrGeneratedFile" +".pdf"
@@ -771,10 +769,6 @@ class ShelfActivity : AppCompatActivity() {
 
                 val shelfcode = Paragraph(Chunk(textList[i]))
                 shelfcode.alignment = Element.ALIGN_CENTER
-
-//                val rackcode = Paragraph(Chunk("${textList[i]}"))
-//                rackcode.alignment = Element.ALIGN_CENTER
-
 
                 val pdfcell = PdfPCell()
                 with(pdfcell)
@@ -804,7 +798,6 @@ class ShelfActivity : AppCompatActivity() {
 
             Log.i("1 pdfException","${e.message}")
             //if anything goes wrong causing exception, get and show exception message
-
 
         }
     }

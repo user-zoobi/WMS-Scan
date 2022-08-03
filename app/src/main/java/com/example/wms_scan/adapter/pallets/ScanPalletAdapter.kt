@@ -4,10 +4,12 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.example.scanmate.extensions.click
 import com.example.scanmate.extensions.gone
 import com.example.scanmate.util.LocalPreferences
+import com.example.scanmate.util.Utils
 import com.example.wms_scan.R
 import com.example.wms_scan.data.response.GetPalletResponse
 import com.example.wms_scan.databinding.PalletListViewBinding
@@ -34,7 +36,15 @@ class ScanPalletAdapter (
         with(holder){
             binding.palletTV.text = data.pilotName
             binding.palletCont.click {
-                (context as ShowAllHierarchy).palletAction(data.pilotNo.toString())
+                if(Utils.isNetworkConnected(context))
+                {
+                    (context as ShowAllHierarchy).palletAction(data.pilotNo.toString())
+                }
+                else
+                {
+                    Toast.makeText(context, "No internet", Toast.LENGTH_SHORT).show()
+                }
+
             }
         }
     }

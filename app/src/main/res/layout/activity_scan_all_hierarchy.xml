@@ -93,68 +93,6 @@
             android:paddingStart="@dimen/_10sdp"
             android:paddingEnd="@dimen/_10sdp">
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_gravity="end"
-                android:layout_marginEnd="@dimen/_20sdp"
-                android:padding="@dimen/_2sdp"
-                android:src="@drawable/qr_code_black"
-                android:tint="@color/white">
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentStart="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginStart="@dimen/_10sdp"
-                    android:layout_marginTop="@dimen/_30sdp"
-                    android:fontFamily="@font/amiko"
-                    android:text="@string/details"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/_22ssp"
-                    android:textStyle="bold" />
-
-                <androidx.appcompat.widget.LinearLayoutCompat
-                    android:id="@+id/scanIV"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentTop="true"
-                    android:layout_alignParentEnd="true"
-                    android:layout_gravity="end"
-                    android:orientation="vertical"
-                    android:padding="@dimen/_2sdp"
-                    android:src="@drawable/qr_code_black"
-                    android:tint="@color/white">
-
-                    <androidx.appcompat.widget.AppCompatImageView
-                        android:layout_width="@dimen/_25sdp"
-                        android:layout_height="@dimen/_25sdp"
-                        android:layout_centerVertical="true"
-                        android:layout_gravity="center"
-                        android:scaleType="centerCrop"
-                        android:src="@drawable/qr_code_black"
-                        android:tint="@color/black" />
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_marginTop="@dimen/_5sdp"
-                        android:background="@color/red"
-                        android:fontFamily="@font/amiko"
-                        android:padding="@dimen/_5sdp"
-                        android:text="Scan"
-                        android:textAllCaps="true"
-                        android:textColor="@color/white"
-                        android:textSize="@dimen/_6sdp"
-                        android:textStyle="bold" />
-
-                </androidx.appcompat.widget.LinearLayoutCompat>
-
-            </RelativeLayout>
-
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/hierarchyCont"
                 android:layout_width="match_parent"
@@ -393,8 +331,8 @@
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/itemTV"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     android:fontFamily="@font/amiko"
                     android:text=""
                     android:textSize="@dimen/_18ssp"
@@ -413,7 +351,7 @@
                     android:visibility="gone" />
 
                 <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/itemCode"
+                    android:id="@+id/cartonNo"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/_30sdp"
@@ -423,6 +361,7 @@
                     android:textSize="@dimen/_18ssp"
                     android:textStyle="bold"
                     android:visibility="gone" />
+
 
             </RelativeLayout>
 
@@ -434,6 +373,45 @@
                 android:layout_marginTop="@dimen/_20sdp"
                 android:layout_marginEnd="@dimen/_10sdp"
                 android:layout_marginBottom="@dimen/_60sdp" />
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/scanIV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center"
+                android:layout_marginBottom="@dimen/_10sdp"
+                android:orientation="vertical"
+                android:padding="@dimen/_2sdp"
+                android:visibility="gone"
+                android:src="@drawable/qr_code_black"
+                android:tint="@color/white">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="@dimen/_25sdp"
+                    android:layout_height="@dimen/_25sdp"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/qr_code_black"
+                    android:tint="@color/black" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:background="@color/red"
+                    android:fontFamily="@font/amiko"
+                    android:padding="@dimen/_5sdp"
+                    android:text="Scan"
+                    android:textAllCaps="true"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/_6sdp"
+                    android:textStyle="bold" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 

@@ -7,6 +7,8 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.example.scanmate.data.response.GetWarehouseResponse
+import com.example.scanmate.extensions.click
+import com.example.scanmate.util.Utils
 import com.example.wms_scan.R
 import com.example.wms_scan.databinding.ScanWarehouseListViewBinding
 import com.example.wms_scan.ui.ShowAllHierarchy
@@ -29,7 +31,17 @@ class ScanWarehouseAdapter (
         val data = list[position]
         with(holder){
             binding.wrhTV.text = data.wHName
-            (context as ShowAllHierarchy).warehouseAction(data.wHNo.toString())
+            binding.wrhCont.click {
+                if(Utils.isNetworkConnected(context))
+                {
+                    (context as ShowAllHierarchy).warehouseAction(data.wHNo.toString())
+                }
+                else
+                {
+                    Toast.makeText(context, "No internet", Toast.LENGTH_SHORT).show()
+                }
+            }
+
         }
     }
 

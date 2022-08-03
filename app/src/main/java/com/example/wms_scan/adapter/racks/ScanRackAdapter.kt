@@ -4,9 +4,11 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.example.scanmate.data.response.GetRackResponse
 import com.example.scanmate.extensions.click
+import com.example.scanmate.util.Utils
 import com.example.wms_scan.R
 import com.example.wms_scan.databinding.RacksListViewBinding
 import com.example.wms_scan.databinding.ScanRacksListViewBinding
@@ -33,7 +35,14 @@ class ScanRackAdapter (
             binding.rackTV.text = data.rackName
 
             binding.rackCont.click {
-                (context as ShowAllHierarchy).rackAction(data.rackNo.toString())
+                if(Utils.isNetworkConnected(context))
+                {
+                    (context as ShowAllHierarchy).rackAction(data.rackNo.toString())
+                }
+               else
+                {
+                    Toast.makeText(context, "No internet", Toast.LENGTH_SHORT).show()
+                }
             }
         }
     }
