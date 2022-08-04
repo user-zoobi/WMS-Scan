@@ -8,6 +8,7 @@ import android.widget.Filter
 import android.widget.Filterable
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
+import com.example.scanmate.data.response.GetShelfResponse
 import com.example.scanmate.data.response.GetWarehouseResponse
 import com.example.scanmate.extensions.click
 import com.example.scanmate.util.Utils
@@ -22,7 +23,7 @@ class ScanWarehouseAdapter (
     private val list:ArrayList<GetWarehouseResponse>
 ) : RecyclerView.Adapter<ScanWarehouseAdapter.ViewHolder>(), Filterable {
 
-    var countryFilterList = ArrayList<GetWarehouseResponse>()
+    var filterList = ArrayList<GetWarehouseResponse>()
 
     inner class ViewHolder(view: View): RecyclerView.ViewHolder(view){
         val binding = ScanWarehouseListViewBinding.bind(view)
@@ -56,17 +57,18 @@ class ScanWarehouseAdapter (
     override fun getFilter(): Filter {
 
         return object : Filter() {
+
             override fun performFiltering(constraint: CharSequence?): FilterResults {
 
                 val charSearch = constraint.toString()
-                countryFilterList = if (charSearch.isEmpty())
+                filterList = if (charSearch.isEmpty())
                 {
                     list
                 }
                 else
                 {
                     val resultList = ArrayList<GetWarehouseResponse>()
-                    for (row in list)
+                    for (row in filterList)
                     {
                         if (row.wHName?.toLowerCase()?.contains(constraint.toString().toLowerCase())!!)
                         {
@@ -76,12 +78,13 @@ class ScanWarehouseAdapter (
                     resultList
                 }
                 val filterResults = FilterResults()
-                filterResults.values = countryFilterList
+                filterResults.values = filterList
                 return filterResults
             }
 
-            override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
-                countryFilterList = results?.values as ArrayList<GetWarehouseResponse>
+            override fun publishResults(constraint: CharSequence?, results: FilterResults?)
+            {
+                filterList = results?.values as ArrayList<GetWarehouseResponse>
                 notifyDataSetChanged()
             }
         }

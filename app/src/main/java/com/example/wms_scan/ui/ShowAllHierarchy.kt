@@ -86,7 +86,7 @@ class ShowAllHierarchy : AppCompatActivity() {
         )
 
         binding.backBtn.click {
-            onBackPressed()
+            finish()
         }
 
         binding.searchViewCont.queryHint = "Search item"
@@ -319,17 +319,21 @@ class ShowAllHierarchy : AppCompatActivity() {
 
                         override fun onQueryTextSubmit(query: String?): Boolean
                         {
-                            warehouseAdapter.filter.filter(query)
+
                             return false
                         }
 
                         override fun onQueryTextChange(newText: String?): Boolean
                         {
-
+                            warehouseAdapter = ScanWarehouseAdapter(this@ShowAllHierarchy,
+                                it.data as ArrayList<GetWarehouseResponse>
+                            )
+                            warehouseAdapter.filter.filter(newText)
                             return false
                         }
 
                     })
+
                 }
                 Status.ERROR ->{
 
@@ -360,6 +364,24 @@ class ShowAllHierarchy : AppCompatActivity() {
                     }
                     binding.itemTV.text = it.data[0].wHName
                     Log.i("warehouseCode", it.data[0].wHName.toString())
+
+                    binding.searchViewCont.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+
+                        override fun onQueryTextSubmit(query: String?): Boolean
+                        {
+                            return false
+                        }
+
+                        override fun onQueryTextChange(newText: String?): Boolean
+                        {
+                            racksAdapter = ScanRackAdapter(this@ShowAllHierarchy,
+                                it.data as ArrayList<GetRackResponse>
+                            )
+                            racksAdapter.filter.filter(newText)
+                            return false
+                        }
+
+                    })
                 }
                 Status.ERROR ->
                 {
@@ -391,6 +413,25 @@ class ShowAllHierarchy : AppCompatActivity() {
                     }
                     binding.itemTV.text = it.data[0].rackName
                     Log.i("shelfData", it.data[0].shelfName.toString())
+
+                    binding.searchViewCont.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+
+                        override fun onQueryTextSubmit(query: String?): Boolean
+                        {
+
+                            return false
+                        }
+
+                        override fun onQueryTextChange(newText: String?): Boolean
+                        {
+                            shelfAdapter = ScanShelfAdapter(this@ShowAllHierarchy,
+                                it.data as ArrayList<GetShelfResponse>
+                            )
+                            shelfAdapter.filter.filter(newText)
+                            return false
+                        }
+
+                    })
                 }
                 Status.ERROR ->
                 {
@@ -424,6 +465,25 @@ class ShowAllHierarchy : AppCompatActivity() {
                         }
                     }
                     binding.itemTV.text = it.data[0].shelfName
+
+                    binding.searchViewCont.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+
+                        override fun onQueryTextSubmit(query: String?): Boolean
+                        {
+
+                            return false
+                        }
+
+                        override fun onQueryTextChange(newText: String?): Boolean
+                        {
+                            palletAdapter = ScanPalletAdapter(this@ShowAllHierarchy,
+                                it.data as ArrayList<GetPalletResponse>
+                            )
+                            palletAdapter.filter.filter(newText)
+                            return false
+                        }
+
+                    })
                 }
 
                 Status.ERROR ->
@@ -460,6 +520,25 @@ class ShowAllHierarchy : AppCompatActivity() {
                     binding.itemTV.text = it.data[0].pilotName
 
                     Log.i("getCartonData", it.data[0].toString())
+
+                    binding.searchViewCont.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+
+                        override fun onQueryTextSubmit(query: String?): Boolean
+                        {
+
+                            return false
+                        }
+
+                        override fun onQueryTextChange(newText: String?): Boolean
+                        {
+                            cartonAdapter = ScanCartonAdapter(this@ShowAllHierarchy,
+                                it.data as ArrayList<GetCartonResponse>
+                            )
+                            cartonAdapter.filter.filter(newText)
+                            return false
+                        }
+
+                    })
                 }
 
                 Status.ERROR ->

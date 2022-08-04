@@ -4,6 +4,8 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Filter
+import android.widget.Filterable
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.example.scanmate.extensions.click
@@ -11,6 +13,7 @@ import com.example.scanmate.extensions.gone
 import com.example.scanmate.util.LocalPreferences
 import com.example.scanmate.util.Utils
 import com.example.wms_scan.R
+import com.example.wms_scan.data.response.GetCartonResponse
 import com.example.wms_scan.data.response.GetPalletResponse
 import com.example.wms_scan.databinding.PalletListViewBinding
 import com.example.wms_scan.databinding.ScanPalletListViewBinding
@@ -20,7 +23,9 @@ import com.example.wms_scan.ui.ShowAllHierarchy
 class ScanPalletAdapter (
     private val context: Context,
     private val list:List<GetPalletResponse>
-) : RecyclerView.Adapter<ScanPalletAdapter.ViewHolder>() {
+) : RecyclerView.Adapter<ScanPalletAdapter.ViewHolder>(), Filterable {
+
+    private var filterList = list
 
     inner class ViewHolder(view: View): RecyclerView.ViewHolder(view){
         val binding = ScanPalletListViewBinding.bind(view)
@@ -50,5 +55,42 @@ class ScanPalletAdapter (
     }
 
     override fun getItemCount(): Int = list.size
+
+
+    override fun getFilter(): Filter {
+
+        return object : Filter() {
+
+            override fun performFiltering(constraint: CharSequence?): FilterResults {
+
+                val charSearch = constraint.toString()
+                filterList = if (charSearch.isEmpty())
+                {
+                    list
+                }
+                else
+                {
+                    val resultList = ArrayList<GetPalletResponse>()
+                    for (row in filterList)
+                    {
+                        if (row.pilotName?.toLowerCase()?.contains(constraint.toString().toLowerCase())!!)
+                        {
+                            resultList.add(row)
+                        }
+                    }
+                    resultList
+                }
+                val filterResults = FilterResults()
+                filterResults.values = filterList
+                return filterResults
+            }
+
+            override fun publishResults(constraint: CharSequence?, results: FilterResults?)
+            {
+                filterList = results?.values as ArrayList<GetPalletResponse>
+                notifyDataSetChanged()
+            }
+        }
+    }
 
 }

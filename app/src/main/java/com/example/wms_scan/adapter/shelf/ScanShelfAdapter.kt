@@ -4,8 +4,11 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Filter
+import android.widget.Filterable
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
+import com.example.scanmate.data.response.GetRackResponse
 import com.example.scanmate.data.response.GetShelfResponse
 import com.example.scanmate.extensions.click
 import com.example.scanmate.util.Utils
@@ -19,7 +22,9 @@ class ScanShelfAdapter (
     private val context: Context,
     private val list:ArrayList<GetShelfResponse>
 )
-    : RecyclerView.Adapter<ScanShelfAdapter.ViewHolder>() {
+    : RecyclerView.Adapter<ScanShelfAdapter.ViewHolder>(), Filterable {
+
+    private var filterList = list
 
     inner class ViewHolder(view: View): RecyclerView.ViewHolder(view){
         val binding = ScanShelfListViewBinding.bind(view)
@@ -52,4 +57,39 @@ class ScanShelfAdapter (
     }
 
     override fun getItemCount(): Int = list.size
+
+    override fun getFilter(): Filter {
+        return object : Filter() {
+
+            override fun performFiltering(constraint: CharSequence?): FilterResults {
+
+                val charSearch = constraint.toString()
+                filterList = if (charSearch.isEmpty())
+                {
+                    list
+                }
+                else
+                {
+                    val resultList = ArrayList<GetShelfResponse>()
+                    for (row in filterList)
+                    {
+                        if (row.rackName?.toLowerCase()?.contains(constraint.toString().toLowerCase())!!)
+                        {
+                            resultList.add(row)
+                        }
+                    }
+                    resultList
+                }
+                val filterResults = FilterResults()
+                filterResults.values = filterList
+                return filterResults
+            }
+
+            override fun publishResults(constraint: CharSequence?, results: FilterResults?)
+            {
+                filterList = results?.values as ArrayList<GetShelfResponse>
+                notifyDataSetChanged()
+            }
+        }
+    }
 }

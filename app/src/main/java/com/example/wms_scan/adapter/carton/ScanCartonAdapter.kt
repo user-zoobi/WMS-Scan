@@ -21,7 +21,7 @@ class ScanCartonAdapter (
     private val list:List<GetCartonResponse>
 ) : RecyclerView.Adapter<ScanCartonAdapter.ViewHolder>() , Filterable {
 
-    var countryFilterList = ArrayList<GetCartonResponse>()
+    private var filterList = list
 
     inner class ViewHolder(view: View): RecyclerView.ViewHolder(view){
         val binding = ScanCartonListViewBinding.bind(view)
@@ -64,28 +64,30 @@ class ScanCartonAdapter (
             override fun performFiltering(constraint: CharSequence?): FilterResults {
 
                 val charSearch = constraint.toString()
-                countryFilterList = if (charSearch.isEmpty())
+                filterList = if (charSearch.isEmpty())
                 {
-                    list as ArrayList<GetCartonResponse>
+                    list
                 }
                 else
                 {
                     val resultList = ArrayList<GetCartonResponse>()
-                    for (row in list) {
-                        if (row.analyticalNo?.toLowerCase()?.contains(constraint.toString().toLowerCase())!!) {
+                    for (row in filterList)
+                    {
+                        if (row.analyticalNo?.toLowerCase()?.contains(constraint.toString().toLowerCase())!!)
+                        {
                             resultList.add(row)
                         }
                     }
                     resultList
                 }
                 val filterResults = FilterResults()
-                filterResults.values = countryFilterList
+                filterResults.values = filterList
                 return filterResults
             }
 
             override fun publishResults(constraint: CharSequence?, results: FilterResults?)
             {
-                countryFilterList = results?.values as ArrayList<GetCartonResponse>
+                filterList = results?.values as ArrayList<GetCartonResponse>
                 notifyDataSetChanged()
             }
         }
