@@ -3,7 +3,12 @@ package com.example.wms_scan.ui
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
+import androidx.appcompat.widget.SearchView
+import androidx.core.view.isNotEmpty
+import androidx.core.widget.addTextChangedListener
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.scanmate.data.callback.Status
 import com.example.scanmate.data.response.GetRackResponse
@@ -26,8 +31,8 @@ import com.example.wms_scan.data.response.GetCartonQnWiseResponse
 import com.example.wms_scan.data.response.GetCartonResponse
 import com.example.wms_scan.data.response.GetPalletResponse
 import com.example.wms_scan.databinding.ActivityScanAllHierarchyBinding
-import java.util.ArrayList
-import kotlin.system.exitProcess
+import java.util.*
+import kotlin.collections.ArrayList
 
 class ShowAllHierarchy : AppCompatActivity() {
     private lateinit var viewModel: MainViewModel
@@ -50,9 +55,17 @@ class ShowAllHierarchy : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityScanAllHierarchyBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        setupUi()
-        initObserver()
-        initListener()
+
+        if (isNetworkConnected(this))
+        {
+            setupUi()
+            initObserver()
+            initListener()
+        }
+        else
+        {
+            gotoActivity(NoNetworkActivity::class.java)
+        }
 
     }
 
@@ -76,6 +89,7 @@ class ShowAllHierarchy : AppCompatActivity() {
             onBackPressed()
         }
 
+        binding.searchViewCont.queryHint = "Search item"
     }
 
     private fun initObserver(){
@@ -275,7 +289,7 @@ class ShowAllHierarchy : AppCompatActivity() {
             }
         }
 
-        viewModel.getWarehouse.observe(this){
+        viewModel.getWarehouse.observe(this){ it ->
             when(it.status){
                 Status.LOADING ->{
 
@@ -300,6 +314,22 @@ class ShowAllHierarchy : AppCompatActivity() {
                     }
                     binding.itemTV.text = it.data[0].wHName
                     Log.i("warehouseCode", it.data[0].wHName.toString())
+
+                    binding.searchViewCont.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+
+                        override fun onQueryTextSubmit(query: String?): Boolean
+                        {
+                            warehouseAdapter.filter.filter(query)
+                            return false
+                        }
+
+                        override fun onQueryTextChange(newText: String?): Boolean
+                        {
+
+                            return false
+                        }
+
+                    })
                 }
                 Status.ERROR ->{
 
@@ -343,7 +373,8 @@ class ShowAllHierarchy : AppCompatActivity() {
             when(it.status){
                 Status.LOADING ->{}
 
-                Status.SUCCESS ->{
+                Status.SUCCESS ->
+                {
                     binding.hierarchyCont.visible()
                     shelfAdapter = ScanShelfAdapter(this,
                         it.data as ArrayList<GetShelfResponse>
@@ -603,140 +634,148 @@ class ShowAllHierarchy : AppCompatActivity() {
 
     override fun onBackPressed()
     {
-        subCurrentScreen += 1
-
-        if (subCurrentScreen > 3)
+        if (isNetworkConnected(this))
         {
-            finish()
+            subCurrentScreen += 1
+
+            if (subCurrentScreen > 3)
+            {
+                finish()
+            }
+            else
+            {
+                if (currentScreen == "P")
+                {
+                    when(subCurrentScreen)
+                    {
+                        1 ->
+                        {
+                            viewModel.getPallet(
+                                Utils.getSimpleTextBody(""),
+                                Utils.getSimpleTextBody(shelfNo),
+                                Utils.getSimpleTextBody(busLocNo)
+                            )
+                            binding.view7.gone()
+                            binding.view8.gone()
+                            binding.palletCont.gone()
+                        }
+
+                        2->
+                        {
+                            viewModel.getShelf(
+                                Utils.getSimpleTextBody(""),
+                                Utils.getSimpleTextBody(rackNo),
+                                Utils.getSimpleTextBody(busLocNo)
+                            )
+                            binding.view5.gone()
+                            binding.view6.gone()
+                            binding.shelfCont.gone()
+                            binding.view7.gone()
+                            binding.view8.gone()
+                            binding.palletCont.gone()
+
+                        }
+
+                        3 ->
+                        {
+                            viewModel.getRack(
+                                Utils.getSimpleTextBody(""),
+                                Utils.getSimpleTextBody(whNo),
+                                Utils.getSimpleTextBody(busLocNo),
+                            )
+                            binding.view3.gone()
+                            binding.view4.gone()
+                            binding.rackCont.gone()
+                            binding.view5.gone()
+                            binding.view6.gone()
+                            binding.shelfCont.gone()
+                            binding.view7.gone()
+                            binding.view8.gone()
+                            binding.palletCont.gone()
+                        }
+
+                    }
+                }
+
+                if (currentScreen == "S")
+                {
+                    when(subCurrentScreen)
+                    {
+                        1 ->
+                        {
+                            viewModel.getShelf(
+                                Utils.getSimpleTextBody(""),
+                                Utils.getSimpleTextBody(rackNo),
+                                Utils.getSimpleTextBody(busLocNo)
+                            )
+                            binding.view5.gone()
+                            binding.view6.gone()
+                            binding.shelfCont.gone()
+                            binding.view7.gone()
+                            binding.view8.gone()
+                            binding.palletCont.gone()
+                        }
+
+                        2->
+                        {
+                            viewModel.getRack(
+                                Utils.getSimpleTextBody(""),
+                                Utils.getSimpleTextBody(whNo),
+                                Utils.getSimpleTextBody(busLocNo),
+                            )
+                            binding.view3.gone()
+                            binding.view4.gone()
+                            binding.rackCont.gone()
+                            binding.view5.gone()
+                            binding.view6.gone()
+                            binding.shelfCont.gone()
+                            binding.view7.gone()
+                            binding.view8.gone()
+                            binding.palletCont.gone()
+                        }
+
+                        3->
+                        {
+                            finish()
+                        }
+                    }
+                }
+
+                if (currentScreen == "R")
+                {
+                    when(subCurrentScreen)
+                    {
+                        1 ->
+                        {
+                            viewModel.getRack(
+                                Utils.getSimpleTextBody(""),
+                                Utils.getSimpleTextBody(whNo),
+                                Utils.getSimpleTextBody(busLocNo)
+                            )
+
+                            binding.view3.gone()
+                            binding.view4.gone()
+                            binding.rackCont.gone()
+                            binding.view5.gone()
+                            binding.view6.gone()
+                            binding.shelfCont.gone()
+                            binding.view7.gone()
+                            binding.view8.gone()
+                            binding.palletCont.gone()
+                        }
+
+                        2->
+                        {
+                            finish()
+                        }
+                    }
+                }
+            }
         }
         else
         {
-            if (currentScreen == "P")
-            {
-                when(subCurrentScreen)
-                {
-                    1 ->
-                    {
-                        viewModel.getPallet(
-                            Utils.getSimpleTextBody(""),
-                            Utils.getSimpleTextBody(shelfNo),
-                            Utils.getSimpleTextBody(busLocNo)
-                        )
-                        binding.view7.gone()
-                        binding.view8.gone()
-                        binding.palletCont.gone()
-                    }
-
-                    2->
-                    {
-                        viewModel.getShelf(
-                            Utils.getSimpleTextBody(""),
-                            Utils.getSimpleTextBody(rackNo),
-                            Utils.getSimpleTextBody(busLocNo)
-                        )
-                        binding.view5.gone()
-                        binding.view6.gone()
-                        binding.shelfCont.gone()
-                        binding.view7.gone()
-                        binding.view8.gone()
-                        binding.palletCont.gone()
-
-                    }
-
-                    3 ->
-                    {
-                        viewModel.getRack(
-                            Utils.getSimpleTextBody(""),
-                            Utils.getSimpleTextBody(whNo),
-                            Utils.getSimpleTextBody(busLocNo),
-                        )
-                        binding.view3.gone()
-                        binding.view4.gone()
-                        binding.rackCont.gone()
-                        binding.view5.gone()
-                        binding.view6.gone()
-                        binding.shelfCont.gone()
-                        binding.view7.gone()
-                        binding.view8.gone()
-                        binding.palletCont.gone()
-                    }
-
-                }
-            }
-
-            if (currentScreen == "S")
-            {
-                when(subCurrentScreen)
-                {
-                    1 ->
-                    {
-                        viewModel.getShelf(
-                            Utils.getSimpleTextBody(""),
-                            Utils.getSimpleTextBody(rackNo),
-                            Utils.getSimpleTextBody(busLocNo)
-                        )
-                        binding.view5.gone()
-                        binding.view6.gone()
-                        binding.shelfCont.gone()
-                        binding.view7.gone()
-                        binding.view8.gone()
-                        binding.palletCont.gone()
-                    }
-
-                    2->
-                    {
-                        viewModel.getRack(
-                            Utils.getSimpleTextBody(""),
-                            Utils.getSimpleTextBody(whNo),
-                            Utils.getSimpleTextBody(busLocNo),
-                        )
-                        binding.view3.gone()
-                        binding.view4.gone()
-                        binding.rackCont.gone()
-                        binding.view5.gone()
-                        binding.view6.gone()
-                        binding.shelfCont.gone()
-                        binding.view7.gone()
-                        binding.view8.gone()
-                        binding.palletCont.gone()
-                    }
-
-                    3->
-                    {
-                        finish()
-                    }
-                }
-            }
-
-            if (currentScreen == "R")
-            {
-                when(subCurrentScreen)
-                {
-                    1 ->
-                    {
-                        viewModel.getRack(
-                            Utils.getSimpleTextBody(""),
-                            Utils.getSimpleTextBody(whNo),
-                            Utils.getSimpleTextBody(busLocNo)
-                        )
-
-                        binding.view3.gone()
-                        binding.view4.gone()
-                        binding.rackCont.gone()
-                        binding.view5.gone()
-                        binding.view6.gone()
-                        binding.shelfCont.gone()
-                        binding.view7.gone()
-                        binding.view8.gone()
-                        binding.palletCont.gone()
-                    }
-
-                    2->
-                    {
-                        finish()
-                    }
-                }
-            }
+            toast("No Internet")
         }
+
     }
 }

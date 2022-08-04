@@ -327,7 +327,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_10sdp"
-                android:layout_marginTop="@dimen/_10sdp">
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginEnd="@dimen/_10sdp">
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/itemTV"
@@ -362,8 +363,17 @@
                     android:textStyle="bold"
                     android:visibility="gone" />
 
-
             </RelativeLayout>
+
+            <androidx.appcompat.widget.SearchView
+                android:id="@+id/searchViewCont"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:layout_marginBottom="@dimen/_10sdp"
+                android:background="@drawable/white_rounded_bg" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/showAllRV"
@@ -384,9 +394,9 @@
                 android:layout_marginBottom="@dimen/_10sdp"
                 android:orientation="vertical"
                 android:padding="@dimen/_2sdp"
-                android:visibility="gone"
                 android:src="@drawable/qr_code_black"
-                android:tint="@color/white">
+                android:tint="@color/white"
+                android:visibility="gone">
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:layout_width="@dimen/_25sdp"

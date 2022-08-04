@@ -4,6 +4,8 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Filter
+import android.widget.Filterable
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.example.scanmate.data.response.GetWarehouseResponse
@@ -12,11 +14,15 @@ import com.example.scanmate.util.Utils
 import com.example.wms_scan.R
 import com.example.wms_scan.databinding.ScanWarehouseListViewBinding
 import com.example.wms_scan.ui.ShowAllHierarchy
+import java.util.*
+import kotlin.collections.ArrayList
 
 class ScanWarehouseAdapter (
     private val context: Context,
     private val list:ArrayList<GetWarehouseResponse>
-) : RecyclerView.Adapter<ScanWarehouseAdapter.ViewHolder>() {
+) : RecyclerView.Adapter<ScanWarehouseAdapter.ViewHolder>(), Filterable {
+
+    var countryFilterList = ArrayList<GetWarehouseResponse>()
 
     inner class ViewHolder(view: View): RecyclerView.ViewHolder(view){
         val binding = ScanWarehouseListViewBinding.bind(view)
@@ -46,5 +52,39 @@ class ScanWarehouseAdapter (
     }
 
     override fun getItemCount(): Int = list.size
+
+    override fun getFilter(): Filter {
+
+        return object : Filter() {
+            override fun performFiltering(constraint: CharSequence?): FilterResults {
+
+                val charSearch = constraint.toString()
+                countryFilterList = if (charSearch.isEmpty())
+                {
+                    list
+                }
+                else
+                {
+                    val resultList = ArrayList<GetWarehouseResponse>()
+                    for (row in list)
+                    {
+                        if (row.wHName?.toLowerCase()?.contains(constraint.toString().toLowerCase())!!)
+                        {
+                            resultList.add(row)
+                        }
+                    }
+                    resultList
+                }
+                val filterResults = FilterResults()
+                filterResults.values = countryFilterList
+                return filterResults
+            }
+
+            override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
+                countryFilterList = results?.values as ArrayList<GetWarehouseResponse>
+                notifyDataSetChanged()
+            }
+        }
+    }
 
 }

@@ -4,8 +4,11 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Filter
+import android.widget.Filterable
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
+import com.example.scanmate.data.response.GetWarehouseResponse
 import com.example.scanmate.extensions.click
 import com.example.scanmate.util.Utils.isNetworkConnected
 import com.example.wms_scan.R
@@ -16,13 +19,16 @@ import com.example.wms_scan.ui.ShowAllHierarchy
 class ScanCartonAdapter (
     private val context: Context,
     private val list:List<GetCartonResponse>
-) : RecyclerView.Adapter<ScanCartonAdapter.ViewHolder>() {
+) : RecyclerView.Adapter<ScanCartonAdapter.ViewHolder>() , Filterable {
+
+    var countryFilterList = ArrayList<GetCartonResponse>()
 
     inner class ViewHolder(view: View): RecyclerView.ViewHolder(view){
         val binding = ScanCartonListViewBinding.bind(view)
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder
+    {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.scan_carton_list_view, parent, false)
         return ViewHolder(view)
     }
@@ -51,4 +57,37 @@ class ScanCartonAdapter (
     override fun getItemCount(): Int = list.size
 
 
+    override fun getFilter(): Filter {
+
+        return object : Filter() {
+
+            override fun performFiltering(constraint: CharSequence?): FilterResults {
+
+                val charSearch = constraint.toString()
+                countryFilterList = if (charSearch.isEmpty())
+                {
+                    list as ArrayList<GetCartonResponse>
+                }
+                else
+                {
+                    val resultList = ArrayList<GetCartonResponse>()
+                    for (row in list) {
+                        if (row.analyticalNo?.toLowerCase()?.contains(constraint.toString().toLowerCase())!!) {
+                            resultList.add(row)
+                        }
+                    }
+                    resultList
+                }
+                val filterResults = FilterResults()
+                filterResults.values = countryFilterList
+                return filterResults
+            }
+
+            override fun publishResults(constraint: CharSequence?, results: FilterResults?)
+            {
+                countryFilterList = results?.values as ArrayList<GetCartonResponse>
+                notifyDataSetChanged()
+            }
+        }
+    }
 }

@@ -156,17 +156,6 @@ class ScanCartonActivity : AppCompatActivity() {
     @SuppressLint("MissingPermission")
     private fun initListeners()
     {
-        binding.hierarchyTree.click {
-            binding.surfaceCont.gone()
-            binding.viewRV.visible()
-            binding.palletDetailCont.visible()
-        }
-
-        binding.treeView.click {
-            binding.qrScanCont.gone()
-            binding.viewRV.visible()
-            binding.palletDetailCont.isEnabled = false
-        }
 
         binding.scanCont.click {
             binding.qrScanCont.gone()
@@ -184,14 +173,6 @@ class ScanCartonActivity : AppCompatActivity() {
             binding.hierarchyTree.isEnabled = true
             binding.palletDetailCont.isEnabled = false
             codeScanner.stopPreview()
-        }
-
-        binding.palletCont.click {
-            binding.surfaceCont.gone()
-            binding.qrScanCont.gone()
-            binding.viewRV.visible()
-            binding.palletDetailCont.visible()
-            binding.palletDetailCont.isEnabled = false
         }
 
         binding.backBtn.click {
