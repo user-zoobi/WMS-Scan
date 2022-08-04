@@ -49,4 +49,6 @@ class ScanCartonAdapter (
     }
 
     override fun getItemCount(): Int = list.size
+
+
 }

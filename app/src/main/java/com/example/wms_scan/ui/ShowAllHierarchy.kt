@@ -4,7 +4,6 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.scanmate.data.callback.Status
 import com.example.scanmate.data.response.GetRackResponse
@@ -12,28 +11,23 @@ import com.example.scanmate.data.response.GetShelfResponse
 import com.example.scanmate.data.response.GetWarehouseResponse
 import com.example.scanmate.extensions.*
 import com.example.scanmate.util.Constants.Toast.noRecordFound
-import com.example.scanmate.util.CustomProgressDialog
 import com.example.scanmate.util.LocalPreferences
-import com.example.scanmate.util.LocalPreferences.AppLoginPreferences.userNo
 import com.example.scanmate.util.Utils
 import com.example.scanmate.util.Utils.isNetworkConnected
 import com.example.scanmate.viewModel.MainViewModel
 import com.example.wms_scan.R
 import com.example.wms_scan.adapter.carton.CartonDetailAdapter
 import com.example.wms_scan.adapter.carton.ScanCartonAdapter
-import com.example.wms_scan.adapter.pallets.PalletsAdapter
 import com.example.wms_scan.adapter.pallets.ScanPalletAdapter
-import com.example.wms_scan.adapter.racks.RackAdapter
 import com.example.wms_scan.adapter.racks.ScanRackAdapter
 import com.example.wms_scan.adapter.shelf.ScanShelfAdapter
-import com.example.wms_scan.adapter.shelf.ShelfAdapter
 import com.example.wms_scan.adapter.warehouse.ScanWarehouseAdapter
-import com.example.wms_scan.adapter.warehouse.WarehouseAdapter
 import com.example.wms_scan.data.response.GetCartonQnWiseResponse
 import com.example.wms_scan.data.response.GetCartonResponse
 import com.example.wms_scan.data.response.GetPalletResponse
 import com.example.wms_scan.databinding.ActivityScanAllHierarchyBinding
 import java.util.ArrayList
+import kotlin.system.exitProcess
 
 class ShowAllHierarchy : AppCompatActivity() {
     private lateinit var viewModel: MainViewModel
@@ -45,6 +39,7 @@ class ShowAllHierarchy : AppCompatActivity() {
     private lateinit var cartonAdapter: ScanCartonAdapter
     private lateinit var cartonQnWiseAdapter: CartonDetailAdapter
     private var currentScreen = ""
+    private var subCurrentScreen = 0
     private var whNo = ""
     private var rackNo = ""
     private var shelfNo = ""
@@ -85,7 +80,7 @@ class ShowAllHierarchy : AppCompatActivity() {
 
     private fun initObserver(){
 
-        viewModel.scanAll.observe(this, Observer {
+        viewModel.scanAll.observe(this){
             when(it.status){
 
                 Status.LOADING -> { }
@@ -113,16 +108,16 @@ class ShowAllHierarchy : AppCompatActivity() {
 
                             Log.i("allHierarchy",it.data?.get(0)?.rackCode.toString())
 
-                            var warehouse = intent.extras?.getString("w").toString()
-                            var rack = intent.extras?.getString("r").toString()
-                            var shelve = intent.extras?.getString("s").toString()
-                            var palette = intent.extras?.getString("p").toString()
+                            val warehouse = intent.extras?.getString("w").toString()
+                            val rack = intent.extras?.getString("r").toString()
+                            val shelve = intent.extras?.getString("s").toString()
+                            val palette = intent.extras?.getString("p").toString()
 
-                            Log.i("scannerCameraActivity2",rack.toString())
-                            Log.i("scannerCameraActivity2",warehouse.toString())
-                            Log.i("scannerCameraActivity2",shelve.toString())
-                            Log.i("scannerCameraActivity2",palette.toString())
-                            Log.i("scannerCameraActivity2",busLocNo.toString())
+                            Log.i("scannerCameraActivity2",rack)
+                            Log.i("scannerCameraActivity2",warehouse)
+                            Log.i("scannerCameraActivity2",shelve)
+                            Log.i("scannerCameraActivity2",palette)
+                            Log.i("scannerCameraActivity2",busLocNo)
 
                             when
                             {
@@ -276,8 +271,9 @@ class ShowAllHierarchy : AppCompatActivity() {
                     Log.i("scanAllHierarchy","${Exception().message}")
 
                 }
+                else -> {}
             }
-        })
+        }
 
         viewModel.getWarehouse.observe(this){
             when(it.status){
@@ -308,10 +304,11 @@ class ShowAllHierarchy : AppCompatActivity() {
                 Status.ERROR ->{
 
                 }
+                else -> {}
             }
         }
 
-        viewModel.getRack.observe(this, Observer {
+        viewModel.getRack.observe(this){
             when(it.status){
                 Status.LOADING ->{}
 
@@ -338,10 +335,11 @@ class ShowAllHierarchy : AppCompatActivity() {
                 {
 
                 }
+                else -> {}
             }
-        })
+        }
 
-        viewModel.getShelf.observe(this, Observer {
+        viewModel.getShelf.observe(this){
             when(it.status){
                 Status.LOADING ->{}
 
@@ -366,10 +364,11 @@ class ShowAllHierarchy : AppCompatActivity() {
                 Status.ERROR ->
                 {
                 }
+                else -> {}
             }
-        })
+        }
 
-        viewModel.getPallet.observe(this, Observer {
+        viewModel.getPallet.observe(this){
             when(it.status){
                 Status.LOADING ->
                 {
@@ -402,10 +401,11 @@ class ShowAllHierarchy : AppCompatActivity() {
                     binding.treeView.gone()
                     binding.hierarchyCont.gone()
                 }
+                else -> {}
             }
-        })
+        }
 
-        viewModel.getCarton.observe(this, Observer {
+        viewModel.getCarton.observe(this){
             when(it.status){
                 Status.LOADING ->{
 
@@ -436,10 +436,11 @@ class ShowAllHierarchy : AppCompatActivity() {
                     binding.hierarchyTree.gone()
                     binding.treeView.gone()
                 }
+                else -> {}
             }
-        })
+        }
 
-        viewModel.getCartonQnWise.observe(this, Observer{
+        viewModel.getCartonQnWise.observe(this){
 
             when(it.status){
                 Status.LOADING ->{
@@ -452,26 +453,29 @@ class ShowAllHierarchy : AppCompatActivity() {
                     binding.showAllRV.apply {
                         layoutManager = LinearLayoutManager(this@ShowAllHierarchy)
                         adapter = cartonQnWiseAdapter
-                        Log.i("analyticalNo",it.data.get(0).analyticalNo.toString())
+                        Log.i("analyticalNo", it.data[0].analyticalNo.toString())
                         binding.slash.visible()
 
-                        if (it.data.get(0).cartonNo.toString() == "0")
+                        if (it.data[0].cartonNo.toString() == "0")
                         {
                             adapter = null
                         }
                     }
 
-                    binding.itemTV.text = it.data.get(0).analyticalNo.toString()
+                    binding.itemTV.text = it.data[0].analyticalNo.toString()
                 }
                 Status.ERROR ->
                 {
                     binding.showAllRV.adapter = null
                 }
+                else -> {}
             }
-        })
+        }
+
     }
 
-    private fun initListener(){
+    private fun initListener()
+    {
         binding.scanIV.click {
             if (isNetworkConnected(this))
             {
@@ -562,95 +566,176 @@ class ShowAllHierarchy : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
 
-        var warehouse = intent.extras?.getString("w").toString()
-        var rack = intent.extras?.getString("r").toString()
-        var shelve = intent.extras?.getString("s").toString()
-        var palette = intent.extras?.getString("p").toString()
-        var scannedData = intent.extras?.getString("scannedData").toString()
+        val warehouse = intent.extras?.getString("w").toString()
+        val rack = intent.extras?.getString("r").toString()
+        val shelve = intent.extras?.getString("s").toString()
+        val palette = intent.extras?.getString("p").toString()
+        val scannedData = intent.extras?.getString("scannedData").toString()
         val locationNo = scannedData.substringBefore("L")
 
         if(palette.contains("PL") )
         {
-            viewModel.scanAll("$palette", "$locationNo")
+            viewModel.scanAll(palette, locationNo)
             currentScreen = "P"
         }
         if (shelve.contains("SF"))
         {
-            viewModel.scanAll("$shelve", "$locationNo")
+            viewModel.scanAll(shelve, locationNo)
             currentScreen = "S"
         }
         if (rack.contains("RK"))
         {
-            viewModel.scanAll("$rack", "$locationNo")
+            viewModel.scanAll(rack, locationNo)
             currentScreen = "R"
         }
         if (warehouse.contains("WH"))
         {
-            viewModel.scanAll("$warehouse", "$locationNo")
+            viewModel.scanAll(warehouse, locationNo)
             currentScreen = "W"
         }
 
-        Log.i("scannerCameraActivity1",rack.toString())
-        Log.i("scannerCameraActivity1",warehouse.toString())
-        Log.i("scannerCameraActivity1",shelve.toString())
-        Log.i("scannerCameraActivity1",palette.toString())
-        Log.i("scannerCameraActivity1",locationNo.toString())
+        Log.i("scannerCameraActivity1",rack)
+        Log.i("scannerCameraActivity1",warehouse)
+        Log.i("scannerCameraActivity1",shelve)
+        Log.i("scannerCameraActivity1",palette)
+        Log.i("scannerCameraActivity1",locationNo)
     }
 
     override fun onBackPressed()
     {
-        toast(currentScreen)
+        subCurrentScreen += 1
 
-        when(currentScreen)
+        if (subCurrentScreen > 3)
         {
-            "P"->
+            finish()
+        }
+        else
+        {
+            if (currentScreen == "P")
             {
-                viewModel.getPallet(
-                    Utils.getSimpleTextBody(""),
-                    Utils.getSimpleTextBody(shelfNo),
-                    Utils.getSimpleTextBody(busLocNo),
-                )
-                binding.view7.gone()
-                binding.view8.gone()
-                binding.palletCont.gone()
+                when(subCurrentScreen)
+                {
+                    1 ->
+                    {
+                        viewModel.getPallet(
+                            Utils.getSimpleTextBody(""),
+                            Utils.getSimpleTextBody(shelfNo),
+                            Utils.getSimpleTextBody(busLocNo)
+                        )
+                        binding.view7.gone()
+                        binding.view8.gone()
+                        binding.palletCont.gone()
+                    }
 
+                    2->
+                    {
+                        viewModel.getShelf(
+                            Utils.getSimpleTextBody(""),
+                            Utils.getSimpleTextBody(rackNo),
+                            Utils.getSimpleTextBody(busLocNo)
+                        )
+                        binding.view5.gone()
+                        binding.view6.gone()
+                        binding.shelfCont.gone()
+                        binding.view7.gone()
+                        binding.view8.gone()
+                        binding.palletCont.gone()
+
+                    }
+
+                    3 ->
+                    {
+                        viewModel.getRack(
+                            Utils.getSimpleTextBody(""),
+                            Utils.getSimpleTextBody(whNo),
+                            Utils.getSimpleTextBody(busLocNo),
+                        )
+                        binding.view3.gone()
+                        binding.view4.gone()
+                        binding.rackCont.gone()
+                        binding.view5.gone()
+                        binding.view6.gone()
+                        binding.shelfCont.gone()
+                        binding.view7.gone()
+                        binding.view8.gone()
+                        binding.palletCont.gone()
+                    }
+
+                }
             }
-            "S"->
-            {
-                viewModel.getShelf(
-                    Utils.getSimpleTextBody(""),
-                    Utils.getSimpleTextBody(rackNo),
-                    Utils.getSimpleTextBody(busLocNo),
-                )
 
-                binding.view5.gone()
-                binding.view6.gone()
-                binding.shelfCont.gone()
-                binding.view7.gone()
-                binding.view8.gone()
-                binding.palletCont.gone()
+            if (currentScreen == "S")
+            {
+                when(subCurrentScreen)
+                {
+                    1 ->
+                    {
+                        viewModel.getShelf(
+                            Utils.getSimpleTextBody(""),
+                            Utils.getSimpleTextBody(rackNo),
+                            Utils.getSimpleTextBody(busLocNo)
+                        )
+                        binding.view5.gone()
+                        binding.view6.gone()
+                        binding.shelfCont.gone()
+                        binding.view7.gone()
+                        binding.view8.gone()
+                        binding.palletCont.gone()
+                    }
+
+                    2->
+                    {
+                        viewModel.getRack(
+                            Utils.getSimpleTextBody(""),
+                            Utils.getSimpleTextBody(whNo),
+                            Utils.getSimpleTextBody(busLocNo),
+                        )
+                        binding.view3.gone()
+                        binding.view4.gone()
+                        binding.rackCont.gone()
+                        binding.view5.gone()
+                        binding.view6.gone()
+                        binding.shelfCont.gone()
+                        binding.view7.gone()
+                        binding.view8.gone()
+                        binding.palletCont.gone()
+                    }
+
+                    3->
+                    {
+                        finish()
+                    }
+                }
             }
-            "R"->
-            {
-                viewModel.getRack(
-                    Utils.getSimpleTextBody(""),
-                    Utils.getSimpleTextBody(whNo),
-                    Utils.getSimpleTextBody(busLocNo),
-                )
-                binding.view3.gone()
-                binding.view4.gone()
-                binding.rackCont.gone()
-                binding.view5.gone()
-                binding.view6.gone()
-                binding.shelfCont.gone()
-                binding.view7.gone()
-                binding.view8.gone()
-                binding.palletCont.gone()
 
-            }
-            "W"->
+            if (currentScreen == "R")
             {
+                when(subCurrentScreen)
+                {
+                    1 ->
+                    {
+                        viewModel.getRack(
+                            Utils.getSimpleTextBody(""),
+                            Utils.getSimpleTextBody(whNo),
+                            Utils.getSimpleTextBody(busLocNo)
+                        )
 
+                        binding.view3.gone()
+                        binding.view4.gone()
+                        binding.rackCont.gone()
+                        binding.view5.gone()
+                        binding.view6.gone()
+                        binding.shelfCont.gone()
+                        binding.view7.gone()
+                        binding.view8.gone()
+                        binding.palletCont.gone()
+                    }
+
+                    2->
+                    {
+                        finish()
+                    }
+                }
             }
         }
     }
