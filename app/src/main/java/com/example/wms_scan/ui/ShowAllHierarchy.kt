@@ -369,16 +369,14 @@ class ShowAllHierarchy : AppCompatActivity() {
 
                         override fun onQueryTextSubmit(query: String?): Boolean
                         {
-                            return false
+                            return true
                         }
 
                         override fun onQueryTextChange(newText: String?): Boolean
                         {
-                            racksAdapter = ScanRackAdapter(this@ShowAllHierarchy,
-                                it.data as ArrayList<GetRackResponse>
-                            )
+                            //racksAdapter = ScanRackAdapter(this@ShowAllHierarchy, it.data)
                             racksAdapter.filter.filter(newText)
-                            return false
+                            return true
                         }
 
                     })

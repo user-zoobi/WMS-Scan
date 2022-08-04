@@ -59,6 +59,7 @@ class ScanShelfAdapter (
     override fun getItemCount(): Int = list.size
 
     override fun getFilter(): Filter {
+
         return object : Filter() {
 
             override fun performFiltering(constraint: CharSequence?): FilterResults {
