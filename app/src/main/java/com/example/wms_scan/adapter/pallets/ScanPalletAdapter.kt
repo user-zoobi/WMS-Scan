@@ -37,25 +37,30 @@ class ScanPalletAdapter (
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val data= list[position]
-        with(holder){
-            binding.palletTV.text = data.pilotName
-            binding.palletCont.click {
-                if(Utils.isNetworkConnected(context))
-                {
-                    (context as ShowAllHierarchy).palletAction(data.pilotNo.toString())
-                }
-                else
-                {
-                    Toast.makeText(context, "No internet", Toast.LENGTH_SHORT).show()
-                }
 
+        if (filterList.isNotEmpty())
+        {
+            with(holder){
+                val data= filterList[position]
+
+                binding.palletTV.text = data.pilotName
+                binding.palletCont.click {
+                    if(Utils.isNetworkConnected(context))
+                    {
+                        (context as ShowAllHierarchy).palletAction(data.pilotNo.toString())
+                    }
+                    else
+                    {
+                        Toast.makeText(context, "No internet", Toast.LENGTH_SHORT).show()
+                    }
+
+                }
             }
         }
+
     }
 
-    override fun getItemCount(): Int = list.size
-
+    override fun getItemCount(): Int = filterList.size
 
     override fun getFilter(): Filter {
 
@@ -73,7 +78,7 @@ class ScanPalletAdapter (
                     val resultList = ArrayList<GetPalletResponse>()
                     for (row in filterList)
                     {
-                        if (row.pilotName?.toLowerCase()?.contains(constraint.toString().toLowerCase())!!)
+                        if (row.pilotName?.lowercase()?.contains(constraint.toString().lowercase())!!)
                         {
                             resultList.add(row)
                         }

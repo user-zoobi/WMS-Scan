@@ -36,27 +36,30 @@ class ScanShelfAdapter (
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val data = list[position]
-        with(holder){
+        if (filterList.isNotEmpty())
+        {
+            with(holder){
+                val data = filterList[position]
 
-            //  binding.shelfTV.text = data.shelfName
-            binding.shelfTV.text = data.shelfName
+                //  binding.shelfTV.text = data.shelfName
+                binding.shelfTV.text = data.shelfName
 
-            binding.shelfCont.click {
-                if(Utils.isNetworkConnected(context))
-                {
-                    (context as ShowAllHierarchy).shelfAction(data.shelfNo.toString())
+                binding.shelfCont.click {
+                    if(Utils.isNetworkConnected(context))
+                    {
+                        (context as ShowAllHierarchy).shelfAction(data.shelfNo.toString())
+                    }
+                    else
+                    {
+                        Toast.makeText(context, "No internet", Toast.LENGTH_SHORT).show()
+                    }
                 }
-                else
-                {
-                    Toast.makeText(context, "No internet", Toast.LENGTH_SHORT).show()
-                }
-
             }
         }
+
     }
 
-    override fun getItemCount(): Int = list.size
+    override fun getItemCount(): Int = filterList.size
 
     override fun getFilter(): Filter {
 
@@ -74,7 +77,7 @@ class ScanShelfAdapter (
                     val resultList = ArrayList<GetShelfResponse>()
                     for (row in filterList)
                     {
-                        if (row.rackName?.toLowerCase()?.contains(constraint.toString().toLowerCase())!!)
+                        if (row.shelfName?.lowercase()?.contains(constraint.toString().lowercase())!!)
                         {
                             resultList.add(row)
                         }

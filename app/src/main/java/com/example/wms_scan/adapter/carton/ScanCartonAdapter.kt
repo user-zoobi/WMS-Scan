@@ -34,27 +34,33 @@ class ScanCartonAdapter (
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val data= list[position]
-        with(holder)
-        {
-            binding.analyticalNoTV.text = data.analyticalNo
-            binding.materialCodeTV.text = data.itemCode
-            binding.cartonNo.text = data.cartonNo.toString()
-            binding.cartonCont.click {
 
-                if(isNetworkConnected(context))
-                {
-                    (context as ShowAllHierarchy).analyticalNoAction(data.analyticalNo.toString())
-                }
-                else
-                {
-                    Toast.makeText(context, "No internet", Toast.LENGTH_SHORT).show()
+        if (filterList.isNotEmpty())
+        {
+            with(holder)
+            {
+                val data= filterList[position]
+
+                binding.analyticalNoTV.text = data.analyticalNo
+                binding.materialCodeTV.text = data.itemCode
+                binding.cartonNo.text = data.cartonNo.toString()
+                binding.cartonCont.click {
+
+                    if(isNetworkConnected(context))
+                    {
+                        (context as ShowAllHierarchy).analyticalNoAction(data.analyticalNo.toString())
+                    }
+                    else
+                    {
+                        Toast.makeText(context, "No internet", Toast.LENGTH_SHORT).show()
+                    }
                 }
             }
         }
+
     }
 
-    override fun getItemCount(): Int = list.size
+    override fun getItemCount(): Int = filterList.size
 
 
     override fun getFilter(): Filter {
@@ -73,7 +79,7 @@ class ScanCartonAdapter (
                     val resultList = ArrayList<GetCartonResponse>()
                     for (row in filterList)
                     {
-                        if (row.analyticalNo?.toLowerCase()?.contains(constraint.toString().toLowerCase())!!)
+                        if (row.analyticalNo?.lowercase()?.contains(constraint.toString().lowercase())!!)
                         {
                             resultList.add(row)
                         }

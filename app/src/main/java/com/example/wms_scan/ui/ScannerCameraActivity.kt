@@ -17,6 +17,7 @@ import com.example.boschscan.extensions.putExtra
 import com.example.scanmate.data.callback.Status
 import com.example.scanmate.extensions.*
 import com.example.scanmate.util.CustomProgressDialog
+import com.example.scanmate.util.Utils.isNetworkConnected
 import com.example.scanmate.viewModel.MainViewModel
 import com.example.wms_scan.R
 import com.example.wms_scan.databinding.ActivityScannerCameraBinding
@@ -58,14 +59,21 @@ class ScannerCameraActivity : AppCompatActivity() {
                     dialog.show()
                 }
                 Status.SUCCESS ->{
-                    try
+                    if (isNetworkConnected(this))
                     {
-                        dialog.dismiss()
-                        Log.i("scanAllResponse","${it.data?.get(0)?.pilotCode}")
+                        try
+                        {
+                            dialog.dismiss()
+                            Log.i("scanAllResponse","${it.data?.get(0)?.pilotCode}")
+                        }
+                        catch (e:Exception)
+                        {
+                            Log.i("scanAll","${e.message}")
+                        }
                     }
-                    catch (e:Exception)
+                    else
                     {
-                        Log.i("scanAll","${e.message}")
+                       toast("No internet")
                     }
                 }
                 Status.ERROR ->{
@@ -89,13 +97,21 @@ class ScannerCameraActivity : AppCompatActivity() {
         codeScanner.decodeCallback = DecodeCallback {
 
             runOnUiThread {
-                Toast.makeText(this, "Scan result: ${it.text}", Toast.LENGTH_LONG).show()
+//                Toast.makeText(this, "Scan result: ${it.text}", Toast.LENGTH_LONG).show()
                 scannedData = it.text
 
                 if ((scannedData.contains("PL")) or (scannedData.contains("SF")) or
                     (scannedData.contains("RK")) or (scannedData.contains("WH")))
                 {
-                    scannedProcess()
+                    if (isNetworkConnected(this))
+                    {
+                        scannedProcess()
+                    }
+                    else
+                    {
+                        toast("No internet")
+                    }
+
                     Log.i("scannedQR",scannedData)
                 }
                 else

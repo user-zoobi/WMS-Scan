@@ -44,7 +44,7 @@ class ShowAllHierarchy : AppCompatActivity() {
     private lateinit var cartonAdapter: ScanCartonAdapter
     private lateinit var cartonQnWiseAdapter: CartonDetailAdapter
     private var currentScreen = ""
-    private var subCurrentScreen = 0
+    private var subCurrentScreen = ""
     private var whNo = ""
     private var rackNo = ""
     private var shelfNo = ""
@@ -56,14 +56,12 @@ class ShowAllHierarchy : AppCompatActivity() {
         binding = ActivityScanAllHierarchyBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        if (isNetworkConnected(this))
-        {
+        if (isNetworkConnected(this)) {
             setupUi()
             initObserver()
             initListener()
         }
-        else
-        {
+        else {
             gotoActivity(NoNetworkActivity::class.java)
         }
 
@@ -99,10 +97,12 @@ class ShowAllHierarchy : AppCompatActivity() {
 
                 Status.LOADING -> { }
 
-                Status.SUCCESS ->
-                {
+                Status.SUCCESS -> {
+
                     binding.hierarchyCont.visible()
+
                     it.let {
+
                         try
                         {
                             val whName = it.data?.get(0)?.wHName.toString()
@@ -127,11 +127,11 @@ class ShowAllHierarchy : AppCompatActivity() {
                             val shelve = intent.extras?.getString("s").toString()
                             val palette = intent.extras?.getString("p").toString()
 
-                            Log.i("scannerCameraActivity2",rack)
-                            Log.i("scannerCameraActivity2",warehouse)
-                            Log.i("scannerCameraActivity2",shelve)
-                            Log.i("scannerCameraActivity2",palette)
-                            Log.i("scannerCameraActivity2",busLocNo)
+//                            Log.i("scannerCameraActivity2",rack)
+//                            Log.i("scannerCameraActivity2",warehouse)
+//                            Log.i("scannerCameraActivity2",shelve)
+//                            Log.i("scannerCameraActivity2",palette)
+//                            Log.i("scannerCameraActivity2",busLocNo)
 
                             when
                             {
@@ -199,6 +199,7 @@ class ShowAllHierarchy : AppCompatActivity() {
                             binding.WHTV.click {
                                 if (isNetworkConnected(this))
                                 {
+                                    currentScreen = "W"
                                     viewModel.getRack(
                                         Utils.getSimpleTextBody(""),
                                         Utils.getSimpleTextBody(whNo),
@@ -217,12 +218,21 @@ class ShowAllHierarchy : AppCompatActivity() {
                                 else
                                 {
                                     binding.WHTV.isEnabled = false
+                                    binding.view3.visible()
+                                    binding.view4.visible()
+                                    binding.rackCont.visible()
+                                    binding.view5.visible()
+                                    binding.view6.visible()
+                                    binding.shelfCont.visible()
+                                    binding.view7.visible()
+                                    binding.view8.visible()
+                                    binding.palletCont.visible()
                                 }
                             }
 
                             binding.rackTV.click {
-                                if (isNetworkConnected(this))
-                                {
+                                if (isNetworkConnected(this)) {
+                                    currentScreen = "R"
                                     viewModel.getShelf(
                                         Utils.getSimpleTextBody(""),
                                         Utils.getSimpleTextBody(rackNo),
@@ -238,12 +248,19 @@ class ShowAllHierarchy : AppCompatActivity() {
                                 else
                                 {
                                     binding.rackTV.isEnabled = false
+                                    binding.view5.visible()
+                                    binding.view6.visible()
+                                    binding.shelfCont.visible()
+                                    binding.view7.visible()
+                                    binding.view8.visible()
+                                    binding.palletCont.visible()
                                 }
                             }
 
                             binding.shelfTV.click {
                                 if (isNetworkConnected(this))
                                 {
+                                    currentScreen = "S"
                                     viewModel.getPallet(
                                         Utils.getSimpleTextBody(""),
                                         Utils.getSimpleTextBody(shelfNo),
@@ -256,58 +273,59 @@ class ShowAllHierarchy : AppCompatActivity() {
                                 else
                                 {
                                     binding.shelfTV.isEnabled = false
+                                    binding.view7.visible()
+                                    binding.view8.visible()
+                                    binding.palletCont.visible()
                                 }
                             }
 
                             binding.palletTV.click {
-                                if (isNetworkConnected(this))
-                                {
+                                if (isNetworkConnected(this)) {
+                                    currentScreen = "P"
+                                    subCurrentScreen = "M"
                                     viewModel.getCarton(
                                         Utils.getSimpleTextBody(palletNo),
                                         Utils.getSimpleTextBody(busLocNo),
                                     )
+                                    binding.palletCont.visible()
                                 }
-                                else
-                                {
+                                else {
                                     binding.palletTV.isEnabled = false
                                 }
                             }
                         }
-                        catch (e:Exception)
-                        {
+                        catch (e:Exception) {
                             Log.i("scanAllHierarchy","${e.message}")
                         }
                     }
                 }
 
-                Status.ERROR ->
-                {
-                    Log.i("scanAllHierarchy","${Exception().message}")
+                Status.ERROR -> {
 
+                    Log.i("scanAllHierarchy","${Exception().message}")
                 }
                 else -> {}
             }
         }
 
-        viewModel.getWarehouse.observe(this){ it ->
-            when(it.status){
-                Status.LOADING ->{
+        viewModel.getWarehouse.observe(this){
 
-                }
-                Status.SUCCESS ->
-                {
+            when(it.status){
+
+                Status.LOADING ->{}
+
+                Status.SUCCESS -> {
+
                     binding.hierarchyCont.visible()
                     warehouseAdapter = ScanWarehouseAdapter(this,
                         it.data as ArrayList<GetWarehouseResponse>
                     )
-                    binding.showAllRV.apply{
+
+                    binding.showAllRV.apply {
                         layoutManager = LinearLayoutManager(this@ShowAllHierarchy)
                         adapter = warehouseAdapter
 
-
-
-                        if (it.data[0].wHNo.toString() == "0")
-                        {
+                        if (it.data[0].wHNo.toString() == "0") {
                             adapter = null
                             toast(noRecordFound)
                         }
@@ -317,27 +335,18 @@ class ShowAllHierarchy : AppCompatActivity() {
 
                     binding.searchViewCont.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
 
-                        override fun onQueryTextSubmit(query: String?): Boolean
-                        {
-
-                            return false
+                        override fun onQueryTextSubmit(query: String?): Boolean {
+                            return true
                         }
 
-                        override fun onQueryTextChange(newText: String?): Boolean
-                        {
-                            warehouseAdapter = ScanWarehouseAdapter(this@ShowAllHierarchy,
-                                it.data as ArrayList<GetWarehouseResponse>
-                            )
+                        override fun onQueryTextChange(newText: String?): Boolean {
                             warehouseAdapter.filter.filter(newText)
-                            return false
+                            return true
                         }
-
                     })
-
                 }
-                Status.ERROR ->{
+                Status.ERROR ->{}
 
-                }
                 else -> {}
             }
         }
@@ -346,65 +355,61 @@ class ShowAllHierarchy : AppCompatActivity() {
             when(it.status){
                 Status.LOADING ->{}
 
-                Status.SUCCESS ->
-                {
+                Status.SUCCESS -> {
+
                     binding.hierarchyCont.visible()
-                    racksAdapter = ScanRackAdapter(this,
-                        it.data as ArrayList<GetRackResponse>
-                    )
+                    racksAdapter = ScanRackAdapter(this, it.data as ArrayList<GetRackResponse>)
+
                     binding.showAllRV.apply {
                         layoutManager = LinearLayoutManager(this@ShowAllHierarchy)
                         adapter = racksAdapter
 
-                        if (it.data[0].rackNo.toString() == "0")
-                        {
+                        if (it.data[0].rackNo.toString() == "0") {
                             adapter = null
                             toast(noRecordFound)
-                        }
-                    }
+                        } }
+
                     binding.itemTV.text = it.data[0].wHName
                     Log.i("warehouseCode", it.data[0].wHName.toString())
-
                     binding.searchViewCont.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
 
-                        override fun onQueryTextSubmit(query: String?): Boolean
-                        {
+                        override fun onQueryTextSubmit(query: String?): Boolean {
                             return true
                         }
 
-                        override fun onQueryTextChange(newText: String?): Boolean
-                        {
-                            //racksAdapter = ScanRackAdapter(this@ShowAllHierarchy, it.data)
+                        override fun onQueryTextChange(newText: String?): Boolean {
                             racksAdapter.filter.filter(newText)
                             return true
                         }
-
                     })
                 }
-                Status.ERROR ->
-                {
+                Status.ERROR -> {}
 
-                }
                 else -> {}
             }
         }
 
         viewModel.getShelf.observe(this){
             when(it.status){
-                Status.LOADING ->{}
 
-                Status.SUCCESS ->
-                {
+                Status.LOADING -> { }
+
+                Status.SUCCESS -> {
+
                     binding.hierarchyCont.visible()
                     shelfAdapter = ScanShelfAdapter(this,
                         it.data as ArrayList<GetShelfResponse>
                     )
+                    if (binding.shelfTV.text.isNullOrEmpty()){
+
+                        binding.shelfTV.text = it.data[0].shelfName
+                    }
+
                     binding.showAllRV.apply {
                         layoutManager = LinearLayoutManager(this@ShowAllHierarchy)
                         adapter = shelfAdapter
 
-                        if (it.data[0].shelfNo.toString() == "0")
-                        {
+                        if (it.data[0].shelfNo.toString() == "0") {
                             adapter = null
                             toast(noRecordFound)
                         }
@@ -414,50 +419,42 @@ class ShowAllHierarchy : AppCompatActivity() {
 
                     binding.searchViewCont.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
 
-                        override fun onQueryTextSubmit(query: String?): Boolean
-                        {
-
-                            return false
+                        override fun onQueryTextSubmit(query: String?): Boolean {
+                            return true
                         }
 
-                        override fun onQueryTextChange(newText: String?): Boolean
-                        {
-                            shelfAdapter = ScanShelfAdapter(this@ShowAllHierarchy,
-                                it.data as ArrayList<GetShelfResponse>
-                            )
+                        override fun onQueryTextChange(newText: String?): Boolean {
                             shelfAdapter.filter.filter(newText)
-                            return false
+                            return true
                         }
-
                     })
                 }
-                Status.ERROR ->
-                {
-                }
+                Status.ERROR -> {}
+
                 else -> {}
             }
         }
 
         viewModel.getPallet.observe(this){
-            when(it.status){
-                Status.LOADING ->
-                {
+            when(it.status) {
+                Status.LOADING -> {}
 
-                }
+                Status.SUCCESS -> {
 
-                Status.SUCCESS ->
-                {
                     binding.hierarchyCont.visible()
                     palletAdapter = ScanPalletAdapter(this,
                         it.data as ArrayList<GetPalletResponse>
                     )
+                    if (binding.palletTV.text.isNullOrEmpty()){
+
+                        binding.palletTV.text = it.data[0].pilotName
+                    }
                     binding.showAllRV.apply {
 
                         layoutManager = LinearLayoutManager(this@ShowAllHierarchy)
                         adapter = palletAdapter
 
-                        if (it.data[0].pilotNo.toString() == "0")
-                        {
+                        if (it.data[0].pilotNo.toString() == "0") {
                             adapter = null
                             toast(noRecordFound)
                         }
@@ -468,24 +465,19 @@ class ShowAllHierarchy : AppCompatActivity() {
 
                         override fun onQueryTextSubmit(query: String?): Boolean
                         {
-
-                            return false
+                            return true
                         }
 
                         override fun onQueryTextChange(newText: String?): Boolean
                         {
-                            palletAdapter = ScanPalletAdapter(this@ShowAllHierarchy,
-                                it.data as ArrayList<GetPalletResponse>
-                            )
                             palletAdapter.filter.filter(newText)
-                            return false
+                            return true
                         }
 
                     })
                 }
 
-                Status.ERROR ->
-                {
+                Status.ERROR -> {
                     binding.hierarchyTree.gone()
                     binding.treeView.gone()
                     binding.hierarchyCont.gone()
@@ -496,9 +488,8 @@ class ShowAllHierarchy : AppCompatActivity() {
 
         viewModel.getCarton.observe(this){
             when(it.status){
-                Status.LOADING ->{
+                Status.LOADING ->{}
 
-                }
                 Status.SUCCESS ->{
                     binding.hierarchyCont.visible()
                     cartonAdapter = ScanCartonAdapter(this,
@@ -524,14 +515,11 @@ class ShowAllHierarchy : AppCompatActivity() {
                         override fun onQueryTextSubmit(query: String?): Boolean
                         {
 
-                            return false
+                            return true
                         }
 
                         override fun onQueryTextChange(newText: String?): Boolean
                         {
-                            cartonAdapter = ScanCartonAdapter(this@ShowAllHierarchy,
-                                it.data as ArrayList<GetCartonResponse>
-                            )
                             cartonAdapter.filter.filter(newText)
                             return false
                         }
@@ -539,8 +527,7 @@ class ShowAllHierarchy : AppCompatActivity() {
                     })
                 }
 
-                Status.ERROR ->
-                {
+                Status.ERROR -> {
                     binding.hierarchyTree.gone()
                     binding.treeView.gone()
                 }
@@ -551,9 +538,8 @@ class ShowAllHierarchy : AppCompatActivity() {
         viewModel.getCartonQnWise.observe(this){
 
             when(it.status){
-                Status.LOADING ->{
+                Status.LOADING ->{}
 
-                }
                 Status.SUCCESS ->{
                     cartonQnWiseAdapter = CartonDetailAdapter(this,
                         it.data as ArrayList<GetCartonQnWiseResponse>
@@ -564,22 +550,19 @@ class ShowAllHierarchy : AppCompatActivity() {
                         Log.i("analyticalNo", it.data[0].analyticalNo.toString())
                         binding.slash.visible()
 
-                        if (it.data[0].cartonNo.toString() == "0")
-                        {
+                        if (it.data[0].cartonNo.toString() == "0") {
                             adapter = null
                         }
                     }
 
                     binding.itemTV.text = it.data[0].analyticalNo.toString()
                 }
-                Status.ERROR ->
-                {
+                Status.ERROR -> {
                     binding.showAllRV.adapter = null
                 }
                 else -> {}
             }
         }
-
     }
 
     private fun initListener()
@@ -599,6 +582,7 @@ class ShowAllHierarchy : AppCompatActivity() {
     }
 
     fun warehouseAction(whNo:String){
+        currentScreen = "W"
         if (isNetworkConnected(this))
         {
             viewModel.getRack(
@@ -610,6 +594,7 @@ class ShowAllHierarchy : AppCompatActivity() {
     }
 
     fun rackAction(rackNo:String){
+        currentScreen = "R"
         if (isNetworkConnected(this))
         {
 
@@ -621,10 +606,12 @@ class ShowAllHierarchy : AppCompatActivity() {
             binding.view3.visible()
             binding.view4.visible()
             binding.rackCont.visible()
+
         }
     }
 
     fun shelfAction(shelfNo:String){
+        currentScreen = "S"
         if (isNetworkConnected(this))
         {
             viewModel.getPallet(
@@ -638,11 +625,12 @@ class ShowAllHierarchy : AppCompatActivity() {
             binding.view5.visible()
             binding.view6.visible()
             binding.shelfCont.visible()
-            binding.shelfTV.visible()
+
         }
     }
 
     fun palletAction(palletNo:String){
+        currentScreen = "P"
         if (isNetworkConnected(this))
         {
             viewModel.getCarton(
@@ -655,17 +643,19 @@ class ShowAllHierarchy : AppCompatActivity() {
             binding.view5.visible()
             binding.view6.visible()
             binding.shelfCont.visible()
-            binding.shelfTV.visible()
             binding.view7.visible()
             binding.view8.visible()
             binding.palletCont.visible()
-            binding.palletTV.visible()
+
+            subCurrentScreen = "M"
         }
+
     }
 
     fun analyticalNoAction(analyticalNo:String){
         if (isNetworkConnected(this))
         {
+            subCurrentScreen = "M"
             Log.i("analyticalNo",analyticalNo)
             viewModel.getCartonQnWise(analyticalNo)
         }
@@ -681,178 +671,100 @@ class ShowAllHierarchy : AppCompatActivity() {
         val scannedData = intent.extras?.getString("scannedData").toString()
         val locationNo = scannedData.substringBefore("L")
 
-        if(palette.contains("PL") )
-        {
+        if(palette.contains("PL")) {
             viewModel.scanAll(palette, locationNo)
             currentScreen = "P"
         }
-        if (shelve.contains("SF"))
-        {
+        if (shelve.contains("SF")) {
             viewModel.scanAll(shelve, locationNo)
             currentScreen = "S"
         }
-        if (rack.contains("RK"))
-        {
+        if (rack.contains("RK")) {
             viewModel.scanAll(rack, locationNo)
             currentScreen = "R"
         }
-        if (warehouse.contains("WH"))
-        {
+        if (warehouse.contains("WH")) {
             viewModel.scanAll(warehouse, locationNo)
             currentScreen = "W"
         }
-
-        Log.i("scannerCameraActivity1",rack)
-        Log.i("scannerCameraActivity1",warehouse)
-        Log.i("scannerCameraActivity1",shelve)
-        Log.i("scannerCameraActivity1",palette)
-        Log.i("scannerCameraActivity1",locationNo)
     }
 
-    override fun onBackPressed()
-    {
+    override fun onBackPressed() {
+
+        toast(currentScreen)
         if (isNetworkConnected(this))
         {
-            subCurrentScreen += 1
+           when(currentScreen)
+           {
+               "P" ->
+               {
+                  viewModel.getPallet(
+                      Utils.getSimpleTextBody(""),
+                      Utils.getSimpleTextBody(shelfNo),
+                      Utils.getSimpleTextBody(busLocNo),
+                  )
+                   binding.view7.gone()
+                   binding.view8.gone()
+                   binding.palletCont.gone()
+                   currentScreen = "S"
+//
+//                   when(subCurrentScreen)
+//                   {
+//                       "M" ->
+//                       {
+//                           viewModel.getCarton(
+//                               Utils.getSimpleTextBody(palletNo),
+//                               Utils.getSimpleTextBody(busLocNo),
+//                           )
+//                           binding.view7.visible()
+//                           binding.view8.visible()
+//                           binding.palletCont.visible()
+//
+//                       }
+//                   }
 
-            if (subCurrentScreen > 3)
-            {
-                finish()
-            }
-            else
-            {
-                if (currentScreen == "P")
-                {
-                    when(subCurrentScreen)
-                    {
-                        1 ->
-                        {
-                            viewModel.getPallet(
-                                Utils.getSimpleTextBody(""),
-                                Utils.getSimpleTextBody(shelfNo),
-                                Utils.getSimpleTextBody(busLocNo)
-                            )
-                            binding.view7.gone()
-                            binding.view8.gone()
-                            binding.palletCont.gone()
-                        }
+               }
+               "S" ->
+               {
+                    viewModel.getShelf(
+                        Utils.getSimpleTextBody(""),
+                        Utils.getSimpleTextBody(rackNo),
+                        Utils.getSimpleTextBody(busLocNo),
+                    )
+                   binding.view5.gone()
+                   binding.view6.gone()
+                   binding.shelfCont.gone()
+                   binding.view7.gone()
+                   binding.view8.gone()
+                   binding.palletCont.gone()
+                   currentScreen = "R"
 
-                        2->
-                        {
-                            viewModel.getShelf(
-                                Utils.getSimpleTextBody(""),
-                                Utils.getSimpleTextBody(rackNo),
-                                Utils.getSimpleTextBody(busLocNo)
-                            )
-                            binding.view5.gone()
-                            binding.view6.gone()
-                            binding.shelfCont.gone()
-                            binding.view7.gone()
-                            binding.view8.gone()
-                            binding.palletCont.gone()
+               }
+               "R" ->
+               {
+                   viewModel.getRack(
+                       Utils.getSimpleTextBody(""),
+                       Utils.getSimpleTextBody(whNo),
+                       Utils.getSimpleTextBody(busLocNo),
+                   )
+                   binding.view3.gone()
+                   binding.view4.gone()
+                   binding.rackCont.gone()
+                   binding.view5.gone()
+                   binding.view6.gone()
+                   binding.shelfCont.gone()
+                   binding.view7.gone()
+                   binding.view8.gone()
+                   binding.palletCont.gone()
+                   currentScreen = "W"
+               }
+               "W" ->
+               {
+                  finish()
+               }
+           }
 
-                        }
 
-                        3 ->
-                        {
-                            viewModel.getRack(
-                                Utils.getSimpleTextBody(""),
-                                Utils.getSimpleTextBody(whNo),
-                                Utils.getSimpleTextBody(busLocNo),
-                            )
-                            binding.view3.gone()
-                            binding.view4.gone()
-                            binding.rackCont.gone()
-                            binding.view5.gone()
-                            binding.view6.gone()
-                            binding.shelfCont.gone()
-                            binding.view7.gone()
-                            binding.view8.gone()
-                            binding.palletCont.gone()
-                        }
-
-                    }
-                }
-
-                if (currentScreen == "S")
-                {
-                    when(subCurrentScreen)
-                    {
-                        1 ->
-                        {
-                            viewModel.getShelf(
-                                Utils.getSimpleTextBody(""),
-                                Utils.getSimpleTextBody(rackNo),
-                                Utils.getSimpleTextBody(busLocNo)
-                            )
-                            binding.view5.gone()
-                            binding.view6.gone()
-                            binding.shelfCont.gone()
-                            binding.view7.gone()
-                            binding.view8.gone()
-                            binding.palletCont.gone()
-                        }
-
-                        2->
-                        {
-                            viewModel.getRack(
-                                Utils.getSimpleTextBody(""),
-                                Utils.getSimpleTextBody(whNo),
-                                Utils.getSimpleTextBody(busLocNo),
-                            )
-                            binding.view3.gone()
-                            binding.view4.gone()
-                            binding.rackCont.gone()
-                            binding.view5.gone()
-                            binding.view6.gone()
-                            binding.shelfCont.gone()
-                            binding.view7.gone()
-                            binding.view8.gone()
-                            binding.palletCont.gone()
-                        }
-
-                        3->
-                        {
-                            finish()
-                        }
-                    }
-                }
-
-                if (currentScreen == "R")
-                {
-                    when(subCurrentScreen)
-                    {
-                        1 ->
-                        {
-                            viewModel.getRack(
-                                Utils.getSimpleTextBody(""),
-                                Utils.getSimpleTextBody(whNo),
-                                Utils.getSimpleTextBody(busLocNo)
-                            )
-
-                            binding.view3.gone()
-                            binding.view4.gone()
-                            binding.rackCont.gone()
-                            binding.view5.gone()
-                            binding.view6.gone()
-                            binding.shelfCont.gone()
-                            binding.view7.gone()
-                            binding.view8.gone()
-                            binding.palletCont.gone()
-                        }
-
-                        2->
-                        {
-                            finish()
-                        }
-                    }
-                }
-            }
         }
-        else
-        {
-            toast("No Internet")
         }
-
     }
-}

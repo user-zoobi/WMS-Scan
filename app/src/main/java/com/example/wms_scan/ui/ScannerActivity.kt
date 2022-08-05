@@ -8,6 +8,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.example.scanmate.extensions.*
 import com.example.scanmate.util.LocalPreferences.AppLoginPreferences.scanCarton
+import com.example.scanmate.util.Utils.isNetworkConnected
 import com.example.wms_scan.R
 import com.example.wms_scan.databinding.ActivityScannerBinding
 
@@ -37,7 +38,15 @@ class ScannerActivity : AppCompatActivity() {
     private fun initListeners(){
 
         binding.scanBtn.click {
-            gotoActivity(ScannerCameraActivity::class.java)
+            if (isNetworkConnected(this))
+            {
+                gotoActivity(ScannerCameraActivity::class.java)
+            }
+            else
+            {
+                toast("No internet")
+            }
+
         }
 
         binding.loginBtn.click {

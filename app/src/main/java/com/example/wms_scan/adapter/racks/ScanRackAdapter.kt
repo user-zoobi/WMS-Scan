@@ -48,6 +48,7 @@ class ScanRackAdapter (
                 binding.rackTV.text = data.rackName
 
                 binding.rackCont.click {
+
                     if(Utils.isNetworkConnected(context))
                     {
                         (context as ShowAllHierarchy).rackAction(data.rackNo.toString())
@@ -57,7 +58,6 @@ class ScanRackAdapter (
                         Toast.makeText(context, "No internet", Toast.LENGTH_SHORT).show()
                     }
                 }
-
             }
         }
     }
@@ -97,7 +97,7 @@ class ScanRackAdapter (
             override fun publishResults(constraint: CharSequence?, results: FilterResults?)
             {
                 filterList = results?.values as ArrayList<GetRackResponse>
-                Log.i("Filter", "push ${filterList}")
+                Log.i("Filter", "push $filterList")
                 notifyDataSetChanged()
             }
         }
