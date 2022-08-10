@@ -44,7 +44,8 @@ class ShowAllHierarchy : AppCompatActivity() {
     private var shelfNo = ""
     private var palletNo = ""
     private var busLocNo = ""
-    private var analyticalNo = ""
+    private var cartonAnalyticalNo = ""
+    private var cartonAnalyticalKey:Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -78,11 +79,27 @@ class ShowAllHierarchy : AppCompatActivity() {
             LocalPreferences.AppLoginPreferences.loginTime
         )
 
+         cartonAnalyticalNo = intent.extras?.getString("c").toString()
+         cartonAnalyticalKey = intent.extras?.getBoolean("analyticalKey")!!
+
+        Log.i("cartonAnalyticalNo",cartonAnalyticalNo)
+        Log.i("cartonAnalyticalKey",cartonAnalyticalKey.toString())
+
         binding.backBtn.click {
             finish()
         }
 
         binding.searchViewCont.queryHint = "Search item"
+
+        when
+        {
+           intent.extras?.getBoolean("analyticalKey") == true ->
+            {
+                viewModel.getCartonQnWise(cartonAnalyticalNo)
+            }
+
+        }
+
     }
 
     private fun initObserver(){
@@ -128,8 +145,20 @@ class ShowAllHierarchy : AppCompatActivity() {
 //                            Log.i("scannerCameraActivity2",palette)
 //                            Log.i("scannerCameraActivity2",busLocNo)
 
+
                             when
                             {
+
+//                                analyticalKey == true ->{
+//                                    when
+//                                    {
+//                                        cartonAnalyticalNo.contains("PK") or cartonAnalyticalNo.contains("RM") or cartonAnalyticalNo.contains("MK")->
+//                                        {
+//                                            viewModel.getCartonDetails(cartonAnalyticalNo)
+//                                        }
+//                                    }
+//
+//                                }
 
                                 palette.contains("PL") ->{
                                     viewModel.getCarton(
@@ -474,7 +503,7 @@ class ShowAllHierarchy : AppCompatActivity() {
                             toast(noRecordFound)
                         }
                     }
-                    analyticalNo = it.data[0].analyticalNo.toString()
+
                     binding.itemTV.text = it.data[0].pilotName
 
                     Log.i("getCartonData", it.data[0].toString())
@@ -524,11 +553,44 @@ class ShowAllHierarchy : AppCompatActivity() {
                     }
 
                     binding.itemTV.text = it.data[0].analyticalNo.toString()
+
+                    binding.searchViewCont.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+
+                        override fun onQueryTextSubmit(query: String?): Boolean
+                        {
+
+                            return true
+                        }
+
+                        override fun onQueryTextChange(newText: String?): Boolean
+                        {
+                            cartonQnWiseAdapter.filter.filter(newText)
+                            return false
+                        }
+                    })
                 }
                 Status.ERROR -> {
                     binding.showAllRV.adapter = null
                 }
                 else -> {}
+            }
+        }
+
+        viewModel.getCartonDetails.observe(this){
+            when(it.status)
+            {
+                Status.LOADING ->
+                {
+
+                }
+                Status.SUCCESS ->
+                {
+
+                }
+                Status.ERROR ->
+                {
+
+                }
             }
         }
     }
@@ -625,9 +687,11 @@ class ShowAllHierarchy : AppCompatActivity() {
             {
                 currentScreen = "M"
                 Log.i("analyticalNo",actionNo)
-                viewModel.getCartonQnWise(actionNo)
+                when(cartonAnalyticalKey)
+                {
 
-                viewModel.getCartonDetails(analyticalNo)
+                }
+                viewModel.getCartonQnWise(actionNo)
             }
         }
 

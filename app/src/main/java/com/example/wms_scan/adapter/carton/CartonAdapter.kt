@@ -35,6 +35,6 @@ class CartonAdapter(
             binding.cartonTV.text = data.analyticalNo
         }
     }
-
+//
     override fun getItemCount(): Int = list.size
 }

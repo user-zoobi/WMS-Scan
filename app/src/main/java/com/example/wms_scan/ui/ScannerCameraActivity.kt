@@ -101,7 +101,10 @@ class ScannerCameraActivity : AppCompatActivity() {
                 scannedData = it.text
 
                 if ((scannedData.contains("PL")) or (scannedData.contains("SF")) or
-                    (scannedData.contains("RK")) or (scannedData.contains("WH")))
+                    (scannedData.contains("RK")) or (scannedData.contains("WH")) or
+                    (scannedData.contains("MK")) or (scannedData.contains("PK")) or
+                    (scannedData.contains("RM")))
+
                 {
                     if (isNetworkConnected(this))
                     {
@@ -157,19 +160,12 @@ class ScannerCameraActivity : AppCompatActivity() {
         var pallete = if (scannedData.contains("PL")) "${scannedData.substringAfter("SF-").substringBefore("PL")}PL"
         else ""
 
-        Log.i("INTENT", "scannedData: $scannedData")
-        Log.i("INTENT", "warehouse: $warehouse")
-        Log.i("INTENT", "rack: $rack")
-        Log.i("INTENT", "shelve: $shelve")
-        Log.i("INTENT", "pallete: $pallete")
+//        Log.i("INTENT", "scannedData: $scannedData")
+//        Log.i("INTENT", "warehouse: $warehouse")
+//        Log.i("INTENT", "rack: $rack")
+//        Log.i("INTENT", "shelve: $shelve")
+//        Log.i("INTENT", "pallete: $pallete")
 
-        if ((scannedData == warehouse) or (scannedData == rack) or (scannedData == shelve) or (scannedData == pallete))
-        {
-            toast("Please scan correct QR Code")
-            codeScanner.startPreview()
-        }
-        else
-        {
             if (scannedData.contains("PL"))
             {
                 val intent =  Intent(this@ScannerCameraActivity, ShowAllHierarchy::class.java)
@@ -204,6 +200,12 @@ class ScannerCameraActivity : AppCompatActivity() {
                 startActivity(intent)
                 Log.i("elect",warehouse)
             }
+        if (scannedData.contains("MK") or scannedData.contains("RM") or scannedData.contains("PK"))
+        {
+            val intent =  Intent(this@ScannerCameraActivity, ShowAllHierarchy::class.java)
+            intent.putExtra("c",scannedData)
+            intent.putExtra("analyticalKey",true)
+            startActivity(intent)
         }
     }
 }

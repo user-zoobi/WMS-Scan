@@ -8,10 +8,10 @@ import android.widget.Filter
 import android.widget.Filterable
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
-import com.example.scanmate.data.response.GetWarehouseResponse
 import com.example.scanmate.extensions.click
 import com.example.scanmate.util.Utils.isNetworkConnected
 import com.example.wms_scan.R
+import com.example.wms_scan.data.response.GetCartonDetailsResponse
 import com.example.wms_scan.data.response.GetCartonResponse
 import com.example.wms_scan.databinding.ScanCartonListViewBinding
 import com.example.wms_scan.ui.ShowAllHierarchy
@@ -42,8 +42,11 @@ class ScanCartonAdapter (
                 val data= filterList[position]
 
                 binding.analyticalNoTV.text = data.analyticalNo
-                binding.materialCodeTV.text = data.itemCode
+                binding.stockTV.text = data.matStock.toString()
                 binding.cartonNo.text = data.cartonNo.toString()
+                binding.materialCodeTV.text = data.materialName.toString()
+                binding.totCarton.text = data.totCarton.toString()
+
                 binding.cartonCont.click {
 
                     if(isNetworkConnected(context))
@@ -98,5 +101,5 @@ class ScanCartonAdapter (
             }
         }
     }
-    //
+    ///
 }

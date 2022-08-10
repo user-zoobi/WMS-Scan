@@ -18,7 +18,7 @@ class GetCartonDetailsResponse {
 
     @SerializedName("Mat_Stock")
     @Expose
-     val matStock: Double? = null
+     val matStock: Int? = null
 
     @SerializedName("IsExist")
     @Expose
@@ -30,11 +30,11 @@ class GetCartonDetailsResponse {
 
     @SerializedName("PilotCode")
     @Expose
-     val pilotCode: String? = null
+     val pilotCode: Any? = null
 
     @SerializedName("PilotName")
     @Expose
-     val pilotName: String? = null
+     val pilotName: Any? = null
 
     @SerializedName("CartonNo")
     @Expose
@@ -47,4 +47,12 @@ class GetCartonDetailsResponse {
     @SerializedName("Error")
     @Expose
      val error: String? = null
+
+    @SerializedName("Carton_SNo")
+    @Expose
+     val cartonSNo: Int? = null
+
+    @SerializedName("Tot_Carton")
+    @Expose
+     val totCarton: Int? = null
 }

@@ -6,42 +6,50 @@ class GetCartonResponse {
 
     @SerializedName("CartonNo")
     @Expose
-    val cartonNo: Int? = null
+     val cartonNo: Int? = null
 
     @SerializedName("CartonCode")
     @Expose
-    val cartonCode: String? = null
+     val cartonCode: String? = null
 
     @SerializedName("ItemCode")
     @Expose
-    val itemCode: String? = null
+     val itemCode: String? = null
+
+    @SerializedName("Material_name")
+    @Expose
+     val materialName: String? = null
+
+    @SerializedName("Mat_Stock")
+    @Expose
+     val matStock: Double? = null
 
     @SerializedName("PilotNo")
     @Expose
-    val pilotNo: Int? = null
+     val pilotNo: Int? = null
 
     @SerializedName("PilotName")
     @Expose
-    val pilotName: String? = null
+     val pilotName: String? = null
 
     @SerializedName("AnalyticalNo")
     @Expose
-    val analyticalNo: String? = null
+     val analyticalNo: String? = null
 
     @SerializedName("Carton_SNo")
     @Expose
-    val cartonSNo: Int? = null
+     val cartonSNo: Int? = null
 
     @SerializedName("TotCarton")
     @Expose
-    val totCarton: Int? = null
+     val totCarton: Int? = null
 
     @SerializedName("Status")
     @Expose
-    val status: Boolean? = null
+     val status: Boolean? = null
 
     @SerializedName("Error")
     @Expose
-    val error: String? = null
+     val error: String? = null
     
 }
