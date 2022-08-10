@@ -51,7 +51,7 @@ class ScanRackAdapter (
 
                     if(Utils.isNetworkConnected(context))
                     {
-                        (context as ShowAllHierarchy).rackAction(data.rackNo.toString())
+                        (context as ShowAllHierarchy).doAction("R",data.rackNo.toString(), data.rackName.toString())
                     }
                     else
                     {

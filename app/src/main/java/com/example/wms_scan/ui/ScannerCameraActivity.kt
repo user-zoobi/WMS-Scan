@@ -204,14 +204,6 @@ class ScannerCameraActivity : AppCompatActivity() {
                 startActivity(intent)
                 Log.i("elect",warehouse)
             }
-
-
-//            val intent =  Intent(this@ScannerCameraActivity, ShowAllHierarchy::class.java)
-//            intent.putExtra("w",warehouse)
-//            intent.putExtra("r",rack)
-//            intent.putExtra("s",shelve)
-//            intent.putExtra("p",pallete)
-//            startActivity(intent)
         }
     }
 }

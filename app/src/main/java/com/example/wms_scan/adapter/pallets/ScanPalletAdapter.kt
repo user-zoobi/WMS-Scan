@@ -47,7 +47,7 @@ class ScanPalletAdapter (
                 binding.palletCont.click {
                     if(Utils.isNetworkConnected(context))
                     {
-                        (context as ShowAllHierarchy).palletAction(data.pilotNo.toString())
+                        (context as ShowAllHierarchy).doAction("P",data.pilotNo.toString(), data.pilotName.toString())
                     }
                     else
                     {
@@ -67,7 +67,7 @@ class ScanPalletAdapter (
         return object : Filter() {
 
             override fun performFiltering(constraint: CharSequence?): FilterResults {
-
+//
                 val charSearch = constraint.toString()
                 filterList = if (charSearch.isEmpty())
                 {

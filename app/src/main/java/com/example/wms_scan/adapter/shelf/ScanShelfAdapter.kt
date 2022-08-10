@@ -47,7 +47,8 @@ class ScanShelfAdapter (
                 binding.shelfCont.click {
                     if(Utils.isNetworkConnected(context))
                     {
-                        (context as ShowAllHierarchy).shelfAction(data.shelfNo.toString())
+                        Toast.makeText(context, "${data.shelfNo}, ${data.shelfName}", Toast.LENGTH_SHORT).show()
+                        (context as ShowAllHierarchy).doAction("S",data.shelfNo.toString(), data.shelfName.toString())
                     }
                     else
                     {

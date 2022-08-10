@@ -3,12 +3,8 @@ package com.example.wms_scan.ui
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.util.Log
 import androidx.appcompat.widget.SearchView
-import androidx.core.view.isNotEmpty
-import androidx.core.widget.addTextChangedListener
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.scanmate.data.callback.Status
 import com.example.scanmate.data.response.GetRackResponse
@@ -31,7 +27,6 @@ import com.example.wms_scan.data.response.GetCartonQnWiseResponse
 import com.example.wms_scan.data.response.GetCartonResponse
 import com.example.wms_scan.data.response.GetPalletResponse
 import com.example.wms_scan.databinding.ActivityScanAllHierarchyBinding
-import java.util.*
 import kotlin.collections.ArrayList
 
 class ShowAllHierarchy : AppCompatActivity() {
@@ -44,12 +39,12 @@ class ShowAllHierarchy : AppCompatActivity() {
     private lateinit var cartonAdapter: ScanCartonAdapter
     private lateinit var cartonQnWiseAdapter: CartonDetailAdapter
     private var currentScreen = ""
-    private var subCurrentScreen = ""
     private var whNo = ""
     private var rackNo = ""
     private var shelfNo = ""
     private var palletNo = ""
     private var busLocNo = ""
+    private var analyticalNo = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -218,15 +213,6 @@ class ShowAllHierarchy : AppCompatActivity() {
                                 else
                                 {
                                     binding.WHTV.isEnabled = false
-                                    binding.view3.visible()
-                                    binding.view4.visible()
-                                    binding.rackCont.visible()
-                                    binding.view5.visible()
-                                    binding.view6.visible()
-                                    binding.shelfCont.visible()
-                                    binding.view7.visible()
-                                    binding.view8.visible()
-                                    binding.palletCont.visible()
                                 }
                             }
 
@@ -248,12 +234,6 @@ class ShowAllHierarchy : AppCompatActivity() {
                                 else
                                 {
                                     binding.rackTV.isEnabled = false
-                                    binding.view5.visible()
-                                    binding.view6.visible()
-                                    binding.shelfCont.visible()
-                                    binding.view7.visible()
-                                    binding.view8.visible()
-                                    binding.palletCont.visible()
                                 }
                             }
 
@@ -273,16 +253,12 @@ class ShowAllHierarchy : AppCompatActivity() {
                                 else
                                 {
                                     binding.shelfTV.isEnabled = false
-                                    binding.view7.visible()
-                                    binding.view8.visible()
-                                    binding.palletCont.visible()
                                 }
                             }
 
                             binding.palletTV.click {
                                 if (isNetworkConnected(this)) {
                                     currentScreen = "P"
-                                    subCurrentScreen = "M"
                                     viewModel.getCarton(
                                         Utils.getSimpleTextBody(palletNo),
                                         Utils.getSimpleTextBody(busLocNo),
@@ -400,10 +376,6 @@ class ShowAllHierarchy : AppCompatActivity() {
                     shelfAdapter = ScanShelfAdapter(this,
                         it.data as ArrayList<GetShelfResponse>
                     )
-                    if (binding.shelfTV.text.isNullOrEmpty()){
-
-                        binding.shelfTV.text = it.data[0].shelfName
-                    }
 
                     binding.showAllRV.apply {
                         layoutManager = LinearLayoutManager(this@ShowAllHierarchy)
@@ -445,10 +417,7 @@ class ShowAllHierarchy : AppCompatActivity() {
                     palletAdapter = ScanPalletAdapter(this,
                         it.data as ArrayList<GetPalletResponse>
                     )
-                    if (binding.palletTV.text.isNullOrEmpty()){
 
-                        binding.palletTV.text = it.data[0].pilotName
-                    }
                     binding.showAllRV.apply {
 
                         layoutManager = LinearLayoutManager(this@ShowAllHierarchy)
@@ -505,7 +474,7 @@ class ShowAllHierarchy : AppCompatActivity() {
                             toast(noRecordFound)
                         }
                     }
-
+                    analyticalNo = it.data[0].analyticalNo.toString()
                     binding.itemTV.text = it.data[0].pilotName
 
                     Log.i("getCartonData", it.data[0].toString())
@@ -523,7 +492,6 @@ class ShowAllHierarchy : AppCompatActivity() {
                             cartonAdapter.filter.filter(newText)
                             return false
                         }
-
                     })
                 }
 
@@ -581,84 +549,88 @@ class ShowAllHierarchy : AppCompatActivity() {
         }
     }
 
-    fun warehouseAction(whNo:String){
-        currentScreen = "W"
-        if (isNetworkConnected(this))
+    fun doAction(cs: String, actionNo: String, actionName: String)
+    {
+        when(cs)
         {
-            viewModel.getRack(
-                Utils.getSimpleTextBody(""),
-                Utils.getSimpleTextBody(whNo),
-                Utils.getSimpleTextBody(busLocNo)
-            )
+            "W" ->
+            {
+                currentScreen = "W"
+                this.whNo = actionNo
+                    viewModel.getRack(
+                        Utils.getSimpleTextBody(""),
+                        Utils.getSimpleTextBody(actionNo),
+                        Utils.getSimpleTextBody(busLocNo)
+                    )
+            }
+
+            "R" ->
+            {
+                currentScreen = "R"
+                this.rackNo = actionNo
+                    viewModel.getShelf(
+                        Utils.getSimpleTextBody(""),
+                        Utils.getSimpleTextBody(actionNo),
+                        Utils.getSimpleTextBody(busLocNo),
+                    )
+                    binding.view3.visible()
+                    binding.view4.visible()
+                    binding.rackCont.visible()
+                    binding.rackTV.text = actionName
+            }
+
+            "S" ->
+            {
+                currentScreen = "S"
+                this.shelfNo = actionNo
+                    viewModel.getPallet(
+                        Utils.getSimpleTextBody(""),
+                        Utils.getSimpleTextBody(actionNo),
+                        Utils.getSimpleTextBody(busLocNo),
+                    )
+                    binding.view3.visible()
+                    binding.view4.visible()
+                    binding.rackCont.visible()
+                    binding.view5.visible()
+                    binding.view6.visible()
+                    binding.shelfCont.visible()
+                    binding.shelfTV.text = actionName
+            }
+
+            "P" ->
+            {
+                currentScreen = "P"
+                this.palletNo = actionNo
+                    viewModel.getCarton(
+                        Utils.getSimpleTextBody(actionNo),
+                        Utils.getSimpleTextBody(busLocNo)
+                    )
+                    binding.view3.visible()
+                    binding.view4.visible()
+                    binding.rackCont.visible()
+                    binding.view5.visible()
+                    binding.view6.visible()
+                    binding.shelfCont.visible()
+                    binding.view7.visible()
+                    binding.view8.visible()
+                    binding.palletCont.visible()
+
+                    if (binding.palletTV.text.isNullOrEmpty())
+                    {
+                        binding.palletTV.text = actionName
+                    }
+            }
+
+            "M"->
+            {
+                currentScreen = "M"
+                Log.i("analyticalNo",actionNo)
+                viewModel.getCartonQnWise(actionNo)
+
+                viewModel.getCartonDetails(analyticalNo)
+            }
         }
-    }
 
-    fun rackAction(rackNo:String){
-        currentScreen = "R"
-        if (isNetworkConnected(this))
-        {
-
-            viewModel.getShelf(
-                Utils.getSimpleTextBody(""),
-                Utils.getSimpleTextBody(rackNo),
-                Utils.getSimpleTextBody(busLocNo),
-            )
-            binding.view3.visible()
-            binding.view4.visible()
-            binding.rackCont.visible()
-
-        }
-    }
-
-    fun shelfAction(shelfNo:String){
-        currentScreen = "S"
-        if (isNetworkConnected(this))
-        {
-            viewModel.getPallet(
-                Utils.getSimpleTextBody(""),
-                Utils.getSimpleTextBody(shelfNo),
-                Utils.getSimpleTextBody(busLocNo),
-            )
-            binding.view3.visible()
-            binding.view4.visible()
-            binding.rackCont.visible()
-            binding.view5.visible()
-            binding.view6.visible()
-            binding.shelfCont.visible()
-
-        }
-    }
-
-    fun palletAction(palletNo:String){
-        currentScreen = "P"
-        if (isNetworkConnected(this))
-        {
-            viewModel.getCarton(
-                Utils.getSimpleTextBody(palletNo),
-                Utils.getSimpleTextBody(busLocNo)
-            )
-            binding.view3.visible()
-            binding.view4.visible()
-            binding.rackCont.visible()
-            binding.view5.visible()
-            binding.view6.visible()
-            binding.shelfCont.visible()
-            binding.view7.visible()
-            binding.view8.visible()
-            binding.palletCont.visible()
-
-            subCurrentScreen = "M"
-        }
-
-    }
-
-    fun analyticalNoAction(analyticalNo:String){
-        if (isNetworkConnected(this))
-        {
-            subCurrentScreen = "M"
-            Log.i("analyticalNo",analyticalNo)
-            viewModel.getCartonQnWise(analyticalNo)
-        }
     }
 
     override fun onResume() {
@@ -691,11 +663,23 @@ class ShowAllHierarchy : AppCompatActivity() {
 
     override fun onBackPressed() {
 
-        toast(currentScreen)
+//        toast(currentScreen)
         if (isNetworkConnected(this))
         {
            when(currentScreen)
            {
+               "M"->
+               {
+                   viewModel.getCarton(
+                               Utils.getSimpleTextBody(palletNo),
+                               Utils.getSimpleTextBody(busLocNo),
+                           )
+                   binding.view7.visible()
+                   binding.view8.visible()
+                   binding.palletCont.visible()
+                   currentScreen = "P"
+
+               }
                "P" ->
                {
                   viewModel.getPallet(
@@ -707,21 +691,6 @@ class ShowAllHierarchy : AppCompatActivity() {
                    binding.view8.gone()
                    binding.palletCont.gone()
                    currentScreen = "S"
-//
-//                   when(subCurrentScreen)
-//                   {
-//                       "M" ->
-//                       {
-//                           viewModel.getCarton(
-//                               Utils.getSimpleTextBody(palletNo),
-//                               Utils.getSimpleTextBody(busLocNo),
-//                           )
-//                           binding.view7.visible()
-//                           binding.view8.visible()
-//                           binding.palletCont.visible()
-//
-//                       }
-//                   }
 
                }
                "S" ->
@@ -763,8 +732,6 @@ class ShowAllHierarchy : AppCompatActivity() {
                   finish()
                }
            }
-
-
         }
         }
     }

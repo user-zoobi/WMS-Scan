@@ -41,7 +41,7 @@ class ScanWarehouseAdapter (
             binding.wrhCont.click {
                 if(Utils.isNetworkConnected(context))
                 {
-                    (context as ShowAllHierarchy).warehouseAction(data.wHNo.toString())
+                    (context as ShowAllHierarchy).doAction("W",data.wHNo.toString(),data.wHName.toString())
                 }
                 else
                 {

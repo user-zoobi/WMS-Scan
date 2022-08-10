@@ -48,7 +48,7 @@ class ScanCartonAdapter (
 
                     if(isNetworkConnected(context))
                     {
-                        (context as ShowAllHierarchy).analyticalNoAction(data.analyticalNo.toString())
+                        (context as ShowAllHierarchy).doAction("M",data.analyticalNo.toString(),data.analyticalNo.toString())
                     }
                     else
                     {
@@ -98,4 +98,5 @@ class ScanCartonAdapter (
             }
         }
     }
+    //
 }
