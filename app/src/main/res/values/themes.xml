@@ -49,7 +49,7 @@
     </style>
 
     <style name="DialogAnimation">
-        <item name="android:windowExitAnimation">@anim/slide_bottom</item>
+        <item name="android:windowExitAnimation">@anim/anim_show</item>
     </style>
 
     <style name="ToolbarTheme" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
@@ -72,6 +72,10 @@
 
     <style name="SpinnerScrollBar" parent="Widget.AppCompat.ListView.DropDown">
         <item name="android:scrollbarThumbVertical">@color/grey</item>
+    </style>
+
+    <style name="AppSearchView" parent="Widget.AppCompat.SearchView" >
+        <item name="android:textSize">@dimen/_14sdp</item>
     </style>
 
 </resources>

@@ -42,7 +42,7 @@ class ScanShelfAdapter (
                 val data = filterList[position]
 
                 //  binding.shelfTV.text = data.shelfName
-                binding.shelfTV.text = data.shelfName
+                binding.shelfTV.text = data.shelfName?.trim()
 
                 binding.shelfCont.click {
                     if(Utils.isNetworkConnected(context))
@@ -60,7 +60,10 @@ class ScanShelfAdapter (
 
     }
 
-    override fun getItemCount(): Int = filterList.size
+    override fun getItemCount(): Int {
+        (context as ShowAllHierarchy).filterUpdateRecord(filterList.size)
+        return filterList.size
+    }
 
     override fun getFilter(): Filter {
 

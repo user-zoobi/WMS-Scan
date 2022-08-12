@@ -45,7 +45,7 @@ class ScanRackAdapter (
                 Log.i("test", "onBindViewHolder: ${filterList.size}")
                 val data = filterList[position]
 
-                binding.rackTV.text = data.rackName
+                binding.rackTV.text = data.rackName?.trim()
 
                 binding.rackCont.click {
 
@@ -62,7 +62,11 @@ class ScanRackAdapter (
         }
     }
 
-    override fun getItemCount(): Int = filterList.size
+    override fun getItemCount(): Int
+    {
+        (context as ShowAllHierarchy).filterUpdateRecord(filterList.size)
+        return filterList.size
+    }
 
     override fun getFilter(): Filter
     {

@@ -29,6 +29,7 @@
         android:textSize="@dimen/_25ssp" />
 
     <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/scanCont"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/scanTv"
@@ -36,26 +37,80 @@
         android:background="@drawable/grey_rounded_bg"
         android:orientation="vertical">
 
-        <com.airbnb.lottie.LottieAnimationView
-            android:id="@+id/scanBtn"
-            android:layout_width="@dimen/_320sdp"
-            android:layout_height="@dimen/_320sdp"
-            android:layout_gravity="center"
-            android:layout_marginTop="@dimen/_100sdp"
-            app:lottie_autoPlay="true"
-            app:lottie_loop="true"
-            app:lottie_rawRes="@raw/qr_anim" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/scanTV"
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/scanOptionCont"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="@dimen/_30sdp"
-            android:fontFamily="@font/amiko"
-            android:text="@string/scan_item_product"
-            android:textColor="@color/black"
-            android:textSize="@dimen/_16ssp" />
+            android:layout_marginTop="@dimen/_80sdp"
+            android:orientation="vertical"
+            android:visibility="visible">
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/scanBtn"
+                android:layout_width="@dimen/_320sdp"
+                android:layout_height="@dimen/_320sdp"
+                android:layout_gravity="center"
+                app:lottie_autoPlay="true"
+                app:lottie_loop="true"
+                app:lottie_rawRes="@raw/qr_anim" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/scanTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:fontFamily="@font/amiko"
+                android:text="@string/scan_item_product"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_16ssp" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/manualOptionCont"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/_100sdp"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_20sdp"
+                android:fontFamily="@font/amiko"
+                android:text="Manual Search"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_20ssp" />
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_50sdp"
+                android:layout_marginStart="@dimen/_20sdp"
+                android:layout_marginTop="@dimen/_40sdp"
+                android:layout_marginEnd="@dimen/_20sdp"
+                android:background="@drawable/white_rounded_bg"
+                android:hint="@string/mName_or_AnaNo"
+                android:paddingStart="@dimen/_20sdp"
+                android:textSize="@dimen/_14ssp" />
+
+            <TextView
+                android:layout_width="@dimen/_200sdp"
+                android:layout_height="@dimen/_50sdp"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/_40sdp"
+                android:background="@drawable/hollow_black_rounded_bg"
+                android:fontFamily="@font/amiko"
+                android:gravity="center"
+                android:text="Search"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_16ssp" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -66,8 +121,64 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
         android:layout_marginEnd="@dimen/_20sdp"
-        android:layout_marginBottom="@dimen/_80sdp"
+        android:layout_marginBottom="@dimen/_100sdp"
         android:backgroundTint="@color/white"
         android:src="@drawable/login" />
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/searchManualTV"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_80sdp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/hollow_black_top_rounded_corner"
+        android:elevation="@dimen/_10sdp"
+        android:orientation="vertical"
+        android:visibility="visible">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/byManuallyTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/_15sdp"
+            android:fontFamily="@font/amiko"
+            android:text="@string/search_manual"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_16ssp"
+            android:textStyle="bold"
+            app:fontFamily="@font/amiko"
+            app:textAllCaps="true" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/searchScanTV"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_80sdp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/hollow_black_top_rounded_corner"
+        android:elevation="@dimen/_10sdp"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/byScanTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/_15sdp"
+            android:fontFamily="@font/amiko"
+            android:text="@string/search_scan"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_16ssp"
+            android:textStyle="bold"
+            app:fontFamily="@font/amiko"
+            app:textAllCaps="true" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
 
 </RelativeLayout>

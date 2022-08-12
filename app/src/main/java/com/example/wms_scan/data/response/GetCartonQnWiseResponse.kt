@@ -97,7 +97,7 @@ class GetCartonQnWiseResponse {
 
     @SerializedName("Mat_Stock")
     @Expose
-    val matStock: Int? = null
+    val matStock: Double? = null
 
     @SerializedName("Status")
     @Expose

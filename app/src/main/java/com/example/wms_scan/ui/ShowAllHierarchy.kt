@@ -4,6 +4,8 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.animation.AnimationUtils
+import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.scanmate.data.callback.Status
@@ -12,6 +14,7 @@ import com.example.scanmate.data.response.GetShelfResponse
 import com.example.scanmate.data.response.GetWarehouseResponse
 import com.example.scanmate.extensions.*
 import com.example.scanmate.util.Constants.Toast.noRecordFound
+import com.example.scanmate.util.CustomProgressDialog
 import com.example.scanmate.util.LocalPreferences
 import com.example.scanmate.util.Utils
 import com.example.scanmate.util.Utils.isNetworkConnected
@@ -38,6 +41,7 @@ class ShowAllHierarchy : AppCompatActivity() {
     private lateinit var palletAdapter: ScanPalletAdapter
     private lateinit var cartonAdapter: ScanCartonAdapter
     private lateinit var cartonQnWiseAdapter: CartonDetailAdapter
+    private lateinit var dialog: CustomProgressDialog
     private var currentScreen = ""
     private var whNo = ""
     private var rackNo = ""
@@ -68,7 +72,7 @@ class ShowAllHierarchy : AppCompatActivity() {
         supportActionBar?.hide()
         setTransparentStatusBarColor(R.color.transparent)
         viewModel = obtainViewModel(MainViewModel::class.java)
-
+        dialog = CustomProgressDialog(this)
         binding.userNameTV.text = LocalPreferences.getString(this,
             LocalPreferences.AppLoginPreferences.userName
         )
@@ -149,17 +153,6 @@ class ShowAllHierarchy : AppCompatActivity() {
                             when
                             {
 
-//                                analyticalKey == true ->{
-//                                    when
-//                                    {
-//                                        cartonAnalyticalNo.contains("PK") or cartonAnalyticalNo.contains("RM") or cartonAnalyticalNo.contains("MK")->
-//                                        {
-//                                            viewModel.getCartonDetails(cartonAnalyticalNo)
-//                                        }
-//                                    }
-//
-//                                }
-
                                 palette.contains("PL") ->{
                                     viewModel.getCarton(
                                         Utils.getSimpleTextBody(palletNo),
@@ -171,18 +164,23 @@ class ShowAllHierarchy : AppCompatActivity() {
 
                                 shelve.contains("SF") ->{
 
+                                    val animFade = AnimationUtils.loadAnimation(this,R.anim.fade_out)
                                     viewModel.getPallet(
                                         Utils.getSimpleTextBody(""),
                                         Utils.getSimpleTextBody(shelfNo),
                                         Utils.getSimpleTextBody(busLocNo),
                                     )
                                     binding.view7.gone()
+                                    binding.view7.startAnimation(animFade)
                                     binding.view8.gone()
+                                    binding.view8.startAnimation(animFade)
                                     binding.palletCont.gone()
+                                    binding.palletCont.startAnimation(animFade)
                                 }
 
                                 rack.contains("RK") ->{
 
+                                    val animFade = AnimationUtils.loadAnimation(this,R.anim.fade_out)
                                     viewModel.getShelf(
                                         Utils.getSimpleTextBody(""),
                                         Utils.getSimpleTextBody(rackNo),
@@ -190,11 +188,17 @@ class ShowAllHierarchy : AppCompatActivity() {
                                     )
 
                                     binding.view5.gone()
+                                    binding.view5.startAnimation(animFade)
                                     binding.view6.gone()
+                                    binding.view6.startAnimation(animFade)
                                     binding.shelfCont.gone()
+                                    binding.shelfCont.startAnimation(animFade)
                                     binding.view7.gone()
+                                    binding.view7.startAnimation(animFade)
                                     binding.view8.gone()
+                                    binding.view8.startAnimation(animFade)
                                     binding.palletCont.gone()
+                                    binding.palletCont.startAnimation(animFade)
 
                                 }
 
@@ -317,38 +321,62 @@ class ShowAllHierarchy : AppCompatActivity() {
 
             when(it.status){
 
-                Status.LOADING ->{}
+                Status.LOADING ->{
+                    dialog.show()
+                    dialog.setCanceledOnTouchOutside(true)
+                }
 
-                Status.SUCCESS -> {
+                Status.SUCCESS ->
+                {
+                    try
+                    {
+                        if (it.data?.get(0)?.status == true)
+                        {
+                            dialog.dismiss()
+                            binding.hierarchyCont.visible()
+                            warehouseAdapter = ScanWarehouseAdapter(this,
+                                it.data as ArrayList<GetWarehouseResponse>
+                            )
 
-                    binding.hierarchyCont.visible()
-                    warehouseAdapter = ScanWarehouseAdapter(this,
-                        it.data as ArrayList<GetWarehouseResponse>
-                    )
+                            binding.showAllRV.apply {
+                                layoutManager = LinearLayoutManager(this@ShowAllHierarchy)
+                                adapter = warehouseAdapter
 
-                    binding.showAllRV.apply {
-                        layoutManager = LinearLayoutManager(this@ShowAllHierarchy)
-                        adapter = warehouseAdapter
+                                if (it.data[0].wHNo.toString() == "0") {
+                                    adapter = null
+                                    toast(noRecordFound)
+                                }
+                            }
 
-                        if (it.data[0].wHNo.toString() == "0") {
-                            adapter = null
+                            binding.listSize.text = "Total Record : ${it.data.size}"
+                            binding.itemTV.text = it.data[0].wHName
+                            Log.i("warehouseCode", it.data[0].wHName.toString())
+
+                            binding.searchViewCont.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+
+                                override fun onQueryTextSubmit(query: String?): Boolean {
+                                    return true
+                                }
+
+                                override fun onQueryTextChange(newText: String?): Boolean {
+                                    warehouseAdapter.filter.filter(newText)
+                                    return true
+                                }
+                            })
+                        }
+                        else
+                        {
                             toast(noRecordFound)
+                            dialog.dismiss()
+                            binding.showAllRV.adapter = null
                         }
+
                     }
-                    binding.itemTV.text = it.data[0].wHName
-                    Log.i("warehouseCode", it.data[0].wHName.toString())
+                    catch (e:Exception)
+                    {
+                        Log.i("getWarehouse","${e.message}")
+                    }
 
-                    binding.searchViewCont.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-
-                        override fun onQueryTextSubmit(query: String?): Boolean {
-                            return true
-                        }
-
-                        override fun onQueryTextChange(newText: String?): Boolean {
-                            warehouseAdapter.filter.filter(newText)
-                            return true
-                        }
-                    })
                 }
                 Status.ERROR ->{}
 
@@ -358,35 +386,50 @@ class ShowAllHierarchy : AppCompatActivity() {
 
         viewModel.getRack.observe(this){
             when(it.status){
-                Status.LOADING ->{}
+                Status.LOADING ->{
+                    dialog.show()
+                    dialog.setCanceledOnTouchOutside(true)
+                }
 
-                Status.SUCCESS -> {
+                Status.SUCCESS ->
+                {
+                    if (it.data?.get(0)?.status == true)
+                    {
+                        dialog.dismiss()
+                        binding.hierarchyCont.visible()
+                        racksAdapter = ScanRackAdapter(this, it.data as ArrayList<GetRackResponse>)
 
-                    binding.hierarchyCont.visible()
-                    racksAdapter = ScanRackAdapter(this, it.data as ArrayList<GetRackResponse>)
+                        binding.showAllRV.apply {
+                            layoutManager = LinearLayoutManager(this@ShowAllHierarchy)
+                            adapter = racksAdapter
 
-                    binding.showAllRV.apply {
-                        layoutManager = LinearLayoutManager(this@ShowAllHierarchy)
-                        adapter = racksAdapter
+                            if (it.data[0].rackNo.toString() == "0") {
+                                adapter = null
+                                toast(noRecordFound)
+                            } }
 
-                        if (it.data[0].rackNo.toString() == "0") {
-                            adapter = null
-                            toast(noRecordFound)
-                        } }
+                        binding.itemTV.text = it.data[0].wHName
+                        Log.i("warehouseCode", it.data[0].wHName.toString())
+                        binding.listSize.text = "Total Record : ${it.data.size}"
+                        binding.searchViewCont.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
 
-                    binding.itemTV.text = it.data[0].wHName
-                    Log.i("warehouseCode", it.data[0].wHName.toString())
-                    binding.searchViewCont.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+                            override fun onQueryTextSubmit(query: String?): Boolean {
+                                return true
+                            }
 
-                        override fun onQueryTextSubmit(query: String?): Boolean {
-                            return true
-                        }
+                            override fun onQueryTextChange(newText: String?): Boolean {
+                                racksAdapter.filter.filter(newText)
+                                return true
+                            }
+                        })
+                    }
+                    else
+                    {
+                        toast(noRecordFound)
+                        dialog.dismiss()
+                        binding.showAllRV.adapter = null
+                    }
 
-                        override fun onQueryTextChange(newText: String?): Boolean {
-                            racksAdapter.filter.filter(newText)
-                            return true
-                        }
-                    })
                 }
                 Status.ERROR -> {}
 
@@ -397,38 +440,54 @@ class ShowAllHierarchy : AppCompatActivity() {
         viewModel.getShelf.observe(this){
             when(it.status){
 
-                Status.LOADING -> { }
+                Status.LOADING ->
+                {
+                    dialog.show()
+                    dialog.setCanceledOnTouchOutside(true)
+                }
 
-                Status.SUCCESS -> {
+                Status.SUCCESS ->
+                {
+                    if (it.data?.get(0)?.status == true)
+                    {
+                        dialog.dismiss()
+                        binding.hierarchyCont.visible()
+                        shelfAdapter = ScanShelfAdapter(this,
+                            it.data as ArrayList<GetShelfResponse>
+                        )
 
-                    binding.hierarchyCont.visible()
-                    shelfAdapter = ScanShelfAdapter(this,
-                        it.data as ArrayList<GetShelfResponse>
-                    )
+                        binding.showAllRV.apply {
+                            layoutManager = LinearLayoutManager(this@ShowAllHierarchy)
+                            adapter = shelfAdapter
 
-                    binding.showAllRV.apply {
-                        layoutManager = LinearLayoutManager(this@ShowAllHierarchy)
-                        adapter = shelfAdapter
-
-                        if (it.data[0].shelfNo.toString() == "0") {
-                            adapter = null
-                            toast(noRecordFound)
+                            if (it.data[0].shelfNo.toString() == "0") {
+                                adapter = null
+                                toast(noRecordFound)
+                            }
                         }
+                        binding.itemTV.text = it.data[0].rackName
+                        Log.i("shelfData", it.data[0].shelfName.toString())
+                        binding.listSize.text = "Total Record : ${it.data.size}"
+
+                        binding.searchViewCont.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+
+                            override fun onQueryTextSubmit(query: String?): Boolean {
+                                return true
+                            }
+
+                            override fun onQueryTextChange(newText: String?): Boolean {
+                                shelfAdapter.filter.filter(newText)
+                                return true
+                            }
+                        })
                     }
-                    binding.itemTV.text = it.data[0].rackName
-                    Log.i("shelfData", it.data[0].shelfName.toString())
+                    else
+                    {
+                        toast(noRecordFound)
+                        dialog.dismiss()
+                        binding.showAllRV.adapter = null
+                    }
 
-                    binding.searchViewCont.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-
-                        override fun onQueryTextSubmit(query: String?): Boolean {
-                            return true
-                        }
-
-                        override fun onQueryTextChange(newText: String?): Boolean {
-                            shelfAdapter.filter.filter(newText)
-                            return true
-                        }
-                    })
                 }
                 Status.ERROR -> {}
 
@@ -438,41 +497,57 @@ class ShowAllHierarchy : AppCompatActivity() {
 
         viewModel.getPallet.observe(this){
             when(it.status) {
-                Status.LOADING -> {}
+                Status.LOADING ->
+                {
+                    dialog.show()
+                    dialog.setCanceledOnTouchOutside(true)
+                }
 
-                Status.SUCCESS -> {
+                Status.SUCCESS ->
+                {
+                    if (it.data?.get(0)?.status == true)
+                    {
+                        dialog.dismiss()
+                        binding.hierarchyCont.visible()
+                        palletAdapter = ScanPalletAdapter(this,
+                            it.data as ArrayList<GetPalletResponse>
+                        )
 
-                    binding.hierarchyCont.visible()
-                    palletAdapter = ScanPalletAdapter(this,
-                        it.data as ArrayList<GetPalletResponse>
-                    )
+                        binding.showAllRV.apply {
 
-                    binding.showAllRV.apply {
+                            layoutManager = LinearLayoutManager(this@ShowAllHierarchy)
+                            adapter = palletAdapter
 
-                        layoutManager = LinearLayoutManager(this@ShowAllHierarchy)
-                        adapter = palletAdapter
-
-                        if (it.data[0].pilotNo.toString() == "0") {
-                            adapter = null
-                            toast(noRecordFound)
+                            if (it.data[0].pilotNo.toString() == "0") {
+                                adapter = null
+                                toast(noRecordFound)
+                            }
                         }
+                        binding.itemTV.text = it.data[0].shelfName
+                        binding.listSize.text = "Total Record : ${it.data.size}"
+
+                        binding.searchViewCont.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+
+                            override fun onQueryTextSubmit(query: String?): Boolean
+                            {
+                                return true
+                            }
+
+                            override fun onQueryTextChange(newText: String?): Boolean
+                            {
+                                palletAdapter.filter.filter(newText)
+                                return true
+                            }
+
+                        })
                     }
-                    binding.itemTV.text = it.data[0].shelfName
+                    else
+                    {
+                        toast(noRecordFound)
+                        dialog.dismiss()
+                        binding.showAllRV.adapter = null
+                    }
 
-                    binding.searchViewCont.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-
-                        override fun onQueryTextSubmit(query: String?): Boolean
-                        {
-                            return true
-                        }
-
-                        override fun onQueryTextChange(newText: String?): Boolean
-                        {
-                            palletAdapter.filter.filter(newText)
-                            return true
-                        }
-
-                    })
                 }
 
                 Status.ERROR -> {
@@ -486,42 +561,66 @@ class ShowAllHierarchy : AppCompatActivity() {
 
         viewModel.getCarton.observe(this){
             when(it.status){
-                Status.LOADING ->{}
+                Status.LOADING ->
+                {
+                    dialog.show()
+                    dialog.setCanceledOnTouchOutside(true)
+                }
 
-                Status.SUCCESS ->{
-                    binding.hierarchyCont.visible()
-                    cartonAdapter = ScanCartonAdapter(this,
-                        it.data as ArrayList<GetCartonResponse>
-                    )
-                    binding.showAllRV.apply {
-                        layoutManager = LinearLayoutManager(this@ShowAllHierarchy)
-                        adapter = cartonAdapter
+                Status.SUCCESS ->
+                {
+                    try
+                    {
+                      if (it.data?.get(0)?.status == true)
+                      {
 
-                        if (it.data[0].cartonNo.toString() == "0")
-                        {
-                            adapter = null
-                            toast(noRecordFound)
-                        }
+                          dialog.dismiss()
+                          binding.hierarchyCont.visible()
+                          cartonAdapter = ScanCartonAdapter(this,
+                              it.data as ArrayList<GetCartonResponse>
+                          )
+                          binding.showAllRV.apply {
+                              layoutManager = LinearLayoutManager(this@ShowAllHierarchy)
+                              adapter = cartonAdapter
+
+                              if (it.data[0].cartonNo.toString() == "0")
+                              {
+                                  adapter = null
+                                  toast(noRecordFound)
+                              }
+                          }
+
+                          binding.itemTV.text = it.data[0].pilotName
+                          binding.listSize.text = "Total Record : ${it.data.size}"
+
+                          Log.i("getCartonData", it.data[0].toString())
+
+                          binding.searchViewCont.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+
+                              override fun onQueryTextSubmit(query: String?): Boolean
+                              {
+
+                                  return true
+                              }
+
+                              override fun onQueryTextChange(newText: String?): Boolean
+                              {
+                                  cartonAdapter.filter.filter(newText)
+                                  return false
+                              }
+                          })
+                      }
+                        else
+                      {
+                          toast(noRecordFound)
+                          dialog.dismiss()
+                          binding.showAllRV.adapter = null
+                      }
                     }
-
-                    binding.itemTV.text = it.data[0].pilotName
-
-                    Log.i("getCartonData", it.data[0].toString())
-
-                    binding.searchViewCont.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-
-                        override fun onQueryTextSubmit(query: String?): Boolean
-                        {
-
-                            return true
-                        }
-
-                        override fun onQueryTextChange(newText: String?): Boolean
-                        {
-                            cartonAdapter.filter.filter(newText)
-                            return false
-                        }
-                    })
+                    catch (e:Exception)
+                    {
+                        Log.i("getCartonQnWise","${e.message}")
+                    }
                 }
 
                 Status.ERROR -> {
@@ -535,39 +634,63 @@ class ShowAllHierarchy : AppCompatActivity() {
         viewModel.getCartonQnWise.observe(this){
 
             when(it.status){
-                Status.LOADING ->{}
+                Status.LOADING ->
+                {
+                    dialog.show()
+                    dialog.setCanceledOnTouchOutside(true)
+                }
 
-                Status.SUCCESS ->{
-                    cartonQnWiseAdapter = CartonDetailAdapter(this,
-                        it.data as ArrayList<GetCartonQnWiseResponse>
-                    )
-                    binding.showAllRV.apply {
-                        layoutManager = LinearLayoutManager(this@ShowAllHierarchy)
-                        adapter = cartonQnWiseAdapter
-                        Log.i("analyticalNo", it.data[0].analyticalNo.toString())
-                        binding.slash.visible()
+                Status.SUCCESS ->
+                {
+                    try
+                    {
+                       if(it.data?.get(0)?.status == true)
+                       {
+                           dialog.dismiss()
+                           cartonQnWiseAdapter = CartonDetailAdapter(this,
+                               it.data as ArrayList<GetCartonQnWiseResponse>
+                           )
+                           binding.showAllRV.apply {
+                               layoutManager = LinearLayoutManager(this@ShowAllHierarchy)
+                               adapter = cartonQnWiseAdapter
+                               Log.i("analyticalNo", it.data[0].analyticalNo.toString())
+                               binding.slash.visible()
 
-                        if (it.data[0].cartonNo.toString() == "0") {
-                            adapter = null
-                        }
+                               if (it.data[0].cartonNo.toString() == "0") {
+                                   adapter = null
+                               }
+                           }
+
+                           binding.itemTV.text = "Analytical Number : ${it.data[0].analyticalNo.toString()}"
+                           binding.listSize.text = "Total Record : ${it.data.size}"
+
+                           binding.searchViewCont.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+
+                               override fun onQueryTextSubmit(query: String?): Boolean
+                               {
+
+                                   return true
+                               }
+
+                               override fun onQueryTextChange(newText: String?): Boolean
+                               {
+                                   cartonQnWiseAdapter.filter.filter(newText)
+                                   return false
+                               }
+                           })
+                       }
+                        else
+                       {
+                           toast(noRecordFound)
+                           dialog.dismiss()
+                           binding.showAllRV.adapter = null
+                       }
+                    }
+                    catch (e:Exception)
+                    {
+                        Log.i("getCartonQnWise","${e.message}")
                     }
 
-                    binding.itemTV.text = it.data[0].analyticalNo.toString()
-
-                    binding.searchViewCont.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-
-                        override fun onQueryTextSubmit(query: String?): Boolean
-                        {
-
-                            return true
-                        }
-
-                        override fun onQueryTextChange(newText: String?): Boolean
-                        {
-                            cartonQnWiseAdapter.filter.filter(newText)
-                            return false
-                        }
-                    })
                 }
                 Status.ERROR -> {
                     binding.showAllRV.adapter = null
@@ -593,6 +716,7 @@ class ShowAllHierarchy : AppCompatActivity() {
                 }
             }
         }
+
     }
 
     private fun initListener()
@@ -676,11 +800,8 @@ class ShowAllHierarchy : AppCompatActivity() {
                     binding.view7.visible()
                     binding.view8.visible()
                     binding.palletCont.visible()
+                    binding.palletTV.text = actionName
 
-                    if (binding.palletTV.text.isNullOrEmpty())
-                    {
-                        binding.palletTV.text = actionName
-                    }
             }
 
             "M"->
@@ -695,6 +816,11 @@ class ShowAllHierarchy : AppCompatActivity() {
             }
         }
 
+    }
+
+    fun filterUpdateRecord(size:Int)
+    {
+        binding.listSize.text = "Total Record : $size"
     }
 
     override fun onResume() {
@@ -771,7 +897,6 @@ class ShowAllHierarchy : AppCompatActivity() {
                    binding.view8.gone()
                    binding.palletCont.gone()
                    currentScreen = "R"
-
                }
                "R" ->
                {
@@ -798,4 +923,5 @@ class ShowAllHierarchy : AppCompatActivity() {
            }
         }
         }
+    //
     }

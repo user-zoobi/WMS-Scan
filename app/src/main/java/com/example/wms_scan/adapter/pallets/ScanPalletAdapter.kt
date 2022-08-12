@@ -43,31 +43,33 @@ class ScanPalletAdapter (
             with(holder){
                 val data= filterList[position]
 
-                binding.palletTV.text = data.pilotName
+                binding.palletTV.text = data.pilotName?.trim()
                 binding.palletCont.click {
                     if(Utils.isNetworkConnected(context))
                     {
                         (context as ShowAllHierarchy).doAction("P",data.pilotNo.toString(), data.pilotName.toString())
+
                     }
                     else
                     {
                         Toast.makeText(context, "No internet", Toast.LENGTH_SHORT).show()
                     }
-
                 }
             }
         }
-
     }
 
-    override fun getItemCount(): Int = filterList.size
+    override fun getItemCount(): Int {
+        (context as ShowAllHierarchy).filterUpdateRecord(filterList.size)
+        return filterList.size
+    }
 
     override fun getFilter(): Filter {
 
         return object : Filter() {
 
             override fun performFiltering(constraint: CharSequence?): FilterResults {
-//
+
                 val charSearch = constraint.toString()
                 filterList = if (charSearch.isEmpty())
                 {

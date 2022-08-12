@@ -1,9 +1,12 @@
 package com.example.wms_scan.ui
 
 import android.Manifest
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
 import android.content.pm.PackageManager
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.example.scanmate.extensions.*
@@ -11,6 +14,7 @@ import com.example.scanmate.util.LocalPreferences.AppLoginPreferences.scanCarton
 import com.example.scanmate.util.Utils.isNetworkConnected
 import com.example.wms_scan.R
 import com.example.wms_scan.databinding.ActivityScannerBinding
+
 
 class ScannerActivity : AppCompatActivity() {
     private lateinit var binding: ActivityScannerBinding
@@ -46,6 +50,25 @@ class ScannerActivity : AppCompatActivity() {
             {
                 toast("No internet")
             }
+
+        }
+
+        binding.searchManualTV.click {
+
+            binding.scanOptionCont.gone()
+            binding.searchManualTV.gone()
+            binding.searchScanTV.visible()
+            binding.manualOptionCont.visible()
+            overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
+
+        }
+
+        binding.searchScanTV.click {
+
+            binding.scanOptionCont.visible()
+            binding.searchManualTV.visible()
+            binding.searchScanTV.gone()
+            binding.manualOptionCont.gone()
 
         }
 

@@ -1,19 +1,14 @@
 package com.example.wms_scan.ui
 
-import android.Manifest
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import com.budiyev.android.codescanner.*
-import com.example.boschscan.extensions.putExtra
 import com.example.scanmate.data.callback.Status
 import com.example.scanmate.extensions.*
 import com.example.scanmate.util.CustomProgressDialog
@@ -21,7 +16,6 @@ import com.example.scanmate.util.Utils.isNetworkConnected
 import com.example.scanmate.viewModel.MainViewModel
 import com.example.wms_scan.R
 import com.example.wms_scan.databinding.ActivityScannerCameraBinding
-import com.google.android.gms.vision.barcode.BarcodeDetector
 
 class ScannerCameraActivity : AppCompatActivity() {
     private lateinit var codeScanner: CodeScanner
@@ -43,7 +37,7 @@ class ScannerCameraActivity : AppCompatActivity() {
         viewModel = obtainViewModel(MainViewModel::class.java)
         codeScanner = CodeScanner(this,binding.cameraSurfaceView)
 
-        val aniSlide: Animation = AnimationUtils.loadAnimation(this, R.anim.scanner_animation)
+        val aniSlide: Animation = AnimationUtils.loadAnimation(this, R.anim.anim_hide)
         binding.barcodeLine.startAnimation(aniSlide)
         dialog = CustomProgressDialog(this)
         codeScannerCamera()

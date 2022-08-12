@@ -2,7 +2,6 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/dark_hollow_black">
@@ -361,7 +360,7 @@
                     android:text=""
                     android:textSize="@dimen/_18ssp"
                     android:textStyle="bold"
-                    android:visibility="gone"/>
+                    android:visibility="gone" />
 
             </RelativeLayout>
 
@@ -372,8 +371,21 @@
                 android:layout_marginStart="@dimen/_10sdp"
                 android:layout_marginTop="@dimen/_20sdp"
                 android:layout_marginEnd="@dimen/_10sdp"
-                android:layout_marginBottom="@dimen/_10sdp"
-                android:background="@drawable/white_rounded_bg" />
+                android:layout_marginBottom="@dimen/_5sdp"
+                android:background="@drawable/hollow_black_stroke_rounded_bg"
+                android:clickable="true"
+                android:focusable="true"
+                android:theme="@style/AppSearchView"
+                app:iconifiedByDefault="false" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/listSize"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:text="Total Record"
+                android:textSize="@dimen/_10ssp" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/showAllRV"

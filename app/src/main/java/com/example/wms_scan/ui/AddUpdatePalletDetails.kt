@@ -424,5 +424,6 @@ class AddUpdatePalletDetails : AppCompatActivity() {
             context.getSharedPreferences(LocalPreferences.AppLoginPreferences.PREF, Context.MODE_PRIVATE)
         settings.edit().clear().apply()
         onBackPressed()
+        overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
     }
 }

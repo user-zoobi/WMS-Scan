@@ -158,55 +158,40 @@ class MenuActivity : AppCompatActivity() {
         binding.warehouseIV.setOnClickListener {
             if (isNetworkConnected(this)){
                 gotoActivity(WarehouseActivity::class.java, "warehouseValues",false)
-            }
-            else
-            {
+                overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
             }
 
         }
         binding.racksIV.setOnClickListener {
             if (isNetworkConnected(this)){
                 gotoActivity(RacksActivity::class.java)
+                overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
             }
-            else
-            {
-            }
-
         }
         binding.shelfIV.setOnClickListener {
 
             if (isNetworkConnected(this)){
                 gotoActivity(ShelfActivity::class.java)
-            }
-            else
-            {
+                overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
             }
         }
         binding.palletsIV.setOnClickListener {
 
             if (isNetworkConnected(this)){
                 gotoActivity(PalletsActivity::class.java)
-            }
-            else
-            {
+                overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
             }
         }
         binding.placeCartonIV.setOnClickListener {
             if (isNetworkConnected(this)){
                 gotoActivity(CreateCartonActivity::class.java, "placeCarton",true)
+                overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
             }
-            else
-            {
-
-            }
-
         }
         binding.scanCartonIV.click {
             if (isNetworkConnected(this)){
                 gotoActivity(ScannerActivity::class.java,scanCarton,true)
-            }
-            else
-            {
+                overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
             }
         }
 
@@ -224,6 +209,7 @@ class MenuActivity : AppCompatActivity() {
             context.getSharedPreferences(PREF, Context.MODE_PRIVATE)
         settings.edit().clear().apply()
         gotoActivity(LoginActivity::class.java)
+        overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
     }
 
     override fun onResume() {

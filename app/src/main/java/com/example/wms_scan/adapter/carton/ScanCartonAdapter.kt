@@ -41,11 +41,11 @@ class ScanCartonAdapter (
             {
                 val data= filterList[position]
 
-                binding.analyticalNoTV.text = data.analyticalNo
-                binding.stockTV.text = data.matStock.toString()
-                binding.cartonNo.text = data.cartonNo.toString()
-                binding.materialCodeTV.text = data.materialName.toString()
-                binding.totCarton.text = data.totCarton.toString()
+                binding.analyticalNoTV.text = data.analyticalNo?.trim()
+                binding.stockTV.text = data.matStock.toString().trim()
+                binding.cartonNo.text = data.cartonNo.toString().trim()
+                binding.materialCodeTV.text = data.materialName.toString().trim()
+                binding.totCarton.text = data.totCarton.toString().trim()
 
                 binding.cartonCont.click {
 
@@ -63,7 +63,10 @@ class ScanCartonAdapter (
 
     }
 
-    override fun getItemCount(): Int = filterList.size
+    override fun getItemCount(): Int {
+        (context as ShowAllHierarchy).filterUpdateRecord(filterList.size)
+        return filterList.size
+    }
 
 
     override fun getFilter(): Filter {
@@ -77,12 +80,16 @@ class ScanCartonAdapter (
                 {
                     list
                 }
+                //
                 else
                 {
                     val resultList = ArrayList<GetCartonResponse>()
                     for (row in filterList)
                     {
-                        if (row.analyticalNo?.lowercase()?.contains(constraint.toString().lowercase())!!)
+                        if (
+                            row.analyticalNo?.lowercase()?.contains(constraint.toString().lowercase())!!
+                            or row.materialName?.lowercase()?.contains(constraint.toString().lowercase())!!
+                        )
                         {
                             resultList.add(row)
                         }
@@ -101,5 +108,5 @@ class ScanCartonAdapter (
             }
         }
     }
-    ///
+    //
 }

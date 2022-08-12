@@ -47,6 +47,7 @@ import com.google.android.gms.vision.CameraSource
 import com.google.android.gms.vision.Detector
 import com.google.android.gms.vision.barcode.Barcode
 import com.google.android.gms.vision.barcode.BarcodeDetector
+import com.google.android.material.snackbar.Snackbar
 import java.io.IOException
 import java.util.ArrayList
 
@@ -164,6 +165,7 @@ class ScanCartonActivity : AppCompatActivity() {
             binding.palletDetailCont.isEnabled = false
             binding.hierarchyTree.isEnabled = false
             codeScanner.startPreview()
+            toast("Please scan analytical number only")
         }
 
         binding.closeIV.click {
@@ -251,30 +253,36 @@ class ScanCartonActivity : AppCompatActivity() {
                     runOnUiThread {
 
                         when {
-                            scannedValue.contains("L") ->
+                            scannedValue.contains("PL") ->
                             {
                                 codeScanner.startPreview()
-                            }
-                            scannedValue.contains("WH") ->
-                            {
-                                codeScanner.startPreview()
-                            }
-                            scannedValue.contains("RK") ->
-                            {
-                                codeScanner.startPreview()
+                                toast("No record")
                             }
                             scannedValue.contains("SF") ->
                             {
                                 codeScanner.startPreview()
+                                toast("No record")
                             }
-                            scannedValue.contains("PL") ->
+                            scannedValue.contains("RK") ->
                             {
                                 codeScanner.startPreview()
+                                toast("No record")
+                            }
+                            scannedValue.contains("WH") ->
+                            {
+                                codeScanner.startPreview()
+                                toast("No record")
+                            }
+                            scannedValue.contains("L") ->
+                            {
+                                codeScanner.startPreview()
+                                toast("No record")
                             }
                             else ->
                             {
                                 viewModel.getCartonDetails(scannedValue)
                                 codeScanner.startPreview()
+                                Log.i("scannedValue", scannedValue)
                             }
                         }
                     }

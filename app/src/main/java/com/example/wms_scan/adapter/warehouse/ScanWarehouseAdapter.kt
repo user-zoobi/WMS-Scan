@@ -37,7 +37,7 @@ class ScanWarehouseAdapter (
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val data = list[position]
         with(holder){
-            binding.wrhTV.text = data.wHName
+            binding.wrhTV.text = data.wHName?.trim()
             binding.wrhCont.click {
                 if(Utils.isNetworkConnected(context))
                 {
@@ -52,7 +52,10 @@ class ScanWarehouseAdapter (
         }
     }
 
-    override fun getItemCount(): Int = list.size
+    override fun getItemCount(): Int {
+        (context as ShowAllHierarchy).filterUpdateRecord(filterList.size)
+        return list.size
+    }
 
     override fun getFilter(): Filter {
 

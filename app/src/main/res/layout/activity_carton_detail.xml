@@ -495,7 +495,7 @@
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/materialNumTV"
-                        android:layout_width="wrap_content"
+                        android:layout_width="@dimen/_200sdp"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/gapTV"
                         android:layout_alignParentEnd="true"
@@ -504,13 +504,15 @@
                         android:ellipsize="marquee"
                         android:fadingEdge="horizontal"
                         android:fontFamily="@font/amiko"
+                        android:textAlignment="textEnd"
                         android:marqueeRepeatLimit="marquee_forever"
                         android:paddingStart="@dimen/_5sdp"
                         android:scrollHorizontally="true"
                         android:singleLine="true"
                         android:text=""
                         android:textColor="@color/dark_grey"
-                        android:textSize="@dimen/_12ssp" />
+                        android:textSize="@dimen/_12ssp"
+                        />
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/palletName"

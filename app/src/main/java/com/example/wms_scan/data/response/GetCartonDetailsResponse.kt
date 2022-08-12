@@ -18,7 +18,7 @@ class GetCartonDetailsResponse {
 
     @SerializedName("Mat_Stock")
     @Expose
-     val matStock: Int? = null
+     val matStock: Double? = null
 
     @SerializedName("IsExist")
     @Expose

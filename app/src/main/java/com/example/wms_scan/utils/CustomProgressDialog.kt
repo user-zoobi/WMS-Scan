@@ -16,4 +16,5 @@ class CustomProgressDialog(context: Context) : Dialog(context, R.style.customDia
         //window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         setContentView(binding.root)
     }
+
 }

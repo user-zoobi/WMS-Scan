@@ -67,6 +67,9 @@
     <string name="update">Update</string>
     <string name="details">Details</string>
     <string name="addWH">Please add warehouse to location</string>
+    <string name="mName_or_AnaNo">Enter material name or analytical no.</string>
+    <string name="search_manual">Search manually</string>
+    <string name="search_scan">Search by scan</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 

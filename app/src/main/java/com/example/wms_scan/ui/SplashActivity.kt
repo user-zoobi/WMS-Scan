@@ -71,17 +71,21 @@ class SplashActivity : AppCompatActivity() {
                 if (LocalPreferences.getBoolean(this@SplashActivity, isLogin)){
                     if (isNetworkConnected(this@SplashActivity)){
                         gotoActivity(MenuActivity::class.java)
+                        overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
                         finish()
                     }else{
                         gotoActivity(NoNetworkActivity::class.java)
+                        overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
                         finish()
                     }
                 }else{
                     if (isNetworkConnected(this@SplashActivity)){
                         gotoActivity(ScannerActivity::class.java)
+                        overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
                         finish()
                     }else{
                         gotoActivity(NoNetworkActivity::class.java)
+                        overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
                         finish()
                     }
                 }

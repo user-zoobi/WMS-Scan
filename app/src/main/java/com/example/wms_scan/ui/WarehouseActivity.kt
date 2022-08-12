@@ -522,6 +522,7 @@ class WarehouseActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
         finish()
+
     }
 
 }

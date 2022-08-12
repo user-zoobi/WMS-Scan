@@ -36,19 +36,22 @@ class CartonDetailAdapter(
         val data= filterList[position]
         with(holder)
         {
-            binding.warehouseName.text = "Warehouse : ${data.wHName}"
-            binding.materialName.text = "${data.materialName}"
-            binding.rackName.text = "Rack : ${data.rackName}"
-            binding.shelfName.text = "Shelf : ${data.shelfName}"
-            binding.palletName.text = "Pallet : ${data.pilotName}"
-            binding.cartonNoTV.text = "Carton No : ${data.cartonNo}"
-            binding.totCartonTV.text = data.totCarton.toString()
+            binding.warehouseName.text = "Warehouse : ${data.wHName}".trim()
+            binding.materialName.text = "${data.materialName}".trim()
+            binding.rackName.text = "Rack : ${data.rackName}".trim()
+            binding.shelfName.text = "Shelf : ${data.shelfName}".trim()
+            binding.palletName.text = "Pallet : ${data.pilotName}".trim()
+            binding.cartonNoTV.text = "Carton No : ${data.cartonNo}".trim()
+            binding.totCartonTV.text = data.totCarton.toString().trim()
             binding.matStockTV.text = "Material Stock : ${data.matStock}"
             binding.materialName.isSelected = true
         }
     }
 //
-    override fun getItemCount(): Int = filterList.size
+    override fun getItemCount(): Int {
+    (context as ShowAllHierarchy).filterUpdateRecord(filterList.size)
+        return filterList.size
+    }
 
     override fun getFilter(): Filter
     {
@@ -69,6 +72,10 @@ class CartonDetailAdapter(
                         if (
                             row.analyticalNo?.lowercase()?.contains(constraint.toString().lowercase())!!
                             or row.materialName?.lowercase()?.contains(constraint.toString().lowercase())!!
+                            or row.wHName?.lowercase()?.contains(constraint.toString().lowercase())!!
+                            or row.rackName?.lowercase()?.contains(constraint.toString().lowercase())!!
+                            or row.shelfName?.lowercase()?.contains(constraint.toString().lowercase())!!
+                            or row.pilotName?.lowercase()?.contains(constraint.toString().lowercase())!!
                         )
                         {
                             resultList.add(row)
@@ -88,4 +95,5 @@ class CartonDetailAdapter(
             }
         }
     }
+    //
 }
