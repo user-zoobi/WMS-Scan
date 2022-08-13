@@ -24,9 +24,9 @@
         android:layout_marginTop="@dimen/_35sdp"
         android:layout_marginEnd="@dimen/_20sdp"
         android:layout_marginBottom="@dimen/_5sdp"
-        android:background="@drawable/grey_top_rounded_bg"
         android:padding="@dimen/_5sdp"
-        android:src="@drawable/logout" />
+        android:src="@drawable/logout"
+        android:tint="@color/white" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/userNameTV"
@@ -37,6 +37,7 @@
         android:layout_marginStart="@dimen/_20sdp"
         android:fontFamily="@font/amiko"
         android:text="User name"
+        android:layout_marginTop="@dimen/_10sdp"
         android:textColor="@color/white"
         android:textSize="@dimen/_15ssp" />
 
@@ -61,6 +62,7 @@
         android:layout_marginEnd="19dp"
         android:fontFamily="@font/amiko"
         android:text="Login At"
+        android:layout_marginTop="@dimen/_10sdp"
         android:textColor="@color/white"
         android:textSize="@dimen/_15ssp" />
 

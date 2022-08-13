@@ -10,12 +10,24 @@
     android:padding="10dp"
     android:elevation="@dimen/_10sdp">
 
-    <pl.droidsonroids.gif.GifImageView
+<!--    <pl.droidsonroids.gif.GifImageView-->
+<!--        android:layout_width="@dimen/_200sdp"-->
+<!--        android:layout_height="@dimen/_200sdp"-->
+<!--        android:layout_gravity="center"-->
+<!--        android:layout_marginTop="@dimen/_30sdp"-->
+<!--        android:layout_marginBottom="@dimen/_30sdp"-->
+<!--        android:src="@drawable/boschloader_anim" />-->
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/scanBtn"
         android:layout_width="@dimen/_200sdp"
         android:layout_height="@dimen/_200sdp"
         android:layout_gravity="center"
-        android:layout_marginTop="@dimen/_30sdp"
-        android:layout_marginBottom="@dimen/_30sdp"
-        android:src="@drawable/boschloader_anim" />
+        android:layout_marginTop="@dimen/_50sdp"
+        android:layout_marginBottom="@dimen/_50sdp"
+        android:background="@color/transparent"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        app:lottie_rawRes="@raw/circle_load" />
 
 </LinearLayout>

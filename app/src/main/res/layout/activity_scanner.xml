@@ -18,7 +18,7 @@
         android:src="@drawable/white_back_btn" />
 
     <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/scanTv"
+        android:id="@+id/scanHeaderTv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/backBtn"
@@ -32,7 +32,7 @@
         android:id="@+id/scanCont"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/scanTv"
+        android:layout_below="@id/scanHeaderTv"
         android:layout_marginTop="10dp"
         android:background="@drawable/grey_rounded_bg"
         android:orientation="vertical">
@@ -86,18 +86,24 @@
                 android:textColor="@color/black"
                 android:textSize="@dimen/_20ssp" />
 
+
             <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/numOrMatNameTV"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_50sdp"
                 android:layout_marginStart="@dimen/_20sdp"
                 android:layout_marginTop="@dimen/_40sdp"
                 android:layout_marginEnd="@dimen/_20sdp"
-                android:background="@drawable/white_rounded_bg"
+                android:background="@drawable/hover_click_editext_bg"
+                android:drawableStart="@drawable/edit_icon"
+                android:drawablePadding="@dimen/_15sdp"
+                android:drawableTint="@color/dark_hollow_black"
                 android:hint="@string/mName_or_AnaNo"
                 android:paddingStart="@dimen/_20sdp"
                 android:textSize="@dimen/_14ssp" />
 
             <TextView
+                android:id="@+id/searchBtn"
                 android:layout_width="@dimen/_200sdp"
                 android:layout_height="@dimen/_50sdp"
                 android:layout_gravity="center"

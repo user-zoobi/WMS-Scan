@@ -23,29 +23,30 @@
         android:layout_marginTop="@dimen/_35sdp"
         android:src="@drawable/white_back_btn" />
 
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/toolbar"
-        android:layout_width="@dimen/_30sdp"
-        android:layout_height="@dimen/_30sdp"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="@dimen/_35sdp"
-        android:layout_marginEnd="@dimen/_20sdp"
-        android:layout_marginBottom="@dimen/_5sdp"
-        android:background="@drawable/grey_circle_bg"
-        android:padding="@dimen/_5sdp"
-        android:src="@drawable/logout" />
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/toolbar"
+            android:layout_width="@dimen/_30sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="@dimen/_35sdp"
+            android:layout_marginEnd="@dimen/_20sdp"
+            android:layout_marginBottom="@dimen/_5sdp"
+            android:tint="@color/white"
+            android:padding="@dimen/_5sdp"
+            android:src="@drawable/logout" />
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/userNameTV"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/toolbar"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="@dimen/_20sdp"
-        android:fontFamily="@font/amiko"
-        android:text="User name"
-        android:textColor="@color/white"
-        android:textSize="@dimen/_15ssp"  />
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/userNameTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/toolbar"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="@dimen/_20sdp"
+            android:fontFamily="@font/amiko"
+            android:text="User name"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_15ssp" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/userDesignTV"
@@ -59,17 +60,18 @@
         android:textColor="@color/white"
         android:textSize="@dimen/_10ssp" />
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/loginText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/toolbar"
-        android:layout_alignParentEnd="true"
-        android:layout_marginEnd="19dp"
-        android:fontFamily="@font/amiko"
-        android:text="Login At"
-        android:textColor="@color/white"
-        android:textSize="@dimen/_15ssp" />
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/loginText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/toolbar"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="19dp"
+            android:fontFamily="@font/amiko"
+            android:text="Login At"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_15ssp" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/loginTimeTV"

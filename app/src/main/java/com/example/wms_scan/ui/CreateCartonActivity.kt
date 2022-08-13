@@ -75,17 +75,37 @@ class CreateCartonActivity : AppCompatActivity() {
                     it.let {
                         if(Utils.isNetworkConnected(this))
                         {
-                            if (scannedValue.contains("PL"))
+                            try
                             {
-                                gotoActivity(ScanCartonActivity::class.java, "scannedValue",scannedValue)
-                                Log.i("palletHierarchyCode",scannedValue)
+                                if (it.data?.get(0)?.status == true)
+                                {
+                                    if (scannedValue.contains("PL"))
+                                    {
+                                        gotoActivity(ScanCartonActivity::class.java, "scannedValue",scannedValue)
+                                        Log.i("palletHierarchyCode",scannedValue)
+                                    }
+                                    else
+                                    {
+                                        toast( "Please scan pallet only" )
+                                    }
+                                }
+                                else
+                                {
+                                    toast( "${it.data?.get(0)?.error}" )
+                                }
                             }
+                            catch (e:Exception)
+                            {
+                                Log.i("getCartonDetails","${Exception().message}")
+                            }
+                        }
+                        else
+                        {
+
                         }
                     }
                 }
-                Status.ERROR->{
-
-                }
+                Status.ERROR-> {}
             }
 
         })
@@ -116,13 +136,13 @@ class CreateCartonActivity : AppCompatActivity() {
         }
 
         binding.scanBtn.click {
-//            gotoActivity(ScanCartonActivity::class.java)
             binding.scanBtn.gone()
             binding.scannerCont.visible()
             binding.closeIV.visible()
             binding.clickHereTV.gone()
             codeScanner.startPreview()
         }
+
         binding.closeIV.click {
             binding.scannerCont.gone()
             binding.scanBtn.visible()
@@ -137,8 +157,8 @@ class CreateCartonActivity : AppCompatActivity() {
 
     }
 
-    private fun codeScannerCamera(){
-
+    private fun codeScannerCamera()
+    {
         // Parameters (default values)
         codeScanner.camera = CodeScanner.CAMERA_BACK // or CAMERA_FRONT or specific camera id
         codeScanner.formats = CodeScanner.ALL_FORMATS // list of type BarcodeFormat,
@@ -151,7 +171,7 @@ class CreateCartonActivity : AppCompatActivity() {
             runOnUiThread {
                 scannedValue = it.text
 
-                Toast.makeText(this, "Scan result: ${it.text}", Toast.LENGTH_LONG).show()
+//                Toast.makeText(this, "Scan result: ${it.text}", Toast.LENGTH_LONG).show()
 
                 if (scannedValue.contains("PL"))
                 {
@@ -168,7 +188,7 @@ class CreateCartonActivity : AppCompatActivity() {
             }
         }
 
-        codeScanner.errorCallback = ErrorCallback { // or ErrorCallback.SUPPRESS
+        codeScanner.errorCallback = ErrorCallback{ // or ErrorCallback.SUPPRESS
             runOnUiThread {
                 Toast.makeText(this, "Camera initialization error: ${it.message}",
                     Toast.LENGTH_LONG).show()
@@ -180,19 +200,22 @@ class CreateCartonActivity : AppCompatActivity() {
         }
     }
 
-    override fun onResume() {
+    override fun onResume()
+    {
         super.onResume()
         codeScanner.startPreview()
     }
 
-    private fun clearPreferences(context: Context){
+    private fun clearPreferences(context: Context)
+    {
         val settings: SharedPreferences =
             context.getSharedPreferences(LocalPreferences.AppLoginPreferences.PREF, Context.MODE_PRIVATE)
         settings.edit().clear().apply()
         gotoActivity(LoginActivity::class.java)
     }
 
-    override fun onPause() {
+    override fun onPause()
+    {
         codeScanner.releaseResources()
         super.onPause()
     }

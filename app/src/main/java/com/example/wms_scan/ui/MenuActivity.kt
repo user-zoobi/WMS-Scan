@@ -48,6 +48,7 @@ class MenuActivity : AppCompatActivity() {
         permissions()
 
 
+
     }
 
 
@@ -210,6 +211,7 @@ class MenuActivity : AppCompatActivity() {
         settings.edit().clear().apply()
         gotoActivity(LoginActivity::class.java)
         overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
+        finish()
     }
 
     override fun onResume() {

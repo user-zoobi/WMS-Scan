@@ -23,7 +23,7 @@
         android:layout_marginTop="@dimen/_35sdp"
         android:layout_marginEnd="@dimen/_20sdp"
         android:layout_marginBottom="@dimen/_5sdp"
-        android:background="@drawable/grey_top_rounded_bg"
+        android:tint="@color/white"
         android:padding="@dimen/_5sdp"
         android:src="@drawable/logout" />
 
@@ -36,6 +36,7 @@
         android:layout_marginStart="@dimen/_20sdp"
         android:fontFamily="@font/amiko"
         android:text="User name"
+        android:layout_marginTop="@dimen/_10sdp"
         android:textColor="@color/white"
         android:textSize="@dimen/_15ssp" />
 
@@ -60,6 +61,7 @@
         android:layout_marginEnd="19dp"
         android:fontFamily="@font/amiko"
         android:text="Login At"
+        android:layout_marginTop="@dimen/_10sdp"
         android:textColor="@color/white"
         android:textSize="@dimen/_15ssp" />
 
@@ -81,6 +83,9 @@
         android:layout_height="match_parent"
         android:layout_below="@+id/userDesignTV"
         android:layout_marginTop="10dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
         android:background="@drawable/grey_rounded_bg">
 
         <androidx.appcompat.widget.LinearLayoutCompat
@@ -438,5 +443,17 @@
         </androidx.appcompat.widget.LinearLayoutCompat>
 
     </androidx.core.widget.NestedScrollView>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/scanBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="@dimen/_30sdp"
+        android:layout_marginBottom="@dimen/_80sdp"
+        android:backgroundTint="@color/dark_hollow_black"
+        android:src="@drawable/qr_code"
+        app:tint="@color/white" />
 
 </RelativeLayout>

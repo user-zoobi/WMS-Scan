@@ -25,7 +25,7 @@
         android:layout_marginTop="@dimen/_35sdp"
         android:layout_marginEnd="@dimen/_20sdp"
         android:layout_marginBottom="@dimen/_5sdp"
-        android:background="@drawable/grey_circle_bg"
+        android:tint="@color/white"
         android:padding="@dimen/_5sdp"
         android:src="@drawable/logout" />
 
@@ -38,6 +38,7 @@
         android:layout_marginStart="@dimen/_20sdp"
         android:fontFamily="@font/amiko"
         android:text="User name"
+        android:layout_marginTop="@dimen/_10sdp"
         android:textColor="@color/white"
         android:textSize="@dimen/_15ssp" />
 
@@ -62,6 +63,7 @@
         android:layout_marginEnd="@dimen/_20sdp"
         android:fontFamily="@font/amiko"
         android:text="Login At"
+        android:layout_marginTop="@dimen/_10sdp"
         android:textColor="@color/white"
         android:textSize="@dimen/_15ssp" />
 

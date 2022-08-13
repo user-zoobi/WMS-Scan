@@ -104,6 +104,16 @@ class ShowAllHierarchy : AppCompatActivity() {
 
         }
 
+        when
+        {
+            intent.extras?.getBoolean("manualAnalyticalKey") == true ->{
+                var manualName = intent.extras!!.getString("manualMatName").toString()
+                Log.i("ManualInput", " $manualName ")
+                viewModel.getCartonQnWise(manualName)
+
+            }
+        }
+
     }
 
     private fun initObserver(){
@@ -732,6 +742,13 @@ class ShowAllHierarchy : AppCompatActivity() {
             {
                 binding.scanIV.isEnabled = false
             }
+        }
+
+        binding
+
+        binding.scanBtn.click {
+            gotoActivity(ScannerActivity::class.java)
+            finish()
         }
     }
 

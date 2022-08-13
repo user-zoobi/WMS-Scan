@@ -247,9 +247,11 @@ class WarehouseDetailsActivity : AppCompatActivity() {
                 }
             }
         })
+
     }
 
-    private fun clearPreferences(context: Context){
+    private fun clearPreferences(context: Context)
+    {
         val settings: SharedPreferences =
             context.getSharedPreferences(LocalPreferences.AppLoginPreferences.PREF, Context.MODE_PRIVATE)
         settings.edit().clear().apply()
