@@ -166,6 +166,7 @@ class ScanCartonActivity : AppCompatActivity() {
             binding.hierarchyTree.isEnabled = false
             codeScanner.startPreview()
             toast("Please scan analytical number only")
+            binding.noRecordTV.gone()
         }
 
         binding.closeIV.click {
@@ -207,11 +208,13 @@ class ScanCartonActivity : AppCompatActivity() {
                                     intent.putExtra("palletCode",scannedPalletCode)
                                     intent.putExtra("isExist",it.data[0].isExist)
                                     startActivity(intent)
+                                    binding.noRecordTV.gone()
                                 }
                                 else
                                 {
                                     Log.i("getCartonDetails","${Exception().message}")
-                                    toast(it.data?.get(0)?.error.toString())
+                                    Log.i("getCartonDetailsMessage","${it.data?.get(0)?.error}")
+                                    binding.noRecordTV.visible()
                                 }
                             }
                             catch (e:Exception)

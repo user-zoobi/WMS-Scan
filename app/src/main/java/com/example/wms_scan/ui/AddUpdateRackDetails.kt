@@ -139,9 +139,7 @@ class AddUpdateRackDetails : AppCompatActivity() {
                         toast("No connection found")
                     }
                 }
-
                 LocalPreferences.getBoolean(this, isRefreshRequired)
-
             }
 
         binding.toolbar.click {
@@ -328,4 +326,5 @@ class AddUpdateRackDetails : AppCompatActivity() {
         settings.edit().clear().apply()
         onBackPressed()
     }
+    
 }

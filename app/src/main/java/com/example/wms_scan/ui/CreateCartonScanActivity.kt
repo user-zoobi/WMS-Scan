@@ -37,6 +37,8 @@ class CreateCartonScanActivity : AppCompatActivity()
         setTransparentStatusBarColor(R.color.transparent)
         codeScanner = CodeScanner(this,binding.cameraSurfaceView)
         codeScannerCamera()
+
+        toast("Please scan pallet only")
     }
 
     private fun codeScannerCamera(){
@@ -83,6 +85,7 @@ class CreateCartonScanActivity : AppCompatActivity()
 
     override fun onResume() {
         super.onResume()
+        toast("Please scan pallet only")
         codeScanner.startPreview()
     }
 

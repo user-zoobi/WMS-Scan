@@ -131,10 +131,14 @@ class CartonDetailActivity : AppCompatActivity() {
 
                             binding.materialNumTV.text = it.data?.get(0)?.materialName
                             binding.analyticalNumTV.text = it.data?.get(0)?.analyticalNo
-                            binding.cartonNumTV.text = it.data?.get(0)?.cartonNo.toString()
+                            binding.cartonNumTV.text = it.data?.get(0)?.cartonSNo.toString()
+                            binding.totCartonTV.text = it.data?.get(0)?.totCarton.toString()
                             binding.stockTV.text = it.data?.get(0)?.matStock.toString()
                             binding.palletName.text = it.data?.get(0)?.pilotName.toString()
+                            binding.cartonNumber.text = "Carton Number (${it.data?.get(0)?.cartonNo})"
                             itemCode = it.data?.get(0)?.materialId.toString()
+                            cartonSNo = it.data?.get(0)?.cartonSNo.toString()
+                            totCarton = it.data?.get(0)?.totCarton.toString()
 
                             Log.i(
                                 "getCartonDetail","1.0\n2.0\n3.$itemCode\n4.$pilotNo\n5.$analyticalNo\n6.0\n7.0\n8.$hierarchyLoc\n9.$deviceId"
@@ -164,6 +168,8 @@ class CartonDetailActivity : AppCompatActivity() {
                             {
                                 toast("${it.data.error}")
                                 Log.i("IntentSave","${it.data.error}")
+
+                                finish()
                             }
                             else
                             {
@@ -195,8 +201,8 @@ class CartonDetailActivity : AppCompatActivity() {
                 Utils.getSimpleTextBody("$itemCode"),
                 Utils.getSimpleTextBody("$pilotNo"),
                 Utils.getSimpleTextBody("$analyticalNo"),
-                Utils.getSimpleTextBody("0"),
-                Utils.getSimpleTextBody("0"),
+                Utils.getSimpleTextBody(cartonSNo),
+                Utils.getSimpleTextBody(totCarton),
                 Utils.getSimpleTextBody(hierarchyLoc),
                 Utils.getSimpleTextBody(LocalPreferences.getInt(this,userNo).toString()),
                 Utils.getSimpleTextBody(deviceId)
@@ -289,6 +295,7 @@ class CartonDetailActivity : AppCompatActivity() {
                 binding.updateBtn.visible()
 
                 binding.updateBtn.click {
+
                     Log.i("isScannedAddCarton","1.$itemCode\n2.$pilotNo\n3.$analyticalNo\n4.$hierarchyLoc\n5.$deviceId")
                     viewModel.addCarton(
                         Utils.getSimpleTextBody(cartonNo),
@@ -296,21 +303,17 @@ class CartonDetailActivity : AppCompatActivity() {
                         Utils.getSimpleTextBody("$itemCode"),
                         Utils.getSimpleTextBody("$pilotNo"),
                         Utils.getSimpleTextBody("${LocalPreferences.getString(this,"isScannedAnalyticalNo").toString()}"),
-                        Utils.getSimpleTextBody("0"),
-                        Utils.getSimpleTextBody("0"),
+                        Utils.getSimpleTextBody(cartonSNo),
+                        Utils.getSimpleTextBody(totCarton),
                         Utils.getSimpleTextBody(hierarchyLoc),
                         Utils.getSimpleTextBody(LocalPreferences.getInt(this,userNo).toString()),
                         Utils.getSimpleTextBody(deviceId)
                     )
 
                     viewModel.palletHierarchy(Utils.getSimpleTextBody(scannedPallet), Utils.getSimpleTextBody("0"))
-                    gotoActivity(ScannerActivity::class.java)
-                    finish()
+
                 }
-
-
             }
         }
     }
-
 }

@@ -41,7 +41,7 @@ class CartonDetailAdapter(
             binding.rackName.text = "Rack : ${data.rackName}".trim()
             binding.shelfName.text = "Shelf : ${data.shelfName}".trim()
             binding.palletName.text = "Pallet : ${data.pilotName}".trim()
-            binding.cartonNoTV.text = "Carton No : ${data.cartonNo}".trim()
+            binding.cartonNoTV.text = "Carton No : ${data.cartonSNo}".trim()
             binding.totCartonTV.text = data.totCarton.toString().trim()
             binding.matStockTV.text = "Material Stock : ${data.matStock}"
             binding.materialName.isSelected = true

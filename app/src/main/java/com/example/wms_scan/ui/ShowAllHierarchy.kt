@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.animation.AnimationUtils
-import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.scanmate.data.callback.Status
@@ -121,37 +120,44 @@ class ShowAllHierarchy : AppCompatActivity() {
         viewModel.scanAll.observe(this){
             when(it.status){
 
-                Status.LOADING -> { }
+                Status.LOADING -> {
+                    dialog.show()
+                }
 
                 Status.SUCCESS -> {
 
+                    dialog.dismiss()
                     binding.hierarchyCont.visible()
 
                     it.let {
 
-                        try
+                        if (it.data?.get(0)?.status == true)
                         {
-                            val whName = it.data?.get(0)?.wHName.toString()
-                            val rackName = it.data?.get(0)?.rackName.toString()
-                            val shelfName = it.data?.get(0)?.shelfName.toString()
-                            val palletName = it.data?.get(0)?.pilotName.toString()
-                            whNo = it.data?.get(0)?.wHNo.toString()
-                            rackNo = it.data?.get(0)?.rackNo.toString()
-                            shelfNo = it.data?.get(0)?.shelfNo.toString()
-                            palletNo = it.data?.get(0)?.pilotNo.toString()
-                            busLocNo = it.data?.get(0)?.locationNo.toString()
+                            try
+                            {
 
-                            binding.WHTV.text = whName
-                            binding.rackTV.text = rackName
-                            binding.shelfTV.text = shelfName
-                            binding.palletTV.text = palletName
 
-                            Log.i("allHierarchy",it.data?.get(0)?.rackCode.toString())
+                                val whName = it.data?.get(0)?.wHName.toString()
+                                val rackName = it.data?.get(0)?.rackName.toString()
+                                val shelfName = it.data?.get(0)?.shelfName.toString()
+                                val palletName = it.data?.get(0)?.pilotName.toString()
+                                whNo = it.data?.get(0)?.wHNo.toString()
+                                rackNo = it.data?.get(0)?.rackNo.toString()
+                                shelfNo = it.data?.get(0)?.shelfNo.toString()
+                                palletNo = it.data?.get(0)?.pilotNo.toString()
+                                busLocNo = it.data?.get(0)?.locationNo.toString()
 
-                            val warehouse = intent.extras?.getString("w").toString()
-                            val rack = intent.extras?.getString("r").toString()
-                            val shelve = intent.extras?.getString("s").toString()
-                            val palette = intent.extras?.getString("p").toString()
+                                binding.WHTV.text = whName
+                                binding.rackTV.text = rackName
+                                binding.shelfTV.text = shelfName
+                                binding.palletTV.text = palletName
+
+                                Log.i("allHierarchy",it.data?.get(0)?.rackCode.toString())
+
+                                val warehouse = intent.extras?.getString("w").toString()
+                                val rack = intent.extras?.getString("r").toString()
+                                val shelve = intent.extras?.getString("s").toString()
+                                val palette = intent.extras?.getString("p").toString()
 
 //                            Log.i("scannerCameraActivity2",rack)
 //                            Log.i("scannerCameraActivity2",warehouse)
@@ -160,168 +166,178 @@ class ShowAllHierarchy : AppCompatActivity() {
 //                            Log.i("scannerCameraActivity2",busLocNo)
 
 
-                            when
-                            {
+                                when
+                                {
 
-                                palette.contains("PL") ->{
-                                    viewModel.getCarton(
-                                        Utils.getSimpleTextBody(palletNo),
-                                        Utils.getSimpleTextBody(busLocNo)
-                                    )
-                                    Log.i("palLoc","${it.data?.get(0)?.pilotCode}")
-                                    Log.i("palletNoScan",palletNo)
+                                    palette.contains("PL") ->{
+                                        viewModel.getCarton(
+                                            Utils.getSimpleTextBody(palletNo),
+                                            Utils.getSimpleTextBody(busLocNo)
+                                        )
+                                        Log.i("palLoc","${it.data?.get(0)?.pilotCode}")
+                                        Log.i("palletNoScan",palletNo)
+                                    }
+
+                                    shelve.contains("SF") ->{
+
+                                        val animFade = AnimationUtils.loadAnimation(this,R.anim.fade_out)
+                                        viewModel.getPallet(
+                                            Utils.getSimpleTextBody(""),
+                                            Utils.getSimpleTextBody(shelfNo),
+                                            Utils.getSimpleTextBody(busLocNo),
+                                        )
+                                        binding.view7.gone()
+                                        binding.view7.startAnimation(animFade)
+                                        binding.view8.gone()
+                                        binding.view8.startAnimation(animFade)
+                                        binding.palletCont.gone()
+                                        binding.palletCont.startAnimation(animFade)
+                                    }
+
+                                    rack.contains("RK") ->{
+
+                                        val animFade = AnimationUtils.loadAnimation(this,R.anim.fade_out)
+                                        viewModel.getShelf(
+                                            Utils.getSimpleTextBody(""),
+                                            Utils.getSimpleTextBody(rackNo),
+                                            Utils.getSimpleTextBody(busLocNo),
+                                        )
+
+                                        binding.view5.gone()
+                                        binding.view5.startAnimation(animFade)
+                                        binding.view6.gone()
+                                        binding.view6.startAnimation(animFade)
+                                        binding.shelfCont.gone()
+                                        binding.shelfCont.startAnimation(animFade)
+                                        binding.view7.gone()
+                                        binding.view7.startAnimation(animFade)
+                                        binding.view8.gone()
+                                        binding.view8.startAnimation(animFade)
+                                        binding.palletCont.gone()
+                                        binding.palletCont.startAnimation(animFade)
+
+                                    }
+
+                                    warehouse.contains("WH") -> {
+
+                                        viewModel.getRack(
+                                            Utils.getSimpleTextBody(""),
+                                            Utils.getSimpleTextBody(whNo),
+                                            Utils.getSimpleTextBody(busLocNo)
+                                        )
+
+                                        binding.view3.gone()
+                                        binding.view4.gone()
+                                        binding.rackCont.gone()
+                                        binding.view5.gone()
+                                        binding.view6.gone()
+                                        binding.shelfCont.gone()
+                                        binding.view7.gone()
+                                        binding.view8.gone()
+                                        binding.palletCont.gone()
+
+                                    }
+
                                 }
 
-                                shelve.contains("SF") ->{
-
-                                    val animFade = AnimationUtils.loadAnimation(this,R.anim.fade_out)
-                                    viewModel.getPallet(
-                                        Utils.getSimpleTextBody(""),
-                                        Utils.getSimpleTextBody(shelfNo),
-                                        Utils.getSimpleTextBody(busLocNo),
-                                    )
-                                    binding.view7.gone()
-                                    binding.view7.startAnimation(animFade)
-                                    binding.view8.gone()
-                                    binding.view8.startAnimation(animFade)
-                                    binding.palletCont.gone()
-                                    binding.palletCont.startAnimation(animFade)
+                                binding.WHTV.click {
+                                    if (isNetworkConnected(this))
+                                    {
+                                        currentScreen = "W"
+                                        viewModel.getRack(
+                                            Utils.getSimpleTextBody(""),
+                                            Utils.getSimpleTextBody(whNo),
+                                            Utils.getSimpleTextBody(busLocNo),
+                                        )
+                                        binding.view3.gone()
+                                        binding.view4.gone()
+                                        binding.rackCont.gone()
+                                        binding.view5.gone()
+                                        binding.view6.gone()
+                                        binding.shelfCont.gone()
+                                        binding.view7.gone()
+                                        binding.view8.gone()
+                                        binding.palletCont.gone()
+                                    }
+                                    else
+                                    {
+                                        binding.WHTV.isEnabled = false
+                                    }
                                 }
 
-                                rack.contains("RK") ->{
-
-                                    val animFade = AnimationUtils.loadAnimation(this,R.anim.fade_out)
-                                    viewModel.getShelf(
-                                        Utils.getSimpleTextBody(""),
-                                        Utils.getSimpleTextBody(rackNo),
-                                        Utils.getSimpleTextBody(busLocNo),
-                                    )
-
-                                    binding.view5.gone()
-                                    binding.view5.startAnimation(animFade)
-                                    binding.view6.gone()
-                                    binding.view6.startAnimation(animFade)
-                                    binding.shelfCont.gone()
-                                    binding.shelfCont.startAnimation(animFade)
-                                    binding.view7.gone()
-                                    binding.view7.startAnimation(animFade)
-                                    binding.view8.gone()
-                                    binding.view8.startAnimation(animFade)
-                                    binding.palletCont.gone()
-                                    binding.palletCont.startAnimation(animFade)
-
+                                binding.rackTV.click {
+                                    if (isNetworkConnected(this)) {
+                                        currentScreen = "R"
+                                        viewModel.getShelf(
+                                            Utils.getSimpleTextBody(""),
+                                            Utils.getSimpleTextBody(rackNo),
+                                            Utils.getSimpleTextBody(busLocNo)
+                                        )
+                                        binding.view5.gone()
+                                        binding.view6.gone()
+                                        binding.shelfCont.gone()
+                                        binding.view7.gone()
+                                        binding.view8.gone()
+                                        binding.palletCont.gone()
+                                    }
+                                    else
+                                    {
+                                        binding.rackTV.isEnabled = false
+                                    }
                                 }
 
-                                warehouse.contains("WH") -> {
-
-                                    viewModel.getRack(
-                                        Utils.getSimpleTextBody(""),
-                                        Utils.getSimpleTextBody(whNo),
-                                        Utils.getSimpleTextBody(busLocNo)
-                                    )
-
-                                    binding.view3.gone()
-                                    binding.view4.gone()
-                                    binding.rackCont.gone()
-                                    binding.view5.gone()
-                                    binding.view6.gone()
-                                    binding.shelfCont.gone()
-                                    binding.view7.gone()
-                                    binding.view8.gone()
-                                    binding.palletCont.gone()
-
+                                binding.shelfTV.click {
+                                    if (isNetworkConnected(this))
+                                    {
+                                        currentScreen = "S"
+                                        viewModel.getPallet(
+                                            Utils.getSimpleTextBody(""),
+                                            Utils.getSimpleTextBody(shelfNo),
+                                            Utils.getSimpleTextBody(busLocNo)
+                                        )
+                                        binding.view7.gone()
+                                        binding.view8.gone()
+                                        binding.palletCont.gone()
+                                    }
+                                    else
+                                    {
+                                        binding.shelfTV.isEnabled = false
+                                    }
                                 }
 
+                                binding.palletTV.click {
+                                    if (isNetworkConnected(this)) {
+                                        currentScreen = "P"
+                                        viewModel.getCarton(
+                                            Utils.getSimpleTextBody(palletNo),
+                                            Utils.getSimpleTextBody(busLocNo),
+                                        )
+                                        binding.palletCont.visible()
+                                    }
+                                    else {
+                                        binding.palletTV.isEnabled = false
+                                    }
+                                }
                             }
-
-                            binding.WHTV.click {
-                                if (isNetworkConnected(this))
-                                {
-                                    currentScreen = "W"
-                                    viewModel.getRack(
-                                        Utils.getSimpleTextBody(""),
-                                        Utils.getSimpleTextBody(whNo),
-                                        Utils.getSimpleTextBody(busLocNo),
-                                    )
-                                    binding.view3.gone()
-                                    binding.view4.gone()
-                                    binding.rackCont.gone()
-                                    binding.view5.gone()
-                                    binding.view6.gone()
-                                    binding.shelfCont.gone()
-                                    binding.view7.gone()
-                                    binding.view8.gone()
-                                    binding.palletCont.gone()
-                                }
-                                else
-                                {
-                                    binding.WHTV.isEnabled = false
-                                }
-                            }
-
-                            binding.rackTV.click {
-                                if (isNetworkConnected(this)) {
-                                    currentScreen = "R"
-                                    viewModel.getShelf(
-                                        Utils.getSimpleTextBody(""),
-                                        Utils.getSimpleTextBody(rackNo),
-                                        Utils.getSimpleTextBody(busLocNo)
-                                    )
-                                    binding.view5.gone()
-                                    binding.view6.gone()
-                                    binding.shelfCont.gone()
-                                    binding.view7.gone()
-                                    binding.view8.gone()
-                                    binding.palletCont.gone()
-                                }
-                                else
-                                {
-                                    binding.rackTV.isEnabled = false
-                                }
-                            }
-
-                            binding.shelfTV.click {
-                                if (isNetworkConnected(this))
-                                {
-                                    currentScreen = "S"
-                                    viewModel.getPallet(
-                                        Utils.getSimpleTextBody(""),
-                                        Utils.getSimpleTextBody(shelfNo),
-                                        Utils.getSimpleTextBody(busLocNo)
-                                    )
-                                    binding.view7.gone()
-                                    binding.view8.gone()
-                                    binding.palletCont.gone()
-                                }
-                                else
-                                {
-                                    binding.shelfTV.isEnabled = false
-                                }
-                            }
-
-                            binding.palletTV.click {
-                                if (isNetworkConnected(this)) {
-                                    currentScreen = "P"
-                                    viewModel.getCarton(
-                                        Utils.getSimpleTextBody(palletNo),
-                                        Utils.getSimpleTextBody(busLocNo),
-                                    )
-                                    binding.palletCont.visible()
-                                }
-                                else {
-                                    binding.palletTV.isEnabled = false
-                                }
+                            catch (e:Exception) {
+                                Log.i("scanAllHierarchy","${e.message}")
                             }
                         }
-                        catch (e:Exception) {
-                            Log.i("scanAllHierarchy","${e.message}")
+                        else
+                        {
+                            finish()
                         }
+
                     }
                 }
 
                 Status.ERROR -> {
 
+                    dialog.dismiss()
                     Log.i("scanAllHierarchy","${Exception().message}")
+                    toast(noRecordFound)
+                    dialog.dismiss()
+                    finish()
                 }
                 else -> {}
             }
@@ -388,7 +404,12 @@ class ShowAllHierarchy : AppCompatActivity() {
                     }
 
                 }
-                Status.ERROR ->{}
+                Status.ERROR ->
+                {
+                    toast(noRecordFound)
+                    dialog.dismiss()
+                    finish()
+                }
 
                 else -> {}
             }
@@ -441,7 +462,12 @@ class ShowAllHierarchy : AppCompatActivity() {
                     }
 
                 }
-                Status.ERROR -> {}
+                Status.ERROR ->
+                {
+                    toast(noRecordFound)
+                    dialog.dismiss()
+                    finish()
+                }
 
                 else -> {}
             }
@@ -499,7 +525,12 @@ class ShowAllHierarchy : AppCompatActivity() {
                     }
 
                 }
-                Status.ERROR -> {}
+                Status.ERROR ->
+                {
+                    toast(noRecordFound)
+                    dialog.dismiss()
+                    finish()
+                }
 
                 else -> {}
             }
@@ -564,6 +595,9 @@ class ShowAllHierarchy : AppCompatActivity() {
                     binding.hierarchyTree.gone()
                     binding.treeView.gone()
                     binding.hierarchyCont.gone()
+                    toast(noRecordFound)
+                    dialog.dismiss()
+                    finish()
                 }
                 else -> {}
             }
@@ -636,6 +670,9 @@ class ShowAllHierarchy : AppCompatActivity() {
                 Status.ERROR -> {
                     binding.hierarchyTree.gone()
                     binding.treeView.gone()
+                    toast(noRecordFound)
+                    dialog.dismiss()
+                    finish()
                 }
                 else -> {}
             }
@@ -694,6 +731,7 @@ class ShowAllHierarchy : AppCompatActivity() {
                            toast(noRecordFound)
                            dialog.dismiss()
                            binding.showAllRV.adapter = null
+                           finish()
                        }
                     }
                     catch (e:Exception)
@@ -704,6 +742,9 @@ class ShowAllHierarchy : AppCompatActivity() {
                 }
                 Status.ERROR -> {
                     binding.showAllRV.adapter = null
+                    toast(noRecordFound)
+                    dialog.dismiss()
+                    finish()
                 }
                 else -> {}
             }

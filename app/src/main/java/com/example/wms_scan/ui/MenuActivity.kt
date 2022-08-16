@@ -5,11 +5,8 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
-import android.net.ConnectivityManager
 import android.os.Bundle
-import android.os.Handler
 import android.util.Log
-import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -35,9 +32,9 @@ class MenuActivity : AppCompatActivity() {
     private lateinit var viewModel: MainViewModel
     private lateinit var dialog: CustomProgressDialog
     private var cameraRequestCode = 100
-    private var receiverDataChange: BroadcastReceiver? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
+    override fun onCreate(savedInstanceState: Bundle?)
+    {
         super.onCreate(savedInstanceState)
         binding = ActivityMenuBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -46,8 +43,6 @@ class MenuActivity : AppCompatActivity() {
         setupUi()
         initObserver()
         permissions()
-
-
 
     }
 
@@ -75,9 +70,6 @@ class MenuActivity : AppCompatActivity() {
         dialog = CustomProgressDialog(this)
         setTransparentStatusBarColor(R.color.transparent)
 
-        binding.toolbar.click {
-            clearPreferences(this)
-        }
         binding.userNameTV.text = LocalPreferences.getString(this,
             LocalPreferences.AppLoginPreferences.userName
         )
@@ -156,43 +148,42 @@ class MenuActivity : AppCompatActivity() {
     }
 
     private fun initListeners() {
+
+        binding.toolbar.click {
+            clearPreferences(this)
+        }
+
         binding.warehouseIV.setOnClickListener {
             if (isNetworkConnected(this)){
                 gotoActivity(WarehouseActivity::class.java, "warehouseValues",false)
-                overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
             }
-
         }
+
         binding.racksIV.setOnClickListener {
             if (isNetworkConnected(this)){
                 gotoActivity(RacksActivity::class.java)
-                overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
             }
         }
         binding.shelfIV.setOnClickListener {
 
-            if (isNetworkConnected(this)){
+            if (isNetworkConnected(this)) {
                 gotoActivity(ShelfActivity::class.java)
-                overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
             }
         }
         binding.palletsIV.setOnClickListener {
 
             if (isNetworkConnected(this)){
                 gotoActivity(PalletsActivity::class.java)
-                overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
             }
         }
         binding.placeCartonIV.setOnClickListener {
             if (isNetworkConnected(this)){
                 gotoActivity(CreateCartonActivity::class.java, "placeCarton",true)
-                overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
             }
         }
         binding.scanCartonIV.click {
             if (isNetworkConnected(this)){
                 gotoActivity(ScannerActivity::class.java,scanCarton,true)
-                overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
             }
         }
 
@@ -201,7 +192,6 @@ class MenuActivity : AppCompatActivity() {
                 Utils.getSimpleTextBody(LocalPreferences.getInt(this, userNo).toString())
             )
         }
-
     }
 
 
@@ -217,13 +207,6 @@ class MenuActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         binding.swipeRefresh.isRefreshing = false
-    }
-
-
-    private fun isNetworkAvailable(): Boolean {
-        val connectivityManager = getSystemService(CONNECTIVITY_SERVICE) as ConnectivityManager
-        val activeNetworkInfo = connectivityManager?.activeNetworkInfo
-        return activeNetworkInfo != null && activeNetworkInfo.isConnected
     }
 
 }

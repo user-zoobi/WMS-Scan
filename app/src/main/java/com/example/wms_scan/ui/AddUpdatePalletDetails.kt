@@ -189,7 +189,6 @@ class AddUpdatePalletDetails : AppCompatActivity() {
         // UPDATE YOUR PALLET
         binding.updatePalletBtn.click {
 
-
             palletName = binding.palletNameET.text.toString()
             val special = Pattern.compile("[!@#\$%&*()_+=|<>?{}\\[\\]:;^`.~£-]")
             val hasSpecial = special.matcher(palletName)
@@ -209,7 +208,7 @@ class AddUpdatePalletDetails : AppCompatActivity() {
             }
             else if(binding.palletNameET.text.toString().startsWith(" "))
             {
-                toast("Please enter any value")
+                toast("Please do not enter whitespaces")
             }
             else if(updatedBusLocNo.isNullOrEmpty())
             {
@@ -217,11 +216,11 @@ class AddUpdatePalletDetails : AppCompatActivity() {
             }
             else if(binding.palletNameET.text.toString().startsWith("0") )
             {
-                toast("Please enter any value")
+                toast("Please enter correct value")
             }
             else if (constainsSymbols)
             {
-                toast("Please enter any value")
+                toast("Please enter correct value")
             }
             else
             {
@@ -245,8 +244,6 @@ class AddUpdatePalletDetails : AppCompatActivity() {
         binding.toolbar.click {
             clearPreferences(this)
         }
-
-
     }
 
     private fun initObserver(){
@@ -317,7 +314,8 @@ class AddUpdatePalletDetails : AppCompatActivity() {
                         Log.i("RACK_OBSERVER","${e.stackTrace}")
                     }
                 }
-                Status.ERROR ->{
+                Status.ERROR ->
+                {
 
                 }
             }

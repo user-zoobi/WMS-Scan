@@ -1,13 +1,10 @@
 package com.example.wms_scan.ui
 
 import android.Manifest
-import android.animation.Animator
-import android.animation.AnimatorListenerAdapter
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
-import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -20,6 +17,7 @@ import com.example.scanmate.util.Utils.isNetworkConnected
 import com.example.scanmate.viewModel.MainViewModel
 import com.example.wms_scan.R
 import com.example.wms_scan.databinding.ActivityScannerBinding
+import java.util.regex.Pattern
 
 
 class ScannerActivity : AppCompatActivity() {
@@ -97,7 +95,7 @@ class ScannerActivity : AppCompatActivity() {
                 }
                 Status.ERROR ->
                 {
-                    dialog.hide()
+                    dialog.dismiss()
                 }
             }
         }
@@ -135,7 +133,7 @@ class ScannerActivity : AppCompatActivity() {
             binding.searchScanTV.gone()
             binding.manualOptionCont.gone()
             binding.scanHeaderTv.text = "Scan Goods"
-            //
+
         }
 
         binding.loginBtn.click {
@@ -155,12 +153,32 @@ class ScannerActivity : AppCompatActivity() {
                 if (binding.numOrMatNameTV.text.toString().isNullOrEmpty())
                 {
                     var analOrMatInput = binding.numOrMatNameTV.text.toString()
-                    toast("No record found")
+                    toast("Field must not be empty")
+
                     Log.i("matInput",analOrMatInput)
+                }
+                else if(binding.numOrMatNameTV.text.toString().startsWith(" "))
+                {
+                    toast("Please do not enter whitespaces")
+                }
+                else if(binding.numOrMatNameTV.text.toString().startsWith("0") )
+                {
+                    toast("Please enter correct value")
                 }
                 else {
                     analOrMatInput = binding.numOrMatNameTV.text.toString()
-                    viewModel.getCartonQnWise(analOrMatInput)
+                    val special = Pattern.compile("[!@#\$%&*()_+=|<>?{}\\[\\]:;^`.~£-]")
+                    val hasSpecial = special.matcher(analOrMatInput)
+                    val constainsSymbols: Boolean = hasSpecial.find()
+
+                    if (constainsSymbols)
+                    {
+                        toast("Please enter correct value")
+                    }
+                    else
+                    {
+                        viewModel.getCartonQnWise(analOrMatInput)
+                    }
                 }
             }
 
@@ -169,11 +187,11 @@ class ScannerActivity : AppCompatActivity() {
                 toast("No internet found")
             }
         }
-
     }
 
 
-    override fun onBackPressed() {
+    override fun onBackPressed()
+    {
         finish()
     }
 }

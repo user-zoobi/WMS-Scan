@@ -35,7 +35,7 @@
         <entry key="..\:/Users/BI.IT-021/StudioProjects/WMS-Scan/app/src/main/res/layout/activity_createcarton_scan.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/BI.IT-021/StudioProjects/WMS-Scan/app/src/main/res/layout/activity_login.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/BI.IT-021/StudioProjects/WMS-Scan/app/src/main/res/layout/activity_main.xml" value="0.20416666666666666" />
-        <entry key="..\:/Users/BI.IT-021/StudioProjects/WMS-Scan/app/src/main/res/layout/activity_menu.xml" value="0.25" />
+        <entry key="..\:/Users/BI.IT-021/StudioProjects/WMS-Scan/app/src/main/res/layout/activity_menu.xml" value="0.22" />
         <entry key="..\:/Users/BI.IT-021/StudioProjects/WMS-Scan/app/src/main/res/layout/activity_no_network.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/BI.IT-021/StudioProjects/WMS-Scan/app/src/main/res/layout/activity_pallets.xml" value="0.25" />
         <entry key="..\:/Users/BI.IT-021/StudioProjects/WMS-Scan/app/src/main/res/layout/activity_pdf_view.xml" value="0.20416666666666666" />
@@ -44,7 +44,7 @@
         <entry key="..\:/Users/BI.IT-021/StudioProjects/WMS-Scan/app/src/main/res/layout/activity_qr_code_detail_activity.xml" value="0.22" />
         <entry key="..\:/Users/BI.IT-021/StudioProjects/WMS-Scan/app/src/main/res/layout/activity_qr_code_generator.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/BI.IT-021/StudioProjects/WMS-Scan/app/src/main/res/layout/activity_racks.xml" value="0.2" />
-        <entry key="..\:/Users/BI.IT-021/StudioProjects/WMS-Scan/app/src/main/res/layout/activity_scan_all_hierarchy.xml" value="0.25" />
+        <entry key="..\:/Users/BI.IT-021/StudioProjects/WMS-Scan/app/src/main/res/layout/activity_scan_all_hierarchy.xml" value="0.22" />
         <entry key="..\:/Users/BI.IT-021/StudioProjects/WMS-Scan/app/src/main/res/layout/activity_scan_carton.xml" value="0.22" />
         <entry key="..\:/Users/BI.IT-021/StudioProjects/WMS-Scan/app/src/main/res/layout/activity_scan_pallet.xml" value="0.25" />
         <entry key="..\:/Users/BI.IT-021/StudioProjects/WMS-Scan/app/src/main/res/layout/activity_scanner.xml" value="0.22" />

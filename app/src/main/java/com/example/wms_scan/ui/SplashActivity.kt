@@ -9,10 +9,6 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
-import android.view.ViewGroup
-import android.widget.LinearLayout
-import android.widget.MediaController
-import android.widget.VideoView
 import androidx.appcompat.app.AppCompatDelegate
 import com.example.scanmate.extensions.gotoActivity
 import com.example.scanmate.extensions.setTransparentStatusBarColor
@@ -20,7 +16,6 @@ import com.example.scanmate.util.LocalPreferences
 import com.example.scanmate.util.LocalPreferences.AppLoginPreferences.isLogin
 import com.example.wms_scan.R
 import com.example.wms_scan.databinding.ActivitySplashBinding
-import com.example.wms_scan.utils.TextureVideoView
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
