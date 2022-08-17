@@ -82,8 +82,7 @@ class ShowAllHierarchy : AppCompatActivity() {
             LocalPreferences.AppLoginPreferences.loginTime
         )
 
-         cartonAnalyticalNo = intent.extras?.getString("c").toString()
-         cartonAnalyticalKey = intent.extras?.getBoolean("analyticalKey")!!
+
 
         Log.i("cartonAnalyticalNo",cartonAnalyticalNo)
         Log.i("cartonAnalyticalKey",cartonAnalyticalKey.toString())
@@ -96,16 +95,6 @@ class ShowAllHierarchy : AppCompatActivity() {
 
         when
         {
-           intent.extras?.getBoolean("analyticalKey") == true ->
-            {
-                viewModel.getCartonQnWise(cartonAnalyticalNo)
-                Log.i("cartonAnalyticalNo",cartonAnalyticalNo)
-            }
-
-        }
-
-        when
-        {
             intent.extras?.getBoolean("manualAnalyticalKey") == true ->{
                 var manualName = intent.extras!!.getString("manualMatName").toString()
                 Log.i("ManualInput", " $manualName ")
@@ -113,6 +102,17 @@ class ShowAllHierarchy : AppCompatActivity() {
 
             }
         }
+
+        when
+        {
+            intent.extras?.getBoolean("analyticalKey") == true ->
+            {
+                cartonAnalyticalNo = intent.extras?.getString("c").toString()
+                viewModel.getCartonQnWise(cartonAnalyticalNo)
+            }
+        }
+
+//        cartonAnalyticalKey = intent.extras?.getBoolean("analyticalKey")!!
     }
 
     private fun initObserver(){
@@ -673,6 +673,10 @@ class ShowAllHierarchy : AppCompatActivity() {
                           binding.listSize.text = "Total Record : ${it.data.size}"
 
                           Log.i("getCartonData", it.data[0].toString())
+                          Log.i(
+                              "getCartonDetailParam",
+                              "${it.data[0].cartonCode.toString()}\n${it.data[0].analyticalNo}\n ${it.data[0].cartonSNo}"
+                          )
 
                           binding.searchViewCont.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
 
@@ -743,7 +747,10 @@ class ShowAllHierarchy : AppCompatActivity() {
                                    adapter = null
                                }
                            }
-
+                           Log.i(
+                               "getCartonQnWiseParam",
+                               "${it.data[0].materialName.toString()}\n${it.data[0].analyticalNo}\n ${it.data[0].cartonSNo}"
+                           )
                            binding.itemTV.text = "Analytical Number : ${it.data[0].analyticalNo.toString()}"
                            binding.listSize.text = "Total Record : ${it.data.size}"
 
@@ -786,24 +793,6 @@ class ShowAllHierarchy : AppCompatActivity() {
                     dialog.dismiss()
                 }
                 else -> {}
-            }
-        }
-
-        viewModel.getCartonDetails.observe(this){
-            when(it.status)
-            {
-                Status.LOADING ->
-                {
-
-                }
-                Status.SUCCESS ->
-                {
-
-                }
-                Status.ERROR ->
-                {
-
-                }
             }
         }
 
@@ -905,10 +894,6 @@ class ShowAllHierarchy : AppCompatActivity() {
             {
                 currentScreen = "M"
                 Log.i("analyticalNo",actionNo)
-                when(cartonAnalyticalKey)
-                {
-
-                }
                 viewModel.getCartonQnWise(actionNo)
             }
         }
