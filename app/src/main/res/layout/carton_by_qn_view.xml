@@ -5,7 +5,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:background="@drawable/transparent_blue_stroke_bg"
+        android:background="@drawable/dark_grey_rounded_bg"
         android:orientation="vertical"
         android:elevation="@dimen/_5sdp"
     android:layout_marginStart="@dimen/_16sdp"
@@ -17,7 +17,7 @@
             android:id="@+id/materialName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/_20sdp"
+            android:layout_marginStart="@dimen/_25sdp"
             android:layout_marginEnd="@dimen/_10sdp"
             android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
@@ -28,8 +28,8 @@
             android:ellipsize="marquee"
             android:singleLine="true"
             android:scrollHorizontally="true"
-            android:textColor="@color/blue"
-            android:textSize="@dimen/_16ssp"
+            android:textColor="@color/shade_pink"
+            android:textSize="@dimen/_18ssp"
             android:textAllCaps="true"
             android:textStyle="bold"/>
 
@@ -37,7 +37,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginStart="@dimen/_20sdp"
+            android:layout_marginStart="@dimen/_25sdp"
             android:layout_marginTop="@dimen/_10sdp">
 
             <androidx.appcompat.widget.AppCompatImageView
@@ -57,7 +57,7 @@
                 android:layout_gravity="center_vertical"
                 android:fontFamily="@font/amiko"
                 android:text="warehouseName"
-                android:textColor="@color/black"
+                android:textColor="@color/white"
                 android:textSize="@dimen/_12ssp" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
@@ -66,7 +66,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginStart="@dimen/_20sdp"
+        android:layout_marginStart="@dimen/_25sdp"
         android:layout_marginTop="@dimen/_10sdp">
 
         <androidx.appcompat.widget.AppCompatImageView
@@ -85,7 +85,7 @@
             android:layout_gravity="center_vertical"
             android:fontFamily="@font/amiko"
             android:text="rackName"
-            android:textColor="@color/black"
+            android:textColor="@color/white"
             android:textSize="@dimen/_12ssp" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
@@ -94,7 +94,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginStart="@dimen/_20sdp"
+        android:layout_marginStart="@dimen/_25sdp"
         android:layout_marginTop="@dimen/_10sdp">
 
         <androidx.appcompat.widget.AppCompatImageView
@@ -113,7 +113,7 @@
             android:layout_gravity="center_vertical"
             android:fontFamily="@font/amiko"
             android:text="shelfName"
-            android:textColor="@color/black"
+            android:textColor="@color/white"
             android:textSize="@dimen/_12ssp" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
@@ -122,7 +122,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginStart="@dimen/_20sdp"
+            android:layout_marginStart="@dimen/_25sdp"
             android:layout_marginTop="@dimen/_10sdp">
 
         <androidx.appcompat.widget.AppCompatImageView
@@ -141,7 +141,7 @@
             android:layout_gravity="center_vertical"
             android:fontFamily="@font/amiko"
             android:text="palletName"
-            android:textColor="@color/black"
+            android:textColor="@color/white"
             android:textSize="@dimen/_12ssp" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
@@ -150,7 +150,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginStart="@dimen/_20sdp"
+        android:layout_marginStart="@dimen/_25sdp"
         android:layout_marginTop="@dimen/_10sdp">
 
         <androidx.appcompat.widget.AppCompatImageView
@@ -170,7 +170,7 @@
             android:layout_gravity="center_vertical"
             android:fontFamily="@font/amiko"
             android:text="carton nO"
-            android:textColor="@color/black"
+            android:textColor="@color/white"
             android:textSize="@dimen/_12ssp" />
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -182,7 +182,7 @@
             android:layout_gravity="center_vertical"
             android:fontFamily="@font/amiko"
             android:text="/"
-            android:textColor="@color/black"
+            android:textColor="@color/white"
             android:textSize="@dimen/_12ssp" />
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -195,7 +195,7 @@
             android:layout_gravity="center_vertical"
             android:fontFamily="@font/amiko"
             android:text="tot carton nO"
-            android:textColor="@color/black"
+            android:textColor="@color/white"
             android:textSize="@dimen/_12ssp" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
@@ -204,7 +204,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginStart="@dimen/_20sdp"
+        android:layout_marginStart="@dimen/_25sdp"
         android:layout_marginTop="@dimen/_10sdp"
         android:layout_marginBottom="@dimen/_20sdp">
 
@@ -224,7 +224,7 @@
             android:layout_gravity="center_vertical"
             android:fontFamily="@font/amiko"
             android:text="stock"
-            android:textColor="@color/black"
+            android:textColor="@color/white"
             android:textSize="@dimen/_12ssp" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>

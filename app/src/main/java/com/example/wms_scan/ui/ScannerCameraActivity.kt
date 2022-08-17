@@ -63,6 +63,7 @@ class ScannerCameraActivity : AppCompatActivity() {
                         catch (e:Exception)
                         {
                             Log.i("scanAll","${e.message}")
+                            toast("${e.message}")
                         }
                     }
                     else

@@ -10,27 +10,64 @@
     android:layout_marginStart="@dimen/_5sdp"
     android:layout_marginEnd="@dimen/_5sdp"
     android:layout_marginTop="@dimen/_1sdp"
-    android:layout_marginBottom="@dimen/_2sdp">
+    android:layout_marginBottom="@dimen/_5sdp">
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:weightSum="3"
+        android:orientation="vertical"
         android:background="@drawable/hollow_black_stroke_rounded_bg">
 
-        <androidx.appcompat.widget.LinearLayoutCompat
-            android:layout_width="wrap_content"
+        <RelativeLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_weight="1"
-            android:weightSum="2">
+            android:background="@color/dark_grey">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/materialCodeTV"
+                android:layout_width="@dimen/_340sdp"
+                android:layout_height="@dimen/_40sdp"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:layout_marginBottom="@dimen/_10sdp"
+                android:ellipsize="marquee"
+                android:fontFamily="@font/amiko"
+                android:gravity="center_vertical"
+                android:marqueeRepeatLimit="marquee_forever"
+                android:paddingStart="@dimen/_20sdp"
+                android:paddingTop="@dimen/_5sdp"
+                android:scrollHorizontally="true"
+                android:singleLine="true"
+                android:text="hydrochloric acid"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_16ssp"
+                android:textStyle="bold"
+                app:textAllCaps="true" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="@dimen/_30sdp"
+                android:layout_height="@dimen/_30sdp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="@dimen/_20sdp"
+                android:src="@drawable/info_icon"
+                android:layout_toEndOf="@id/materialCodeTV"/>
+
+        </RelativeLayout>
+
+
 
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_weight="1">
+                android:orientation="horizontal"
+               android:layout_marginStart="@dimen/_20sdp"
+                android:layout_marginTop="@dimen/_10sdp">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="@dimen/_20sdp"
+                    android:layout_height="@dimen/_20sdp"
+                    android:src="@drawable/carton"/>
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:layout_width="wrap_content"
@@ -38,7 +75,6 @@
                     android:layout_alignParentStart="true"
                     android:layout_centerVertical="true"
                     android:layout_marginStart="@dimen/_10sdp"
-                    android:layout_marginTop="@dimen/_10sdp"
                     android:fontFamily="@font/amiko"
                     android:text="Analytical No: "
                     android:textColor="@color/black"
@@ -49,68 +85,27 @@
                     android:id="@+id/analyticalNoTV"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentStart="true"
                     android:layout_centerVertical="true"
                     android:layout_marginStart="@dimen/_10sdp"
-                    android:layout_marginTop="@dimen/_5sdp"
                     android:fontFamily="@font/amiko"
-                    android:text=""
-                    android:textColor="@color/dark_grey"
-                    android:textSize="@dimen/_12ssp"
-                    android:textStyle="bold" />
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentStart="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginStart="@dimen/_10sdp"
-                    android:layout_marginTop="@dimen/_10sdp"
-                    android:fontFamily="@font/amiko"
-                    android:text="Material Name:"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/_15ssp"
-                    android:textStyle="bold" />
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/materialCodeTV"
-                    android:layout_width="@dimen/_100sdp"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentStart="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginStart="@dimen/_10sdp"
-                    android:layout_marginBottom="@dimen/_10sdp"
-                    android:layout_marginTop="@dimen/_5sdp"
-                    android:fontFamily="@font/amiko"
-                    android:text=""
+                    android:text="12345678"
                     android:textColor="@color/dark_grey"
                     android:textSize="@dimen/_12ssp"
                     android:textStyle="bold" />
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 
-            <View
-                android:layout_width="@dimen/_2sdp"
-                android:layout_height="match_parent"
-                android:layout_marginTop="@dimen/_5sdp"
-                android:layout_marginBottom="@dimen/_5sdp"
-                android:background="@color/light_grey" />
-
-        </androidx.appcompat.widget.LinearLayoutCompat>
-
-        <androidx.appcompat.widget.LinearLayoutCompat
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:orientation="horizontal"
-            android:layout_gravity="center"
-            android:layout_weight="1"
-            android:weightSum="2">
-
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_weight="1">
+                android:orientation="horizontal"
+                android:layout_marginStart="@dimen/_20sdp"
+                android:layout_marginTop="@dimen/_10sdp">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="@dimen/_20sdp"
+                    android:layout_height="@dimen/_20sdp"
+                    android:src="@drawable/carton"/>
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:layout_width="wrap_content"
@@ -118,9 +113,9 @@
                     android:layout_alignParentStart="true"
                     android:layout_centerVertical="true"
                     android:layout_marginStart="@dimen/_10sdp"
-                    android:layout_marginTop="@dimen/_10sdp"
                     android:fontFamily="@font/amiko"
                     android:text="Carton No: "
+                    android:layout_gravity="center_vertical"
                     android:textColor="@color/black"
                     android:textSize="@dimen/_15ssp"
                     android:textStyle="bold" />
@@ -128,7 +123,8 @@
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:layout_gravity="center_vertical">
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/cartonNo"
@@ -137,9 +133,9 @@
                         android:layout_alignParentStart="true"
                         android:layout_centerVertical="true"
                         android:layout_marginStart="@dimen/_10sdp"
-                        android:layout_marginTop="@dimen/_5sdp"
                         android:fontFamily="@font/amiko"
                         android:text="carton"
+                        android:layout_gravity="center_vertical"
                         android:textColor="@color/dark_grey"
                         android:textSize="@dimen/_12ssp"
                         android:textStyle="bold" />
@@ -149,8 +145,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentStart="true"
                         android:layout_centerVertical="true"
-                        android:layout_marginStart="@dimen/_10sdp"
-                        android:layout_marginTop="@dimen/_5sdp"
+                        android:layout_marginStart="@dimen/_2sdp"
                         android:fontFamily="@font/amiko"
                         android:text="/"
                         android:textColor="@color/dark_grey"
@@ -163,10 +158,10 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentStart="true"
                         android:layout_centerVertical="true"
-                        android:layout_marginStart="@dimen/_10sdp"
-                        android:layout_marginTop="@dimen/_5sdp"
+                        android:layout_marginStart="@dimen/_2sdp"
                         android:fontFamily="@font/amiko"
                         android:text="totCaton"
+                        android:layout_gravity="center_vertical"
                         android:textColor="@color/dark_grey"
                         android:textSize="@dimen/_12ssp"
                         android:textStyle="bold" />
@@ -177,28 +172,18 @@
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 
-            <View
-                android:id="@+id/view3"
-                android:layout_width="@dimen/_2sdp"
-                android:layout_height="match_parent"
-                android:layout_marginTop="@dimen/_5sdp"
-                android:layout_marginBottom="@dimen/_5sdp"
-                android:background="@color/light_grey" />
-
-        </androidx.appcompat.widget.LinearLayoutCompat>
-
-        <androidx.appcompat.widget.LinearLayoutCompat
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:orientation="horizontal"
-            android:layout_weight="1"
-            android:weightSum="2">
-
             <androidx.appcompat.widget.LinearLayoutCompat
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_weight="1">
+                android:orientation="horizontal"
+                android:layout_marginBottom="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginStart="@dimen/_20sdp">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="@dimen/_20sdp"
+                    android:layout_height="@dimen/_20sdp"
+                    android:src="@drawable/carton"/>
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:layout_width="wrap_content"
@@ -206,7 +191,6 @@
                     android:layout_alignParentStart="true"
                     android:layout_centerVertical="true"
                     android:layout_marginStart="@dimen/_10sdp"
-                    android:layout_marginTop="@dimen/_10sdp"
                     android:fontFamily="@font/amiko"
                     android:text="Stock: "
                     android:textColor="@color/black"
@@ -220,18 +204,14 @@
                     android:layout_alignParentStart="true"
                     android:layout_centerVertical="true"
                     android:layout_marginStart="@dimen/_10sdp"
-                    android:layout_marginTop="@dimen/_5sdp"
                     android:fontFamily="@font/amiko"
-                    android:text=""
+                    android:text="123456"
+                    android:layout_gravity="center_vertical"
                     android:textColor="@color/dark_grey"
                     android:textSize="@dimen/_12ssp"
                     android:textStyle="bold" />
 
             </androidx.appcompat.widget.LinearLayoutCompat>
-
-
-        </androidx.appcompat.widget.LinearLayoutCompat>
-
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 

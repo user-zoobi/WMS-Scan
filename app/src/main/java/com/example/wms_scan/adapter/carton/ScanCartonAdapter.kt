@@ -43,9 +43,10 @@ class ScanCartonAdapter (
 
                 binding.analyticalNoTV.text = data.analyticalNo?.trim()
                 binding.stockTV.text = data.matStock.toString().trim()
-                binding.cartonNo.text = data.cartonNo.toString().trim()
+                binding.cartonNo.text = data.cartonSNo.toString().trim()
                 binding.materialCodeTV.text = data.materialName.toString().trim()
                 binding.totCarton.text = data.totCarton.toString().trim()
+                binding.materialCodeTV.isSelected = true
 
                 binding.cartonCont.click {
 
@@ -60,7 +61,6 @@ class ScanCartonAdapter (
                 }
             }
         }
-
     }
 
     override fun getItemCount(): Int {

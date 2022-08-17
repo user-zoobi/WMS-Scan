@@ -10,52 +10,76 @@
     android:layout_marginStart="@dimen/_5sdp"
     android:layout_marginEnd="@dimen/_5sdp"
     android:layout_marginTop="@dimen/_1sdp"
-    android:layout_marginBottom="@dimen/_1sdp">
+    android:layout_marginBottom="@dimen/_5sdp">
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical"
         android:background="@drawable/hollow_black_stroke_rounded_bg">
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/shelfTV"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/_10sdp"
-                android:layout_marginTop="@dimen/_5sdp"
-                android:layout_marginBottom="@dimen/_5sdp"
-                android:fontFamily="@font/amiko"
-                android:text="Shelf Name"
+        <RelativeLayout
+            android:id="@+id/view_cont"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/_5sdp"
+            android:background="@color/dark_grey"
+            android:orientation="horizontal">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/showQRIV"
+                android:layout_width="@dimen/_25sdp"
+                android:layout_height="@dimen/_25sdp"
+                android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
-                android:textColor="@color/black"
-                android:textSize="@dimen/_15ssp"
-                android:textStyle="bold" />
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:background="@drawable/grey_circle_bg"
+                android:padding="@dimen/_5sdp"
+                android:src="@drawable/qr_code_black"
+                android:tint="@color/black" />
+
+            <ImageView
+                android:id="@+id/editIV"
+                android:layout_width="@dimen/_25sdp"
+                android:layout_height="@dimen/_25sdp"
+                android:layout_centerVertical="true"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:layout_toStartOf="@id/showQRIV"
+                android:background="@drawable/grey_circle_bg"
+                android:padding="@dimen/_3sdp"
+                android:src="@drawable/edit_icon"
+                app:tint="@color/black" />
+
+        </RelativeLayout>
 
         <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/showQRIV"
-            android:layout_width="@dimen/_25sdp"
-            android:layout_height="@dimen/_25sdp"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:layout_marginEnd="@dimen/_20sdp"
-            android:background="@drawable/hollow_black_rounded_bg"
-            android:padding="@dimen/_8sdp"
-            android:src="@drawable/qr_code_black"
-            android:tint="@color/white" />
+            android:id="@+id/shelfImage"
+            android:layout_width="@dimen/_30sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:layout_below="@id/view_cont"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="@dimen/_20sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginBottom="@dimen/_10sdp"
+            android:paddingStart="@dimen/_10sdp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/shelf_color" />
 
-        <ImageView
-            android:id="@+id/editIV"
-            android:layout_width="@dimen/_25sdp"
-            android:layout_height="@dimen/_25sdp"
-            android:layout_centerVertical="true"
-            android:layout_marginTop="@dimen/_20sdp"
-            android:layout_marginEnd="@dimen/_30sdp"
-            android:layout_toStartOf="@id/showQRIV"
-            android:background="@drawable/hollow_black_rounded_bg"
-            android:padding="@dimen/_3sdp"
-            android:src="@drawable/edit_icon"
-            app:tint="@color/white" />
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/shelfTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/view_cont"
+            android:layout_marginStart="@dimen/_15sdp"
+            android:layout_marginTop="@dimen/_15sdp"
+            android:layout_marginBottom="@dimen/_5sdp"
+            android:layout_toEndOf="@id/shelfImage"
+            android:fontFamily="@font/amiko"
+            android:text="Shelf Name"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_15ssp"
+            android:textStyle="bold" />
 
     </RelativeLayout>
 
