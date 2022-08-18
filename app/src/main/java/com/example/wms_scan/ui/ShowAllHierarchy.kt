@@ -150,19 +150,18 @@ class ShowAllHierarchy : AppCompatActivity() {
                                 binding.shelfTV.text = shelfName
                                 binding.palletTV.text = palletName
 
-                                Log.i("allHierarchy",it.data?.get(0)?.rackCode.toString())
+                                Log.i("allHierarchy", it.data[0].rackCode.toString())
 
                                 val warehouse = intent.extras?.getString("w").toString()
                                 val rack = intent.extras?.getString("r").toString()
                                 val shelve = intent.extras?.getString("s").toString()
                                 val palette = intent.extras?.getString("p").toString()
 
-                            Log.i("scannerCameraActivity2",rack)
-                            Log.i("scannerCameraActivity2",warehouse)
-                            Log.i("scannerCameraActivity2",shelve)
-                            Log.i("scannerCameraActivity2",palette)
-                            Log.i("scannerCameraActivity2",busLocNo)
-
+                                Log.i("scannerCameraActivityRack",rack)
+                                Log.i("scannerCameraActivityWarehouse",warehouse)
+                                Log.i("scannerCameraActivityShelve",shelve)
+                                Log.i("scannerCameraActivityPalette",palette)
+                                Log.i("scannerCameraActivityLocNo",busLocNo)
 
                                 when
                                 {
@@ -172,8 +171,9 @@ class ShowAllHierarchy : AppCompatActivity() {
                                             Utils.getSimpleTextBody(palletNo),
                                             Utils.getSimpleTextBody(busLocNo)
                                         )
-                                        Log.i("palLoc","${it.data?.get(0)?.pilotCode}")
+                                        Log.i("palLoc","${it.data[0].pilotCode}")
                                         Log.i("palletNoScan",palletNo)
+                                        toast("global var palletNo: $palletNo")
                                     }
 
                                     shelve.contains("SF") ->{
@@ -318,13 +318,21 @@ class ShowAllHierarchy : AppCompatActivity() {
                                 }
                             }
                             catch (e:Exception) {
+                                dialog.dismiss()
                                 Log.i("scanAllHierarchy","${e.message}")
-                                toast("${e.message}")
+                                toast("Something went wrong")
+                                binding.listSize.gone()
+                                binding.itemTV.text = "No data"
+
                             }
                         }
                         else
                         {
+                            dialog.dismiss()
                             finish()
+                            toast("Something went wrong")
+                            binding.listSize.gone()
+                            binding.itemTV.text = "No data"
                         }
 
                     }
@@ -338,6 +346,9 @@ class ShowAllHierarchy : AppCompatActivity() {
                     dialog.dismiss()
                     Log.i("scanAllHierarchy","${Exception().message}")
                     toast("Something went wrong!")
+                    binding.listSize.gone()
+                    binding.itemTV.text = "No data"
+
                 }
                 else -> {}
             }
@@ -547,8 +558,6 @@ class ShowAllHierarchy : AppCompatActivity() {
                         Log.i("getShelf","${e.message}")
                         toast("${e.message}")
                     }
-
-
                 }
                 Status.ERROR ->
                 {
@@ -668,21 +677,21 @@ class ShowAllHierarchy : AppCompatActivity() {
                                   toast(noRecordFound)
                               }
                           }
-
+                          binding.hierarchyCont.visible()
                           binding.itemTV.text = it.data[0].pilotName
                           binding.listSize.text = "Total Record : ${it.data.size}"
 
                           Log.i("getCartonData", it.data[0].toString())
                           Log.i(
                               "getCartonDetailParam",
-                              "${it.data[0].cartonCode.toString()}\n${it.data[0].analyticalNo}\n ${it.data[0].cartonSNo}"
+                              "${it.data[0].cartonCode.toString()}\n${it.data[0].analyticalNo}\n ${it.data[0].cartonSNo}\n" +
+                                      "${it.data[0].pilotNo}"
                           )
 
                           binding.searchViewCont.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
 
                               override fun onQueryTextSubmit(query: String?): Boolean
                               {
-
                                   return true
                               }
 
@@ -703,7 +712,11 @@ class ShowAllHierarchy : AppCompatActivity() {
                     catch (e:Exception)
                     {
                         Log.i("getCarton","${e.message}")
-                        toast("${e.message}")
+                        toast("Something went wrong")
+                        binding.listSize.gone()
+                        binding.itemTV.text = "No data"
+
+
                     }
                 }
 
@@ -711,8 +724,11 @@ class ShowAllHierarchy : AppCompatActivity() {
 
                     binding.hierarchyTree.gone()
                     binding.treeView.gone()
-                    toast(it.data?.get(0)?.error!!)
+                    toast("Something went wrong")
                     dialog.dismiss()
+                    binding.listSize.gone()
+                    binding.itemTV.text = "No data"
+
                 }
                 else -> {}
             }
@@ -877,6 +893,7 @@ class ShowAllHierarchy : AppCompatActivity() {
                         Utils.getSimpleTextBody(actionNo),
                         Utils.getSimpleTextBody(busLocNo)
                     )
+                toast(actionNo)
                     binding.view3.visible()
                     binding.view4.visible()
                     binding.rackCont.visible()
@@ -918,6 +935,7 @@ class ShowAllHierarchy : AppCompatActivity() {
         if(palette.contains("PL")) {
             viewModel.scanAll(palette, locationNo)
             currentScreen = "P"
+
         }
         if (shelve.contains("SF")) {
             viewModel.scanAll(shelve, locationNo)

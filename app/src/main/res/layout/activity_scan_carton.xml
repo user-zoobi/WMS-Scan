@@ -134,10 +134,9 @@
 
                             <androidx.appcompat.widget.AppCompatImageView
                                 android:id="@+id/WHIV2"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:src="@drawable/warehouse"
-                                android:tint="@color/dark_grey" />
+                                android:layout_width="@dimen/_20sdp"
+                                android:layout_height="@dimen/_20sdp"
+                                android:src="@drawable/warehouse_color" />
 
                             <TextView
                                 android:id="@+id/WHTV"
@@ -187,8 +186,7 @@
                                 android:id="@+id/rackIV"
                                 android:layout_width="@dimen/_20sdp"
                                 android:layout_height="@dimen/_20sdp"
-                                android:src="@drawable/shelves"
-                                android:tint="@color/dark_grey" />
+                                android:src="@drawable/rack_color" />
 
                             <TextView
                                 android:id="@+id/rackTV"
@@ -237,8 +235,7 @@
                                 android:id="@+id/shelfIV"
                                 android:layout_width="@dimen/_20sdp"
                                 android:layout_height="@dimen/_20sdp"
-                                android:src="@drawable/shelves"
-                                android:tint="@color/dark_grey" />
+                                android:src="@drawable/shelf_color" />
 
                             <TextView
                                 android:id="@+id/shelfTV"
@@ -287,8 +284,7 @@
                                 android:id="@+id/palletIV"
                                 android:layout_width="@dimen/_20sdp"
                                 android:layout_height="@dimen/_20sdp"
-                                android:src="@drawable/pallet"
-                                android:tint="@color/dark_grey" />
+                                android:src="@drawable/pallet_color" />
 
                             <TextView
                                 android:id="@+id/palletTV"
@@ -320,18 +316,29 @@
                 android:orientation="horizontal"
                 android:visibility="visible">
 
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="@dimen/_30sdp"
+                    android:layout_height="@dimen/_30sdp"
+                    android:layout_gravity="center_vertical"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/pallet_color" />
+
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/palletNameTV"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/_5sdp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="@dimen/_10sdp"
                     android:fontFamily="@font/amiko"
-                    android:text=""
+                    android:text="hello"
+                    android:textColor="@color/dark_hollow_black"
+                    android:textStyle="bold"
                     android:textSize="@dimen/_14ssp" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
                     android:layout_marginStart="@dimen/_10sdp"
                     android:fontFamily="@font/amiko"
                     android:text="|"
@@ -341,6 +348,7 @@
                     android:id="@+id/palletCodeTV"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
                     android:layout_marginStart="@dimen/_5sdp"
                     android:fontFamily="@font/amiko"
                     android:text=""
@@ -366,7 +374,7 @@
                     android:layout_gravity="center"
                     android:layout_marginTop="@dimen/_10sdp"
                     android:fontFamily="@font/amiko"
-                    android:text="Scan Analytical Number"
+                    android:text="Scan Carton Code"
                     android:textColor="@color/black"
                     android:textSize="@dimen/_16ssp"
                     android:textStyle="bold"
@@ -396,7 +404,7 @@
                     android:textColor="@color/white"
                     android:textSize="@dimen/_18ssp"
                     android:textStyle="bold"
-                    android:visibility="gone"/>
+                    android:visibility="gone" />
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 

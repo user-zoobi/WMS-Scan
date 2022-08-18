@@ -167,18 +167,7 @@ class ScannerActivity : AppCompatActivity() {
                 }
                 else {
                     analOrMatInput = binding.numOrMatNameTV.text.toString()
-                    val special = Pattern.compile("[!@#\$%&*()_+=|<>?{}\\[\\]:;^`.~£-]")
-                    val hasSpecial = special.matcher(analOrMatInput)
-                    val constainsSymbols: Boolean = hasSpecial.find()
-
-                    if (constainsSymbols)
-                    {
-                        toast("Please enter correct value")
-                    }
-                    else
-                    {
-                        viewModel.getCartonQnWise(analOrMatInput)
-                    }
+                    viewModel.getCartonQnWise(analOrMatInput)
                 }
             }
 

@@ -151,10 +151,9 @@
 
                             <androidx.appcompat.widget.AppCompatImageView
                                 android:id="@+id/WHIV2"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:src="@drawable/warehouse"
-                                android:tint="@color/dark_grey" />
+                                android:layout_width="@dimen/_20sdp"
+                                android:layout_height="@dimen/_20sdp"
+                                android:src="@drawable/warehouse_color" />
 
                             <TextView
                                 android:id="@+id/WHTV"
@@ -203,8 +202,7 @@
                                 android:id="@+id/rackIV"
                                 android:layout_width="@dimen/_20sdp"
                                 android:layout_height="@dimen/_20sdp"
-                                android:src="@drawable/shelves"
-                                android:tint="@color/dark_grey" />
+                                android:src="@drawable/rack_color" />
 
                             <TextView
                                 android:id="@+id/rackTV"
@@ -253,8 +251,7 @@
                                 android:id="@+id/shelfIV"
                                 android:layout_width="@dimen/_20sdp"
                                 android:layout_height="@dimen/_20sdp"
-                                android:src="@drawable/shelves"
-                                android:tint="@color/dark_grey" />
+                                android:src="@drawable/shelf_color" />
 
                             <TextView
                                 android:id="@+id/shelfTV"
@@ -303,8 +300,7 @@
                                 android:id="@+id/palletIV"
                                 android:layout_width="@dimen/_20sdp"
                                 android:layout_height="@dimen/_20sdp"
-                                android:src="@drawable/pallet"
-                                android:tint="@color/dark_grey" />
+                                android:src="@drawable/pallet_color" />
 
                             <TextView
                                 android:id="@+id/palletTV"
@@ -348,10 +344,18 @@
                 android:layout_marginTop="@dimen/_10sdp"
                 android:layout_marginEnd="@dimen/_10sdp">
 
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/sub_directory_icon"
+                    android:layout_width="@dimen/_40sdp"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/black_subdirectory_icon" />
+
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/itemTV"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_toEndOf="@id/sub_directory_icon"
                     android:fontFamily="@font/amiko"
                     android:text=""
                     android:textSize="@dimen/_18ssp"
