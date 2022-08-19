@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.MenuActivity"
-    android:background="@color/dark_hollow_black">
+    android:background="@color/md_theme_dark_background">
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/toolbar"
@@ -51,10 +51,10 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/toolbar"
         android:layout_alignParentEnd="true"
+        android:layout_marginTop="@dimen/_10sdp"
         android:layout_marginEnd="19dp"
         android:fontFamily="@font/amiko"
-        android:text="Login At"
-        android:layout_marginTop="@dimen/_10sdp"
+        android:text="Login Time"
         android:textColor="@color/white"
         android:textSize="@dimen/_15ssp" />
 
@@ -82,7 +82,6 @@
             android:layout_height="match_parent"
             android:layout_below="@+id/loginTimeTV"
             android:layout_alignParentBottom="true"
-
             android:background="@drawable/grey_rounded_bg">
 
             <RelativeLayout
@@ -129,7 +128,7 @@
                             <androidx.appcompat.widget.LinearLayoutCompat
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:background="@color/white"
+                                android:background="@drawable/gradient_grey_rounded_bg"
                                 android:orientation="vertical">
 
                                 <androidx.appcompat.widget.AppCompatImageView
@@ -146,7 +145,7 @@
                                     android:layout_marginTop="@dimen/_20sdp"
                                     android:fontFamily="@font/amiko"
                                     android:text="@string/warehouse"
-                                    android:textColor="@color/black"
+                                    android:textColor="@color/white"
                                     android:textSize="@dimen/_15ssp" />
 
                             </androidx.appcompat.widget.LinearLayoutCompat>
@@ -165,7 +164,7 @@
                             <androidx.appcompat.widget.LinearLayoutCompat
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:background="@color/white"
+                                android:background="@drawable/gradient_grey_rounded_bg"
                                 android:orientation="vertical">
 
                                 <androidx.appcompat.widget.AppCompatImageView
@@ -182,7 +181,7 @@
                                     android:layout_marginTop="@dimen/_20sdp"
                                     android:fontFamily="@font/amiko"
                                     android:text="@string/racks"
-                                    android:textColor="@color/black"
+                                    android:textColor="@color/white"
                                     android:textSize="@dimen/_15ssp" />
 
                             </androidx.appcompat.widget.LinearLayoutCompat>
@@ -202,7 +201,7 @@
                             <androidx.appcompat.widget.LinearLayoutCompat
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:background="@color/white"
+                                android:background="@drawable/gradient_grey_rounded_bg"
                                 android:orientation="vertical">
 
                                 <androidx.appcompat.widget.AppCompatImageView
@@ -219,7 +218,7 @@
                                     android:layout_marginTop="@dimen/_20sdp"
                                     android:fontFamily="@font/amiko"
                                     android:text="@string/shelfs"
-                                    android:textColor="@color/black"
+                                    android:textColor="@color/white"
                                     android:textSize="@dimen/_15ssp" />
 
                             </androidx.appcompat.widget.LinearLayoutCompat>
@@ -240,7 +239,7 @@
                             <androidx.appcompat.widget.LinearLayoutCompat
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:background="@color/white"
+                                android:background="@drawable/gradient_grey_rounded_bg"
                                 android:orientation="vertical">
 
                                 <androidx.appcompat.widget.AppCompatImageView
@@ -257,7 +256,7 @@
                                     android:layout_marginTop="@dimen/_20sdp"
                                     android:fontFamily="@font/amiko"
                                     android:text="@string/pallets"
-                                    android:textColor="@color/black"
+                                    android:textColor="@color/white"
                                     android:textSize="@dimen/_15ssp" />
 
                             </androidx.appcompat.widget.LinearLayoutCompat>
@@ -277,7 +276,7 @@
                             <androidx.appcompat.widget.LinearLayoutCompat
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:background="@color/white"
+                                android:background="@drawable/gradient_grey_rounded_bg"
                                 android:orientation="vertical">
 
                                 <androidx.appcompat.widget.AppCompatImageView
@@ -294,7 +293,7 @@
                                     android:layout_marginTop="@dimen/_20sdp"
                                     android:fontFamily="@font/amiko"
                                     android:text="@string/addCarton"
-                                    android:textColor="@color/black"
+                                    android:textColor="@color/white"
                                     android:textSize="@dimen/_15ssp" />
 
                             </androidx.appcompat.widget.LinearLayoutCompat>
@@ -314,7 +313,7 @@
                             <androidx.appcompat.widget.LinearLayoutCompat
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:background="@color/white"
+                                android:background="@drawable/gradient_grey_rounded_bg"
                                 android:orientation="vertical">
 
                                 <androidx.appcompat.widget.AppCompatImageView
@@ -323,7 +322,7 @@
                                     android:layout_gravity="center"
                                     android:layout_marginTop="@dimen/_20sdp"
                                     android:src="@drawable/qr_code"
-                                    android:tint="@color/dark_hollow_black" />
+                                    android:tint="@color/white" />
 
                                 <androidx.appcompat.widget.AppCompatTextView
                                     android:layout_width="wrap_content"
@@ -332,7 +331,7 @@
                                     android:layout_marginTop="@dimen/_20sdp"
                                     android:fontFamily="@font/amiko"
                                     android:text="Scan item"
-                                    android:textColor="@color/black"
+                                    android:textColor="@color/white"
                                     android:textSize="@dimen/_15ssp" />
 
                             </androidx.appcompat.widget.LinearLayoutCompat>

@@ -21,7 +21,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/dark_grey">
+            android:background="@drawable/gradient_grey_top_rounded_bg">
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/materialCodeTV"

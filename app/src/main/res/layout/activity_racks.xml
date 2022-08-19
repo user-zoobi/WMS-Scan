@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/dark_hollow_black">
+    android:background="@color/md_theme_dark_background">
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/backBtn"
@@ -59,10 +59,10 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/toolbar"
         android:layout_alignParentEnd="true"
+        android:layout_marginTop="@dimen/_10sdp"
         android:layout_marginEnd="19dp"
         android:fontFamily="@font/amiko"
-        android:text="Login At"
-        android:layout_marginTop="@dimen/_10sdp"
+        android:text="Login Time"
         android:textColor="@color/white"
         android:textSize="@dimen/_15ssp" />
 
@@ -116,7 +116,7 @@
                         android:layout_centerVertical="true"
                         android:fontFamily="@font/amiko"
                         android:text="Racks"
-                        android:textColor="@color/black"
+                        android:textColor="@color/white"
                         android:textSize="@dimen/_20ssp"
                         android:visibility="visible" />
 
@@ -176,7 +176,7 @@
                         android:layout_height="wrap_content"
                         android:maxLines="1"
                         android:paddingStart="@dimen/_10sdp"
-                        android:spinnerMode="dropdown"
+                        android:spinnerMode="dialog"
                         android:theme="@style/SpinnerScrollBar"
                         android:visibility="gone" />
 
@@ -198,7 +198,7 @@
                         android:layout_height="wrap_content"
                         android:maxLines="1"
                         android:paddingStart="@dimen/_10sdp"
-                        android:spinnerMode="dropdown"
+                        android:spinnerMode="dialog"
                         android:theme="@style/SpinnerScrollBar"
                         android:visibility="gone" />
 
@@ -211,7 +211,7 @@
                     android:layout_marginTop="@dimen/_20sdp"
                     android:fontFamily="@font/amiko"
                     android:text="Available Racks"
-                    android:textColor="@color/black"
+                    android:textColor="@color/white"
                     android:textSize="@dimen/_20ssp"
                     android:visibility="gone" />
 

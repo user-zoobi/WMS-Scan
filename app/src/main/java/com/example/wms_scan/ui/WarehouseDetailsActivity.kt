@@ -21,7 +21,8 @@ import com.example.wms_scan.databinding.ActivityWarehouseDetailsBinding
 import java.util.*
 import java.util.regex.Pattern
 
-class WarehouseDetailsActivity : AppCompatActivity() {
+class WarehouseDetailsActivity : AppCompatActivity()
+{
     private lateinit var binding: ActivityWarehouseDetailsBinding
     private lateinit var viewModel: MainViewModel
     private lateinit var dialog: CustomProgressDialog

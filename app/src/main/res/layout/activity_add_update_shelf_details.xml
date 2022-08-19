@@ -6,15 +6,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.AddUpdatePalletDetails"
-    android:background="@color/light_grey"
-    >
+    android:background="@color/light_grey">
 
     <RelativeLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     tools:context=".ui.AddUpdateShelfDetails"
-    android:background="@color/dark_hollow_black">
+    android:background="@color/md_theme_dark_background">
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/backBtn"
@@ -68,10 +67,10 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/toolbar"
             android:layout_alignParentEnd="true"
+            android:layout_marginTop="@dimen/_10sdp"
             android:layout_marginEnd="19dp"
             android:fontFamily="@font/amiko"
-            android:text="Login At"
-            android:layout_marginTop="@dimen/_10sdp"
+            android:text="Login Time"
             android:textColor="@color/white"
             android:textSize="@dimen/_15ssp" />
 
@@ -111,7 +110,7 @@
                     android:layout_marginTop="@dimen/_20sdp"
                     android:fontFamily="@font/amiko"
                     android:text="Add shelf"
-                    android:textColor="@color/black"
+                    android:textColor="@color/white"
                     android:textSize="@dimen/_18ssp" />
 
                 <androidx.appcompat.widget.LinearLayoutCompat
@@ -215,7 +214,7 @@
                         android:layout_marginBottom="@dimen/_5sdp"
                         android:fontFamily="@font/amiko"
                         android:text="Business Location Name"
-                        android:textColor="@color/black"
+                        android:textColor="@color/white"
                         android:textSize="@dimen/_10ssp" />
 
                     <com.google.android.material.card.MaterialCardView
@@ -249,7 +248,7 @@
                         android:layout_marginBottom="@dimen/_5sdp"
                         android:fontFamily="@font/amiko"
                         android:text="Warehouse Name"
-                        android:textColor="@color/black"
+                        android:textColor="@color/white"
                         android:textSize="@dimen/_10ssp" />
 
                     <com.google.android.material.card.MaterialCardView
@@ -282,7 +281,7 @@
                         android:layout_marginBottom="@dimen/_5sdp"
                         android:fontFamily="@font/amiko"
                         android:text="Rack Name"
-                        android:textColor="@color/black"
+                        android:textColor="@color/white"
                         android:textSize="@dimen/_10ssp" />
 
                     <com.google.android.material.card.MaterialCardView
@@ -316,7 +315,7 @@
                         android:layout_marginBottom="@dimen/_5sdp"
                         android:fontFamily="@font/amiko"
                         android:text="Shelf Name"
-                        android:textColor="@color/black"
+                        android:textColor="@color/white"
                         android:textSize="@dimen/_10ssp" />
 
                     <com.google.android.material.card.MaterialCardView
@@ -346,7 +345,7 @@
                         android:layout_marginBottom="@dimen/_5sdp"
                         android:fontFamily="@font/amiko"
                         android:text="Pallet Capacity"
-                        android:textColor="@color/black"
+                        android:textColor="@color/white"
                         android:textSize="@dimen/_10ssp" />
 
                     <com.google.android.material.card.MaterialCardView
@@ -381,10 +380,10 @@
 
                     <androidx.appcompat.widget.AppCompatButton
                         android:id="@+id/addShelfBtn"
-                        android:layout_width="match_parent"
+                        android:layout_width="@dimen/_200sdp"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="@dimen/_40sdp"
-                        android:background="@drawable/dark_green_rounded_bg"
+                        android:background="@drawable/hollow_black_rounded_bg"
                         android:fontFamily="@font/amiko"
                         android:text="Add"
                         android:textAllCaps="false"
@@ -396,7 +395,7 @@
                         android:id="@+id/updateShelfBtn"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/dark_red_rounded_bg"
+                        android:background="@drawable/hollow_black_rounded_bg"
                         android:fontFamily="@font/amiko"
                         android:text="Update"
                         android:textAllCaps="false"

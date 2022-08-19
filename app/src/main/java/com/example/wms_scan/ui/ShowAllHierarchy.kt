@@ -631,6 +631,7 @@ class ShowAllHierarchy : AppCompatActivity() {
                     {
                         Log.i("getPallet","${e.message}")
                         toast("${e.message}")
+                        binding.showAllRV.adapter = null
                     }
 
 
@@ -642,6 +643,7 @@ class ShowAllHierarchy : AppCompatActivity() {
                     binding.hierarchyCont.gone()
                     toast(it.data?.get(0)?.error!!)
                     dialog.dismiss()
+                    binding.showAllRV.adapter = null
                 }
                 else -> {}
             }
@@ -664,6 +666,8 @@ class ShowAllHierarchy : AppCompatActivity() {
 
                           dialog.dismiss()
                           binding.hierarchyCont.visible()
+                          binding.hierarchyTree.visible()
+                          binding.treeView.visible()
                           cartonAdapter = ScanCartonAdapter(this,
                               it.data as ArrayList<GetCartonResponse>
                           )
@@ -715,7 +719,7 @@ class ShowAllHierarchy : AppCompatActivity() {
                         toast("Something went wrong")
                         binding.listSize.gone()
                         binding.itemTV.text = "No data"
-
+                        binding.showAllRV.adapter = null
 
                     }
                 }
@@ -728,6 +732,7 @@ class ShowAllHierarchy : AppCompatActivity() {
                     dialog.dismiss()
                     binding.listSize.gone()
                     binding.itemTV.text = "No data"
+                    binding.showAllRV.adapter = null
 
                 }
                 else -> {}
@@ -767,8 +772,39 @@ class ShowAllHierarchy : AppCompatActivity() {
                                "getCartonQnWiseParam",
                                "${it.data[0].materialName.toString()}\n${it.data[0].analyticalNo}\n ${it.data[0].cartonSNo}"
                            )
-                           binding.itemTV.text = "Analytical Number : ${it.data[0].analyticalNo.toString()}"
+//                           binding.itemTV.text = "Analytical Number : ${it.data[0].analyticalNo.toString()}"
                            binding.listSize.text = "Total Record : ${it.data.size}"
+                           binding.subDirectoryIcon.gone()
+                           binding.hierarchyNameCont.gone()
+
+                           //analytical number container visible
+                           binding.analyticalCont.visible()
+                           binding.analyticalNoTV.text = "Material Number : ${it.data[0].analyticalNo?.trim()}"
+
+                           //stock number container visible
+                           binding.stockCont.visible()
+                           binding.cartonStockTV.text = "Material Stock ${it.data[0].matStock}"
+
+
+                           //tot carton visible
+                           binding.cartonDetailCont.visible()
+                           binding.totCartonTV.text = "${it.data[0].totCarton}"
+                           binding.cartonSNOTV.text = "Carton No (${it.data[0].cartonNo}) :  ${it.data[0].cartonSNo}"
+
+
+                           //material name visible
+                           binding.materialNameCont.visible()
+                           binding.materialNameTV.text = "Material Name :\n${it.data[0].materialName?.trim()}"
+
+
+                           //item code visible
+                           binding.itemCodeCont.visible()
+                           binding.itemCodeTV.text = "Item Code : ${it.data[0].itemCode?.trim()}"
+
+
+                           /**
+                            * Search filter for recyclerview
+                            */
 
                            binding.searchViewCont.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
 
@@ -797,6 +833,7 @@ class ShowAllHierarchy : AppCompatActivity() {
                     {
                         Log.i("getCartonQnWise","${e.message}")
                         toast("${e.message}")
+                        binding.showAllRV.adapter = null
                     }
 
                 }

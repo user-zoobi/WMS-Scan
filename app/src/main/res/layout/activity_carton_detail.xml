@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/dark_hollow_black">
+    android:background="@color/md_theme_dark_background">
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/backBtn"
@@ -59,10 +59,10 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/toolbar"
         android:layout_alignParentEnd="true"
+        android:layout_marginTop="@dimen/_10sdp"
         android:layout_marginEnd="19dp"
         android:fontFamily="@font/amiko"
-        android:text="Login At"
-        android:layout_marginTop="@dimen/_10sdp"
+        android:text="Login Time"
         android:textColor="@color/white"
         android:textSize="@dimen/_15ssp" />
 
@@ -344,7 +344,7 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/transparent_light_blue"
+                    android:background="@drawable/gradient_grey_top_rounded_bg"
                     android:orientation="vertical">
 
                     <androidx.appcompat.widget.AppCompatImageView
@@ -365,7 +365,7 @@
                         android:layout_toEndOf="@id/cartonIV"
                         android:fontFamily="@font/amiko"
                         android:text="Carton Details"
-                        android:textColor="@color/black"
+                        android:textColor="@color/white"
                         android:textSize="@dimen/_20ssp"
                         android:textStyle="bold" />
 
@@ -379,7 +379,7 @@
                         android:layout_marginTop="@dimen/_20sdp"
                         android:fontFamily="@font/amiko"
                         android:text="Material "
-                        android:textColor="@color/black"
+                        android:textColor="@color/white"
                         android:textSize="@dimen/_12ssp" />
 
                     <androidx.appcompat.widget.AppCompatTextView
@@ -392,7 +392,7 @@
                         android:layout_marginTop="@dimen/_10sdp"
                         android:fontFamily="@font/amiko"
                         android:text="Pallet Name"
-                        android:textColor="@color/black"
+                        android:textColor="@color/white"
                         android:textSize="@dimen/_12ssp" />
 
                     <androidx.appcompat.widget.AppCompatTextView
@@ -405,7 +405,7 @@
                         android:layout_marginTop="@dimen/_10sdp"
                         android:fontFamily="@font/amiko"
                         android:text="Analytical Number"
-                        android:textColor="@color/black"
+                        android:textColor="@color/white"
                         android:textSize="@dimen/_12ssp" />
 
                     <androidx.appcompat.widget.AppCompatTextView
@@ -418,7 +418,7 @@
                         android:layout_marginTop="@dimen/_10sdp"
                         android:fontFamily="@font/amiko"
                         android:text="Carton Number"
-                        android:textColor="@color/black"
+                        android:textColor="@color/white"
                         android:textSize="@dimen/_12ssp" />
 
                     <androidx.appcompat.widget.AppCompatTextView
@@ -431,7 +431,7 @@
                         android:layout_marginBottom="@dimen/_10sdp"
                         android:fontFamily="@font/amiko"
                         android:text="Stock "
-                        android:textColor="@color/black"
+                        android:textColor="@color/white"
                         android:textSize="@dimen/_12ssp" />
 
                     <androidx.appcompat.widget.AppCompatTextView
@@ -459,7 +459,7 @@
                         android:layout_marginTop="@dimen/_25sdp"
                         android:layout_marginEnd="@dimen/_10sdp"
                         android:layout_marginBottom="@dimen/_20sdp"
-                        android:background="@drawable/blue_rounded_bg"
+                        android:background="@drawable/gradient_blue_rounded_bg"
                         android:gravity="center"
                         android:padding="@dimen/_5sdp"
                         android:text="Scan"
@@ -477,7 +477,7 @@
                         android:layout_gravity="end"
                         android:layout_marginTop="@dimen/_25sdp"
                         android:layout_marginEnd="@dimen/_20sdp"
-                        android:background="@drawable/blue_rounded_bg"
+                        android:background="@drawable/gradient_blue_rounded_bg"
                         android:fontFamily="@font/amiko"
                         android:gravity="center"
                         android:padding="@dimen/_5sdp"
@@ -517,7 +517,7 @@
                         android:singleLine="true"
                         android:text=""
                         android:textAlignment="textEnd"
-                        android:textColor="@color/dark_grey"
+                        android:textColor="@color/white"
                         android:textSize="@dimen/_12ssp" />
 
                     <androidx.appcompat.widget.AppCompatTextView
@@ -531,7 +531,7 @@
                         android:layout_marginEnd="@dimen/_20sdp"
                         android:fontFamily="@font/amiko"
                         android:text=""
-                        android:textColor="@color/dark_grey"
+                        android:textColor="@color/white"
                         android:textSize="@dimen/_12ssp" />
 
                     <androidx.appcompat.widget.AppCompatTextView
@@ -545,7 +545,7 @@
                         android:layout_marginEnd="@dimen/_20sdp"
                         android:fontFamily="@font/amiko"
                         android:text=""
-                        android:textColor="@color/dark_grey"
+                        android:textColor="@color/white"
                         android:textSize="@dimen/_12ssp" />
 
                     <androidx.appcompat.widget.LinearLayoutCompat
@@ -563,26 +563,26 @@
                             android:id="@+id/cartonNumTV"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="0"
                             android:fontFamily="@font/amiko"
-                            android:textColor="@color/black"
+                            android:text="0"
+                            android:textColor="@color/white"
                             android:textSize="@dimen/_12ssp" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="/"
                             android:fontFamily="@font/amiko"
-                            android:textColor="@color/black"
+                            android:text="/"
+                            android:textColor="@color/white"
                             android:textSize="@dimen/_12ssp" />
 
                         <TextView
                             android:id="@+id/totCartonTV"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="0"
                             android:fontFamily="@font/amiko"
-                            android:textColor="@color/black"
+                            android:text="0"
+                            android:textColor="@color/white"
                             android:textSize="@dimen/_12ssp" />
 
 
@@ -666,6 +666,7 @@
                         android:id="@+id/updateBtn"
                         android:layout_width="@dimen/_150sdp"
                         android:layout_height="wrap_content"
+                        android:layout_below="@+id/stockTV"
                         android:layout_alignParentEnd="true"
                         android:layout_gravity="end"
                         android:layout_marginTop="@dimen/_20sdp"
@@ -673,7 +674,6 @@
                         android:layout_marginBottom="@dimen/_20sdp"
                         android:background="@drawable/hollow_black_rounded_bg"
                         android:fontFamily="@font/amiko"
-                        android:layout_below="@+id/stockTV"
                         android:text="@string/update"
                         android:textAllCaps="false"
                         android:textColor="@color/white"

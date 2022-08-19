@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.ScannerActivity"
-    android:background="@color/dark_hollow_black">
+    android:background="@color/md_theme_dark_background">
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/backBtn"
@@ -34,7 +34,7 @@
         android:layout_height="match_parent"
         android:layout_below="@id/scanHeaderTv"
         android:layout_marginTop="10dp"
-        android:background="@drawable/grey_rounded_bg"
+        android:background="@drawable/white_rounded_bg"
         android:orientation="vertical">
 
         <androidx.appcompat.widget.LinearLayoutCompat
@@ -96,6 +96,7 @@
                 android:layout_marginEnd="@dimen/_20sdp"
                 android:background="@drawable/hover_click_editext_bg"
                 android:drawableStart="@drawable/edit_icon"
+                android:textAllCaps="true"
                 android:drawablePadding="@dimen/_15sdp"
                 android:drawableTint="@color/dark_hollow_black"
                 android:hint="@string/mName_or_AnaNo"
@@ -127,19 +128,19 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
         android:layout_marginEnd="@dimen/_20sdp"
-        android:layout_marginBottom="@dimen/_100sdp"
+        android:layout_marginBottom="@dimen/_120sdp"
         android:backgroundTint="@color/white"
         android:src="@drawable/login" />
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:id="@+id/searchManualTV"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/_80sdp"
+        android:layout_height="@dimen/_100sdp"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
         android:background="@drawable/hollow_black_top_rounded_corner"
-        android:elevation="@dimen/_10sdp"
+        android:elevation="@dimen/_15sdp"
         android:orientation="vertical"
         android:visibility="visible">
 
@@ -152,7 +153,7 @@
             android:fontFamily="@font/amiko"
             android:text="@string/search_manual"
             android:textColor="@color/white"
-            android:textSize="@dimen/_16ssp"
+            android:textSize="@dimen/_20ssp"
             android:textStyle="bold"
             app:fontFamily="@font/amiko"
             app:textAllCaps="true" />
@@ -162,7 +163,7 @@
     <androidx.appcompat.widget.LinearLayoutCompat
         android:id="@+id/searchScanTV"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/_80sdp"
+        android:layout_height="@dimen/_100sdp"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
@@ -180,7 +181,7 @@
             android:fontFamily="@font/amiko"
             android:text="@string/search_scan"
             android:textColor="@color/white"
-            android:textSize="@dimen/_16ssp"
+            android:textSize="@dimen/_20ssp"
             android:textStyle="bold"
             app:fontFamily="@font/amiko"
             app:textAllCaps="true" />

@@ -16,7 +16,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:background="@drawable/blue_stroke_white_rounded_bg">
+        android:background="@drawable/gradient_grey_top_rounded_bg">
 
 
         <androidx.appcompat.widget.AppCompatImageView
@@ -38,13 +38,13 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginStart="@dimen/_10sdp"
+            android:layout_toEndOf="@id/warehouseImage"
             android:fontFamily="@font/amiko"
             android:paddingTop="@dimen/_15sdp"
             android:paddingBottom="@dimen/_15sdp"
             android:text="Warehouse Name"
-            android:textColor="@color/black"
+            android:textColor="@color/white"
             android:textSize="@dimen/_15ssp"
-            android:layout_toEndOf="@id/warehouseImage"
             android:textStyle="bold" />
 
         <androidx.appcompat.widget.AppCompatImageView
@@ -53,10 +53,11 @@
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:layout_marginEnd="@dimen/_10sdp"
-            android:background="@drawable/dark_grey_rounded_bg"
+            android:background="@drawable/hollow_black_rounded_bg"
             android:padding="@dimen/_5sdp"
             android:src="@drawable/black_subdirectory_icon"
-            android:tint="@color/black" />
+            android:tint="@color/black"
+            app:tint="@color/white" />
 
     </RelativeLayout>
 

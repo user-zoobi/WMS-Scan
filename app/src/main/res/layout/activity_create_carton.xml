@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/dark_hollow_black">
+    android:background="@color/md_theme_dark_background">
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/backBtn"
@@ -59,10 +59,10 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/toolbar"
         android:layout_alignParentEnd="true"
+        android:layout_marginTop="@dimen/_10sdp"
         android:layout_marginEnd="19dp"
         android:fontFamily="@font/amiko"
-        android:layout_marginTop="@dimen/_10sdp"
-        android:text="Login At"
+        android:text="Login Time"
         android:textColor="@color/white"
         android:textSize="@dimen/_15ssp" />
 
@@ -83,7 +83,7 @@
         android:layout_height="match_parent"
         android:layout_below="@+id/loginTimeTV"
         android:layout_marginTop="@dimen/_20sdp"
-        android:background="@drawable/grey_rounded_bg">
+        android:background="@drawable/white_rounded_bg">
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
@@ -120,10 +120,10 @@
                 android:layout_width="@dimen/_320sdp"
                 android:layout_height="@dimen/_320sdp"
                 android:layout_gravity="center"
+                android:layout_marginTop="@dimen/_10sdp"
                 app:lottie_autoPlay="true"
                 app:lottie_loop="true"
-                app:lottie_rawRes="@raw/qr_anim"
-                android:layout_marginTop="@dimen/_10sdp"/>
+                app:lottie_rawRes="@raw/qr_anim" />
 
             <RelativeLayout
                 android:id="@+id/scannerCont"

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/dark_hollow_black"
+    android:background="@color/md_theme_dark_background"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
 
@@ -61,10 +61,10 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/toolbar"
         android:layout_alignParentEnd="true"
+        android:layout_marginTop="@dimen/_10sdp"
         android:layout_marginEnd="19dp"
         android:fontFamily="@font/amiko"
-        android:text="Login At"
-        android:layout_marginTop="@dimen/_10sdp"
+        android:text="Login Time"
         android:textColor="@color/white"
         android:textSize="@dimen/_15ssp" />
 
@@ -108,7 +108,7 @@
             android:layout_marginTop="@dimen/_30sdp"
             android:fontFamily="@font/amiko"
             android:text="Qr-Code Detail"
-            android:textColor="@color/black"
+            android:textColor="@color/white"
             android:textSize="@dimen/_20ssp" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -147,7 +147,6 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/qrCodeNameTV" />
-
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

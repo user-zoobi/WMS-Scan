@@ -6,7 +6,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/dark_hollow_black"
+    android:background="@color/md_theme_dark_background"
     tools:context=".ui.LoginActivity">
 
 
@@ -53,7 +53,7 @@
             android:layout_marginTop="@dimen/_20sdp"
             android:fontFamily="@font/amiko"
             android:text="@string/login"
-            android:textColor="@color/black"
+            android:textColor="@color/white"
             android:textSize="@dimen/_20ssp"
             android:textStyle="bold" />
 
@@ -104,14 +104,13 @@
                     android:layout_height="@dimen/_60sdp"
                     android:background="@color/white"
                     android:drawablePadding="@dimen/_10sdp"
+                    android:ems="15"
                     android:fontFamily="@font/amiko"
                     android:hint="@string/enter_password"
-                    android:ems="15"
                     android:inputType="textPassword"
                     android:paddingStart="@dimen/_20sdp"
                     android:textSize="@dimen/_12ssp"
-                    android:textStyle="bold"
-                    />
+                    android:textStyle="bold" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -121,9 +120,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_20sdp"
+            android:layout_marginTop="@dimen/_40sdp"
             android:layout_marginEnd="@dimen/_20sdp"
             android:layout_marginBottom="@dimen/_30sdp"
-            android:layout_marginTop="@dimen/_40sdp"
             app:cardCornerRadius="30dp"
             app:cardElevation="@dimen/_10sdp">
 
@@ -160,7 +159,7 @@
             android:layout_marginBottom="@dimen/_70sdp"
             android:fontFamily="@font/amiko"
             android:text="@string/unlockWithBiometricsTitleKey"
-            android:textColor="@color/dark_hollow_black"
+            android:textColor="@color/white"
             android:textSize="@dimen/_15ssp"
             android:textStyle="bold" />
 
