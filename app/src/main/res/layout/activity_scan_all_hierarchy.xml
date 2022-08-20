@@ -23,9 +23,9 @@
         android:layout_marginTop="@dimen/_35sdp"
         android:layout_marginEnd="@dimen/_20sdp"
         android:layout_marginBottom="@dimen/_5sdp"
-        android:tint="@color/white"
         android:padding="@dimen/_5sdp"
-        android:src="@drawable/logout" />
+        android:src="@drawable/logout"
+        android:tint="@color/white" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/userNameTV"
@@ -53,6 +53,19 @@
         android:textSize="@dimen/_10ssp" />
 
     <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/blankTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/backBtn"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="@dimen/_20sdp"
+        android:fontFamily="@font/amiko"
+        android:text=""
+        android:layout_marginTop="@dimen/_40sdp"
+        android:textColor="@color/white"
+        android:textSize="@dimen/_10ssp" />
+
+    <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/loginText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -69,10 +82,10 @@
         android:id="@+id/loginTimeTV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/loginText"
         android:layout_alignParentEnd="true"
         android:layout_marginEnd="@dimen/_20sdp"
         android:fontFamily="@font/amiko"
-        android:layout_below="@+id/loginText"
         android:text="Time value"
         android:textColor="@color/white"
         android:textSize="@dimen/_12ssp" />
@@ -331,22 +344,35 @@
                 android:layout_marginStart="@dimen/_20sdp"
                 android:layout_marginEnd="@dimen/_20sdp"
                 app:cardCornerRadius="@dimen/_20sdp"
-                app:cardElevation="@dimen/_20sdp"
-                android:visibility="gone">
+                app:cardElevation="@dimen/_15sdp"
+                android:visibility="visible">
 
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/white_rounded_bg"
+                    android:background="@drawable/gradient_grey_rounded_bg"
                     android:elevation="@dimen/_10sdp"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:paddingTop="@dimen/_10sdp"
+                    android:paddingBottom="@dimen/_10sdp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Carton Information"
+                        android:layout_marginStart="@dimen/_20sdp"
+                        android:layout_marginTop="@dimen/_20sdp"
+                        android:textColor="@color/white"
+                        android:textStyle="bold"
+                        android:textSize="@dimen/_16ssp"
+                        app:fontFamily="@font/amiko"/>
 
                     <androidx.appcompat.widget.LinearLayoutCompat
                         android:id="@+id/analyticalCont"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/_20sdp"
-                        android:layout_marginTop="@dimen/_20sdp"
+                        android:layout_marginTop="@dimen/_10sdp"
                         android:orientation="horizontal"
                         android:visibility="visible">
 
@@ -354,32 +380,21 @@
                             android:layout_width="@dimen/_25sdp"
                             android:layout_height="@dimen/_25sdp"
                             android:layout_gravity="center_vertical"
-                            android:src="@drawable/carton" />
+                            android:src="@drawable/info" />
 
                         <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/analyticalNoTV"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
                             android:layout_marginStart="@dimen/_10sdp"
                             android:text="analytical no"
-                            android:textAllCaps="true"
-                            android:textColor="@color/dark_hollow_black"
-                            android:textSize="@dimen/_14ssp"
+                            android:textColor="@color/white"
                             android:textStyle="bold"
+                            android:textSize="@dimen/_12ssp"
                             app:fontFamily="@font/amiko" />
 
                     </androidx.appcompat.widget.LinearLayoutCompat>
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/analyticalNoTV"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginStart="@dimen/_60sdp"
-                        android:text="analytical no"
-                        android:textColor="@color/dark_hollow_black"
-                        android:textSize="@dimen/_12ssp"
-                        app:fontFamily="@font/amiko" />
 
                     <androidx.appcompat.widget.LinearLayoutCompat
                         android:id="@+id/materialNameCont"
@@ -394,32 +409,23 @@
                             android:layout_width="@dimen/_25sdp"
                             android:layout_height="@dimen/_25sdp"
                             android:layout_gravity="center_vertical"
-                            android:src="@drawable/carton" />
+                            android:src="@drawable/material" />
 
                         <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/materialNameTV"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
                             android:layout_marginStart="@dimen/_10sdp"
                             android:text="materialName"
-                            android:textAllCaps="true"
-                            android:textColor="@color/dark_hollow_black"
-                            android:textSize="@dimen/_14ssp"
+                            android:textColor="@color/white"
                             android:textStyle="bold"
+                            android:textSize="@dimen/_12ssp"
                             app:fontFamily="@font/amiko" />
 
                     </androidx.appcompat.widget.LinearLayoutCompat>
 
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/materialNameTV"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginStart="@dimen/_60sdp"
-                        android:text="materialName"
-                        android:textColor="@color/dark_hollow_black"
-                        android:textSize="@dimen/_12ssp"
-                        app:fontFamily="@font/amiko" />
+
 
                     <androidx.appcompat.widget.LinearLayoutCompat
                         android:id="@+id/itemCodeCont"
@@ -434,34 +440,26 @@
                             android:layout_width="@dimen/_25sdp"
                             android:layout_height="@dimen/_25sdp"
                             android:layout_gravity="center_vertical"
-                            android:src="@drawable/carton"
+                            android:src="@drawable/item"
                             android:textColor="@color/white"
                             android:textSize="@dimen/_16ssp" />
 
+
                         <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/itemCodeTV"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
                             android:layout_marginStart="@dimen/_10sdp"
                             android:text="itemCode"
-                            android:textAllCaps="true"
-                            android:textColor="@color/dark_hollow_black"
-                            android:textSize="@dimen/_14ssp"
+                            android:textColor="@color/white"
                             android:textStyle="bold"
+                            android:textSize="@dimen/_12ssp"
                             app:fontFamily="@font/amiko" />
 
                     </androidx.appcompat.widget.LinearLayoutCompat>
 
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/itemCodeTV"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginStart="@dimen/_60sdp"
-                        android:text="itemCode"
-                        android:textColor="@color/dark_hollow_black"
-                        android:textSize="@dimen/_12ssp"
-                        app:fontFamily="@font/amiko" />
+
 
                     <androidx.appcompat.widget.LinearLayoutCompat
                         android:id="@+id/cartonDetailCont"
@@ -478,61 +476,51 @@
                             android:layout_gravity="center_vertical"
                             android:src="@drawable/carton" />
 
-                        <androidx.appcompat.widget.AppCompatTextView
+                        <androidx.appcompat.widget.LinearLayoutCompat
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
                             android:layout_marginStart="@dimen/_10sdp"
-                            android:text="carton detail"
-                            android:textAllCaps="true"
-                            android:textColor="@color/dark_hollow_black"
-                            android:textSize="@dimen/_14ssp"
-                            android:textStyle="bold"
-                            app:fontFamily="@font/amiko" />
+                            android:orientation="horizontal">
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:id="@+id/cartonSNOTV"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:text="carton sno"
+                                android:textColor="@color/white"
+                                android:textStyle="bold"
+                                android:textSize="@dimen/_12ssp"
+                                app:fontFamily="@font/amiko" />
+
+                            <androidx.appcompat.widget.AppCompatTextView
+
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginStart="@dimen/_10sdp"
+                                android:text="/"
+                                android:textColor="@color/dark_grey"
+                                android:textSize="@dimen/_16ssp"
+                                app:fontFamily="@font/amiko" />
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:id="@+id/totCartonTV"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginStart="@dimen/_10sdp"
+                                android:text="tot carton"
+                                android:textColor="@color/white"
+                                android:textStyle="bold"
+                                android:textSize="@dimen/_12ssp"
+                                app:fontFamily="@font/amiko" />
+
+                        </androidx.appcompat.widget.LinearLayoutCompat>
 
 
                     </androidx.appcompat.widget.LinearLayoutCompat>
 
-                    <androidx.appcompat.widget.LinearLayoutCompat
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/_50sdp"
-                        android:orientation="horizontal">
-
-                        <androidx.appcompat.widget.AppCompatTextView
-                            android:id="@+id/cartonSNOTV"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:layout_marginStart="@dimen/_10sdp"
-                            android:text="carton sno"
-                            android:textColor="@color/dark_hollow_black"
-                            android:textSize="@dimen/_12ssp"
-                            app:fontFamily="@font/amiko" />
-
-                        <androidx.appcompat.widget.AppCompatTextView
-
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:layout_marginStart="@dimen/_10sdp"
-                            android:text="/"
-                            android:textColor="@color/dark_hollow_black"
-                            android:textSize="@dimen/_12ssp"
-                            app:fontFamily="@font/amiko" />
-
-                        <androidx.appcompat.widget.AppCompatTextView
-                            android:id="@+id/totCartonTV"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:layout_marginStart="@dimen/_10sdp"
-                            android:text="tot carton"
-                            android:textColor="@color/dark_hollow_black"
-                            android:textSize="@dimen/_12ssp"
-                            app:fontFamily="@font/amiko" />
-
-                    </androidx.appcompat.widget.LinearLayoutCompat>
 
                     <androidx.appcompat.widget.LinearLayoutCompat
                         android:id="@+id/stockCont"
@@ -540,6 +528,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/_20sdp"
                         android:layout_marginTop="@dimen/_10sdp"
+                        android:layout_marginBottom="@dimen/_10sdp"
                         android:orientation="horizontal"
                         android:visibility="visible">
 
@@ -547,33 +536,23 @@
                             android:layout_width="@dimen/_25sdp"
                             android:layout_height="@dimen/_25sdp"
                             android:layout_gravity="center_vertical"
-                            android:src="@drawable/carton" />
+                            android:src="@drawable/packages" />
 
                         <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/cartonStockTV"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
                             android:layout_marginStart="@dimen/_10sdp"
                             android:text="stock"
-                            android:textAllCaps="true"
-                            android:textColor="@color/dark_hollow_black"
-                            android:textSize="@dimen/_14ssp"
                             android:textStyle="bold"
+                            android:textColor="@color/red"
+                            android:textSize="@dimen/_12ssp"
                             app:fontFamily="@font/amiko" />
 
                     </androidx.appcompat.widget.LinearLayoutCompat>
 
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/cartonStockTV"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginStart="@dimen/_60sdp"
-                        android:layout_marginBottom="@dimen/_20sdp"
-                        android:text="stock"
-                        android:textColor="@color/red"
-                        android:textSize="@dimen/_12ssp"
-                        app:fontFamily="@font/amiko" />
+
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
 

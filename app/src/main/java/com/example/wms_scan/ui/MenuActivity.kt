@@ -49,7 +49,6 @@ class MenuActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
         finishAffinity()
-        exitProcess(0)
     }
 
     private fun permissions()
@@ -70,15 +69,21 @@ class MenuActivity : AppCompatActivity() {
         dialog = CustomProgressDialog(this)
         setTransparentStatusBarColor(R.color.transparent)
 
-        binding.userNameTV.text = LocalPreferences.getString(this,
-            LocalPreferences.AppLoginPreferences.userName
-        )
-        binding.userDesignTV.text = LocalPreferences.getString(this,
-            LocalPreferences.AppLoginPreferences.userDesignation
-        )
-        binding.loginTimeTV.text = LocalPreferences.getString(this,
-            LocalPreferences.AppLoginPreferences.loginTime
-        )
+        with(binding)
+        {
+            userNameTV.text = LocalPreferences.getString(this@MenuActivity,
+                LocalPreferences.AppLoginPreferences.userName
+            )
+
+            userDesignTV.text = LocalPreferences.getString(this@MenuActivity,
+                LocalPreferences.AppLoginPreferences.userDesignation
+            )
+
+            loginTimeTV.text = LocalPreferences.getString(this@MenuActivity,
+                LocalPreferences.AppLoginPreferences.loginTime
+            )
+        }
+
         initListeners()
 
     }
@@ -149,48 +154,57 @@ class MenuActivity : AppCompatActivity() {
 
     private fun initListeners() {
 
-        binding.toolbar.click {
-            clearPreferences(this)
-        }
+        with(binding)
+        {
 
-        binding.warehouseIV.setOnClickListener {
-            if (isNetworkConnected(this)){
-                gotoActivity(WarehouseActivity::class.java, "warehouseValues",false)
+            toolbar.click {
+                clearPreferences(this@MenuActivity)
             }
-        }
 
-        binding.racksIV.setOnClickListener {
-            if (isNetworkConnected(this)){
-                gotoActivity(RacksActivity::class.java)
+            warehouseIV.setOnClickListener {
+                if (isNetworkConnected(this@MenuActivity)){
+                    gotoActivity(WarehouseActivity::class.java, "warehouseValues",false)
+                }
             }
-        }
-        binding.shelfIV.setOnClickListener {
 
-            if (isNetworkConnected(this)) {
-                gotoActivity(ShelfActivity::class.java)
+            racksIV.setOnClickListener {
+                if (isNetworkConnected(this@MenuActivity)){
+                    gotoActivity(RacksActivity::class.java)
+                }
             }
-        }
-        binding.palletsIV.setOnClickListener {
 
-            if (isNetworkConnected(this)){
-                gotoActivity(PalletsActivity::class.java)
-            }
-        }
-        binding.placeCartonIV.setOnClickListener {
-            if (isNetworkConnected(this)){
-                gotoActivity(CreateCartonActivity::class.java, "placeCarton",true)
-            }
-        }
-        binding.scanCartonIV.click {
-            if (isNetworkConnected(this)){
-                gotoActivity(ScannerActivity::class.java,scanCarton,true)
-            }
-        }
+            shelfIV.setOnClickListener {
 
-        binding.swipeRefresh.setOnRefreshListener {
-            viewModel.userLocation(
-                Utils.getSimpleTextBody(LocalPreferences.getInt(this, userNo).toString())
-            )
+                if (isNetworkConnected(this@MenuActivity)) {
+                    gotoActivity(ShelfActivity::class.java)
+                }
+            }
+
+            palletsIV.setOnClickListener {
+
+                if (isNetworkConnected(this@MenuActivity)){
+                    gotoActivity(PalletsActivity::class.java)
+                }
+            }
+
+            placeCartonIV.setOnClickListener {
+                if (isNetworkConnected(this@MenuActivity)){
+                    gotoActivity(CreateCartonActivity::class.java, "placeCarton",true)
+                }
+            }
+
+            scanCartonIV.click {
+                if (isNetworkConnected(this@MenuActivity)){
+                    gotoActivity(ScannerActivity::class.java,scanCarton,true)
+                }
+            }
+
+            swipeRefresh.setOnRefreshListener {
+                viewModel.userLocation(
+                    Utils.getSimpleTextBody(LocalPreferences.getInt(this@MenuActivity, userNo).toString())
+                )
+            }
+
         }
     }
 

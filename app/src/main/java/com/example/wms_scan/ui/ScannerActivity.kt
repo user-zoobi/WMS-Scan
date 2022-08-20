@@ -12,6 +12,8 @@ import com.example.scanmate.data.callback.Status
 import com.example.scanmate.extensions.*
 import com.example.scanmate.util.Constants.Toast.noRecordFound
 import com.example.scanmate.util.CustomProgressDialog
+import com.example.scanmate.util.LocalPreferences
+import com.example.scanmate.util.LocalPreferences.AppLoginPreferences.isLogin
 import com.example.scanmate.util.LocalPreferences.AppLoginPreferences.scanCarton
 import com.example.scanmate.util.Utils.isNetworkConnected
 import com.example.scanmate.viewModel.MainViewModel
@@ -48,10 +50,14 @@ class ScannerActivity : AppCompatActivity() {
         viewModel = obtainViewModel(MainViewModel::class.java)
         dialog = CustomProgressDialog(this)
 
-        when {
-            intent.extras?.getBoolean(scanCarton) == true -> {
-                binding.loginBtn.hide()
-            }
+        if (LocalPreferences.getBoolean(this@ScannerActivity,
+                LocalPreferences.AppLoginPreferences.isLogin))
+        {
+            binding.loginCont.gone()
+        }
+        else
+        {
+            binding.loginCont.visible()
         }
 
     }
@@ -123,7 +129,7 @@ class ScannerActivity : AppCompatActivity() {
             binding.manualOptionCont.visible()
             binding.scanHeaderTv.text = "Type Goods Manually"
             overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
-
+            binding.loginCont.gone()
         }
 
         binding.searchScanTV.click {
@@ -134,11 +140,20 @@ class ScannerActivity : AppCompatActivity() {
             binding.manualOptionCont.gone()
             binding.scanHeaderTv.text = "Scan Goods"
 
+            if (LocalPreferences.getBoolean(this@ScannerActivity, isLogin))
+            {
+                binding.loginCont.gone()
+            }
+            else
+            {
+                binding.loginCont.visible()
+            }
+
         }
 
-        binding.loginBtn.click {
-            gotoActivity(LoginActivity::class.java)
-        }
+//        binding.loginBtn.click {
+//            gotoActivity(LoginActivity::class.java)
+//        }
 
         binding.backBtn.click {
             onBackPressed()

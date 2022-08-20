@@ -42,15 +42,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="@dimen/_80sdp"
+            android:layout_marginTop="@dimen/_40sdp"
             android:orientation="vertical"
             android:visibility="visible">
 
             <com.airbnb.lottie.LottieAnimationView
                 android:id="@+id/scanBtn"
-                android:layout_width="@dimen/_320sdp"
-                android:layout_height="@dimen/_320sdp"
+                android:layout_width="@dimen/_300sdp"
+                android:layout_height="@dimen/_300sdp"
                 android:layout_gravity="center"
+                android:layout_marginTop="@dimen/_20sdp"
                 app:lottie_autoPlay="true"
                 app:lottie_loop="true"
                 app:lottie_rawRes="@raw/qr_anim" />
@@ -60,11 +61,61 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginTop="@dimen/_20sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginBottom="@dimen/_10sdp"
                 android:fontFamily="@font/amiko"
                 android:text="@string/scan_item_product"
+                android:textAllCaps="true"
                 android:textColor="@color/black"
                 android:textSize="@dimen/_16ssp" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/loginCont"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_30sdp"
+            android:orientation="vertical"
+            android:visibility="visible">
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/_10sdp">
+
+                <View
+                    android:id="@+id/line1"
+                    android:layout_width="@dimen/_150sdp"
+                    android:layout_height="@dimen/_1sdp"
+                    android:layout_centerVertical="true"
+                    android:background="@color/dark_grey" />
+
+                <TextView
+                    android:id="@+id/orTV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_toEndOf="@id/line1"
+                    android:background="@drawable/grey_border_stroke_rounded_bg"
+                    android:padding="@dimen/_20sdp"
+                    android:text="OR"
+                    android:textColor="@color/dark_hollow_black"
+                    android:textSize="@dimen/_18ssp"
+                    android:textStyle="bold" />
+
+                <View
+                    android:layout_width="@dimen/_150sdp"
+                    android:layout_height="@dimen/_1sdp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_toEndOf="@id/orTV"
+                    android:background="@color/dark_grey" />
+
+            </RelativeLayout>
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -83,8 +134,10 @@
                 android:layout_marginStart="@dimen/_20sdp"
                 android:fontFamily="@font/amiko"
                 android:text="Manual Search"
+                android:textAllCaps="true"
                 android:textColor="@color/black"
-                android:textSize="@dimen/_20ssp" />
+                android:textSize="@dimen/_20ssp"
+                android:textStyle="bold" />
 
 
             <androidx.appcompat.widget.AppCompatEditText
@@ -92,22 +145,24 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_50sdp"
                 android:layout_marginStart="@dimen/_20sdp"
-                android:layout_marginTop="@dimen/_40sdp"
+                android:layout_marginTop="@dimen/_20sdp"
                 android:layout_marginEnd="@dimen/_20sdp"
                 android:background="@drawable/hover_click_editext_bg"
                 android:drawableStart="@drawable/edit_icon"
                 android:drawablePadding="@dimen/_15sdp"
                 android:drawableTint="@color/dark_hollow_black"
                 android:hint="@string/mName_or_AnaNo"
+                android:inputType="textCapCharacters"
                 android:paddingStart="@dimen/_20sdp"
                 android:textSize="@dimen/_14ssp" />
 
             <TextView
                 android:id="@+id/searchBtn"
-                android:layout_width="@dimen/_200sdp"
+                android:layout_width="@dimen/_100sdp"
                 android:layout_height="@dimen/_50sdp"
-                android:layout_gravity="center"
-                android:layout_marginTop="@dimen/_40sdp"
+                android:layout_gravity="end"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:layout_marginEnd="@dimen/_20sdp"
                 android:background="@drawable/hollow_black_rounded_bg"
                 android:fontFamily="@font/amiko"
                 android:gravity="center"
@@ -120,16 +175,6 @@
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/loginBtn"
-        android:layout_width="@dimen/_100sdp"
-        android:layout_height="@dimen/_100sdp"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginEnd="@dimen/_20sdp"
-        android:layout_marginBottom="@dimen/_120sdp"
-        android:backgroundTint="@color/white"
-        android:src="@drawable/login" />
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:id="@+id/searchManualTV"

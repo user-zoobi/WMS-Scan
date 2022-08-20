@@ -1,12 +1,17 @@
 package com.example.wms_scan.ui
 
 import android.content.Intent
+import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.provider.CalendarContract
 import android.util.Log
+import android.view.ViewGroup
 import android.view.animation.AnimationUtils
+import android.widget.LinearLayout
 import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.Glide
 import com.example.scanmate.data.callback.Status
 import com.example.scanmate.data.response.GetRackResponse
 import com.example.scanmate.data.response.GetShelfResponse
@@ -15,6 +20,7 @@ import com.example.scanmate.extensions.*
 import com.example.scanmate.util.Constants.Toast.noRecordFound
 import com.example.scanmate.util.CustomProgressDialog
 import com.example.scanmate.util.LocalPreferences
+import com.example.scanmate.util.LocalPreferences.AppLoginPreferences.isLogin
 import com.example.scanmate.util.Utils
 import com.example.scanmate.util.Utils.isNetworkConnected
 import com.example.scanmate.viewModel.MainViewModel
@@ -84,24 +90,42 @@ class ShowAllHierarchy : AppCompatActivity() {
          *  USER INFO FOR HEADER
          */
 
-        binding.userNameTV.text = LocalPreferences.getString(this,
-            LocalPreferences.AppLoginPreferences.userName
-        )
-        binding.userDesignTV.text = LocalPreferences.getString(this,
-            LocalPreferences.AppLoginPreferences.userDesignation
-        )
-        binding.loginTimeTV.text = LocalPreferences.getString(this,
-            LocalPreferences.AppLoginPreferences.loginTime
-        )
+        with(binding)
+        {
+            if (LocalPreferences.getBoolean(this@ShowAllHierarchy, isLogin))
+            {
+                userNameTV.text = LocalPreferences.getString(this@ShowAllHierarchy,
+                    LocalPreferences.AppLoginPreferences.userName
+                )
+
+                userDesignTV.text = LocalPreferences.getString(this@ShowAllHierarchy,
+                    LocalPreferences.AppLoginPreferences.userDesignation
+                )
+
+                loginTimeTV.text = LocalPreferences.getString(this@ShowAllHierarchy,
+                    LocalPreferences.AppLoginPreferences.loginTime
+                )
+
+            }
+            else{
+                userNameTV.text = " "
+                userDesignTV.text = " "
+                loginTimeTV.text = " "
+                loginText.text = " "
+                userDesignTV.text = " "
+                Glide.with(this@ShowAllHierarchy).load(R.color.black).into(toolbar);
+            }
+
+
+            backBtn.click {
+                finishAffinity()
+            }
+
+            searchViewCont.queryHint = "Search item"
+        }
 
         Log.i("cartonAnalyticalNo",cartonAnalyticalNo)
         Log.i("cartonAnalyticalKey",cartonAnalyticalKey.toString())
-
-        binding.backBtn.click {
-            finishAffinity()
-        }
-
-        binding.searchViewCont.queryHint = "Search item"
 
         /**
          *  REQUEST FOR ANALYTICAL NUMBER USING MANUAL OPTION
@@ -411,7 +435,7 @@ class ShowAllHierarchy : AppCompatActivity() {
                                 }
                             }
 
-                            binding.listSize.text = "Total Record : ${it.data.size}"
+                            binding.listSize.text = "Total Warehouse : ${it.data.size}"
                             binding.itemTV.text = it.data[0].wHName
                             Log.i("warehouseCode", it.data[0].wHName.toString())
 
@@ -488,7 +512,7 @@ class ShowAllHierarchy : AppCompatActivity() {
 
                             binding.itemTV.text = it.data[0].wHName
                             Log.i("warehouseCode", it.data[0].wHName.toString())
-                            binding.listSize.text = "Total Record : ${it.data.size}"
+                            binding.listSize.text = "Total Racks : ${it.data.size}"
                             binding.searchViewCont.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
 
                                 override fun onQueryTextSubmit(query: String?): Boolean {
@@ -566,7 +590,7 @@ class ShowAllHierarchy : AppCompatActivity() {
                             }
                             binding.itemTV.text = it.data[0].rackName
                             Log.i("shelfData", it.data[0].shelfName.toString())
-                            binding.listSize.text = "Total Record : ${it.data.size}"
+                            binding.listSize.text = "Total Shelf : ${it.data.size}"
 
                             binding.searchViewCont.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
 
@@ -641,7 +665,7 @@ class ShowAllHierarchy : AppCompatActivity() {
                                 }
                             }
                             binding.itemTV.text = it.data[0].shelfName
-                            binding.listSize.text = "Total Record : ${it.data.size}"
+                            binding.listSize.text = "Total Palette : ${it.data.size}"
 
                             binding.searchViewCont.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
 
@@ -725,7 +749,7 @@ class ShowAllHierarchy : AppCompatActivity() {
                           }
                           binding.hierarchyCont.visible()
                           binding.itemTV.text = it.data[0].pilotName
-                          binding.listSize.text = "Total Record : ${it.data.size}"
+                          binding.listSize.text = "Total Carton : ${it.data.size}"
 
                           Log.i("getCartonData", it.data[0].toString())
                           Log.i(
@@ -819,7 +843,7 @@ class ShowAllHierarchy : AppCompatActivity() {
                                "${it.data[0].materialName.toString()}\n${it.data[0].analyticalNo}\n ${it.data[0].cartonSNo}"
                            )
 //                           binding.itemTV.text = "Analytical Number : ${it.data[0].analyticalNo.toString()}"
-                           binding.listSize.text = "Total Record : ${it.data.size}"
+                           binding.listSize.text = "Total Carton : ${it.data.size}"
                            binding.subDirectoryIcon.gone()
                            binding.hierarchyNameCont.gone()
                            binding.cartonQnWiseCont.visible()
