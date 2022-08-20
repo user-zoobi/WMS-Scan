@@ -96,7 +96,6 @@
                 android:layout_marginEnd="@dimen/_20sdp"
                 android:background="@drawable/hover_click_editext_bg"
                 android:drawableStart="@drawable/edit_icon"
-                android:textAllCaps="true"
                 android:drawablePadding="@dimen/_15sdp"
                 android:drawableTint="@color/dark_hollow_black"
                 android:hint="@string/mName_or_AnaNo"

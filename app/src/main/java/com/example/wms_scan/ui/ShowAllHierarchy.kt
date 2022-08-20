@@ -55,6 +55,9 @@ class ShowAllHierarchy : AppCompatActivity() {
         binding = ActivityScanAllHierarchyBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        /** IS NETWORK CONNECTED VALIDATION
+         */
+
         if (isNetworkConnected(this)) {
             setupUi()
             initObserver()
@@ -68,10 +71,19 @@ class ShowAllHierarchy : AppCompatActivity() {
 
     private fun setupUi(){
 
+        /**
+         *  STATUS BAR AND VIEW MODEL WITH DIALOG BOX
+         */
+
         supportActionBar?.hide()
         setTransparentStatusBarColor(R.color.transparent)
         viewModel = obtainViewModel(MainViewModel::class.java)
         dialog = CustomProgressDialog(this)
+
+        /**
+         *  USER INFO FOR HEADER
+         */
+
         binding.userNameTV.text = LocalPreferences.getString(this,
             LocalPreferences.AppLoginPreferences.userName
         )
@@ -82,8 +94,6 @@ class ShowAllHierarchy : AppCompatActivity() {
             LocalPreferences.AppLoginPreferences.loginTime
         )
 
-
-
         Log.i("cartonAnalyticalNo",cartonAnalyticalNo)
         Log.i("cartonAnalyticalKey",cartonAnalyticalKey.toString())
 
@@ -92,6 +102,10 @@ class ShowAllHierarchy : AppCompatActivity() {
         }
 
         binding.searchViewCont.queryHint = "Search item"
+
+        /**
+         *  REQUEST FOR ANALYTICAL NUMBER USING MANUAL OPTION
+         */
 
         when
         {
@@ -102,6 +116,10 @@ class ShowAllHierarchy : AppCompatActivity() {
 
             }
         }
+
+        /**
+         *  REQUEST FOR ANALYTICAL NUMBER USING SCAN OPTION
+         */
 
         when
         {
@@ -116,6 +134,10 @@ class ShowAllHierarchy : AppCompatActivity() {
     }
 
     private fun initObserver(){
+
+        /**
+         *  GET SCANALL OBSERVER
+         */
 
         viewModel.scanAll.observe(this){
             when(it.status){
@@ -354,6 +376,10 @@ class ShowAllHierarchy : AppCompatActivity() {
             }
         }
 
+        /**
+         *  GET WAREHOUSE OBSERVER
+         */
+
         viewModel.getWarehouse.observe(this){
 
             when(it.status){
@@ -429,6 +455,10 @@ class ShowAllHierarchy : AppCompatActivity() {
             }
         }
 
+        /**
+         *  GET SHELF OBSERVER
+         */
+
         viewModel.getRack.observe(this){
             when(it.status){
                 Status.LOADING ->{
@@ -499,6 +529,10 @@ class ShowAllHierarchy : AppCompatActivity() {
                 else -> {}
             }
         }
+
+        /**
+         *  GET SHELF OBSERVER
+         */
 
         viewModel.getShelf.observe(this){
             when(it.status){
@@ -571,6 +605,10 @@ class ShowAllHierarchy : AppCompatActivity() {
                 else -> {}
             }
         }
+
+        /**
+         *  GET PALLET OBSERVER
+         */
 
         viewModel.getPallet.observe(this){
             when(it.status) {
@@ -648,6 +686,10 @@ class ShowAllHierarchy : AppCompatActivity() {
                 else -> {}
             }
         }
+
+        /**
+         *  GET CARTON OBSERVER
+         */
 
         viewModel.getCarton.observe(this){
             when(it.status){
@@ -739,6 +781,10 @@ class ShowAllHierarchy : AppCompatActivity() {
             }
         }
 
+        /**
+         *  GET CARTONQNWISE OBSERVER
+         */
+
         viewModel.getCartonQnWise.observe(this){
 
             when(it.status){
@@ -776,14 +822,15 @@ class ShowAllHierarchy : AppCompatActivity() {
                            binding.listSize.text = "Total Record : ${it.data.size}"
                            binding.subDirectoryIcon.gone()
                            binding.hierarchyNameCont.gone()
+                           binding.cartonQnWiseCont.visible()
 
                            //analytical number container visible
                            binding.analyticalCont.visible()
-                           binding.analyticalNoTV.text = "Material Number : ${it.data[0].analyticalNo?.trim()}"
+                           binding.analyticalNoTV.text = "${it.data[0].analyticalNo?.trim()}"
 
                            //stock number container visible
                            binding.stockCont.visible()
-                           binding.cartonStockTV.text = "Material Stock ${it.data[0].matStock}"
+                           binding.cartonStockTV.text = "${it.data[0].matStock}"
 
 
                            //tot carton visible
@@ -794,12 +841,12 @@ class ShowAllHierarchy : AppCompatActivity() {
 
                            //material name visible
                            binding.materialNameCont.visible()
-                           binding.materialNameTV.text = "Material Name :\n${it.data[0].materialName?.trim()}"
+                           binding.materialNameTV.text = "${it.data[0].materialName?.trim()}"
 
 
                            //item code visible
                            binding.itemCodeCont.visible()
-                           binding.itemCodeTV.text = "Item Code : ${it.data[0].itemCode?.trim()}"
+                           binding.itemCodeTV.text = "${it.data[0].itemCode?.trim()}"
 
 
                            /**
@@ -851,6 +898,9 @@ class ShowAllHierarchy : AppCompatActivity() {
 
     }
 
+    /**
+     *  INITIALIZE LISTENERS
+     */
     private fun initListener()
     {
         binding.scanIV.click {
@@ -873,6 +923,10 @@ class ShowAllHierarchy : AppCompatActivity() {
             finish()
         }
     }
+
+    /**
+     *  LISTENERS OF ADAPTER ONCLICK
+     */
 
     fun doAction(cs: String, actionNo: String, actionName: String)
     {
@@ -954,10 +1008,18 @@ class ShowAllHierarchy : AppCompatActivity() {
 
     }
 
+    /**
+     *  FILTER USING SEARCH VIEW FOR ALL ADAPTERS
+     */
+
     fun filterUpdateRecord(size:Int)
     {
         binding.listSize.text = "Total Record : $size"
     }
+
+    /**
+     *  ON RESUME INITIALIZATION
+     */
 
     override fun onResume() {
         super.onResume()
@@ -987,6 +1049,10 @@ class ShowAllHierarchy : AppCompatActivity() {
             currentScreen = "W"
         }
     }
+
+    /**
+     *  ON BACK PRESS FUNCTIONALITY
+     */
 
     override fun onBackPressed() {
 
@@ -1064,5 +1130,4 @@ class ShowAllHierarchy : AppCompatActivity() {
            }
         }
         }
-    //
     }

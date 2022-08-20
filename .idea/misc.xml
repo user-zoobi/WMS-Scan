@@ -84,7 +84,9 @@
         <entry key="..\:/Users/smc/AndroidStudioProjects/WMS-Scan/app/src/main/res/layout/activity_menu.xml" value="0.33" />
         <entry key="..\:/Users/smc/AndroidStudioProjects/WMS-Scan/app/src/main/res/layout/activity_pallets.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/smc/AndroidStudioProjects/WMS-Scan/app/src/main/res/layout/activity_racks.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/smc/AndroidStudioProjects/WMS-Scan/app/src/main/res/layout/activity_scan_all_hierarchy.xml" value="0.25" />
         <entry key="..\:/Users/smc/AndroidStudioProjects/WMS-Scan/app/src/main/res/layout/activity_scan_carton.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/smc/AndroidStudioProjects/WMS-Scan/app/src/main/res/layout/activity_scanner.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/smc/AndroidStudioProjects/WMS-Scan/app/src/main/res/layout/activity_shelf.xml" value="0.22" />
         <entry key="..\:/Users/smc/AndroidStudioProjects/WMS-Scan/app/src/main/res/layout/activity_show_qr.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/smc/AndroidStudioProjects/WMS-Scan/app/src/main/res/layout/activity_warehouse.xml" value="0.20416666666666666" />
