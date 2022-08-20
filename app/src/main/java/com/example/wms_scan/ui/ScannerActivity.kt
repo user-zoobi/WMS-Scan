@@ -127,7 +127,6 @@ class ScannerActivity : AppCompatActivity() {
             binding.searchManualTV.gone()
             binding.searchScanTV.visible()
             binding.manualOptionCont.visible()
-            binding.scanHeaderTv.text = "Type Goods Manually"
             overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
             binding.loginCont.gone()
         }
@@ -138,7 +137,6 @@ class ScannerActivity : AppCompatActivity() {
             binding.searchManualTV.visible()
             binding.searchScanTV.gone()
             binding.manualOptionCont.gone()
-            binding.scanHeaderTv.text = "Scan Goods"
 
             if (LocalPreferences.getBoolean(this@ScannerActivity, isLogin))
             {

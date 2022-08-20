@@ -15,17 +15,39 @@
         android:layout_height="match_parent"
         android:layout_centerInParent="true" />
 
-    <androidx.appcompat.widget.AppCompatTextView
+    <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="@dimen/_50sdp"
-        android:fontFamily="@font/alfa_slab_one"
-        android:text="Warehouse\nManagement System"
-        android:textAlignment="center"
-        android:textColor="@color/white"
-        android:textSize="@dimen/_20sdp" />
+        android:orientation="horizontal">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/goodsTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:fontFamily="@font/alfa_slab_one"
+            android:text="Goods"
+            android:textColor="@color/dark_yellow"
+            android:textSize="@dimen/_40sdp" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tracketTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="@dimen/_5sdp"
+            android:layout_toEndOf="@id/goodsTV"
+            android:fontFamily="@font/alfa_slab_one"
+            android:text="Tracker"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_40sdp" />
+
+    </RelativeLayout>
+
+
 
     <ImageView
         android:layout_width="@dimen/_300sdp"
