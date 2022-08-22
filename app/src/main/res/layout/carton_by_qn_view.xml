@@ -40,7 +40,7 @@
                 android:text="warehouseName"
                 android:textColor="@color/white"
                 android:textStyle="bold"
-                android:textSize="@dimen/_12ssp" />
+                android:textSize="@dimen/_11ssp" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -69,7 +69,7 @@
             android:text="rackName"
             android:textStyle="bold"
             android:textColor="@color/white"
-            android:textSize="@dimen/_12ssp" />
+            android:textSize="@dimen/_11ssp" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -98,7 +98,7 @@
             android:text="shelfName"
             android:textStyle="bold"
             android:textColor="@color/white"
-            android:textSize="@dimen/_12ssp" />
+            android:textSize="@dimen/_11ssp" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -127,7 +127,7 @@
             android:text="palletName"
             android:textStyle="bold"
             android:textColor="@color/white"
-            android:textSize="@dimen/_12ssp" />
+            android:textSize="@dimen/_11ssp" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -146,7 +146,7 @@
             android:src="@drawable/carton"/>
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/cartonName"
+            android:id="@+id/cartonSnoQN"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
@@ -154,10 +154,38 @@
             android:layout_marginStart="@dimen/_20sdp"
             android:layout_gravity="center_vertical"
             android:fontFamily="@font/amiko"
-            android:text="carton name"
+            android:text=""
             android:textStyle="bold"
             android:textColor="@color/white"
             android:textSize="@dimen/_12ssp" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:layout_gravity="center_vertical"
+                android:fontFamily="@font/amiko"
+                android:text="/"
+                android:textStyle="bold"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_12ssp" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/totCartonQN"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:layout_marginEnd="@dimen/_5sdp"
+                android:layout_gravity="center_vertical"
+                android:fontFamily="@font/amiko"
+                android:text=""
+                android:textStyle="bold"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_12ssp" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 

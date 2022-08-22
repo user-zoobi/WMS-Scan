@@ -189,6 +189,7 @@
                     android:id="@+id/addWarehouseBTN"
                     android:layout_width="@dimen/_200sdp"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="end"
                     android:layout_marginStart="@dimen/_20sdp"
                     android:layout_marginTop="@dimen/_40sdp"
                     android:layout_marginEnd="@dimen/_20sdp"
@@ -197,12 +198,13 @@
                     android:text="Add"
                     android:textAllCaps="false"
                     android:textColor="@color/white"
-                    android:textSize="@dimen/_15ssp" />
+                    android:textSize="@dimen/_15ssp"
+                    />
 
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/updateWarehouseBtn"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_width="@dimen/_200sdp"
+                    android:layout_height="@dimen/_50sdp"
                     android:layout_marginStart="@dimen/_20sdp"
                     android:layout_marginTop="@dimen/_40sdp"
                     android:layout_marginEnd="@dimen/_20sdp"
@@ -212,6 +214,7 @@
                     android:textAllCaps="false"
                     android:textColor="@color/white"
                     android:textSize="@dimen/_15ssp"
+                    android:layout_gravity="end"
                     android:visibility="gone" />
 
             </androidx.appcompat.widget.LinearLayoutCompat>

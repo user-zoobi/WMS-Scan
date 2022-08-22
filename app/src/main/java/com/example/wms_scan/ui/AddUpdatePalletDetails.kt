@@ -413,6 +413,11 @@ class AddUpdatePalletDetails : AppCompatActivity() {
         })
     }
 
+    override fun onResume() {
+        super.onResume()
+        onBackPressed()
+    }
+
     override fun onBackPressed() {
         finish()
     }

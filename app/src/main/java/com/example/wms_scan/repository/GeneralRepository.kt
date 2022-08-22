@@ -131,4 +131,6 @@ class GeneralRepository : ApiHelper {
     ): List<GetCartonQnWiseResponse>
         = RetrofitClient.apiservice.getCartonQNWise(Analytical_No)
 
+
+
 }

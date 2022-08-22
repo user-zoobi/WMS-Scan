@@ -40,8 +40,8 @@ class CartonDetailAdapter(
             binding.rackName.text = "Rack : ${data.rackName}".trim()
             binding.shelfName.text = "Shelf : ${data.shelfName}".trim()
             binding.palletName.text = "Pallet : ${data.pilotName}".trim()
-            binding.cartonName.text = "Carton : ${data.analyticalNo}".trim()
-
+            binding.cartonSnoQN.text = "Total Carton : ${data.cartonSNo}".trim()
+            binding.totCartonQN.text = " ${data.totCarton}".trim()
         }
     }
 //
@@ -67,9 +67,7 @@ class CartonDetailAdapter(
                     for (row in filterList)
                     {
                         if (
-                            row.analyticalNo?.lowercase()?.contains(constraint.toString().lowercase())!!
-                            or row.materialName?.lowercase()?.contains(constraint.toString().lowercase())!!
-                            or row.wHName?.lowercase()?.contains(constraint.toString().lowercase())!!
+                            row.wHName?.lowercase()?.contains(constraint.toString().lowercase())!!
                             or row.rackName?.lowercase()?.contains(constraint.toString().lowercase())!!
                             or row.shelfName?.lowercase()?.contains(constraint.toString().lowercase())!!
                             or row.pilotName?.lowercase()?.contains(constraint.toString().lowercase())!!

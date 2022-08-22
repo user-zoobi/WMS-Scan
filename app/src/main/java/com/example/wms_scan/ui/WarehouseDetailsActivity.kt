@@ -251,6 +251,11 @@ class WarehouseDetailsActivity : AppCompatActivity()
 
     }
 
+    override fun onResume() {
+        super.onResume()
+        onBackPressed()
+    }
+
     private fun clearPreferences(context: Context)
     {
         val settings: SharedPreferences =

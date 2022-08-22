@@ -382,28 +382,29 @@
                                 android:textStyle="bold"
                                 app:fontFamily="@font/amiko" />
 
-                            <androidx.appcompat.widget.LinearLayoutCompat
+                            <RelativeLayout
                                 android:id="@+id/stockCont"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_alignParentEnd="true"
+                                android:layout_centerVertical="true"
                                 android:layout_gravity="end"
-                                android:layout_marginStart="@dimen/_20sdp"
+                                android:layout_marginStart="@dimen/_10sdp"
                                 android:layout_marginTop="@dimen/_10sdp"
-                                android:layout_marginEnd="@dimen/_20sdp"
+                                android:layout_marginEnd="@dimen/_10sdp"
                                 android:layout_marginBottom="@dimen/_10sdp"
                                 android:background="@drawable/grey_stroke_white_rounded_bg"
                                 android:orientation="horizontal"
-                                android:paddingStart="@dimen/_20sdp"
-                                android:paddingTop="@dimen/_10sdp"
-                                android:paddingEnd="@dimen/_30sdp"
-                                android:paddingBottom="@dimen/_10sdp"
                                 android:visibility="visible">
 
                                 <androidx.appcompat.widget.AppCompatImageView
+                                    android:id="@+id/cartonIV"
                                     android:layout_width="@dimen/_20sdp"
                                     android:layout_height="@dimen/_20sdp"
+                                    android:layout_alignParentStart="true"
+                                    android:layout_marginStart="@dimen/_10sdp"
                                     android:layout_marginTop="@dimen/_10sdp"
+                                    android:layout_marginEnd="@dimen/_5sdp"
                                     android:layout_marginBottom="@dimen/_10sdp"
                                     android:src="@drawable/packages" />
 
@@ -411,16 +412,18 @@
                                     android:id="@+id/cartonStockTV"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_gravity="center_vertical"
+                                    android:layout_centerVertical="true"
                                     android:layout_marginStart="@dimen/_5sdp"
-                                    android:layout_marginEnd="@dimen/_5sdp"
+                                    android:layout_marginTop="@dimen/_10sdp"
+                                    android:layout_marginEnd="@dimen/_10sdp"
+                                    android:layout_toEndOf="@id/cartonIV"
                                     android:text="stock"
                                     android:textColor="@color/black"
-                                    android:textSize="@dimen/_10ssp"
+                                    android:textSize="@dimen/_12ssp"
                                     android:textStyle="bold"
                                     app:fontFamily="@font/amiko" />
 
-                            </androidx.appcompat.widget.LinearLayoutCompat>
+                            </RelativeLayout>
 
                         </RelativeLayout>
 
@@ -512,7 +515,7 @@
                                 android:layout_width="@dimen/_25sdp"
                                 android:layout_height="@dimen/_25sdp"
                                 android:layout_gravity="center_vertical"
-                                android:src="@drawable/item"
+                                android:src="@drawable/carton"
                                 android:textColor="@color/white"
                                 android:textSize="@dimen/_16ssp" />
 
@@ -552,13 +555,14 @@
                                 android:layout_width="@dimen/_25sdp"
                                 android:layout_height="@dimen/_25sdp"
                                 android:layout_gravity="center_vertical"
-                                android:src="@drawable/carton" />
+                                android:src="@drawable/item" />
 
                             <androidx.appcompat.widget.LinearLayoutCompat
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="@dimen/_10sdp"
-                                android:orientation="horizontal">
+                                android:orientation="horizontal"
+                                android:layout_marginTop="@dimen/_4sdp">
 
                                 <androidx.appcompat.widget.AppCompatTextView
                                     android:id="@+id/cartonSNOTV"
@@ -567,7 +571,7 @@
                                     android:layout_gravity="center_vertical"
                                     android:text=" "
                                     android:textColor="@color/black"
-                                    android:textSize="@dimen/_16ssp"
+                                    android:textSize="@dimen/_12ssp"
                                     android:textStyle="bold"
                                     app:fontFamily="@font/amiko" />
 
@@ -579,7 +583,7 @@
                                     android:layout_marginStart="@dimen/_5sdp"
                                     android:text="/"
                                     android:textColor="@color/dark_grey"
-                                    android:textSize="@dimen/_16ssp"
+                                    android:textSize="@dimen/_12ssp"
                                     app:fontFamily="@font/amiko" />
 
                                 <androidx.appcompat.widget.AppCompatTextView
@@ -590,7 +594,7 @@
                                     android:layout_marginStart="@dimen/_5sdp"
                                     android:text=" "
                                     android:textColor="@color/black"
-                                    android:textSize="@dimen/_16ssp"
+                                    android:textSize="@dimen/_12ssp"
                                     android:textStyle="bold"
                                     app:fontFamily="@font/amiko" />
 

@@ -162,19 +162,19 @@ class PalletsActivity : AppCompatActivity() {
 
             if (isNetworkConnected(this))
             {
-                    val intent = Intent(this, AddUpdatePalletDetails::class.java)
-                    intent.putExtra("addBusLocNo",selectedBusLocNo)
-                    intent.putExtra("addWHNo",selectedWareHouseNo)
-                    intent.putExtra("addRackNo",selectedRackNo)
-                    intent.putExtra("addShelfNo",selectedShelveNo)
-                    intent.putExtra("addBusLocName",busLocName)
-                    intent.putExtra("addWHName",warehouseName)
-                    intent.putExtra("addRackName",rackName)
-                    intent.putExtra("addShelfName",shelfName)
-                    intent.putExtra("palletCode",palletCode)
-                    intent.putExtra("palletCap",capacity)
-                    intent.putExtra("AddPalletKey",true)
-                    startActivity(intent)
+                val intent = Intent(this, AddUpdatePalletDetails::class.java)
+                intent.putExtra("addBusLocNo",selectedBusLocNo)
+                intent.putExtra("addWHNo",selectedWareHouseNo)
+                intent.putExtra("addRackNo",selectedRackNo)
+                intent.putExtra("addShelfNo",selectedShelveNo)
+                intent.putExtra("addBusLocName",busLocName)
+                intent.putExtra("addWHName",warehouseName)
+                intent.putExtra("addRackName",rackName)
+                intent.putExtra("addShelfName",shelfName)
+                intent.putExtra("palletCode",palletCode)
+                intent.putExtra("palletCap",capacity)
+                intent.putExtra("AddPalletKey",true)
+                startActivity(intent)
 
             }
         }

@@ -135,7 +135,6 @@ class CartonDetailActivity : AppCompatActivity() {
                             binding.totCartonTV.text = it.data?.get(0)?.totCarton.toString()
                             binding.stockTV.text = it.data?.get(0)?.matStock.toString()
                             binding.palletName.text = it.data?.get(0)?.pilotName.toString()
-                            binding.cartonNumber.text = "Carton Number (${it.data?.get(0)?.cartonNo})"
                             itemCode = it.data?.get(0)?.materialId.toString()
                             cartonSNo = it.data?.get(0)?.cartonSNo.toString()
                             totCarton = it.data?.get(0)?.totCarton.toString()

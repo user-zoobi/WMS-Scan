@@ -50,16 +50,6 @@ class ScannerActivity : AppCompatActivity() {
         viewModel = obtainViewModel(MainViewModel::class.java)
         dialog = CustomProgressDialog(this)
 
-        if (LocalPreferences.getBoolean(this@ScannerActivity,
-                LocalPreferences.AppLoginPreferences.isLogin))
-        {
-            binding.loginCont.gone()
-        }
-        else
-        {
-            binding.loginCont.visible()
-        }
-
     }
 
     private fun initObserver()
@@ -121,6 +111,21 @@ class ScannerActivity : AppCompatActivity() {
 
         }
 
+        if (LocalPreferences.getBoolean(this@ScannerActivity, isLogin))
+        {
+            binding.toolbarOnly.visible()
+            binding.backBtnOnly.click {
+                finishAffinity()
+            }
+        }
+        else
+        {
+            binding.toolbar.visible()
+            binding.backBtn.click {
+                finishAffinity()
+            }
+        }
+
         binding.searchManualTV.click {
 
             binding.scanOptionCont.gone()
@@ -138,23 +143,18 @@ class ScannerActivity : AppCompatActivity() {
             binding.searchScanTV.gone()
             binding.manualOptionCont.gone()
 
-            if (LocalPreferences.getBoolean(this@ScannerActivity, isLogin))
-            {
-                binding.loginCont.gone()
-            }
-            else
-            {
-                binding.loginCont.visible()
-            }
-
         }
 
 //        binding.loginBtn.click {
 //            gotoActivity(LoginActivity::class.java)
 //        }
 
+        binding.toolbar.menu.findItem(R.id.login_user).setOnMenuItemClickListener {
+            gotoActivity(LoginActivity::class.java)
+            true
+        }
         binding.backBtn.click {
-            onBackPressed()
+            finishAffinity()
         }
 
         binding.searchBtn.click {

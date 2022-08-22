@@ -73,7 +73,7 @@ class LoginActivity : AppCompatActivity() {
                                 // check whether user is active or not
 
                                 if (it.data[0].active == true) {
-                                    gotoActivity(MenuActivity::class.java)
+                                    gotoActivity(MenuActivity::class.java, "login", true)
 
                                     // userNo and isLogin sent in preferences
 

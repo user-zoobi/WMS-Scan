@@ -854,23 +854,23 @@ class ShowAllHierarchy : AppCompatActivity() {
 
                            //stock number container visible
                            binding.stockCont.visible()
-                           binding.cartonStockTV.text = "Stock :\n${it.data[0].matStock}"
+                           binding.cartonStockTV.text = "Stock inhand:\n${Math.round(it.data[0].matStock!!)}"
 
 
                            //tot carton visible
                            binding.cartonDetailCont.visible()
                            binding.totCartonTV.text = "${it.data[0].totCarton}"
-                           binding.cartonSNOTV.text = "Total carton : ${it.data[0].cartonSNo}"
+                           binding.cartonSNOTV.text = "${it.data[0].cartonSNo}"
 
 
                            //material name visible
                            binding.materialNameCont.visible()
-                           binding.materialNameTV.text = "Material name : ${it.data[0].materialName?.trim()}"
+                           binding.materialNameTV.text = "${it.data[0].materialName?.trim()}"
 
 
                            //item code visible
                            binding.itemCodeCont.visible()
-                           binding.itemCodeTV.text = "Item code : ${it.data[0].itemCode?.trim()}"
+                           binding.itemCodeTV.text = "${it.data[0].itemCode?.trim()}"
 
 
                            /**

@@ -48,7 +48,7 @@ class MenuActivity : AppCompatActivity() {
 
 
     override fun onBackPressed() {
-        finishAffinity()
+        finish()
     }
 
     private fun permissions()
@@ -83,6 +83,14 @@ class MenuActivity : AppCompatActivity() {
                 LocalPreferences.AppLoginPreferences.loginTime
             )
         }
+
+//        when
+//        {
+//            intent.extras?.getBoolean("login") == true ->
+//            {
+//                onBackPressed()
+//            }
+//        }
 
         initListeners()
 

@@ -288,11 +288,11 @@ class WarehouseActivity : AppCompatActivity() {
 
             if (isNetworkConnected(this)){
 
-                    val intent = Intent(this, WarehouseDetailsActivity::class.java)
-                    intent.putExtra("addBusName",businessLocName)
-                    intent.putExtra("addBusLocNo",selectedBusLocNo)
-                    intent.putExtra("AddWHKey",true)
-                    startActivity(intent)
+                val intent = Intent(this, WarehouseDetailsActivity::class.java)
+                intent.putExtra("addBusName",businessLocName)
+                intent.putExtra("addBusLocNo",selectedBusLocNo)
+                intent.putExtra("AddWHKey",true)
+                startActivity(intent)
             }
         }
     }
@@ -309,7 +309,7 @@ class WarehouseActivity : AppCompatActivity() {
     }
 
     fun showQrCode(warehouseCode:String, whName:String, whNo:String) {
-       val intent = Intent(this, QrCodeDetailActivity::class.java)
+        val intent = Intent(this, QrCodeDetailActivity::class.java)
         intent.putExtra("warehouseKey",true)
         intent.putExtra("whQrCode",warehouseCode)
         intent.putExtra("whNo",whNo)
@@ -380,18 +380,18 @@ class WarehouseActivity : AppCompatActivity() {
         val qrWriter = QRCodeWriter()
         try
         {
-                val bitMatrix = qrWriter.encode(text, BarcodeFormat.QR_CODE, 512,512)
-                val width = bitMatrix.width
-                val height = bitMatrix.height
-                bmp = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565)
-                bmpList.add(bmp)
-                for (x in 0 until width)
+            val bitMatrix = qrWriter.encode(text, BarcodeFormat.QR_CODE, 512,512)
+            val width = bitMatrix.width
+            val height = bitMatrix.height
+            bmp = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565)
+            bmpList.add(bmp)
+            for (x in 0 until width)
+            {
+                for(y in 0 until height)
                 {
-                    for(y in 0 until height)
-                    {
-                        bmp.setPixel(x,y, if (bitMatrix[x,y]) Color.BLACK else Color.WHITE)
-                    }
+                    bmp.setPixel(x,y, if (bitMatrix[x,y]) Color.BLACK else Color.WHITE)
                 }
+            }
 
         }
         catch (e:Exception) { }

@@ -112,8 +112,7 @@
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:weightSum="2">
+                    android:orientation="vertical">
 
                     <com.google.android.material.card.MaterialCardView
                         android:id="@+id/businessSpinner"
@@ -323,6 +322,7 @@
                     android:layout_marginStart="@dimen/_20sdp"
                     android:layout_marginTop="@dimen/_30sdp"
                     android:layout_marginEnd="@dimen/_20sdp"
+                    android:layout_gravity="end"
                     android:background="@drawable/hollow_black_rounded_bg"
                     android:fontFamily="@font/amiko"
                     android:text="Add"
@@ -332,7 +332,7 @@
 
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/updateRackBtn"
-                    android:layout_width="match_parent"
+                    android:layout_width="@dimen/_200sdp"
                     android:layout_height="@dimen/_50sdp"
                     android:layout_marginStart="@dimen/_20sdp"
                     android:layout_marginTop="@dimen/_30sdp"
@@ -343,6 +343,7 @@
                     android:textAllCaps="false"
                     android:textColor="@color/white"
                     android:textSize="@dimen/_15ssp"
+                    android:layout_gravity="end"
                     android:visibility="gone" />
 
             </androidx.appcompat.widget.LinearLayoutCompat>
