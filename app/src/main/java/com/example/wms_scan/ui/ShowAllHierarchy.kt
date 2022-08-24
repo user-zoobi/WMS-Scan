@@ -342,7 +342,7 @@ class ShowAllHierarchy : AppCompatActivity() {
                             catch (e:Exception) {
                                 dialog.dismiss()
                                 Log.i("scanAllHierarchy","${e.message}")
-                                toast("Something went wrong")
+                                toast("No data found")
                                 binding.listSize.gone()
                                 binding.itemTV.text = "No data"
 
@@ -352,7 +352,7 @@ class ShowAllHierarchy : AppCompatActivity() {
                         {
                             dialog.dismiss()
                             finish()
-                            toast("Something went wrong")
+                            toast("Response not found")
                             binding.listSize.gone()
                             binding.itemTV.text = "No data"
                         }
@@ -367,7 +367,7 @@ class ShowAllHierarchy : AppCompatActivity() {
                     binding.hierarchyCont.gone()
                     dialog.dismiss()
                     Log.i("scanAllHierarchy","${Exception().message}")
-                    toast("Something went wrong!")
+                    toast("Error found")
                     binding.listSize.gone()
                     binding.itemTV.text = "No data"
 
@@ -404,11 +404,6 @@ class ShowAllHierarchy : AppCompatActivity() {
                             binding.showAllRV.apply {
                                 layoutManager = LinearLayoutManager(this@ShowAllHierarchy)
                                 adapter = warehouseAdapter
-
-                                if (it.data[0].wHNo.toString() == "0") {
-                                    adapter = null
-                                    toast(noRecordFound)
-                                }
                             }
 
                             binding.listSize.text = "Total Record : ${it.data.size}"
@@ -481,10 +476,7 @@ class ShowAllHierarchy : AppCompatActivity() {
                                 layoutManager = LinearLayoutManager(this@ShowAllHierarchy)
                                 adapter = racksAdapter
 
-                                if (it.data[0].rackNo.toString() == "0") {
-                                    adapter = null
-                                    toast(noRecordFound)
-                                } }
+                            }
 
                             binding.itemTV.text = it.data[0].wHName
                             Log.i("warehouseCode", it.data[0].wHName.toString())
@@ -559,10 +551,6 @@ class ShowAllHierarchy : AppCompatActivity() {
                                 layoutManager = LinearLayoutManager(this@ShowAllHierarchy)
                                 adapter = shelfAdapter
 
-                                if (it.data[0].shelfNo.toString() == "0") {
-                                    adapter = null
-                                    toast(noRecordFound)
-                                }
                             }
                             binding.itemTV.text = it.data[0].rackName
                             Log.i("shelfData", it.data[0].shelfName.toString())
@@ -635,10 +623,6 @@ class ShowAllHierarchy : AppCompatActivity() {
                                 layoutManager = LinearLayoutManager(this@ShowAllHierarchy)
                                 adapter = palletAdapter
 
-                                if (it.data[0].pilotNo.toString() == "0") {
-                                    adapter = null
-                                    toast(noRecordFound)
-                                }
                             }
                             binding.itemTV.text = it.data[0].shelfName
                             binding.listSize.text = "Total Record : ${it.data.size}"
@@ -717,11 +701,6 @@ class ShowAllHierarchy : AppCompatActivity() {
                               layoutManager = LinearLayoutManager(this@ShowAllHierarchy)
                               adapter = cartonAdapter
 
-                              if (it.data[0].cartonNo.toString() == "0")
-                              {
-                                  adapter = null
-                                  toast(noRecordFound)
-                              }
                           }
                           binding.hierarchyCont.visible()
                           binding.itemTV.text = it.data[0].pilotName
@@ -752,29 +731,29 @@ class ShowAllHierarchy : AppCompatActivity() {
                       {
                           toast(noRecordFound)
                           dialog.dismiss()
-                          binding.showAllRV.adapter = null
                       }
                     }
                     catch (e:Exception)
                     {
                         Log.i("getCarton","${e.message}")
-                        toast("Something went wrong")
+                        toast("${e.message}")
                         binding.listSize.gone()
                         binding.itemTV.text = "No data"
-                        binding.showAllRV.adapter = null
 
                     }
                 }
 
                 Status.ERROR -> {
 
+                    Log.i("cartonError","${Exception().message}")
                     binding.hierarchyTree.gone()
                     binding.treeView.gone()
-                    toast("Something went wrong")
+                    toast("${Exception().message}")
                     dialog.dismiss()
                     binding.listSize.gone()
+                    binding.scanCont.gone()
+                    binding.connectionTimeout.visible()
                     binding.itemTV.text = "No data"
-                    binding.showAllRV.adapter = null
 
                 }
                 else -> {}

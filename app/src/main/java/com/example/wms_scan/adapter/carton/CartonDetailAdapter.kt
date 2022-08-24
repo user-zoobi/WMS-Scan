@@ -25,7 +25,7 @@ class CartonDetailAdapter(
     inner class ViewHolder(view: View): RecyclerView.ViewHolder(view){
         val binding = CartonByQnViewBinding.bind(view)
     }
-
+//
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.carton_by_qn_view, parent, false)
         return ViewHolder(view)

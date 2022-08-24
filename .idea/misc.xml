@@ -3,6 +3,11 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/BI.IT-021/Downloads/WMS-Scan/WMS-Scan/app/src/main/res/layout/activity_carton_detail.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/BI.IT-021/Downloads/WMS-Scan/WMS-Scan/app/src/main/res/layout/activity_scan_all_hierarchy.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/BI.IT-021/Downloads/WMS-Scan/WMS-Scan/app/src/main/res/layout/activity_splash.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/BI.IT-021/Downloads/WMS-Scan/WMS-Scan/app/src/main/res/layout/activity_warehouse.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/BI.IT-021/Downloads/WMS-Scan/WMS-Scan/app/src/main/res/layout/scan_carton_list_view.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/BI.IT-021/StudioProjects/WMS-Scan/app/src/main/res/drawable-v24/dark_green_rounded_bg.xml" value="0.181" />
         <entry key="..\:/Users/BI.IT-021/StudioProjects/WMS-Scan/app/src/main/res/drawable-v24/gradient_blue_rounded_bg.xml" value="0.161" />
         <entry key="..\:/Users/BI.IT-021/StudioProjects/WMS-Scan/app/src/main/res/drawable-v24/gradient_green_rounded_bg.xml" value="0.161" />
