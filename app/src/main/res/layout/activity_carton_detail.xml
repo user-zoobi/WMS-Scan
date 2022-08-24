@@ -369,66 +369,118 @@
                         android:textSize="@dimen/_20ssp"
                         android:textStyle="bold" />
 
+                    <ImageView
+                        android:id="@+id/materialIV"
+                        android:layout_width="@dimen/_20sdp"
+                        android:layout_height="@dimen/_20sdp"
+                        android:layout_below="@+id/cartonViewHeader"
+                        android:layout_alignParentStart="true"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginTop="14dp"
+                        android:src="@drawable/material" />
+
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/material"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/cartonViewHeader"
-                        android:layout_alignParentStart="true"
-                        android:layout_marginStart="@dimen/_20sdp"
-                        android:layout_marginTop="@dimen/_20sdp"
+                        android:layout_marginStart="11dp"
+                        android:layout_marginTop="20dp"
+                        android:layout_toEndOf="@id/materialIV"
                         android:fontFamily="@font/amiko"
                         android:text="Material "
                         android:textColor="@color/white"
                         android:textSize="@dimen/_12ssp" />
+
+                    <ImageView
+                        android:id="@+id/palletIcon"
+                        android:layout_width="@dimen/_20sdp"
+                        android:layout_height="@dimen/_20sdp"
+                        android:layout_below="@+id/material"
+                        android:layout_alignParentStart="true"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginTop="10dp"
+                        android:src="@drawable/pallet_color" />
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/palletNameTV"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/material"
-                        android:layout_alignParentStart="true"
-                        android:layout_marginStart="@dimen/_20sdp"
-                        android:layout_marginTop="@dimen/_10sdp"
+                        android:layout_marginStart="@dimen/_10sdp"
+                        android:layout_marginTop="@dimen/_15sdp"
+                        android:layout_toEndOf="@id/palletIcon"
                         android:fontFamily="@font/amiko"
                         android:text="Pallet Name"
                         android:textColor="@color/white"
                         android:textSize="@dimen/_12ssp" />
+
+                    <ImageView
+                        android:id="@+id/analyticalNoIV"
+                        android:layout_width="@dimen/_20sdp"
+                        android:layout_height="@dimen/_20sdp"
+                        android:layout_below="@+id/palletNameTV"
+                        android:layout_alignParentStart="true"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginTop="10dp"
+                        android:src="@drawable/analytical_number" />
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/analyticalNumber"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/palletNameTV"
-                        android:layout_alignParentStart="true"
-                        android:layout_marginStart="@dimen/_20sdp"
-                        android:layout_marginTop="@dimen/_10sdp"
+                        android:layout_marginStart="@dimen/_10sdp"
+                        android:layout_marginTop="@dimen/_15sdp"
+                        android:layout_toEndOf="@+id/analyticalNoIV"
                         android:fontFamily="@font/amiko"
                         android:text="Analytical Number"
                         android:textColor="@color/white"
                         android:textSize="@dimen/_12ssp" />
+
+                    <ImageView
+                        android:id="@+id/cartonIcon"
+                        android:layout_width="@dimen/_20sdp"
+                        android:layout_height="@dimen/_20sdp"
+                        android:layout_below="@+id/analyticalNumber"
+                        android:layout_alignParentStart="true"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginTop="10dp"
+                        android:src="@drawable/carton" />
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/cartonNumber"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/analyticalNumber"
-                        android:layout_alignParentStart="true"
-                        android:layout_marginStart="@dimen/_20sdp"
-                        android:layout_marginTop="@dimen/_10sdp"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="15dp"
+                        android:layout_toEndOf="@id/cartonIcon"
                         android:fontFamily="@font/amiko"
                         android:text="Carton Number"
                         android:textColor="@color/white"
                         android:textSize="@dimen/_12ssp" />
+
+                    <ImageView
+                        android:id="@+id/stockIcon"
+                        android:layout_width="@dimen/_20sdp"
+                        android:layout_height="@dimen/_20sdp"
+                        android:layout_below="@+id/cartonNumber"
+                        android:layout_alignParentStart="true"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="@dimen/_10sdp"
+                        android:src="@drawable/packages" />
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/stock"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/cartonNumber"
-                        android:layout_marginStart="@dimen/_20sdp"
-                        android:layout_marginTop="@dimen/_10sdp"
-                        android:layout_marginBottom="@dimen/_10sdp"
+                        android:layout_marginStart="@dimen/_10sdp"
+                        android:layout_marginTop="@dimen/_15sdp"
+                        android:layout_marginBottom="@dimen/_15sdp"
+                        android:layout_toEndOf="@+id/stockIcon"
                         android:fontFamily="@font/amiko"
                         android:text="Stock "
                         android:textColor="@color/white"

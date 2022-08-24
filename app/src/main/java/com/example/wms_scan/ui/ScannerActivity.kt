@@ -12,6 +12,8 @@ import com.example.scanmate.data.callback.Status
 import com.example.scanmate.extensions.*
 import com.example.scanmate.util.Constants.Toast.noRecordFound
 import com.example.scanmate.util.CustomProgressDialog
+import com.example.scanmate.util.LocalPreferences
+import com.example.scanmate.util.LocalPreferences.AppLoginPreferences.isLogin
 import com.example.scanmate.util.LocalPreferences.AppLoginPreferences.scanCarton
 import com.example.scanmate.util.Utils.isNetworkConnected
 import com.example.scanmate.viewModel.MainViewModel
@@ -48,12 +50,6 @@ class ScannerActivity : AppCompatActivity() {
         viewModel = obtainViewModel(MainViewModel::class.java)
         dialog = CustomProgressDialog(this)
 
-        when {
-            intent.extras?.getBoolean(scanCarton) == true -> {
-                binding.loginBtn.hide()
-            }
-        }
-
     }
 
     private fun initObserver()
@@ -82,7 +78,7 @@ class ScannerActivity : AppCompatActivity() {
                                 }
                                 else
                                 {
-                                  toast(noRecordFound)
+                                    toast(noRecordFound)
                                 }
                             }
                             catch (e:Exception)
@@ -115,15 +111,29 @@ class ScannerActivity : AppCompatActivity() {
 
         }
 
+        if (LocalPreferences.getBoolean(this@ScannerActivity, isLogin))
+        {
+            binding.toolbarOnly.visible()
+            binding.backBtnOnly.click {
+                finishAffinity()
+            }
+        }
+        else
+        {
+            binding.toolbar.visible()
+            binding.backBtn.click {
+                finishAffinity()
+            }
+        }
+
         binding.searchManualTV.click {
 
             binding.scanOptionCont.gone()
             binding.searchManualTV.gone()
             binding.searchScanTV.visible()
             binding.manualOptionCont.visible()
-            binding.scanHeaderTv.text = "Type Goods Manually"
             overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
-
+            binding.loginCont.gone()
         }
 
         binding.searchScanTV.click {
@@ -132,23 +142,26 @@ class ScannerActivity : AppCompatActivity() {
             binding.searchManualTV.visible()
             binding.searchScanTV.gone()
             binding.manualOptionCont.gone()
-            binding.scanHeaderTv.text = "Scan Goods"
 
         }
 
-        binding.loginBtn.click {
+//        binding.loginBtn.click {
+//            gotoActivity(LoginActivity::class.java)
+//        }
+
+        binding.toolbar.menu.findItem(R.id.login_user).setOnMenuItemClickListener {
             gotoActivity(LoginActivity::class.java)
+            true
         }
-
         binding.backBtn.click {
-            onBackPressed()
+            finishAffinity()
         }
 
         binding.searchBtn.click {
 
             if (isNetworkConnected(this)) {
 
-      ////           input of analytical num or material name
+                ////           input of analytical num or material name
 
                 if (binding.numOrMatNameTV.text.toString().isNullOrEmpty())
                 {

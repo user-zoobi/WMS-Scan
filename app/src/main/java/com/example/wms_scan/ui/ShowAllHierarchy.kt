@@ -830,13 +830,13 @@ class ShowAllHierarchy : AppCompatActivity() {
 
                            //stock number container visible
                            binding.stockCont.visible()
-                           binding.cartonStockTV.text = "${it.data[0].matStock}"
+                           binding.cartonStockTV.text = "Stock inhand:\n${Math.round(it.data[0].matStock!!)}"
 
 
                            //tot carton visible
                            binding.cartonDetailCont.visible()
                            binding.totCartonTV.text = "${it.data[0].totCarton}"
-                           binding.cartonSNOTV.text = "Carton No (${it.data[0].cartonNo}) :  ${it.data[0].cartonSNo}"
+                           binding.cartonSNOTV.text = " Total Carton :  ${it.data[0].cartonSNo}"
 
 
                            //material name visible

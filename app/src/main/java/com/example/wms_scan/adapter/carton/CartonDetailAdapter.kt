@@ -40,6 +40,8 @@ class CartonDetailAdapter(
             binding.rackName.text = "Rack : ${data.rackName}".trim()
             binding.shelfName.text = "Shelf : ${data.shelfName}".trim()
             binding.palletName.text = "Pallet : ${data.pilotName}".trim()
+            binding.cartonSnoQN.text = "Total Carton : ${data.cartonSNo}".trim()
+            binding.totCartonQN.text = " ${data.totCarton}".trim()
 
         }
     }
