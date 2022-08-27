@@ -179,7 +179,7 @@ class ScanCartonActivity : AppCompatActivity() {
         }
 
         binding.backBtn.click {
-            onBackPressed()
+            finish()
         }
 
     }
@@ -202,13 +202,49 @@ class ScanCartonActivity : AppCompatActivity() {
                             {
                                 if (it.data?.get(0)?.status == true)
                                 {
-                                    status = it.data[0].status.toString()
-                                    val intent = Intent(this, CartonDetailActivity::class.java)
-                                    intent.putExtra("scanAnalyticalNum",scannedValue)
-                                    intent.putExtra("palletCode",scannedPalletCode)
-                                    intent.putExtra("isExist",it.data[0].isExist)
-                                    startActivity(intent)
-                                    binding.noRecordTV.gone()
+                                    val cartonSerial = it.data[0].cartonSNo
+                                    val totalCarton = it.data[0].totCarton
+
+                                    if (it.data[0].analyticalNo?.contains("RM")!!)
+                                    {
+                                        if (cartonSerial != null && totalCarton != null)
+                                        {
+                                            if (cartonSerial >= totalCarton)
+                                            {
+                                                toast("carton cannot be inserted")
+                                            }
+                                            else
+                                            {
+                                                val intent = Intent(this, CartonDetailActivity::class.java)
+                                                intent.putExtra("scanAnalyticalNum",scannedValue)
+                                                intent.putExtra("palletCode",scannedPalletCode)
+                                                intent.putExtra("isExist",it.data[0].isExist)
+                                                startActivity(intent)
+                                                binding.noRecordTV.gone()
+                                            }
+                                        }
+                                    }
+                                    else if (it.data[0].analyticalNo?.contains("PK")!!)
+                                    {
+                                        if (cartonSerial != null && totalCarton != null)
+                                        {
+                                            if (cartonSerial >= totalCarton)
+                                            {
+                                                gotoActivity(CartonDetailActivity::class.java, "PKSNo",true)
+                                            }
+                                            else
+                                            {
+                                                val intent = Intent(this, CartonDetailActivity::class.java)
+                                                intent.putExtra("scanAnalyticalNum",scannedValue)
+                                                intent.putExtra("palletCode",scannedPalletCode)
+                                                intent.putExtra("isExist",it.data[0].isExist)
+                                                startActivity(intent)
+                                                binding.noRecordTV.gone()
+                                            }
+                                        }
+                                    }
+
+
                                 }
                                 else
                                 {

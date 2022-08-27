@@ -114,6 +114,7 @@ class ShowAllHierarchy : AppCompatActivity() {
                 Log.i("ManualInput", " $manualName ")
                 viewModel.getCartonQnWise(manualName)
 
+
             }
         }
 
@@ -127,6 +128,7 @@ class ShowAllHierarchy : AppCompatActivity() {
             {
                 cartonAnalyticalNo = intent.extras?.getString("c").toString()
                 viewModel.getCartonQnWise(cartonAnalyticalNo)
+
             }
         }
 
@@ -694,6 +696,7 @@ class ShowAllHierarchy : AppCompatActivity() {
                           binding.hierarchyCont.visible()
                           binding.hierarchyTree.visible()
                           binding.treeView.visible()
+                          binding.cartonQnWiseCont.gone()
                           cartonAdapter = ScanCartonAdapter(this,
                               it.data as ArrayList<GetCartonResponse>
                           )
@@ -779,7 +782,70 @@ class ShowAllHierarchy : AppCompatActivity() {
                     {
                        if(it.data?.get(0)?.status == true)
                        {
-                           dialog.dismiss()
+
+                           if (it.data[0].analyticalNo?.contains("RM")!!)
+                           {
+                               binding.hierarchyCont.gone()
+                               binding.hierarchyTree.gone()
+                               binding.treeView.gone()
+                               dialog.dismiss()
+                               cartonQnWiseAdapter = CartonDetailAdapter(this,
+                                   it.data as ArrayList<GetCartonQnWiseResponse>
+                               )
+                               binding.showAllRV.apply {
+                                   layoutManager = LinearLayoutManager(this@ShowAllHierarchy)
+                                   adapter = cartonQnWiseAdapter
+                                   Log.i("analyticalNo", it.data[0].analyticalNo.toString())
+                                   binding.slash.visible()
+                               }
+                               Log.i(
+                                   "getCartonQnWiseParam",
+                                   "${it.data[0].materialName.toString()}\n${it.data[0].analyticalNo}\n ${it.data[0].cartonSNo}"
+                               )
+//                           binding.itemTV.text = "Analytical Number : ${it.data[0].analyticalNo.toString()}"
+                               binding.listSize.text = "Total Record : ${it.data.size}"
+                               binding.subDirectoryIcon.gone()
+                               binding.hierarchyNameCont.gone()
+                               binding.cartonQnWiseCont.visible()
+
+                               //analytical number container visible
+                               binding.analyticalCont.visible()
+                               binding.analyticalNoTV.text = "${it.data[0].analyticalNo?.trim()}"
+
+                               //stock number container visible
+                               binding.stockCont.visible()
+                               binding.cartonStockTV.text = "Stock inhand:\n${it.data[0].matStock!!}"
+                               Log.i("cartonQNData","${it.data[0].matStock}")
+
+
+                               //tot carton visible
+                               binding.cartonDetailCont.visible()
+                               binding.totCartonTV.text = "${it.data[0].totCarton}"
+                               binding.cartonSNOTV.text = " Total Carton :  ${it.data[0].cartonSNo}"
+                               Log.i("cartonQNData","${it.data[0].cartonSNo}")
+
+
+                               /**
+                                * Search filter for recyclerview
+                                */
+
+                               binding.searchViewCont.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+
+                                   override fun onQueryTextSubmit(query: String?): Boolean
+                                   {
+
+                                       return true
+                                   }
+
+                                   override fun onQueryTextChange(newText: String?): Boolean
+                                   {
+                                       cartonQnWiseAdapter.filter.filter(newText)
+                                       return false
+                                   }
+                               })
+
+                           }
+
                            cartonQnWiseAdapter = CartonDetailAdapter(this,
                                it.data as ArrayList<GetCartonQnWiseResponse>
                            )
@@ -788,45 +854,11 @@ class ShowAllHierarchy : AppCompatActivity() {
                                adapter = cartonQnWiseAdapter
                                Log.i("analyticalNo", it.data[0].analyticalNo.toString())
                                binding.slash.visible()
-
-                               if (it.data[0].cartonNo.toString() == "0") {
-                                   adapter = null
-                               }
                            }
                            Log.i(
                                "getCartonQnWiseParam",
                                "${it.data[0].materialName.toString()}\n${it.data[0].analyticalNo}\n ${it.data[0].cartonSNo}"
                            )
-//                           binding.itemTV.text = "Analytical Number : ${it.data[0].analyticalNo.toString()}"
-                           binding.listSize.text = "Total Record : ${it.data.size}"
-                           binding.subDirectoryIcon.gone()
-                           binding.hierarchyNameCont.gone()
-                           binding.cartonQnWiseCont.visible()
-
-                           //analytical number container visible
-                           binding.analyticalCont.visible()
-                           binding.analyticalNoTV.text = "${it.data[0].analyticalNo?.trim()}"
-
-                           //stock number container visible
-                           binding.stockCont.visible()
-                           binding.cartonStockTV.text = "Stock inhand:\n${Math.round(it.data[0].matStock!!)}"
-
-
-                           //tot carton visible
-                           binding.cartonDetailCont.visible()
-                           binding.totCartonTV.text = "${it.data[0].totCarton}"
-                           binding.cartonSNOTV.text = " Total Carton :  ${it.data[0].cartonSNo}"
-
-
-                           //material name visible
-                           binding.materialNameCont.visible()
-                           binding.materialNameTV.text = "${it.data[0].materialName?.trim()}"
-
-
-                           //item code visible
-                           binding.itemCodeCont.visible()
-                           binding.itemCodeTV.text = "${it.data[0].itemCode?.trim()}"
-
 
                            /**
                             * Search filter for recyclerview
@@ -846,6 +878,75 @@ class ShowAllHierarchy : AppCompatActivity() {
                                    return false
                                }
                            })
+
+
+                           //material name visible
+                           binding.materialNameCont.visible()
+                           binding.materialNameTV.text = "${it.data[0].materialName?.trim()}"
+                           Log.i("cartonQNData","${it.data[0].materialName}")
+
+
+                           //item code visible
+                           binding.itemCodeCont.visible()
+                           binding.itemCodeTV.text = "${it.data[0].itemCode?.trim()}"
+                           Log.i("cartonQNData","${it.data[0].itemCode}")
+
+                           //potency
+                           binding.potencyTV.text = "Potency : ${it.data[0].potency}"
+                           Log.i("cartonQNData","${it.data[0].potency}")
+
+
+                           //release date
+                           binding.releaseTV.text = "Release date :${it.data[0].releaseDate}"
+                           Log.i("cartonQNData","${it.data[0].releaseDate}")
+
+                           //storage condition
+                           binding.storageConditionTV.text = "Storage condition : ${it.data[0].storageCondition}"
+                           Log.i("cartonQNData","${it.data[0].storageCondition}")
+
+                           //batch no
+                           binding.batchNoTV.text = "${it.data[0].batchNo}"
+                           Log.i("cartonQNData","Batch No : ${it.data[0].batchNo}")
+
+                           //source
+                           binding.sourceTV.text = "Source : ${it.data[0].suppName}"
+                           Log.i("cartonQNData","${it.data[0].suppName}")
+
+                           binding.hierarchyCont.gone()
+                           binding.hierarchyTree.gone()
+                           binding.treeView.gone()
+                           dialog.dismiss()
+
+//                           binding.itemTV.text = "Analytical Number : ${it.data[0].analyticalNo.toString()}"
+                           binding.listSize.text = "Total Record : ${it.data.size}"
+                           binding.subDirectoryIcon.gone()
+                           binding.hierarchyNameCont.gone()
+                           binding.cartonQnWiseCont.visible()
+
+                           //analytical number container visible
+                           binding.analyticalCont.visible()
+                           binding.analyticalNoTV.text = "${it.data[0].analyticalNo?.trim()}"
+
+                           //stock number container visible
+                           binding.stockCont.visible()
+                           binding.cartonStockTV.text = "Stock inhand:\n${it.data[0].matStock!!}"
+
+
+                           //tot carton visible
+                           binding.cartonDetailCont.visible()
+                           binding.totCartonTV.text = "${it.data[0].totCarton}"
+                           binding.cartonSNOTV.text = " Total Carton :  ${it.data[0].cartonSNo}"
+
+
+                           //material name visible
+                           binding.materialNameCont.visible()
+                           binding.materialNameTV.text = "${it.data[0].materialName?.trim()}"
+
+
+                           //item code visible
+                           binding.itemCodeCont.visible()
+                           binding.itemCodeTV.text = "${it.data[0].itemCode?.trim()}"
+
                        }
                         else
                        {
@@ -857,7 +958,7 @@ class ShowAllHierarchy : AppCompatActivity() {
                     }
                     catch (e:Exception)
                     {
-                        Log.i("getCartonQnWise","${e.message}")
+                        Log.i("getCartonQnWiseException","${e.message}")
                         toast("${e.message}")
                         binding.showAllRV.adapter = null
                     }
@@ -874,7 +975,6 @@ class ShowAllHierarchy : AppCompatActivity() {
                 else -> {}
             }
         }
-
     }
 
     /**
@@ -895,11 +995,30 @@ class ShowAllHierarchy : AppCompatActivity() {
             }
         }
 
-        binding
 
         binding.scanBtn.click {
             gotoActivity(ScannerActivity::class.java)
             finish()
+        }
+
+        binding.showMoreCont
+            .click {
+            binding.allDetailsCont.visible()
+            binding.showMoreCont.gone()
+            binding.showLessCont.visible()
+            binding.searchViewCont.gone()
+            binding.listSize.gone()
+            binding.showAllRV.gone()
+        }
+
+        binding.showLessCont.click {
+            binding.allDetailsCont.gone()
+            binding.showMoreCont.visible()
+            binding.showLessCont.gone()
+            binding.searchViewCont.visible()
+            binding.listSize.visible()
+            binding.showAllRV.visible()
+
         }
     }
 
@@ -982,6 +1101,7 @@ class ShowAllHierarchy : AppCompatActivity() {
                 currentScreen = "M"
                 Log.i("analyticalNo",actionNo)
                 viewModel.getCartonQnWise(actionNo)
+
             }
         }
 

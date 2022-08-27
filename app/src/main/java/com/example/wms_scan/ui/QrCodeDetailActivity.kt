@@ -109,7 +109,7 @@ class QrCodeDetailActivity : AppCompatActivity() {
             intent.extras?.getBoolean("palletKey") == true->
             {
                 generateQRCode("${palletCode}")
-                binding.qrCodeNameTV.text = palletNo
+                binding.qrCodeNameTV.text = palletName
 
             }
         }

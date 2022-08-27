@@ -15,10 +15,10 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_tracker"
+        android:icon="@mipmap/ic_warehouse"
         android:label="@string/app_name"
         android:requestLegacyExternalStorage="true"
-        android:roundIcon="@mipmap/ic_tracker"
+        android:roundIcon="@mipmap/ic_warehouse"
         android:supportsRtl="true"
         android:theme="@style/Theme.WMSScan">
         <activity

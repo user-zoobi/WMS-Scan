@@ -129,16 +129,27 @@ class CartonDetailActivity : AppCompatActivity() {
                     it.let {
                         if(isNetworkConnected(this)){
 
-                            binding.materialNumTV.text = it.data?.get(0)?.materialName
+                            binding.materialNameTV.text = it.data?.get(0)?.materialName
                             binding.analyticalNumTV.text = it.data?.get(0)?.analyticalNo
                             binding.cartonNumTV.text = it.data?.get(0)?.cartonSNo.toString()
                             binding.totCartonTV.text = it.data?.get(0)?.totCarton.toString()
                             binding.stockTV.text = it.data?.get(0)?.matStock.toString()
                             binding.palletName.text = it.data?.get(0)?.pilotName.toString()
-                            binding.cartonNumber.text = "Carton Number (${it.data?.get(0)?.cartonNo})"
+                            binding.remainingCartons.text = it.data?.get(0)?.remCarton.toString()
                             itemCode = it.data?.get(0)?.materialId.toString()
                             cartonSNo = it.data?.get(0)?.cartonSNo.toString()
                             totCarton = it.data?.get(0)?.totCarton.toString()
+
+                            if (analyticalNo.contains("PK"))
+                            {
+                                binding.cartonNumber.text = "Total Carton"
+                                binding.cartonNumTV.gone()
+                                binding.slash.gone()
+                            }
+                            else if (analyticalNo.contains("RM"))
+                            {
+                                binding.cartonNumber.text = "Carton Number"
+                            }
 
                             Log.i(
                                 "getCartonDetail","1.0\n2.0\n3.$itemCode\n4.$pilotNo\n5.$analyticalNo\n6.0\n7.0\n8.$hierarchyLoc\n9.$deviceId"
@@ -232,6 +243,10 @@ class CartonDetailActivity : AppCompatActivity() {
         }
     }
 
+    override fun onBackPressed() {
+        finish()
+    }
+
     private fun setupUi(){
 
         supportActionBar?.hide()
@@ -256,6 +271,7 @@ class CartonDetailActivity : AppCompatActivity() {
         Log.i("deviceId",deviceId)
 
         Log.i("isExist",intent.extras?.getInt("isExist").toString())
+
         when
         {
             intent.extras?.getInt("isExist") == 1 ->
@@ -269,6 +285,15 @@ class CartonDetailActivity : AppCompatActivity() {
                 binding.saveBtn.visible()
                 binding.palletName.gone()
                 binding.palletNameTV.gone()
+            }
+        }
+
+        when
+        {
+            intent.extras!!.getBoolean("PKSNo") ->
+            {
+                binding.saveBtn.gone()
+                Log.i("PHSno", "${intent.extras!!.getBoolean("PKSNo")}")
             }
         }
 

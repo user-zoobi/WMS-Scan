@@ -142,26 +142,24 @@ class ScannerActivity : AppCompatActivity() {
             binding.searchManualTV.visible()
             binding.searchScanTV.gone()
             binding.manualOptionCont.gone()
+            binding.loginCont.visible()
 
         }
-
-//        binding.loginBtn.click {
-//            gotoActivity(LoginActivity::class.java)
-//        }
 
         binding.toolbar.menu.findItem(R.id.login_user).setOnMenuItemClickListener {
             gotoActivity(LoginActivity::class.java)
             true
         }
+
         binding.backBtn.click {
             finishAffinity()
         }
 
         binding.searchBtn.click {
 
-            if (isNetworkConnected(this)) {
-
-                ////           input of analytical num or material name
+            if (isNetworkConnected(this))
+            {
+                ////    input of analytical num or material name
 
                 if (binding.numOrMatNameTV.text.toString().isNullOrEmpty())
                 {
@@ -178,7 +176,8 @@ class ScannerActivity : AppCompatActivity() {
                 {
                     toast("Please enter correct value")
                 }
-                else {
+                else
+                {
                     analOrMatInput = binding.numOrMatNameTV.text.toString()
                     viewModel.getCartonQnWise(analOrMatInput)
                 }

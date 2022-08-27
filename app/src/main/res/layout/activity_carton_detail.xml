@@ -325,6 +325,56 @@
 
             </com.google.android.material.card.MaterialCardView>
 
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/unplacedCartonCont"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/_25sdp"
+                android:layout_marginStart="@dimen/_25sdp"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:layout_marginBottom="@dimen/_20sdp"
+                app:cardCornerRadius="@dimen/_10sdp"
+                app:cardElevation="@dimen/_10sdp"
+                app:layout_constraintTop_toBottomOf="@id/hierarchyTree">
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_30sdp"
+                    android:orientation="horizontal">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:layout_width="@dimen/_20sdp"
+                        android:layout_height="@dimen/_20sdp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="@dimen/_20sdp"
+                        android:src="@drawable/warning" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="@dimen/_10sdp"
+                        android:fontFamily="@font/amiko"
+                        android:text="@string/unplaced_cartons"
+                        android:textColor="@color/black" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/remainingCartons"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="@dimen/_10sdp"
+                        android:fontFamily="@font/amiko"
+                        android:text=""
+                        android:textStyle="bold"
+                        android:textColor="@color/red" />
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+            </com.google.android.material.card.MaterialCardView>
+
+
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/detailCont"
                 android:layout_width="match_parent"
@@ -339,7 +389,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/hierarchyTree">
+                app:layout_constraintTop_toBottomOf="@+id/unplacedCartonCont">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -417,7 +467,7 @@
                         android:layout_marginStart="@dimen/_20sdp"
                         android:layout_marginTop="@dimen/_10sdp"
                         android:fontFamily="@font/amiko"
-                        android:text="Carton Number"
+                        android:text="Total Carton"
                         android:textColor="@color/white"
                         android:textSize="@dimen/_12ssp" />
 
@@ -501,19 +551,14 @@
                         android:textSize="@dimen/_12ssp" />
 
                     <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/materialNumTV"
+                        android:id="@+id/materialNameTV"
                         android:layout_width="@dimen/_200sdp"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/gapTV"
                         android:layout_alignParentEnd="true"
                         android:layout_marginStart="@dimen/_10sdp"
                         android:layout_marginEnd="@dimen/_20sdp"
-                        android:ellipsize="marquee"
-                        android:fadingEdge="horizontal"
-                        android:fontFamily="@font/amiko"
-                        android:marqueeRepeatLimit="marquee_forever"
                         android:paddingStart="@dimen/_5sdp"
-                        android:scrollHorizontally="true"
                         android:singleLine="true"
                         android:text=""
                         android:textAlignment="textEnd"
@@ -524,7 +569,7 @@
                         android:id="@+id/palletName"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_below="@+id/materialNumTV"
+                        android:layout_below="@+id/materialNameTV"
                         android:layout_alignParentEnd="true"
                         android:layout_marginStart="@dimen/_10sdp"
                         android:layout_marginTop="@dimen/_10sdp"
@@ -564,11 +609,12 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/amiko"
-                            android:text="0"
+                            android:text=""
                             android:textColor="@color/white"
                             android:textSize="@dimen/_12ssp" />
 
                         <TextView
+                            android:id="@+id/slash"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/amiko"
@@ -581,7 +627,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/amiko"
-                            android:text="0"
+                            android:text=""
                             android:textColor="@color/white"
                             android:textSize="@dimen/_12ssp" />
 

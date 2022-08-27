@@ -13,7 +13,10 @@
         android:id="@+id/video_splash"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:layout_centerInParent="true" />
+        android:layout_centerInParent="true"
+        android:layout_weight="1"
+        android:alpha="0.4"
+        android:layout_gravity="center"/>
 
     <RelativeLayout
         android:layout_width="wrap_content"
@@ -48,13 +51,12 @@
     </RelativeLayout>
 
 
-
     <ImageView
         android:layout_width="@dimen/_300sdp"
         android:layout_height="@dimen/_100sdp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="@dimen/_40sdp"
+        android:layout_marginBottom="@dimen/_80sdp"
         android:src="@drawable/bosch"
         android:tint="@color/white" />
 

@@ -3,6 +3,7 @@ import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
 class GetCartonQnWiseResponse {
+
     @SerializedName("LocationNo")
     @Expose
     val locationNo: Int? = null
@@ -106,4 +107,28 @@ class GetCartonQnWiseResponse {
     @SerializedName("Error")
     @Expose
     val error: String? = null
+
+    @SerializedName("Potency")
+    @Expose
+    val potency: Double? = null
+
+    @SerializedName("Batch_No")
+    @Expose
+    val batchNo: String? = null
+
+    @SerializedName("Supp_Name")
+    @Expose
+    val suppName: String? = null
+
+    @SerializedName("Storage_Condition")
+    @Expose
+    val storageCondition: String? = null
+
+    @SerializedName("Release_Date")
+    @Expose
+    val releaseDate: String? = null
+
+    @SerializedName("Rem_Carton")
+    @Expose
+    val remCarton: Int? = null
 }

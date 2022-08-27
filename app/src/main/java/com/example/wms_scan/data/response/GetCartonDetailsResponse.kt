@@ -12,10 +12,6 @@ class GetCartonDetailsResponse {
     @Expose
      val materialId: String? = null
 
-    @SerializedName("Material_name")
-    @Expose
-     val materialName: String? = null
-
     @SerializedName("Mat_Stock")
     @Expose
      val matStock: Double? = null
@@ -30,11 +26,11 @@ class GetCartonDetailsResponse {
 
     @SerializedName("PilotCode")
     @Expose
-     val pilotCode: Any? = null
+     val pilotCode: String? = null
 
     @SerializedName("PilotName")
     @Expose
-     val pilotName: Any? = null
+     val pilotName: String? = null
 
     @SerializedName("CartonNo")
     @Expose
@@ -55,4 +51,32 @@ class GetCartonDetailsResponse {
     @SerializedName("Tot_Carton")
     @Expose
      val totCarton: Int? = null
+
+    @SerializedName("Material_Name")
+    @Expose
+     val materialName: String? = null
+
+    @SerializedName("Rem_Carton")
+    @Expose
+     val remCarton: Int? = null
+
+    @SerializedName("Potency")
+    @Expose
+     val potency: Double? = null
+
+    @SerializedName("Batch_No")
+    @Expose
+     val batchNo: String? = null
+
+    @SerializedName("Supp_Name")
+    @Expose
+     val suppName: String? = null
+
+    @SerializedName("Storage_Condition")
+    @Expose
+     val storageCondition: String? = null
+
+    @SerializedName("Release_Date")
+    @Expose
+     val releaseDate: String? = null
 }

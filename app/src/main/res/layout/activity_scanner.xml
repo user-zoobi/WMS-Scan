@@ -137,24 +137,16 @@
                 android:layout_marginTop="@dimen/_10sdp"
                 android:layout_marginEnd="@dimen/_10sdp">
 
-                <View
-                    android:id="@+id/line1"
-                    android:layout_width="@dimen/_150sdp"
-                    android:layout_height="@dimen/_1sdp"
-                    android:layout_centerVertical="true"
-                    android:layout_marginStart="@dimen/_10sdp"
-                    android:background="@color/dark_grey" />
 
                 <TextView
                     android:id="@+id/orTV"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
+                    android:layout_centerInParent="true"
                     android:layout_gravity="center"
                     android:layout_marginBottom="@dimen/_10sdp"
-                    android:layout_toEndOf="@id/line1"
                     android:background="@drawable/grey_circle_bg"
-                    android:elevation="@dimen/_5sdp"
+                    android:elevation="@dimen/_3sdp"
                     android:padding="@dimen/_20sdp"
                     android:text="OR"
                     android:textColor="@color/dark_hollow_black"
@@ -162,11 +154,20 @@
                     android:textStyle="bold" />
 
                 <View
-                    android:layout_width="@dimen/_150sdp"
-                    android:layout_height="@dimen/_1sdp"
-                    android:layout_centerVertical="true"
-                    android:layout_toEndOf="@id/orTV"
-                    android:background="@color/dark_grey" />
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerInParent="true"
+                    android:layout_toStartOf="@id/orTV"
+                    android:background="@color/light_grey" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/light_grey"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerInParent="true"
+                    android:layout_toEndOf="@id/orTV"/>
 
             </RelativeLayout>
 

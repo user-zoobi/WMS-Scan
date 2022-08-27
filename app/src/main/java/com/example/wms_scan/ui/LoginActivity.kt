@@ -112,7 +112,8 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-    private fun initListeners() {
+    private fun initListeners()
+    {
 
         binding.loginBtn.click {
             validations()
@@ -123,22 +124,26 @@ class LoginActivity : AppCompatActivity() {
 
     }
 
-    private fun showBiometricPrompt() {
+    private fun showBiometricPrompt()
+    {
         val biometricPromptUtils = BiometricPromptUtils(
             this,
-            object : BiometricPromptUtils.BiometricListener {
+            object : BiometricPromptUtils.BiometricListener
+            {
 
                 override fun onAuthenticationLockoutError() {}
 
                 override fun onAuthenticationPermanentLockoutError() {}
 
-                override fun onAuthenticationSuccess() {
+                override fun onAuthenticationSuccess()
+                {
                     gotoActivity(MenuActivity::class.java)
                 }
 
                 override fun onAuthenticationFailed() {}
 
                 override fun onAuthenticationError() {}
+
             })
 
         biometricPromptUtils.showBiometricPrompt(
@@ -148,16 +153,20 @@ class LoginActivity : AppCompatActivity() {
         )
     }
 
-    private fun validations() {
+    private fun validations()
+    {
 
         val userID = binding.userIdET.text.toString()
         val password = binding.passwordET.text.toString()
 
         //validations for fields and send parameters in viewModel
 
-        if (userID.isNullOrEmpty() or password.isNullOrEmpty()) {
-            toast("Field must be empty")
-        } else {
+        if (userID.isNullOrEmpty() or password.isNullOrEmpty())
+        {
+            toast("Field must not be empty")
+        }
+        else
+        {
             viewModel.loginUser(
                 Utils.getSimpleTextBody(userID),
                 Utils.getSimpleTextBody(password)
@@ -165,7 +174,8 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-    override fun onBackPressed() {
+    override fun onBackPressed()
+    {
         finish()
     }
 

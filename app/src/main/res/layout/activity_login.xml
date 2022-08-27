@@ -10,7 +10,7 @@
     tools:context=".ui.LoginActivity">
 
 
-    <androidx.appcompat.widget.AppCompatTextView
+    <androidx.appcompat.widget.LinearLayoutCompat
         android:id="@+id/loginText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -19,10 +19,28 @@
         android:layout_marginStart="@dimen/_20sdp"
         android:layout_marginTop="@dimen/_80sdp"
         android:layout_marginEnd="@dimen/_20sdp"
-        android:fontFamily="@font/amiko"
-        android:text="Warehouse\nScanner App"
-        android:textColor="@color/white"
-        android:textSize="@dimen/_20ssp" />
+        android:orientation="horizontal">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/amiko"
+            android:text="Goods"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_25ssp"
+            android:textStyle="bold" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_5sdp"
+            android:fontFamily="@font/amiko"
+            android:text="Tracker"
+            android:textColor="@color/dark_yellow"
+            android:textSize="@dimen/_25ssp" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
 
 <!--    <androidx.appcompat.widget.AppCompatImageView-->
 <!--        android:id="@+id/splash_logo"-->
@@ -42,26 +60,55 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/loginText"
         android:layout_alignParentBottom="true"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="35dp"
+        android:layout_marginBottom="0dp"
         android:background="@drawable/grey_rounded_bg"
         android:orientation="vertical">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_20sdp"
+            android:layout_marginTop="@dimen/_50sdp"
+            android:orientation="horizontal">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/amiko"
+                android:text="@string/login"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_20ssp"
+                android:textStyle="bold" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:fontFamily="@font/amiko"
+                android:text="@string/goodsTracker"
+                android:textColor="@color/dark_yellow"
+                android:textSize="@dimen/_20ssp"
+                android:textStyle="bold" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
 
         <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_20sdp"
-            android:layout_marginTop="@dimen/_20sdp"
+            android:layout_marginTop="@dimen/_5sdp"
             android:fontFamily="@font/amiko"
-            android:text="@string/login"
+            android:text="@string/enter_details"
             android:textColor="@color/white"
-            android:textSize="@dimen/_20ssp"
-            android:textStyle="bold" />
+            android:textSize="@dimen/_12ssp" />
 
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_20sdp"
-            android:layout_marginTop="@dimen/_20sdp"
+            android:layout_marginTop="@dimen/_40sdp"
             android:layout_marginEnd="@dimen/_20sdp"
             app:cardElevation="@dimen/_10sdp">
 
@@ -129,7 +176,7 @@
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/loginBtn"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/_50sdp"
+                android:layout_height="@dimen/_60sdp"
                 android:background="@drawable/hollow_black_rounded_bg"
                 android:fontFamily="@font/amiko"
                 android:text="@string/login"
@@ -148,7 +195,8 @@
             android:padding="@dimen/_5sdp"
             android:scaleType="centerCrop"
             android:src="@drawable/fingerprint"
-            android:tint="@color/dark_hollow_black" />
+            android:tint="@color/dark_hollow_black"
+            android:visibility="gone" />
 
         <TextView
             android:id="@+id/tv_fingerprint_title"
@@ -161,7 +209,8 @@
             android:text="@string/unlockWithBiometricsTitleKey"
             android:textColor="@color/white"
             android:textSize="@dimen/_15ssp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:visibility="gone" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 

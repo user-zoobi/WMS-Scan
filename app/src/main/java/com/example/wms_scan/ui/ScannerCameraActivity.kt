@@ -203,4 +203,9 @@ class ScannerCameraActivity : AppCompatActivity() {
             startActivity(intent)
         }
     }
+
+    override fun onBackPressed()
+    {
+        finish()
+    }
 }

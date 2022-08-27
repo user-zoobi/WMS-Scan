@@ -96,7 +96,7 @@ class SplashActivity : AppCompatActivity() {
 
     private fun configureVideoView() {
 
-        binding.videoSplash.setDataSource(this, Uri.parse("android.resource://" + packageName + "/" + R.raw.warehouse_splash))
+        binding.videoSplash.setDataSource(this, Uri.parse("android.resource://" + packageName + "/" + R.raw.warehouse22))
         binding.videoSplash.setLooping(true)
 
     }
